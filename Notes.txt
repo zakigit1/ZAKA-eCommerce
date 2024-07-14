@@ -1,0 +1,29 @@
+Notes : 
+
+about Image : 
+
+    // Begin Saving PHOTO : 
+    // if ($request->has('image')) {
+    //     $imagePath = uploadImage($request->image,'profiles');
+
+    //     $user->image =$imagePath;
+    //     //'categories' : is the key of the folder we do it in config\filesystem
+    // }
+    // End Saving PHOTO : 
+
+    ****************
+    #### name the image : 
+    // $imageName=rand().'_'.$request->image->getClientOriginalName();//15461149_564.jpg
+    //Or : 
+    //$image_ext=$request->image->getClientOriginalExtension();
+    // $imageName='media_'.uniqid().'.'.$image_ext;
+    
+    #### to store image : 
+    // $request->image->move(public_path('path'),$imageName);//store the image 
+    //Or;
+    // $imageStore =  $image->store('/Uploads/images/profiles');//image store in the storage folder
+    // $imageStore =  $image->storeAs('/Uploads/images/','Admin1');//image store in the storage folder
+
+
+    // $imageName = basename($imageStore);//this function give you just the name of photo without path
+
