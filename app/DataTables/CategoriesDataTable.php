@@ -24,7 +24,10 @@ class CategoriesDataTable extends DataTable
         return (new EloquentDataTable($query))
                     // here we custom our columns : 
                     ->addColumn('action', function($query){
-                        return view('Admin.category.yajra.action_button',['query'=>$query]);
+                        
+                        
+                        $type='category';
+                        return view('Admin.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type]);
                     })
                     ->addColumn('status',function($query){
         

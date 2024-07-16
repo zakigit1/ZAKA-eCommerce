@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Admin\AdminController;
 use App\Http\Controllers\Backend\Admin\SliderController;
 use App\Http\Controllers\Backend\Admin\CategoryController;
+use App\Http\Controllers\Backend\Admin\ChildcategoryController;
 use App\Http\Controllers\Backend\Admin\SubcategoryController;
 
 Route::get('login',[AdminController::class,'login'])->name('login.page');
@@ -39,6 +40,13 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     Route::put('/sub-category/change-status/',[SubcategoryController::class,'change_status'])->name('sub-category.change-status');
     Route::resource('sub-category',SubcategoryController::class);
     ##############################  Sub-Category END  ###################################
+
+    ##############################  Child-category START  ###################################
+    // Route::POST('/sub-category/change-status/{id}',[CategoryController::class,'change_status'])->name('category.change-status');
+    Route::get('child-category/get-sub-categories/',[ChildcategoryController::class,'get_subcategories'])->name('child-category.get-sub-categories');
+    Route::put('/child-category/change-status/',[ChildcategoryController::class,'change_status'])->name('child-category.change-status');
+    Route::resource('child-category',ChildcategoryController::class);
+    ##############################  Child-category END  ###################################
 
 
 });

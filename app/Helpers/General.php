@@ -59,23 +59,14 @@ function deleteImage($old_image):void
 
 
 
+// make the side bar active  when you click : 
 
-
-
-
-
-
-// function currency_abbr(){
-
-//         // $currencies = [    
-//         //     'USA'=>'$',
-//         //     'DZ'=>'DA',
-//         //     'FR'=>'euro'
-//         // ];
-
-//         // if(array_key_exists($key, $currencies)){
-//         //     return $currencies[$key];
-//         // }else{
-//         //     return '';
-//         // }
-// }
+function setActive(array $route){
+    if(is_array($route)){
+        foreach($route as $r){
+            if(request()->routeIs($r)){
+                return 'active';
+            }
+        }
+    }
+}

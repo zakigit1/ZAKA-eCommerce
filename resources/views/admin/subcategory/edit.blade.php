@@ -23,39 +23,34 @@
                     </div>
 
                     <div class="card-body">
-                        <form action="{{route('admin.category.update',$category->id)}}" method="post" >
+                        <form action="{{route('admin.sub-category.update',$subcategory->id)}}" method="post" >
                             @csrf
                             @method('PUT')
 
                             {{-- <input type="hidden" name="id" > --}}
 
-                            <label for="icon">Category Icon</label>
-                            <div class="form-group">
-                                <button id='icon'  name="icon" 
-                                data-icon="{{$category->icon}}"
-                                class="btn btn-warning " role="iconpicker"
-                                data-align="right"
-                                data-rows="8"
-                                data-cols="10" 
-                                data-arrow-class="btn-info "
-                                data-arrow-prev-icon-class="fas fa-angle-left"
-                                data-arrow-next-icon-class="fas fa-angle-right"
-                                data-selected-class="btn-danger "
-                                data-unselected-class="btn-success"></button>
-                                
-                            </div>
 
+                            <div class="form-group ">
+                                <label for="inputStatus">Categories</label>
+                                <select class="form-control" id="inputStatus" placeholder="Status" name="category">
+                                   
+                                    @foreach ($categories as $category)
+                                    <option value="{{$category->id}}" {{($category->id== $subcategory->category_id ) ? 'selected' : ''}}>{{$category->name}}</option>
+                                    @endforeach
+                                 
+                                </select>
+                            </div>
                             <div class="form-group">
-                                <label for="type">Category Name</label>
-                                <input type="text" name="name" class="form-control" id="" placeholder="Category Name" value="{{$category->name}}">
+                                <label for="type">Subcategory Name</label>
+                                <input type="text" name="name" class="form-control" id="" placeholder="Subcategory Name" value="{{$subcategory->name}}">
                             </div>
 
                             <div class="form-group ">
                                 <label for="inputStatus">Status</label>
                                 <select class="form-control" id="inputStatus" placeholder="Status" name="status">
                                     
-                                    <option @if($category->status) selected @endif value="1">active</option>
-                                    <option {{($category->status == 0) ? 'selected' : '' }} value="0">inactive</option>
+                                    <option @if($subcategory->status) selected @endif value="1">active</option>
+                                    <option {{($subcategory->status == 0) ? 'selected' : '' }} value="0">inactive</option>
                                     
                                 </select>
                             </div>

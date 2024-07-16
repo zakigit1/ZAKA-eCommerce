@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Category extends Model
+class Childcategory extends Model
 {
     use HasFactory;
-    protected $table ='categories';
+
+    protected $table ='childcategories';
 
     protected $guarded =[
         'id',
@@ -36,30 +36,43 @@ class Category extends Model
     }       
 /*                                                  End Local Scopes                                  */
 
-
 /*                                                  Begin Relation                                  */
 
-    public function subcategories(){
+    public function category(){
+
+        //? this is more profissional : 
+            
+        // return $this->belongsTo(Category::class,
+        // 'category_id','id','id');
+    
         
-        // return self::hasMany(Subcategory::class);
+        /** 
+         * ? you can use this also if the foreign key are convinsion (like our parent model is category the name of foreign key
+         * ?  is category_id in this case you can dont write the foreign key)
+        */
 
-        // this profissional and detailed : 
-        return $this->hasMany(Subcategory::class,'category_id','id');
-
-        // return $this->hasMany(Subcategory::class);
-        
-    }
-    public function childcategories(){
-        
-
-        // this profissional and detailed : 
-        return $this->hasMany(Childcategory::class,'category_id','id');
-
+        return $this->belongsTo(Category::class);
         
     }
+    public function subcategory(){
 
+        //? this is more profissional : 
+            
+        return $this->belongsTo(Subcategory::class,
+        'sub_category_id','id','id');
+    
+        
+        /** 
+         * ? you can use this also if the foreign key are convinsion (like our parent model is category the name of foreign key
+         * ?  is category_id in this case you can dont write the foreign key)
+        */
+
+        // return $this->belongsTo(Subcategory::class);
+        
+    }
 
 
 /*                                                  End Relation                                  */
 
 }
+

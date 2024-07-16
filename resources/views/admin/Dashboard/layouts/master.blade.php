@@ -174,23 +174,48 @@
               headers: {
                 'X-CSRF-TOKEN': token
               },
-              success: (data) => {
-                Swal.fire(
-                  'Deleted!',
-                  data.message,
-                  'success'
-                ).then(() => {
-                  location.reload();
-                });
+              success: function(data)  {
+                if (data.status == 'success') {
+                  Swal.fire(
+                    'Deleted!',
+                    data.message,
+                    'success'
+                  ).then(() => {
+                    location.reload();
+                  });
+                }else if(data.status == 'error'){
+                  Swal.fire(
+                    'Can\'t Deleted !',
+                    data.message,
+                    'error'
+                  )
+                }
               },
               error: function(xhr, status, error) {
                 console.log(error);
-                Swal.fire(
-                  'Error',
-                  'An error occurred while deleting the item.',
-                  'error'
-                );
+                // Swal.fire(
+                //   'Can\'t Deleted !',
+                //   data.message,
+                //   'error'
+                // );
               }
+              // success: (data) => {
+              //   Swal.fire(
+              //     'Deleted!',
+              //     data.message,
+              //     'success'
+              //   ).then(() => {
+              //     location.reload();
+              //   });
+              // },
+              // error: function(xhr, status, error) {
+              //   // console.log(error);
+              //   Swal.fire(
+              //     'Can\'t Deleted !',
+              //     data.message,
+              //     'error'
+              //   );
+              // }
             });
           }
         });

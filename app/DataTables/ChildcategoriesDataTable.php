@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Slider;
+use App\Models\Childcategory;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,46 +12,55 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class SlidersDataTable extends DataTable
+class ChildcategoriesDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
      *
      * @param QueryBuilder $query Results from query() method.
      */
-    public function dataTable(QueryBuilder $query): EloquentDataTable 
+    public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        
-        // here we custom our columns : 
             ->addColumn('action', function($query){
+
                 
-                $type='slider';
+
+                $type='child-category';
                 return view('Admin.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type]);
-            })
-            ->addColumn('banner', function($query){
-                // return view('Admin.slider.Yajra.banner',compact('query'));
-                return view('Admin.yajra_datatable_columns.banner',compact('query'));
             })
             ->addColumn('status',function($query){
 
-                $active='<i class="badge badge-success">Active</i>';
-                $inactive='<i class="badge badge-danger">Inactive</i>';
+                $checked = ($query->status) ? 'checked' : '';
 
-                return ($query->status) ? $active : $inactive ;
+                $Status_button ='
+                    <label  class="custom-switch mt-2" >
+                            <input type="checkbox" name="custom-switch-checkbox" 
+                            class="custom-switch-input  change-status"
+                            data-id="'.$query->id.'"
+                            '.$checked.'>
+                        <span class="custom-switch-indicator" ></span>
+                    </label>';
+
+                return $Status_button;
                 
             })
-            ->addColumn('price',function($query){
-                return $query->starting_price.'$';
+            ->addColumn('category',function($query){
+                $categoryName =$query->category->name;
+                return $categoryName;
             })
-            ->rawColumns(['status'])//if you add in this file html code you need to insert the column name inside (rawColumns)
+            ->addColumn('sub_category',function($query){
+                $subcategoryName =$query->subcategory->name;
+                return $subcategoryName;
+            })
+            ->rawColumns(['status',])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Slider $model): QueryBuilder
+    public function query(Childcategory $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -62,7 +71,7 @@ class SlidersDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('sliders-table')
+                    ->setTableId('childcategories-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -85,11 +94,11 @@ class SlidersDataTable extends DataTable
     {
         return [
             Column::make('id')->width(100),
-            Column::make('banner')->width(200),
-            Column::make('title'),
-            Column::make('serial'),
-            Column::make('price')->width(100),
-            Column::make('status'),
+            Column::make('name')->width(200),
+            Column::make('slug')->width(200),
+            Column::make('status')->width(200),
+            Column::make('category')->width(200),//custom column
+            Column::make('sub_category')->width(200),//custom column
             Column::computed('action')
             ->exportable(false)
             ->printable(false)
@@ -103,6 +112,6 @@ class SlidersDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Sliders_' . date('YmdHis');
+        return 'Childcategories_' . date('YmdHis');
     }
 }

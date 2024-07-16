@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\DataTables\CategoriesDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Subcategory;
 // use App\Http\Requests\StoreCategoryRequest;
 // use App\Http\Requests\UpdateCategoryRequest;
 
@@ -159,9 +160,41 @@ class CategoryController extends Controller
                 return to_route('admin.category.index');
             }
 
+
             $category_name =$category->name;
 
             // ! you can't delete category if there are sub category or child category
+            //? first delete the sub category
+            /**
+            
+                if(lwla tchof ida had category 3ndha sub categories){
+                    if(tchof ida sub categories 3nddah child categories )
+                        $category->childcategories()->delete();
+                        $category->subcategories()->delete();
+                        $category->delete();
+                    else{
+                        $category->subcategories()->delete();
+                        $category->delete();
+                    }
+                }else{
+                 $category->delete();
+                }
+            */
+            ####### M1:
+            $subcategories =Subcategory::where('category_id',$category->id)->count();
+
+            if($subcategories>0){
+                return response(['status'=>'error','message'=>"$category_name contain a Sub categories , for delete this Main category you have to delete the Sub categories first "]);
+
+            }
+
+
+
+            ####### M2:Relation
+            // if(isset($category->subcategories)  && count($category->subcategories)>0){
+
+            //     return response(['status'=>'error','message'=>"$category_name Can't Deleted Because they have subcategories !"]);
+            // }
             $category->delete();
 
             // we are using ajax : 
@@ -183,13 +216,24 @@ class CategoryController extends Controller
             return to_route('admin.category.index');
         }
 
+        $category_name =$category->name;
+
+
+        ### to check if category have subcategories , we can't desactive the status 
+        $subcategories =Subcategory::where('category_id',$category->id)->count();
+
+        if($subcategories>0 && $request->status != 'true'){
+            return response(['status'=>'error','message'=>"$category_name contain a Sub categories ,if you want to deactive the  Main category you have to desactive the Sub categories first "]);
+        }
+
+        
         $category->status = $request->status == 'true' ? 1 : 0;
          
         $category->save();
 
         $status =($category->status == 1) ? 'activated' : 'deactivated';
 
-        return response(['message'=>"The category has been $status"]);
+        return response(['status'=>'success','message'=>"The category has been $status"]);
 
        
     }

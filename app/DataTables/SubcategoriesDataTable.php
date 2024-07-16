@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Category;
+// use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -23,8 +23,11 @@ class SubcategoriesDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
             ->addColumn('action', function($query){
-                return view('Admin.subcategory.yajra.action_button',['query'=>$query]);
+               
+                $type='sub-category';
+                return view('Admin.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type]);
             })
             ->addColumn('status',function($query){
 
@@ -40,14 +43,15 @@ class SubcategoriesDataTable extends DataTable
                     </label>';
 
                 return $Status_button;
-
-
                 
             })
-            ->addColumn('category_id',function($query){
+            ->addColumn('category',function($query){
 
-                $categoryName= Category::where('id',$query->category_id)->select('name')->first();
-                return $categoryName['name'];  
+                // $categoryName= Category::where('id',$query->category_id)->select('name')->first();
+                // return $categoryName['name'];  
+
+                $categoryName =$query->category->name;
+                return $categoryName;
             })
             ->rawColumns(['status',])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
@@ -91,8 +95,9 @@ class SubcategoriesDataTable extends DataTable
         return [
             Column::make('id')->width(100),
             Column::make('name'),
-            Column::make('category_id')->width(200),
+            Column::make('slug'),
             Column::make('status')->width(200),
+            Column::make('category')->width(200),//custom column
             Column::computed('action')
             ->exportable(false)
             ->printable(false)

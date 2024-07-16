@@ -159,8 +159,16 @@
                         id: id
                     },
                     success: function(data){
-                        toastr.success(data.message); // Note the change to toastr.success instead of toastr().success
-                        // toastr()->success(data.message);
+                       // Note the change to toastr.success instead of toastr().success
+                        if (data.status == 'success') {
+                            toastr.success(data.message);
+                        }else if(data.status == 'error'){ 
+                            toastr.warning(data.message);
+                           
+                            setTimeout(function(){
+                                window.location.reload();
+                            }, 3000);        
+                        }
                     },
                     error: function(xhr, status, error){
                         console.log('error');
@@ -170,3 +178,5 @@
         });
     </script>
 @endpush
+
+

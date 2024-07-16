@@ -35,6 +35,32 @@ public function scopeActive($query) // to show just the active slide in store
 }       
 /*                                                  End Local Scopes                                  */
 
+/*                                                  Begin Relation                                  */
 
+public function category(){
+
+    //? this is more profissional : 
+        
+    // return $this->belongsTo(Category::class,
+    // 'category_id','id','id');
+ 
+    
+    /** 
+     * ? you can use this also if the foreign key are convinsion (like our parent model is category the name of foreign key
+     * ?  is category_id in this case you can dont write the foreign key)
+    */
+
+    return $this->belongsTo(Category::class);
+    
+}
+
+public function childcategories(){
+
+    return $this->hasMany(Childcategory::class,'sub_category_id');
+}
+
+
+
+/*                                                  End Relation                                  */
 
 }

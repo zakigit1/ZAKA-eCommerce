@@ -5,10 +5,10 @@
 
     <section class="section">
         <div class="section-header">
-        <h1>Manage Sub Categories</h1>
+        <h1>Manage Child Categories</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="{{route('admin.dashboard')}}">Dashboard</a></div>
-            <div class="breadcrumb-item">Sub Categories</div>
+            <div class="breadcrumb-item">Child Categories</div>
         </div>
         </div>
 
@@ -18,9 +18,9 @@
                 {{-- <div class="container"> --}}
                     <div class="card">
                         <div class="card-header">
-                            <h4>All Sub Categories</h4>
+                            <h4>All Child Categories</h4>
                             <div class="card-header-action">
-                                <a href="{{route('admin.sub-category.create')}}" class="btn btn-primary" > <i class="fas fa-plus"></i> Create New</a>
+                                <a href="{{route('admin.child-category.create')}}" class="btn btn-primary" > <i class="fas fa-plus"></i> Create New</a>
                             </div>
                         </div>
 
@@ -55,7 +55,7 @@
                 let id = $(this).data('id');
 
                 $.ajax({
-                    url: '{{route("admin.sub-category.change-status")}}',
+                    url: '{{route("admin.child-category.change-status")}}',
                     method: 'PUT',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -66,16 +66,8 @@
                         id: id
                     },
                     success: function(data){
-                       // Note the change to toastr.success instead of toastr().success
-                        if (data.status == 'success') {
-                            toastr.success(data.message);
-                        }else if(data.status == 'error'){ 
-                            toastr.warning(data.message);
-                           
-                            setTimeout(function(){
-                                window.location.reload();
-                            }, 3000);        
-                        }
+                        toastr.success(data.message); // Note the change to toastr.success instead of toastr().success
+                        // toastr()->success(data.message);
                     },
                     error: function(xhr, status, error){
                         console.log('error');
