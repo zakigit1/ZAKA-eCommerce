@@ -22,43 +22,43 @@ class CategoriesDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-                    // here we custom our columns : 
-                    ->addColumn('action', function($query){
-                        
-                        
-                        $type='category';
-                        return view('Admin.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type]);
-                    })
-                    ->addColumn('status',function($query){
-        
-                        // $active='<i class="badge badge-success">Active</i>';
-                        // $inactive='<i class="badge badge-danger">Inactive</i>';
-                        // return ($query->status) ? $active : $inactive ;
-                        
-                        $checked = ($query->status) ? 'checked' : '';
+            // here we custom our columns : 
+            ->addColumn('action', function($query){
+                
+                $user_role='admin';
+                $type='category';
+                return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
+            })
+            ->addColumn('status',function($query){
 
-                        $Status_button ='
-                            <label  class="custom-switch mt-2" >
-                                    <input type="checkbox" name="custom-switch-checkbox" 
-                                    class="custom-switch-input  change-status"
-                                    data-id="'.$query->id.'"
-                                    '.$checked.'>
-                                <span class="custom-switch-indicator" ></span>
-                            </label>';
+                // $active='<i class="badge badge-success">Active</i>';
+                // $inactive='<i class="badge badge-danger">Inactive</i>';
+                // return ($query->status) ? $active : $inactive ;
+                
+                $checked = ($query->status) ? 'checked' : '';
 
-                        return $Status_button;
+                $Status_button ='
+                    <label  class="custom-switch mt-2" >
+                            <input type="checkbox" name="custom-switch-checkbox" 
+                            class="custom-switch-input  change-status"
+                            data-id="'.$query->id.'"
+                            '.$checked.'>
+                        <span class="custom-switch-indicator" ></span>
+                    </label>';
+
+                return $Status_button;
 
 
-                        
-                    })
-                    ->addColumn('icon',function($query){
-        
-                        $icon ='<i style ="font-size:40px"class="'.$query->icon.'"></i>';
-                        
-                        return $icon ;
-                        
-                    })
-                    ->rawColumns(['status','icon'])//if you add in this file html code you need to insert the column name inside (rawColumns)
+                
+            })
+            ->addColumn('icon',function($query){
+
+                $icon ='<i style ="font-size:40px"class="'.$query->icon.'"></i>';
+                
+                return $icon ;
+                
+            })
+            ->rawColumns(['status','icon'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
     }
 

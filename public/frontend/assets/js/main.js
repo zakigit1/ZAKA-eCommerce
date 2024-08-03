@@ -311,17 +311,17 @@ $(function () {
 
 
     //=======COUNTDOWN======   
-    var d = new Date(),
-        countUpDate = new Date();
-    d.setDate(d.getDate() + 90);
+    // var d = new Date(),
+    //     countUpDate = new Date();
+    // d.setDate(d.getDate() + 90);
 
-    // default example
-    simplyCountdown('.simply-countdown-one', {
-        year: d.getFullYear(),
-        month: d.getMonth() + 1,
-        day: d.getDate(),
-        enableUtc: true
-    });
+    // // default example
+    // simplyCountdown('.simply-countdown-one', {
+    //     year: d.getFullYear(),
+    //     month: d.getMonth() + 1,
+    //     day: d.getDate(),
+    //     enableUtc: true
+    // });
 
 
     //*==========SCROLL BUTTON==========  

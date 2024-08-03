@@ -96,6 +96,7 @@
                                     </form>
                                 </div>
                             </div>
+                            
                             <div class="tab-pane fade" id="pills-profiles" role="tabpanel"
                                 aria-labelledby="pills-profile-tab2">
                                 <div class="wsus__login">
@@ -113,8 +114,9 @@
                                             <input type="email" name="email" value="{{old('email')}}" placeholder="Email">
                                         </div>
 
-                                        {{-- <div class="wsus__login_input"> --}}
-                                        <div class="wsus__single_pass">
+                                        {{-- <div class="wsus__single_pass"> this class make you can see the password  --}}
+                                        
+                                        <div class="wsus__login_input" >
                                             <i class="fas fa-key"></i>
                                             <input type="password" name="password" placeholder="Password" autocomplete="new-password">
                                         </div>

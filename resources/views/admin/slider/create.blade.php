@@ -18,8 +18,10 @@
             <div class="col-12 ">
                 <div class="card">
                     <div class="card-header">
-                    <h4>Create New Slider</h4>
-
+                        <h4>Create New Slider</h4>
+                        <div class="card-header-action">
+                            <a href="{{route('admin.slider.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
+                        </div>
                     </div>
 
                     <div class="card-body">

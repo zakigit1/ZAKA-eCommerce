@@ -16,9 +16,10 @@
 
         <div class="row">
             <div class="col-12 ">
+                <a href="{{route('admin.child-category.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
                 <div class="card">
                     <div class="card-header">
-                    <h4>Create New Sub Category</h4>
+                        <h4>Create New Sub Category</h4>
 
                     </div>
 
@@ -41,7 +42,7 @@
                                 </select>
                             </div>
                             <div class="form-group ">
-                                <label >Subategories</label>
+                                <label >Sub Categories</label>
                                 <select class="form-control sub-category"  name="subcategory">
                                    
                                     <option selected disabled>-- Select --</option>

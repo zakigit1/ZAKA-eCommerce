@@ -25,13 +25,14 @@ class SlidersDataTable extends DataTable
         
         // here we custom our columns : 
             ->addColumn('action', function($query){
-                
+                $user_role='admin';
                 $type='slider';
-                return view('Admin.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type]);
+                return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
             })
             ->addColumn('banner', function($query){
-                // return view('Admin.slider.Yajra.banner',compact('query'));
-                return view('Admin.yajra_datatable_columns.banner',compact('query'));
+                
+                $columnName='banner';
+                return view('Backend.DataTable.yajra_datatable_columns.image',['query'=>$query,'columnName'=>$columnName]);
             })
             ->addColumn('status',function($query){
 

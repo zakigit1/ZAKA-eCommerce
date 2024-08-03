@@ -40,7 +40,13 @@
 
   <!-- Bootstrap Icon Piker CSS -->
   <link rel="stylesheet" href="{{asset('backend/assets/css/bootstrap-iconpicker.min.css')}}"/>
-
+  
+  <!-- Bootstrap date Piker CSS -->
+  <link rel="stylesheet" href="{{asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.css')}}">
+  
+  <!-- Bootstrap class select2 CSS -->
+  
+  <link rel="stylesheet" href="{{asset('backend/assets/modules/select2/dist/css/select2.min.css')}}">
 
 
 <!-- Start GA -->
@@ -113,8 +119,16 @@
 
 
   <!-- Bootstrap Icon Piker JS -->
-
+  
   <script type="text/javascript" src="{{asset('backend/assets/js/bootstrap-iconpicker.bundle.min.js')}}"></script>
+  
+  <!-- Bootstrap date Piker JS -->
+  <script src="{{asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+
+  <!-- Bootstrap class select2 JS -->
+  <script src="{{asset('backend/assets/modules/select2/dist/js/select2.full.min.js')}}"></script>
+
+
 
 
 
@@ -225,24 +239,7 @@
 
   </script>
 
-
-
-
-
-
   @stack('scripts')
-
-
-
-
-
-
-
-
-
-
-
-
 
 </body>
 </html>

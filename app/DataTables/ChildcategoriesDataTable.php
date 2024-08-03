@@ -25,9 +25,9 @@ class ChildcategoriesDataTable extends DataTable
             ->addColumn('action', function($query){
 
                 
-
+                $user_role='admin';
                 $type='child-category';
-                return view('Admin.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type]);
+                return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
             })
             ->addColumn('status',function($query){
 

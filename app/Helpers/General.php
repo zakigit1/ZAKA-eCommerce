@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\File;
 
 
 // function uploadImage($image , $folder){
-//     // saving the image in owr project folder
+//    // saving the image in owr project folder
 //     $image->store('/', $folder);
     
 //     //hash name of file or photo to upload so : example : hashName(zaki.jpg) --> 1055489.jpg
@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\File;
 //     $path = $hashphoto;
 //     return $path;
 // }
-
-
 
 
 
@@ -58,8 +56,7 @@ function deleteImage($old_image):void
 }
 
 
-
-// make the side bar active  when you click : 
+// make the side bar active  when you click : [BACKEND]
 
 function setActive(array $route){
     if(is_array($route)){
@@ -68,5 +65,45 @@ function setActive(array $route){
                 return 'active';
             }
         }
+    }
+}
+
+// check if is there discount or not :[FRONTEND]
+
+function check_discount($product){
+    $current_date = date('Y-m-d');
+ 
+    if($product->offer_price > 0 && $current_date >= $product->offer_start_date && $current_date <= $product->offer_end_date ){
+        return true;
+    }
+
+    return false;
+
+}
+function calculate_discount_percentage($originalPrice , $discount){
+
+    $discount_percentage = (( $originalPrice - $discount )/ $originalPrice ) * 100 ;
+
+    return $discount_percentage ;
+}
+
+function productType($type){
+    switch ($type) {
+        case 'new_arrival':
+           return 'New';
+            break ;
+        case 'featured_product':
+           return 'Featured';
+            break;
+        case 'top_product':
+           return 'Top';
+            break;
+        case 'best_product':
+            return'Best';
+            break;
+        
+        default:
+            return'';
+            break;
     }
 }

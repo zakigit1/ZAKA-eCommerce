@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Frontend\FlashSaleController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\User\UserDashboard;
 use App\Http\Controllers\Frontend\User\UserProfileController;
@@ -36,27 +37,28 @@ require __DIR__.'/auth.php';
 
 #################### Frontend store : 
 
-
-Route::get('/', [HomeController::class,'index'])->name('home');
-
-
-
+// Main Page Of Store : 
 Route::get('/', [HomeController::class,'index'])->name('home');
 
 
 Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as'=>'user.'],function(){
-
-
     Route::get('/dashboard', [UserDashboard::class , 'index'])->name('dashboard');
     Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-    Route::get('/profile', [UserProfileController::class,'index'])->name('profile');
-    Route::post('/profile/update', [UserProfileController::class,'update_profile'])->name('profile.update');
-    Route::post('/profile/update/password', [UserProfileController::class,'update_profile_password'])->name('profile.update.password');
 
+    // ?   User Profile :  
+    Route::group(['prefix'=>'profile','as'=>'profile.'],function(){
 
+        Route::get('/', [UserProfileController::class,'index'])->name('index');
+        Route::post('/update', [UserProfileController::class,'update_profile'])->name('update');
+        Route::post('/update/password', [UserProfileController::class,'update_profile_password'])->name('update.password');
+
+    });
 });
 
+    // ?   FlashSale :  
+
+    Route::get('/flash-sale',[FlashSaleController::class,'index'])->name('flash-sale.index');
 
 
 // Route::get('/register2',function(){

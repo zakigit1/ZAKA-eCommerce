@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,8 +17,15 @@ class DatabaseSeeder extends Seeder
         // User::factory(20)->create();
 
 
+        if (DB::table('users')->count() === 0) {
+            $this->call([
+                UserSeeder::class,
+                AdminVendorProfileSeeder::class,
+                VendorShopProfileSeeder::class,
+
+            ]);
+        }   
         $this->call([
-            UserSeeder::class,
         ]);
     }
 }

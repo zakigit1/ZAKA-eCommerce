@@ -1,4 +1,4 @@
-@extends('Frontend.layouts.master')
+@extends('Frontend.store.layouts.master')
 
 {{-- @section('content')
 

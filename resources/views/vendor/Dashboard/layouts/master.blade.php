@@ -5,6 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi" />
+
+      <!-- csrf token for ajax request : -->
+  <meta name="csrf-token"  content="{{ csrf_token() }}">
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <title>One Shop || e-Commerce HTML Template</title>
   <link rel="icon" type="image/png" href="{{asset('frontend/assets/images/favicon.png')}}">
@@ -26,10 +30,24 @@
   <link rel="stylesheet" href="{{asset('frontend/assets/css/responsive.css')}}">
   <!-- <link rel="stylesheet" href="css/rtl.css"> -->
 
-      <!-- toastr CSS -->
+  <!-- toastr CSS -->
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+  <link rel="stylesheet" href="{{asset('backend/assets/modules/summernote/summernote-bs4.css')}}">
+
+    <!-- Yjra-DataTable Jquery CSS -->
   
-      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
-      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css">
+  
+    <!-- Yjra-DataTable Jquery Bootsrap5 JS (to fix styling)-->
+    
+    <link rel="stylesheet" href="//cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
+
+    <!-- Bootstrap date Piker CSS -->
+  <link rel="stylesheet" href="{{asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.css')}}">
+
 </head>
 
 <body>
@@ -109,8 +127,32 @@
   <!--main/custom js-->
   <script src="{{asset('frontend/assets/js/main.js')}}"></script>
 
+  <!-- moment  -->
+
+  <script src="{{asset('backend/assets/modules/moment.min.js')}}"></script>
+
+  <!-- toastr JS -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   
+
+  <script src="{{asset('backend/assets/modules/summernote/summernote-bs4.js')}}"></script>
+
+  <!-- Yjra-DataTable Jquery JS -->
+
+  <script src="//cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+
+  <!-- Yjra-DataTable Jquery Bootsrap5 JS (to fix styling)-->
+  
+  <script src="//cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+    <!-- Bootstrap date Piker JS -->
+    <script src="{{asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+
   <script>
 
     @if($errors->any())
@@ -138,6 +180,90 @@
 
     @endif
   </script>
+
+  <script>
+    /*  summernote of description field : **/
+    $('.summernote').summernote({
+      height:150
+    })
+    /*  datepicker of date field : **/
+    $('.datepicker').daterangepicker({
+      locale: {
+        format:'YYYY-MM-DD'
+      },
+      singleDatePicker: true,
+    });
+  </script>
+
+
+
+
+
+  <!--  Dynamic Delete alart  -->
+  <script>
+    $(document).ready(function() {
+      const token = $('meta[name="csrf-token"]').attr('content');
+      const deleteUrl = (element) => $(element).attr('href');
+    
+      $('body').on('click', '.delete-item-with-ajax', function(event) {
+        event.preventDefault();
+    
+        const swalOptions = {
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!"
+        };
+    
+        const deleteThis = this;
+    
+        Swal.fire(swalOptions).then(result => {
+          if (result.isConfirmed) {
+            $.ajax({
+              type: 'DELETE',
+              url: deleteUrl(deleteThis),
+              headers: {
+                'X-CSRF-TOKEN': token
+              },
+              success: function(data)  {// success here is mean the response came 
+                if (data.status == 'success') {
+                  Swal.fire(
+                    'Deleted!',
+                    data.message,
+                    'success'
+                  ).then(() => {
+                    location.reload();
+                  });
+                }else if(data.status == 'error'){// success here is mean the response is not came 
+                  Swal.fire(
+                    'Can\'t Deleted !',
+                    data.message,
+                    'error'
+                  )
+                }
+              },
+              error: function(xhr, status, error) {
+                console.log(error);
+              }
+            });
+          }
+        });
+      });
+    });
+
+
+  </script>
+
+  @stack('scripts')
+
+
+
+
+
+
 </body>
 
 </html>

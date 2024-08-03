@@ -27,3 +27,27 @@ about Image :
 
     // $imageName = basename($imageStore);//this function give you just the name of photo without path
 
+
+
+about relation : 
+    $items = $data['product']->variants->pluck('items')->flatten(); //give you a collection
+
+
+    $items = $data['product']->variants->pluck('items')->flatten()->toArray();//give you an array bc we convert the collection into Array
+
+Explain : 
+The flatten() method is used to flatten a multi-dimensional collection 
+into a single-dimensional collection. It is commonly used when you have a 
+collection of collections and you want to extract all 
+the items from the nested collections into a single collection.
+
+For example : 
+$collection = collect([
+    collect([1, 2, 3]),
+    collect([4, 5, 6]),
+    collect([7, 8, 9]),
+]);
+
+$flattenedCollection = $collection->flatten();
+
+// Output: [1, 2, 3, 4, 5, 6, 7, 8, 9]
