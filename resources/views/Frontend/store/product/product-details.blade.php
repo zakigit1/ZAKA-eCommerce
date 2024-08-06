@@ -184,7 +184,7 @@
         <div class="container">
             <div class="wsus__details_bg">
                 <div class="row">
-                    <div class="col-xl-4 col-md-5 col-lg-5" style="z-index: 999 !importent">
+                    <div class="col-xl-4 col-md-5 col-lg-5" style="z-index:999">
                         <div id="sticky_pro_zoom">
                             <div class="exzoom hidden" id="exzoom">
                                 <div class="exzoom_img_box">
@@ -225,9 +225,9 @@
 
                             <!-- Start check if there is discount -->
                             @if(check_discount($product))
-                                <h4>${{$product->offer_price}} <del>${{$product->price}}</del></h4>
+                                <h4>{{$settings->currency_icon}} {{$product->offer_price}} <del>{{$settings->currency_icon}} {{$product->price}}</del></h4>
                             @else
-                                <h4>${{$product->price}}</h4>
+                                <h4>{{$settings->currency_icon}} {{$product->price}}</h4>
                             @endif
                             <!-- End check if there is discount or not -->
 
@@ -258,7 +258,7 @@
                                             @if(isset($variant->items) && count($variant->items) > 0 )
                                                 <select class="select_2" name="state">
                                                 @foreach ($variant->items as $item)
-                                                    <option {{($item->is_default) ? 'selected': '' }} > {{$item->name}} {{$item->price >0 ? '($'.$item->price.')' : ''}} </option>
+                                                    <option {{($item->is_default) ? 'selected': '' }} > {{$item->name}} {{$item->price >0 ? "(". $settings->currency_icon." ".$item->price.')' : ''}} </option>
                                                 @endforeach
                                                 </select>
                                             @endif

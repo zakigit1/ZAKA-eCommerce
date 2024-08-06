@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\Admin\Product\ProductVariantController;
 use App\Http\Controllers\Backend\Admin\SubcategoryController;
 use App\Http\Controllers\Backend\Admin\Product\ProductVariantItemController;
 use App\Http\Controllers\Backend\Admin\Product\SellerProductController;
+use App\Http\Controllers\Backend\Admin\SettingController;
 
 Route::get('login',[AdminController::class,'login'])->name('login.page');
 // Route::post('login',[AdminController::class,'loginCheck'])->name('login.check');
@@ -160,6 +161,17 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
          
     });
     ############################## Flash Sale  End  ###################################
-      
+    
+    ############################## Settings  Start  ###################################
+    
+    Route::group(['prefix'=>'settings','as'=>'settings.'],function(){
+        
+        Route::get('',[SettingController::class , 'index'])->name('index');
+        Route::put('/general-settings/update',[SettingController::class , 'UpdateSettingsGeneral'])->name('general-settings.update');
+
+
+    });
+    
+    ############################## Settings  End  ###################################
 
 });

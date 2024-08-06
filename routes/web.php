@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
 use App\Http\Controllers\Frontend\FlashSaleController;
 use App\Http\Controllers\Frontend\FrontendProductController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -61,10 +62,10 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
 
     Route::get('/flash-sale',[FlashSaleController::class,'index'])->name('flash-sale.index');
 
-    // ? Display Product Details
+    // ?  Product Details
 
     Route::get('product-details/{slug}',[FrontendProductController::class , 'showProduct'])->name('product-details');
-
+    
 
 
 
