@@ -113,6 +113,9 @@ class Product extends Model
         return $this->belongsTo(Vendor::class,'vendor_id','id','id');
     }
 
+    public function brand(){
+        return $this->belongsTo(Brand::class,'brand_id','id','id');
+    }
 
 
 

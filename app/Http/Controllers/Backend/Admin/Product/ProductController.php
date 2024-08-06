@@ -69,7 +69,7 @@ class ProductController extends Controller
             'status' => 'required',
         ]);
 
-        dd($request->all());
+        // dd($request->all());
 
         try{
 

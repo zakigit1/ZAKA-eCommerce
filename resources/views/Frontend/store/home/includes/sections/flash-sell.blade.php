@@ -26,7 +26,8 @@
                             @if( check_discount($product))
                                 <span class="wsus__minus">-{{calculate_discount_percentage($product->price , $product->offer_price)}}%</span>
                             @endif
-                            <a class="wsus__pro_link" href="product_details.html">
+
+                            <a class="wsus__pro_link" href="{{route('product-details',$product->slug)}}">
                                 <img src="{{$product->thumb_image}}" alt="product" class="img-fluid w-100 img_1" />
 
                                 @if(isset($product->gallery) && count($product->gallery) > 0)
@@ -49,12 +50,14 @@
                                     <i class="fas fa-star-half-alt"></i>
                                     <span>(133 review)</span>
                                 </p>
-                                <a class="wsus__pro_name" href="#">{{$product->name}}</a>
+                                <a class="wsus__pro_name" href="{{route('product-details',$product->slug)}}">{{$product->name}}</a>
+                                <!-- Start check if there is discount or not -->
                                 @if(check_discount($product))
                                     <p class="wsus__price">${{$product->offer_price}} <del>${{$product->price}}</del></p>
                                 @else
                                     <p class="wsus__price">${{$product->price}}</p>
                                 @endif
+                                <!-- End check if there is discount or not -->
                                 <a class="add_cart" href="#">add to cart</a>
                             </div>
                         </div>

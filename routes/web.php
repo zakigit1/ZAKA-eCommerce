@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\FlashSaleController;
+use App\Http\Controllers\Frontend\FrontendProductController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\User\UserDashboard;
 use App\Http\Controllers\Frontend\User\UserProfileController;
@@ -59,6 +60,21 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     // ?   FlashSale :  
 
     Route::get('/flash-sale',[FlashSaleController::class,'index'])->name('flash-sale.index');
+
+    // ? Display Product Details
+
+    Route::get('product-details/{slug}',[FrontendProductController::class , 'showProduct'])->name('product-details');
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Route::get('/register2',function(){
