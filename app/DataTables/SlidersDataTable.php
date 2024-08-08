@@ -43,7 +43,7 @@ class SlidersDataTable extends DataTable
                 
             })
             ->addColumn('price',function($query){
-                return $query->starting_price.'$';
+                return currencyIcon().$query->starting_price;
             })
             ->rawColumns(['status'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');

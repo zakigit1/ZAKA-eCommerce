@@ -57,7 +57,7 @@ class SellerPendingProductDataTable extends DataTable
         })
         ->addColumn('price',function($query){
 
-            return $query->price.' $';
+            return currencyIcon().$query->price;
               
         })
         ->addColumn('image',function($query){

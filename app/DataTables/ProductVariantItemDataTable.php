@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\GeneralSetting;
 use App\Models\ProductVariantItem;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -54,7 +55,7 @@ class ProductVariantItemDataTable extends DataTable
             
         })
         ->addColumn('price',function($query){
-            return $query->price.' $';
+            return currencyIcon().$query->price;
         })
         ->rawColumns(['status','is_default'])
         ->setRowId('id');

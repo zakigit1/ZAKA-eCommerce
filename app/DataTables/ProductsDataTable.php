@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\GeneralSetting;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -56,8 +57,8 @@ class ProductsDataTable extends DataTable
             
         })
         ->addColumn('price',function($query){
-
-            return $query->price.' $';
+            //currencyIcon() function in helper file : 
+            return currencyIcon().$query->price;
               
         })
         ->addColumn('image',function($query){

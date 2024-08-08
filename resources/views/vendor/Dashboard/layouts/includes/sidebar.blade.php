@@ -5,7 +5,7 @@
     </span>
     <a href="{{route('home')}}" class="dash_logo"><img src="{{asset('frontend/assets/images/logo.png')}}" alt="logo" class="img-fluid"></a>
     <ul class="dashboard_link">
-      <li><a class="bg-success"  href="dsahboard.html"><i class="fas fa-tachometer"></i>Dashboard</a></li>
+      <li><a class="bg-success"  href="javascript:;"><i class="fas fa-tachometer"></i>Dashboard</a></li>
 
       <li><a class="{{ setActive(['vendor.shop-profile.*'])}}" href="{{route('vendor.shop-profile.index')}}"><i class="far fa-heart"></i> Shop Profile</a></li>
       <li><a class="{{ setActive(['vendor.profile'])}}" href="{{route('vendor.profile')}}"><i class="far fa-user"></i> My Profile</a></li>

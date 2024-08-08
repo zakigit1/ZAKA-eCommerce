@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\GeneralSetting;
 use Illuminate\Support\Facades\File;
 
 
@@ -106,4 +107,9 @@ function productType($type){
             return'';
             break;
     }
+}
+
+function currencyIcon(){
+    return GeneralSetting::first()->currency_icon;
+   
 }

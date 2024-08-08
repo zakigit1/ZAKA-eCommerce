@@ -2,8 +2,8 @@
 
 namespace App\DataTables;
 
-use App\Models\ProductVariantItem;
-use App\Models\VendorProductVariantItem;
+use App\Models\GeneralSetting;
+use App\Models\ShippingRule;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -13,8 +13,15 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class VendorProductVariantItemDataTable extends DataTable
-{
+class ShippingRulesDataTable extends DataTable
+{   
+    protected $currencyIcon;
+
+
+    public function __construct(){
+        $this->currencyIcon = GeneralSetting::first()->currency_icon;
+    }
+
     /**
      * Build the DataTable class.
      *
@@ -24,48 +31,59 @@ class VendorProductVariantItemDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
         ->addColumn('action', function($query){
-            $user_role='vendor';
-            $type='product-variant-item';//name route
-
+                
+            $user_role='admin';
+            $type='shipping-rules';
             return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
-            
         })
         ->addColumn('status',function($query){
-
+     
             $checked = ($query->status) ? 'checked' : '';
 
-            $Status_button ='<div class="form-check form-switch">
-                                <input type="checkbox" 
-                                    class="form-check-input change-status" 
-                                    data-id="'.$query->id.'" 
-                                    role="switch" 
-                                    id="flexSwitchCheckDefault"
-                                    '.$checked.'
-                                >
-                            </div>';
-            return $Status_button;  
-            
-        })
-        ->addColumn('is_default',function($query){
+            $Status_button ='
+                <label  class="custom-switch mt-2" >
+                        <input type="checkbox" name="custom-switch-checkbox" 
+                        class="custom-switch-input  change-status"
+                        data-id="'.$query->id.'"
+                        '.$checked.'>
+                    <span class="custom-switch-indicator" ></span>
+                </label>';
 
-            $Yes='<i class="badge bg-success">default</i>';
-            $No='<i class="badge bg-danger">No</i>';
-            return ($query->is_default) ? $Yes : $No ;
+            return $Status_button;
+
+
             
         })
-        ->addColumn('price',function($query){
-            return currencyIcon().$query->price;
+        ->addColumn('min_cost',function ($query){
+
+            if($query->min_cost == null){
+                return $this->currencyIcon . '0'  ;
+            }else{
+                return $this->currencyIcon  . $query->min_cost;
+            }
         })
-        ->rawColumns(['status','is_default'])
+        ->addColumn('cost',function ($query){
+          
+            return $this->currencyIcon  . $query->cost ;
+
+        })
+        ->addColumn('type',function($query){
+
+            
+            $flat_cost='<i class="badge badge-success">Flat Cost</i>';
+            $min_cost='<i class="badge badge-warning">Minimum Order Amount </i>';
+            return ($query->type == 'flat_cost') ? $flat_cost : $min_cost ;  
+        })
+        ->rawColumns(['status','min_cost','type'])//if you add in this file html code you need to insert the column name inside (rawColumns)
         ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(ProductVariantItem $model): QueryBuilder
+    public function query(ShippingRule $model): QueryBuilder
     {
-        return $model->where('product_variant_id',request()->variantId)->newQuery();
+        return $model->newQuery();
     }
 
     /**
@@ -74,7 +92,7 @@ class VendorProductVariantItemDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('vendorproductvariantitem-table')
+                    ->setTableId('shipping_rules-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -96,17 +114,17 @@ class VendorProductVariantItemDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id')->width(80),
-
+            Column::make('id')->width(50),
             Column::make('name'),
-            Column::make('price'),
-            Column::make('is_default'),
+            Column::make('type'),
+            Column::make('min_cost'),
+            Column::make('cost'),
             Column::make('status'),
             
             Column::computed('action')
             ->exportable(false)
             ->printable(false)
-            ->width(300)
+            ->width(150)
             ->addClass('text-center'),
         ];
     }
@@ -116,6 +134,6 @@ class VendorProductVariantItemDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'VendorProductVariantItem_' . date('YmdHis');
+        return 'ShippingRules_' . date('YmdHis');
     }
 }

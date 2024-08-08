@@ -16,6 +16,8 @@ use App\Http\Controllers\Backend\Admin\SubcategoryController;
 use App\Http\Controllers\Backend\Admin\Product\ProductVariantItemController;
 use App\Http\Controllers\Backend\Admin\Product\SellerProductController;
 use App\Http\Controllers\Backend\Admin\SettingController;
+use App\Http\Controllers\Backend\Admin\CouponController;
+use App\Http\Controllers\Backend\Admin\ShippingRuleController;
 
 Route::get('login',[AdminController::class,'login'])->name('login.page');
 // Route::post('login',[AdminController::class,'loginCheck'])->name('login.check');
@@ -168,10 +170,20 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
         
         Route::get('',[SettingController::class , 'index'])->name('index');
         Route::put('/general-settings/update',[SettingController::class , 'UpdateSettingsGeneral'])->name('general-settings.update');
-
-
     });
     
     ############################## Settings  End  ###################################
+
+
+    ############################## Coupons  Start  ###################################
+    Route::put('/coupons/change-status/',[CouponController::class,'change_status'])->name('coupons.change-status');
+    Route::resource('coupons',CouponController::class);
+    ############################## Coupons  End  ###################################
+
+
+    ############################## Shipping Rule  Start  ###################################
+    Route::put('/shipping-rules/change-status/',[ShippingRuleController::class,'change_status'])->name('shipping-rule.change-status');
+    Route::resource('shipping-rules',ShippingRuleController::class);
+    ############################## Shipping Rule  End  ###################################
 
 });
