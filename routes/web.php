@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\FlashSaleController;
 use App\Http\Controllers\Frontend\FrontendProductController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -75,7 +75,20 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     // ?  Product Details
     Route::get('product-details/{slug}',[FrontendProductController::class , 'showProduct'])->name('product-details');
     
-
+    // ?  Cart 
+    
+    Route::post('/add-to-cart',[CartController::class , 'addToCart'])->name('add-to-cart');
+    Route::get('/cart',[CartController::class , 'cartDetails'])->name('cart');
+    Route::post('/cart/update-qty',[CartController::class , 'quantityUpdate'])->name('cart-qty-update');
+    
+    Route::get('/cart/destroy/{rowId}',[CartController::class , 'removeProduct'])->name('remove-product-form-cart');
+    Route::get('/cart/clear',[CartController::class , 'clearCart'])->name('clear-cart');
+    Route::get('/cart/counter',[CartController::class , 'getCartCount'])->name('cart-counter');
+    Route::get('/cart/get-products',[CartController::class , 'getCartProducts'])->name('cart-get-products');
+    
+    Route::post('/cart/sidebar/destroy',[CartController::class , 'removeSidebarProduct'])->name('remove-product-form-sidebar-cart');
+    
+    Route::get('/cart/sidebar-product/total',[CartController::class , 'cartTotalSidebar'])->name('cart-get-total-products-sidebar');
 
 
 

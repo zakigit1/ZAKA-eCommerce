@@ -1,5 +1,9 @@
 @extends('Admin.Dashboard.layouts.master')
 
+@section('title')
+    {{"$settings->site_name || Admin Category "}}
+@endsection
+
 @section('content')
 
 
@@ -85,6 +89,7 @@
         })
 
     </script> --}}
+    
     <!-- Change Status ajax : -->
     {{-- <script>
         $(document).ready(function(){

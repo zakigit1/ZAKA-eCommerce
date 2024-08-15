@@ -1,5 +1,11 @@
 @extends('Frontend.user.Dashboard.layouts.master')
 
+@section('title')
+    {{"$settings->site_name || User Profile "}}
+@endsection
+
+
+
 @section('content')
 
     <div class="row">

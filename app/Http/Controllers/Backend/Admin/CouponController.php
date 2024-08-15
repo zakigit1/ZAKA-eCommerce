@@ -25,6 +25,7 @@ class CouponController extends Controller
      */
     public function create()
     {
+
         return view('admin.coupon.create');
     }
 

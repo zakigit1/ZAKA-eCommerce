@@ -8,7 +8,9 @@
   <meta name="csrf-token"  content="{{ csrf_token() }}">
 
 
-  <title>General Dashboard &mdash; Stisla</title>
+  <title>
+    @yield('title')
+  </title>
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="{{asset('backend/assets/modules/bootstrap/css/bootstrap.min.css')}}">

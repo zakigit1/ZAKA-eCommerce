@@ -1,4 +1,8 @@
-@extends('Frontend.layouts.master')
+@extends('Frontend.store.layouts.master')
+
+@section('title')
+    {{"$settings->site_name || Forgot Password "}}
+@endsection
 
 @section('content')
     <!--============================

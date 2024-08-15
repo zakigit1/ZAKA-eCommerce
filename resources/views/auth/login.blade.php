@@ -1,5 +1,10 @@
 @extends('Frontend.store.layouts.master')
 
+@section('title')
+    {{"$settings->site_name || Login "}}
+@endsection
+
+
 @section('content')
 
     <!--============================
@@ -70,17 +75,18 @@
                                         </div>
 
 
-
+                                        
                                         <div class="wsus__login_save">
                                             <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox"  id="flexSwitchCheckDefault">
-                                                  
+                                                <input class="form-check-input" type="checkbox"  id="flexSwitchCheckDefault">  
                                                 <label class="form-check-label" for="flexSwitchCheckDefault">Remember me</label>
                                             </div>
+                                            
                                             @if (Route::has('password.request'))
-                                            <a class="forget_p" href="{{route('password.request')}}">Forget Your Password ?</a>
+                                                <a class="forget_p" href="{{route('password.request')}}">forget password ?</a>
                                             @endif
                                         </div>
+  
 
 
 

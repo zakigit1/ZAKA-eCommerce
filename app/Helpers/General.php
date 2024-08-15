@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\GeneralSetting;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\File;
 
 
@@ -85,7 +86,8 @@ function calculate_discount_percentage($originalPrice , $discount){
 
     $discount_percentage = (( $originalPrice - $discount )/ $originalPrice ) * 100 ;
 
-    return $discount_percentage ;
+    return intval($discount_percentage) ;// intval == integer value
+    
 }
 
 function productType($type){
@@ -112,4 +114,16 @@ function productType($type){
 function currencyIcon(){
     return GeneralSetting::first()->currency_icon;
    
+}
+
+
+//get cart sidebar total : 
+
+function getCartTotal(){
+    $total = 0; 
+        
+    foreach(Cart::content() as $product){
+        $total += ($product->price + $product->options->variants_total_amount) * $product->qty;
+    }
+    return $total;
 }

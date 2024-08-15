@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\FlashSale;
-use App\Models\FlashSaleItem;
 use App\Models\Product;
-use Illuminate\Http\Request;
+
 
 class FrontendProductController extends Controller
 {
@@ -17,13 +15,21 @@ class FrontendProductController extends Controller
         $data['product'] = Product::with([
             'gallery',
             'variants'=>function($query){
-                return $query->with('items');
+                return $query->with(['items'=>function($q){//items = variant items
+                    // get just variant items active 
+                    return $q->where('status',1);
+                }])
+                // get just variant active 
+                ->where('status',1);
             },
             'vendor'=>function($query){
                 return $query->with('user');
             },
-            'brand'
-            ])
+            'brand'=>function($query){
+                // get just brand active 
+                $query->where('status',1);
+            }]
+            )
         ->where('slug', $slug)->first();
 
 

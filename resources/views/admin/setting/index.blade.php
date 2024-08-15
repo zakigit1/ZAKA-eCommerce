@@ -1,5 +1,9 @@
 @extends('Admin.Dashboard.layouts.master')
 
+@section('title')
+    {{"$settings->site_name || Admin Settings  "}}
+@endsection
+
 @section('content')
 
 
@@ -65,8 +69,3 @@
 @endsection
 
 
-@push('scripts')
-
-    
-    
-@endpush

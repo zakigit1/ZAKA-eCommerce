@@ -1,5 +1,10 @@
 @extends('vendor.Dashboard.layouts.master')
 
+@section('title')
+    {{"$settings->site_name || Edit Vendor Product Variant Item  "}}
+@endsection
+
+
 @section('content')
 
     <div class="row">

@@ -1,4 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
+@section('title')
+    {{"$settings->site_name ||Create Admin Shipping Rule  "}}
+@endsection
 
 @section('content')
     <section class="section">

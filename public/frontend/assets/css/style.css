@@ -9565,3 +9565,18 @@ a:not([href]):not([class]):hover {
 }
 
 
+.product_qty_wrapper {
+  display :flex;
+}
+.product_qty_wrapper > .product_qty{
+  width: 43px;
+  height: 36px;
+  padding-left: 10px;
+}
+
+
+.wsus__mini_cart .wsus__cart_img img {
+  
+    height: 70px;
+    object-fit: cover;
+}

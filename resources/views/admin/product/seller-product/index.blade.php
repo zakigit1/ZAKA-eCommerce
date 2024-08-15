@@ -1,5 +1,9 @@
 @extends('Admin.Dashboard.layouts.master')
 
+@section('title')
+    {{"$settings->site_name || Admin Seller Product  "}}
+@endsection
+
 @section('content')
 
 

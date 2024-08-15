@@ -1,5 +1,8 @@
 @extends('Admin.Dashboard.layouts.master')
 
+@section('title')
+    {{"$settings->site_name || Admin Child Category "}}
+@endsection
 @section('content')
 
 

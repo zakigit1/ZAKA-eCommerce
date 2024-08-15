@@ -5,9 +5,19 @@
         <meta charset="UTF-8">
         <meta name="viewport"
             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi" />
+        
+        <meta name="csrf-token"  content="{{ csrf_token() }}">
+
+
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
             rel="stylesheet">
-        <title>Sazao || e-Commerce HTML Template</title>
+
+
+        <title>
+            @yield('title')
+        </title>
+
+
         <link rel="icon" type="image/png" href="images/favicon.png">
         <link rel="stylesheet" href="{{asset('frontend/assets/css/all.min.css')}}">
         <link rel="stylesheet" href="{{asset('frontend/assets/css/bootstrap.min.css')}}">
@@ -168,6 +178,8 @@
         <!--main/custom js-->
         <script src="{{asset('frontend/assets/js/main.js')}}"></script>
 
+        <!-- SweetAlert2 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
         <!-- toastr JS -->
@@ -201,10 +213,71 @@
 
             @endif
         </script>
+    <!--  Dynamic Delete alart  -->
+        <script>
+            $(document).ready(function() {
+            const token = $('meta[name="csrf-token"]').attr('content');
+            const deleteUrl = (element) => $(element).attr('href');
+            
+            $('body').on('click', '.delete-item-with-ajax', function(event) {
+                event.preventDefault();
+            
+                const swalOptions = {
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+                };
+            
+                const deleteThis = this;
+            
+                Swal.fire(swalOptions).then(result => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                    type: 'DELETE',
+                    url: deleteUrl(deleteThis),
+                    headers: {
+                        'X-CSRF-TOKEN': token
+                    },
+                    success: function(data)  {
+                        if (data.status == 'success') {
+                        Swal.fire(
+                            'Deleted!',
+                            data.message,
+                            'success'
+                        ).then(() => {
+                            location.reload();
+                        });
+                        }else if(data.status == 'error'){
+                        Swal.fire(
+                            'Can\'t Deleted !',
+                            data.message,
+                            'error'
+                        )
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+
+                    }
+
+                    });
+                }
+                });
+            });
+            });
 
 
+        </script>
 
-        @stack('scripts')
+        
+        @include('Frontend.store.layouts.includes.scripts')
+
+
+    @stack('scripts')
     </body>
 
 </html>

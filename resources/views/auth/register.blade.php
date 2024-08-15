@@ -1,5 +1,10 @@
 @extends('Frontend.store.layouts.master')
 
+@section('title')
+    {{"$settings->site_name || Register "}}
+@endsection
+
+
 {{-- @section('content')
 
     <!--============================

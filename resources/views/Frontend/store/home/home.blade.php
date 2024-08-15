@@ -1,16 +1,8 @@
 @extends('Frontend.store.layouts.master')
 
+@section('title',"$settings->site_name || e-Commerce ")
+
 @section('content')
-
-
-    <!--==========================
-      PRODUCT MODAL VIEW START
-    ===========================-->
-    @include('Frontend.store.home.includes.sections.product-model-view')
-    
-    <!--==========================
-      PRODUCT MODAL VIEW END
-    ===========================-->
 
 
     <!--============================
@@ -27,7 +19,7 @@
         FLASH SELL START
     ==============================-->
 
-    @include('Frontend.store.home.includes.sections.flash-sell')
+    @include('Frontend.store.home.includes.sections.flash-sale')
     <!--============================
         FLASH SELL END
     ==============================-->

@@ -28,7 +28,11 @@ class ProductVariantItem extends Model
 
 
 
-/*                                                 Begin Local Scopes                                 */
+    /*                                                 Begin Local Scopes                                 */
+        public function scopeActive($query) // to show just the active slide in store 
+        {
+            return $query->where('status', 1);
+        }
     
      
 /*                                                  End Local Scopes                                  */
