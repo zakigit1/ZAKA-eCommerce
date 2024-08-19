@@ -1,129 +1,183 @@
 <?php
 
+use App\Models\Coupon;
 use App\Models\GeneralSetting;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
+
 
 
 // function uploadImage($image , $folder){
-//    // saving the image in owr project folder
-//     $image->store('/', $folder);
-    
-//     //hash name of file or photo to upload so : example : hashName(zaki.jpg) --> 1055489.jpg
-//     $hashphoto = $image->hashName();
+    //    // saving the image in owr project folder
+    //     $image->store('/', $folder);
+        
+    //     //hash name of file or photo to upload so : example : hashName(zaki.jpg) --> 1055489.jpg
+    //     $hashphoto = $image->hashName();
 
-//     // path of folder to transfer to Database
-//     // $path = 'images/' . $folder . '/' . $hashphoto;
-//     $path = $hashphoto;
-//     return $path;
-// }
-
-
+    //     // path of folder to transfer to Database
+    //     // $path = 'images/' . $folder . '/' . $hashphoto;
+    //     $path = $hashphoto;
+    //     return $path;
+    // }
 
 
-function uploadImageNew($image , $folderPath, $folderName ){
-    
-    $folder= $folderPath.$folderName;
+    function uploadImageNew($image , $folderPath, $folderName ){
+        
+        $folder= $folderPath.$folderName;
 
-    $imageStore =  $image->store($folder);
-    $imageName = basename($imageStore);
-    
-    return $imageName;
-}
-
-function updateImage($image, $folderPath, $folderName,$old_image){
-
-    if(file_exists(public_path($old_image))){
-        File::delete(public_path($old_image));   
+        $imageStore =  $image->store($folder);
+        $imageName = basename($imageStore);
+        
+        return $imageName;
     }
 
-    $folder= $folderPath.$folderName;
+    function updateImage($image, $folderPath, $folderName,$old_image){
 
-    // store the image in storage folder (Storage/public/path..)
+        if(file_exists(public_path($old_image))){
+            File::delete(public_path($old_image));   
+        }
 
-    $imageStore =  $image->store($folder);
+        $folder= $folderPath.$folderName;
 
-    //name of the image : 
-    $imageName = basename($imageStore);
+        // store the image in storage folder (Storage/public/path..)
 
-    return $imageName;
+        $imageStore =  $image->store($folder);
+
+        //name of the image : 
+        $imageName = basename($imageStore);
+
+        return $imageName;
 
     }
 
-function deleteImage($old_image):void
-{
-    if(file_exists(public_path($old_image))){
-        File::delete(public_path($old_image));   
+    function deleteImage($old_image):void
+    {
+        if(file_exists(public_path($old_image))){
+            File::delete(public_path($old_image));   
+        }
     }
-}
 
 
 // make the side bar active  when you click : [BACKEND]
 
-function setActive(array $route){
-    if(is_array($route)){
-        foreach($route as $r){
-            if(request()->routeIs($r)){
-                return 'active';
+    function setActive(array $route){
+        if(is_array($route)){
+            foreach($route as $r){
+                if(request()->routeIs($r)){
+                    return 'active';
+                }
             }
         }
     }
-}
 
 // check if is there discount or not :[FRONTEND]
 
-function check_discount($product){
-    $current_date = date('Y-m-d');
- 
-    if($product->offer_price > 0 && $current_date >= $product->offer_start_date && $current_date <= $product->offer_end_date ){
-        return true;
-    }
-
-    return false;
-
-}
-function calculate_discount_percentage($originalPrice , $discount){
-
-    $discount_percentage = (( $originalPrice - $discount )/ $originalPrice ) * 100 ;
-
-    return intval($discount_percentage) ;// intval == integer value
+    function check_discount($product){
+        $current_date = date('Y-m-d');
     
-}
+        if($product->offer_price > 0 && $current_date >= $product->offer_start_date && $current_date <= $product->offer_end_date ){
+            return true;
+        }
 
-function productType($type){
-    switch ($type) {
-        case 'new_arrival':
-           return 'New';
-            break ;
-        case 'featured_product':
-           return 'Featured';
-            break;
-        case 'top_product':
-           return 'Top';
-            break;
-        case 'best_product':
-            return'Best';
-            break;
-        
-        default:
-            return'';
-            break;
+        return false;
+
     }
-}
+    function calculate_discount_percentage($originalPrice , $discount){
 
-function currencyIcon(){
-    return GeneralSetting::first()->currency_icon;
-   
-}
+        $discount_percentage = (( $originalPrice - $discount )/ $originalPrice ) * 100 ;
 
-
-//get cart sidebar total : 
-
-function getCartTotal(){
-    $total = 0; 
+        return intval($discount_percentage) ;// intval == integer value
         
-    foreach(Cart::content() as $product){
-        $total += ($product->price + $product->options->variants_total_amount) * $product->qty;
     }
-    return $total;
-}
+
+    function productType($type){
+        switch ($type) {
+            case 'new_arrival':
+            return 'New';
+                break ;
+            case 'featured_product':
+            return 'Featured';
+                break;
+            case 'top_product':
+            return 'Top';
+                break;
+            case 'best_product':
+                return'Best';
+                break;
+            
+            default:
+                return'';
+                break;
+        }
+    }
+
+    function currencyIcon(){
+        return GeneralSetting::first()->currency_icon;
+    
+    }
+
+
+/** Get cart sidebar total : [Frontend] */ 
+    function getCartTotal(){
+        $total = 0; 
+            
+        foreach(Cart::content() as $product){
+            $total += ($product->price + $product->options->variants_total_amount) * $product->qty;
+        }
+        return $total;
+    }
+
+
+/** Get cart total : [Frontend] */ 
+    function cartTotal(){
+
+        if(Session::has('coupon')){
+            $couponSession = Session::get('coupon');// i can use directely couponsession 
+            $coupon = Coupon::where('name',$couponSession['coupon_name'])->first();
+
+            $subTotal = getCartTotal(); // this function you found it in the general file
+
+            if($coupon->discount_type == 'amount'){
+
+                $discount = $coupon->discount;
+                $total = $subTotal - $discount;
+
+                return $total;
+
+            }elseif($coupon->discount_type == 'percent'){
+
+                $discount = $subTotal - (($subTotal * $coupon->discount) / 100);
+                $total = $subTotal - $discount;
+
+                return $total;
+            }
+        }else{
+            return getCartTotal();
+        }
+    }
+
+
+/** Get cart discount : [Frontend] */ 
+    function cartDiscount(){
+
+        if(Session::has('coupon')){
+            $couponSession = Session::get('coupon');// i can use directely couponsession 
+            $coupon = Coupon::where('name',$couponSession['coupon_name'])->first();
+
+            $subTotal = getCartTotal(); // this function you found it in the general file
+
+            if($coupon->discount_type == 'amount'){
+
+                $discount = $coupon->discount;
+                return $discount;
+
+            }elseif($coupon->discount_type == 'percent'){
+
+                $discount = $subTotal - (($subTotal * $coupon->discount) / 100);
+                return $discount;
+            }
+        }else{
+            return 0.00;
+        }
+    }

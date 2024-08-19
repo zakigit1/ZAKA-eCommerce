@@ -76,19 +76,24 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     Route::get('product-details/{slug}',[FrontendProductController::class , 'showProduct'])->name('product-details');
     
     // ?  Cart 
+    Route::group(['prefix'=>'cart'],function(){
+
+        Route::get('details',[CartController::class , 'cartDetails'])->name('cart');
+        Route::post('add-to-cart',[CartController::class , 'addToCart'])->name('add-to-cart');
+        Route::post('update-qty',[CartController::class , 'quantityUpdate'])->name('cart-qty-update');
+        
+        Route::get('destroy/{rowId}',[CartController::class , 'removeProduct'])->name('remove-product-form-cart');
+        Route::get('clear',[CartController::class , 'clearCart'])->name('clear-cart');
+        Route::get('counter',[CartController::class , 'getCartCount'])->name('cart-counter');
+        Route::get('get-products',[CartController::class , 'getCartProducts'])->name('cart-get-products');
+        
+        Route::post('sidebar/destroy',[CartController::class , 'removeSidebarProduct'])->name('remove-product-form-sidebar-cart');
+        
+        Route::get('sidebar-product/total',[CartController::class , 'cartTotalSidebar'])->name('cart-get-total-products-sidebar');
     
-    Route::post('/add-to-cart',[CartController::class , 'addToCart'])->name('add-to-cart');
-    Route::get('/cart',[CartController::class , 'cartDetails'])->name('cart');
-    Route::post('/cart/update-qty',[CartController::class , 'quantityUpdate'])->name('cart-qty-update');
-    
-    Route::get('/cart/destroy/{rowId}',[CartController::class , 'removeProduct'])->name('remove-product-form-cart');
-    Route::get('/cart/clear',[CartController::class , 'clearCart'])->name('clear-cart');
-    Route::get('/cart/counter',[CartController::class , 'getCartCount'])->name('cart-counter');
-    Route::get('/cart/get-products',[CartController::class , 'getCartProducts'])->name('cart-get-products');
-    
-    Route::post('/cart/sidebar/destroy',[CartController::class , 'removeSidebarProduct'])->name('remove-product-form-sidebar-cart');
-    
-    Route::get('/cart/sidebar-product/total',[CartController::class , 'cartTotalSidebar'])->name('cart-get-total-products-sidebar');
+        Route::get('apply-coupon',[CartController::class , 'apply_coupon'])->name('apply-coupon');
+        Route::get('calculate-coupon-discount',[CartController::class , 'couponCalculation'])->name('calculate-coupon-discount');
+    });
 
 
 

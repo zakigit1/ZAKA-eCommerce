@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Coupon;
+use App\Models\GeneralSetting;
 use App\Models\Product;
 use App\Models\ProductVariantItem;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
@@ -81,6 +84,8 @@ class CartController extends Controller
         $cartProducts = Cart::content();
 
         if(count($cartProducts) == 0 ){
+
+            Session::forget('coupon');
             toastr('Please add some products in your cart for view the cart page !','warning','Cart Is Empty !');
             return redirect()->route('home');
         }
@@ -178,5 +183,85 @@ class CartController extends Controller
         return  response(['status'=>'success','message'=>"Product Has Been Removed Successfully From The Cart Sidebar !"]);
     }
 
+
+    /** Check Coupon  : */
+
+    public function apply_coupon(Request $request){
+
+        // dd($request->all());
+
+        if($request->coupon_code === null){
+            return response(["status"=> "error","message"=> "Coupon field is required !"]);
+        }
+
+        $coupon = Coupon::where(['code' => $request->coupon_code ,'status' => 1])->first();
+
+        if(!$coupon){
+            return response(["status"=> "error","message"=> "Coupon is not exist !"]);
+        }elseif($coupon->start_date  > date('Y-m-d') ){ //" < " ->mean befor
+            // return response(["status"=> "error","message"=> "Coupon is not exist !"]);
+            return response(["status"=> "error","message"=> "Coupon is not start yet !"]);
+        }elseif($coupon->end_date < date('Y-m-d')){
+            return response(["status"=> "error","message"=> "Coupon is expired !"]);
+        }elseif($coupon->total_used >= $coupon->quantity){
+            return response(["status"=> "error","message"=> "You can't apply this coupon !"]);
+        }
+
+
+        if($coupon->discount_type == 'amount'){
+            Session::put('coupon',[
+                'coupon_name'=>$coupon->name,
+                'coupon_code'=>$coupon->code,
+                'discount_type'=>$coupon->discount_type,
+                'discount'=>$coupon->discount
+            ]);
+        }elseif($coupon->discount_type == 'percent'){
+            Session::put('coupon',[
+                'coupon_name'=>$coupon->name,
+                'coupon_code'=>$coupon->code,
+                'discount_type'=>$coupon->discount_type,
+                'discount'=>$coupon->discount
+            ]);
+
+        }
+
+        return response(["status"=> "success","message"=> "Coupon Applied Successfully !"]);
+
+
+    }
+
+    /** Calculate coupon discount */
+    public function couponCalculation(){
+
+        if(Session::has('coupon')){
+            $couponSession = Session::get('coupon');// i can use directely couponsession : 
+            $coupon = Coupon::where('name',$couponSession['coupon_name'])->first();
+
+            $subTotal = getCartTotal(); // this function you found it in the general file
+
+            if($coupon->discount_type == 'amount'){
+
+                $currency_icon = GeneralSetting::first()->currency_icon;
+                $discountType = $currency_icon.$coupon->discount;
+                $discount = $coupon->discount;
+                $total = $subTotal - $discount;
+
+                return response()->json(['status'=>'success','discount'=>$discount ,'total'=>$total,'discountType'=>$discountType]);
+
+            }elseif($coupon->discount_type == 'percent'){
+
+                $discountType = $coupon->discount.'%';
+                $discount = $subTotal - (($subTotal * $coupon->discount) / 100);
+                $total = round($subTotal - $discount , 2) ; // return two number after the cuma .
+
+                return response()->json(['status'=>'success','discount'=>$discount ,'total'=>$total,'discountType'=>$discountType]);
+            }
+        }else{
+            $total = getCartTotal();
+            $discount = 0.00 ;
+            $discountType = '';
+            return response()->json(['status'=>'success','discount'=>$discount ,'total'=>$total,'discountType'=>$discountType]);
+        }
+    }
 
 }

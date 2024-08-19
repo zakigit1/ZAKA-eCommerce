@@ -143,7 +143,6 @@
 
                     success: function(data) {
                         $('#mini_cart_subtotal').text("{{$settings->currency_icon}}" + data);
-                        toastr.success(data.message);
                     },
                     error: function(data) {
                         console.log('error');

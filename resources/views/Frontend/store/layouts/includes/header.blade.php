@@ -51,7 +51,7 @@
                 @foreach (Cart::content() as $cartProduct)        
                     <li id="mini_cart_{{$cartProduct->rowId}}">
                         <div class="wsus__cart_img">
-                            <a href="#"><img src="{{$cartProduct->options->image}}" alt="product" class="img-fluid w-100"></a>
+                            <a href="{{route('product-details',$cartProduct->options->slug)}}"><img src="{{$cartProduct->options->image}}" alt="product" class="img-fluid w-100"></a>
                             
                             <a class="wsis__del_icon remove-sidebar-product" href="#" data-rowid="{{$cartProduct->rowId}}"><i class="fas fa-minus-circle"></i></a>
 
