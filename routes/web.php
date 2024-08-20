@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Backend\User\CheckoutController;
+use App\Http\Controllers\Backend\User\PaymentController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\FlashSaleController;
 use App\Http\Controllers\Frontend\FrontendProductController;
@@ -61,9 +63,19 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     // ?   User Dashboard Address :  
     Route::resource('address',UserAddressController::class);
 
-
-
-
+    //? User Checkout : 
+    Route::group(['prefix'=>'checkout'],function(){
+        
+        Route::get('/',[CheckoutController::class,'index'])->name('checkout');
+        Route::post('/address',[CheckoutController::class,'createAddress'])->name('checkout.add-address');
+        Route::post('/submit',[CheckoutController::class,'checkoutSubmit'])->name('checkout.submit');
+        
+    });
+    
+    //? User Payment : 
+    Route::group(['prefix'=>'payment'],function(){
+        Route::get('/',[PaymentController::class,'index'])->name('payment');
+    });
 });
 
 
@@ -75,7 +87,8 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     // ?  Product Details
     Route::get('product-details/{slug}',[FrontendProductController::class , 'showProduct'])->name('product-details');
     
-    // ?  Cart 
+
+    /**    Cart  Routes : */  
     Route::group(['prefix'=>'cart'],function(){
 
         Route::get('details',[CartController::class , 'cartDetails'])->name('cart');
