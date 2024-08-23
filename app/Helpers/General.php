@@ -119,7 +119,7 @@ use Illuminate\Support\Facades\Session;
 
 
 /** Get cart sidebar total : [Frontend] */ 
-    function getCartTotal(){
+    function getCartSubtotal(){
         $total = 0; 
             
         foreach(Cart::content() as $product){
@@ -129,14 +129,14 @@ use Illuminate\Support\Facades\Session;
     }
 
 
-/** Get cart total : [Frontend] */ 
+/** Get cart total : [Frontend] ** is the sub total - discount(coupon) ** */  
     function cartTotal(){
 
         if(Session::has('coupon')){
             $couponSession = Session::get('coupon');// i can use directely couponsession 
             $coupon = Coupon::where('name',$couponSession['coupon_name'])->first();
 
-            $subTotal = getCartTotal(); // this function you found it in the general file
+            $subTotal = getCartSubtotal(); // this function you found it in the general file
 
             if($coupon->discount_type == 'amount'){
 
@@ -153,31 +153,48 @@ use Illuminate\Support\Facades\Session;
                 return $total;
             }
         }else{
-            return getCartTotal();
+            return getCartSubtotal();
         }
     }
 
 
 /** Get cart discount : [Frontend] */ 
-    function cartDiscount(){
 
+    function cartDiscount(){
+        
         if(Session::has('coupon')){
             $couponSession = Session::get('coupon');// i can use directely couponsession 
             $coupon = Coupon::where('name',$couponSession['coupon_name'])->first();
 
-            $subTotal = getCartTotal(); // this function you found it in the general file
+                $subTotal = getCartSubtotal(); // this function you found it in the general file
 
-            if($coupon->discount_type == 'amount'){
+                if($coupon->discount_type == 'amount'){
 
-                $discount = $coupon->discount;
-                return $discount;
+                    $discount = $coupon->discount;
+                    return $discount;
 
-            }elseif($coupon->discount_type == 'percent'){
+                }elseif($coupon->discount_type == 'percent'){
 
-                $discount = $subTotal - (($subTotal * $coupon->discount) / 100);
-                return $discount;
+                    $discount = $subTotal - (($subTotal * $coupon->discount) / 100);
+                    return $discount;
+                }
+            }else{
+                return 0.00;
             }
-        }else{
-            return 0.00;
         }
+/** Get shipping fee : [Frontend] */ 
+
+    function shippingFee(){
+        if(Session::has('shipping_method')){
+            $shippingFee = Session::get('shipping_method')['cost'];
+            return $shippingFee;
+        }else{
+            return 0.00 ;
+        }
+    }
+
+/** Get total price after adding shipping Fee : [Frontend] */ 
+
+    function finalAmount(){
+        return cartTotal() + shippingFee() ;
     }

@@ -237,7 +237,7 @@ class CartController extends Controller
             $couponSession = Session::get('coupon');// i can use directely couponsession : 
             $coupon = Coupon::where('name',$couponSession['coupon_name'])->first();
 
-            $subTotal = getCartTotal(); // this function you found it in the general file
+            $subTotal = getCartSubtotal(); // this function you found it in the general file
 
             if($coupon->discount_type == 'amount'){
 
@@ -257,7 +257,7 @@ class CartController extends Controller
                 return response()->json(['status'=>'success','discount'=>$discount ,'total'=>$total,'discountType'=>$discountType]);
             }
         }else{
-            $total = getCartTotal();
+            $total = getCartSubtotal();
             $discount = 0.00 ;
             $discountType = '';
             return response()->json(['status'=>'success','discount'=>$discount ,'total'=>$total,'discountType'=>$discountType]);

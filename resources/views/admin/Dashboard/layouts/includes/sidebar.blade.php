@@ -89,6 +89,8 @@
 
 
         <li class="{{setActive(['admin.settings.*'])}}"><a class="nav-link" href="{{route('admin.settings.index')}}"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+        
+        <li class="{{setActive(['admin.payment.*'])}}"><a class="nav-link" href="{{route('admin.payment.index')}}"><i class="fas fa-cog"></i> <span>Payment Settings</span></a></li>
 
       </ul>
 

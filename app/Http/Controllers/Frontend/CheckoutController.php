@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Backend\User;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\ShippingRule;
@@ -86,7 +86,7 @@ class CheckoutController extends Controller
         $shippingUserAddress = UserAddress::findOrFail($request->shipping_address_id)->toArray();
 
         if($shippingUserAddress){
-            Session::put('shipping_address',$shippingUserAddress);
+            Session::put('address',$shippingUserAddress);
         }
 
 

@@ -71,7 +71,7 @@
 
         </ul>
         <div class="mini-cart-actions {{Cart::content()->count() == 0 ? 'd-none' : '' }}">
-            <h5>sub total <span id="mini_cart_subtotal">{{$settings->currency_icon}} {{getCartTotal()}}</span></h5>
+            <h5>sub total <span id="mini_cart_subtotal">{{$settings->currency_icon}} {{getCartSubtotal()}}</span></h5>
             <div class="wsus__minicart_btn_area">
                 <a class="common_btn"  href="{{route('cart')}}">view cart</a>
                 <a class="common_btn" href="{{route('user.checkout')}}">checkout</a>

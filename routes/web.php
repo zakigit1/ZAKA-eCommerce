@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Backend\User\CheckoutController;
-use App\Http\Controllers\Backend\User\PaymentController;
+use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\FlashSaleController;
 use App\Http\Controllers\Frontend\FrontendProductController;
@@ -13,16 +13,6 @@ use App\Http\Controllers\Frontend\User\UserProfileController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 
 
@@ -75,6 +65,14 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     //? User Payment : 
     Route::group(['prefix'=>'payment'],function(){
         Route::get('/',[PaymentController::class,'index'])->name('payment');
+        Route::get('/success',[PaymentController::class,'paymentSuccess'])->name('payment.success');
+
+        /** Paypal Payment :  */
+        Route::get('paypal',[PaymentController::class,'paypalPayment'])->name('paypal.payment');
+        Route::get('paypal/success',[PaymentController::class,'success'])->name('paypal.success');
+        Route::get('paypal/cancel',[PaymentController::class,'cancel'])->name('paypal.cancel');
+    
+
     });
 });
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Backend\Admin\Payment\PaypalSettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Admin\AdminController;
 use App\Http\Controllers\Backend\Admin\AdminVendroProfileController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Backend\Admin\Product\ProductVariantItemController;
 use App\Http\Controllers\Backend\Admin\Product\SellerProductController;
 use App\Http\Controllers\Backend\Admin\SettingController;
 use App\Http\Controllers\Backend\Admin\CouponController;
+use App\Http\Controllers\Backend\Admin\Payment\PaymentSettingController;
 use App\Http\Controllers\Backend\Admin\ShippingRuleController;
 
 Route::get('login',[AdminController::class,'login'])->name('login.page');
@@ -153,37 +155,63 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
 
     ############################## Flash Sale  Start  ###################################
 
-    Route::group(['prefix'=>'flash-sale','as'=>'flash-sale.'],function(){
-        Route::get('/',[FlashSaleController::class,'index'])->name('index');
-        Route::post('/end-date',[FlashSaleController::class,'end_date'])->name('end_date');
-        Route::post('/add-product',[FlashSaleController::class,'add_product'])->name('add_product');  
-        Route::DELETE('{id}/destroy',[FlashSaleController::class,'destroy'])->name('destroy');
-        Route::put('change-status',[FlashSaleController::class,'change_status'])->name('change-status');
-        Route::put('change-at-home-status',[FlashSaleController::class,'change_at_home_status'])->name('change-at-home-status');
-         
-    });
+        Route::group(['prefix'=>'flash-sale','as'=>'flash-sale.'],function(){
+            Route::get('/',[FlashSaleController::class,'index'])->name('index');
+            Route::post('/end-date',[FlashSaleController::class,'end_date'])->name('end_date');
+            Route::post('/add-product',[FlashSaleController::class,'add_product'])->name('add_product');  
+            Route::DELETE('{id}/destroy',[FlashSaleController::class,'destroy'])->name('destroy');
+            Route::put('change-status',[FlashSaleController::class,'change_status'])->name('change-status');
+            Route::put('change-at-home-status',[FlashSaleController::class,'change_at_home_status'])->name('change-at-home-status');
+            
+        });
     ############################## Flash Sale  End  ###################################
     
     ############################## Settings  Start  ###################################
     
-    Route::group(['prefix'=>'settings','as'=>'settings.'],function(){
-        
-        Route::get('',[SettingController::class , 'index'])->name('index');
-        Route::put('/general-settings/update',[SettingController::class , 'UpdateSettingsGeneral'])->name('general-settings.update');
-    });
+        Route::group(['prefix'=>'settings','as'=>'settings.'],function(){
+            
+            Route::get('',[SettingController::class , 'index'])->name('index');
+
+            /** Update Or Create general Settings :( if general settings is not created yet we created else we update general settings)  */
+            Route::put('/general-settings/update',[SettingController::class , 'UpdateSettingsGeneral'])->name('general-settings.update');
+        });
     
     ############################## Settings  End  ###################################
 
 
     ############################## Coupons  Start  ###################################
-    Route::put('/coupons/change-status/',[CouponController::class,'change_status'])->name('coupons.change-status');
-    Route::resource('coupons',CouponController::class);
+
+        Route::put('/coupons/change-status/',[CouponController::class,'change_status'])->name('coupons.change-status');
+        Route::resource('coupons',CouponController::class);
+
     ############################## Coupons  End  ###################################
 
 
     ############################## Shipping Rule  Start  ###################################
-    Route::put('/shipping-rules/change-status/',[ShippingRuleController::class,'change_status'])->name('shipping-rule.change-status');
-    Route::resource('shipping-rules',ShippingRuleController::class);
+
+        Route::put('/shipping-rules/change-status/',[ShippingRuleController::class,'change_status'])->name('shipping-rule.change-status');
+        Route::resource('shipping-rules',ShippingRuleController::class);
+
     ############################## Shipping Rule  End  ###################################
+    
+    
+    ############################## Payment  Start  #################################
+    
+    
+    
+    Route::group(['prefix'=>'payment','as'=>'payment.'],function(){
+        
+        Route::get('/',[PaymentSettingController::class,'index'])->name('index');
+
+        
+        ############################## Paypal Settings gateway  Start  #################################
+
+        /** Update Or Create Paypal Settings :( if Paypal settings is not created yet we created else we update paypal settings)  */
+        Route::put('/paypal-settings',[PaypalSettingController::class,'UpdatePaypalSettings'])->name('paypal-setting');
+
+        ############################## Paypal Settings gateway  End  #################################
+    });
+
+    ############################## Payment  End  ###################################
 
 });

@@ -75,7 +75,7 @@
 
                             @foreach ($shippingMethods as $shippingMethod)
 
-                                @if($shippingMethod->type == 'min_cost' && getCartTotal() >= $shippingMethod->min_cost)
+                                @if($shippingMethod->type == 'min_cost' && getCartSubtotal() >= $shippingMethod->min_cost)
                                     <div class="form-check">
                                         <input class="form-check-input shipping-method" type="radio" name="exampleRadios" id="exampleRadios1"
                                         value="{{$shippingMethod->id}}" data-id="{{$shippingMethod->cost}}">
@@ -102,7 +102,7 @@
 
 
                             <div class="wsus__order_details_summery">
-                                <p>subtotal: <span>{{$settings->currency_icon}} {{getCartTotal()}}</span></p>
+                                <p>subtotal: <span>{{$settings->currency_icon}} {{getCartSubtotal()}}</span></p>
                                 <p>shipping fee (+): <span id="shipping-fee" data-id="">{{$settings->currency_icon}} 0.00</span></p>
                                 <p>coupon (-): <span>{{$settings->currency_icon}} {{cartDiscount()}}</span></p>
                                 <p><b>total:</b> <span><b id="total_amount" data-id="{{cartTotal()}}">{{$settings->currency_icon}} {{cartTotal()}}</b></span></p>

@@ -137,7 +137,7 @@
                         <div class="wsus__cart_list_footer_button" id="sticky_sidebar">
                             <h6>total cart</h6>
                             
-                            <p>subtotal: <span id="cart_subtotal">{{$settings->currency_icon}} {{getCartTotal()}}</span></p>
+                            <p>subtotal: <span id="cart_subtotal">{{$settings->currency_icon}} {{getCartSubtotal()}}</span></p>
                             
                             
                             <p>
