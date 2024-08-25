@@ -28,9 +28,15 @@
                           <div class="row">
                             <div class="col-2">
                               <div class="list-group" id="list-tab" role="tablist">
-                                <a class="list-group-item list-group-item-action active" id="list-paypal-list" data-toggle="list" href="#list-paypal" role="tab">Paypal Payment</a>
-                                <a class="list-group-item list-group-item-action" id="list-stripe-list" data-toggle="list" href="#list-stripe" role="tab">Stripe Payment</a>
-                                <a class="list-group-item list-group-item-action" id="list-razor-list" data-toggle="list" href="#list-razor" role="tab">Razor Payment</a>
+                                <a class="list-group-item list-group-item-action active" id="list-paypal-list" data-toggle="list" href="#list-paypal" role="tab">
+                                  Paypal Payment
+                                </a>
+                                <a class="list-group-item list-group-item-action" id="list-stripe-list" data-toggle="list" href="#list-stripe" role="tab">
+                                  Stripe Payment
+                                </a>
+                                <a class="list-group-item list-group-item-action" id="list-razorpay-list" data-toggle="list" href="#list-razorpay" role="tab">
+                                  Razorpay Payment
+                                </a>
 
                               </div>
                             </div>
@@ -42,8 +48,12 @@
                                 </div>
                                       
                                       
-                                <div class="tab-pane fade show" id="list-stripe" role="tabpanel" aria-labelledby="list-stripe-list">   
+                                <div class="tab-pane fade" id="list-stripe" role="tabpanel" aria-labelledby="list-stripe-list">   
                                       @include('admin.payment-setting.includes.stripe-setting')
+                                </div>
+                                      
+                                <div class="tab-pane fade" id="list-razorpay" role="tabpanel" aria-labelledby="list-razorpay-list">   
+                                      @include('admin.payment-setting.includes.razorpay-setting')
                                 </div>
 
                               </div>

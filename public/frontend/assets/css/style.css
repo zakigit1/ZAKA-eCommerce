@@ -9577,6 +9577,28 @@ a:not([href]):not([class]):hover {
 
 .wsus__mini_cart .wsus__cart_img img {
   
-    height: 70px;
-    object-fit: cover;
+  height: 70px;
+  object-fit: cover;
+}
+
+input.razorpay-payment-button{
+
+  font-weight: 600;
+  width: 100%;
+  border-radius: 30px;
+  font-size: 14px;
+  text-transform: capitalize;
+  font-weight: 600;
+  color: #fff;
+  background: #08C;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 30px;
+  outline: none;
+  transition: all linear 0.3s;
+  -webkit-transition: all linear 0.3s ease;
+  -moz-transition: all linear 0.3s ease;
+  -ms-transition: all linear 0.3s ease;
+  -o-transition: all linear 0.3s ease;
+
 }

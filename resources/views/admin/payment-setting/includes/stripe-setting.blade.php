@@ -54,17 +54,17 @@
             <div class="form-group">
                 {{-- convert from you currency to USD  --}}
                 <label >Currency Rate (Per {{$settings->currency_name}})</label>
-                <input type="text" name="currency_rate" class="form-control" value="{{@$stripeSetting->currency_rate}}">
+                <input type="text" name="currency_rate" class="form-control" placeholder="Enter Convert currency" value="{{@$stripeSetting->currency_rate}}">
             </div>
 
             <div class="form-group">
                 <label >Stripe Client Id</label>
-                <input type="text" name="client_id" class="form-control" value="{{@$stripeSetting->client_id}}">
+                <input type="text" name="client_id" class="form-control" placeholder="Enter Stripe Client Id" value="{{@$stripeSetting->client_id}}">
             </div>
 
             <div class="form-group">
                 <label >Stripe Securet Key </label>
-                <input type="text" name="secret_key" class="form-control" value="{{@$stripeSetting->secret_key}}">
+                <input type="text" name="secret_key" class="form-control" placeholder="Enter Stripe Secret Key" value="{{@$stripeSetting->secret_key}}">
             </div>
 
 

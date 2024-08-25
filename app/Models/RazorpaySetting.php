@@ -5,20 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class StripeSetting extends Model
+class RazorpaySetting extends Model
 {
     use HasFactory;
-    
-    protected $table = 'stripe_settings';
+
+    protected $table = 'razorpay_settings';
 
     protected $fillable = [
         'status',
-        'mode',
         'country_name',
         'currency_name',
         'currency_rate',
-        'client_id',
-        'secret_key',
+        'razorpay_key',
+        'razorpay_secret_key',
     ];
 
     protected $hidden = [

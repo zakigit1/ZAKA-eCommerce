@@ -1,12 +1,31 @@
-{{-- <form action="{{route('user.razorpay.payment')}}" method="POST" id="checkout-form">
-    @csrf
-    <input type="hidden" name="stripe_token" id="stripe-token-id">
 
-    <div id="card-element" class="form-control" style="padding: 18px"></div>
-    <br>
-    <button type="button" class="nav-link common_btn" id="pay-btn" onclick="createToken()">Pay with Stripe</button>
+@php
+    $razorpaySetting = \App\Models\RazorpaySetting::first() ;   
+
+    // Calculate Razorpay Amount depending to currency rate exp : DA  -> USD  or Euro to USD: 
+        $total = finalAmount();//this function in general file 
+        $paidAmountfinal  = round( $total * $razorpaySetting ->currency_rate , 2);// you get the price in USD 
+@endphp
+
+
+<form action="{{route('user.razorpay.payment')}}" method="POST">
+
+    @csrf
+
+    <script src="http://checkout.razorpay.com/v1/checkout.js"
+        data-key="{{ $razorpaySetting->razorpay_key }}"
+        data-amount="{{ $paidAmountfinal * 100 }}"
+        data-buttontext="Pay with Razorpay"
+        data-name="payment"
+        data-description="Payment For Product"
+        data-prefill.name="{{auth()->user()->name}}"
+        data-prefill.email="{{auth()->user()->email}}"
+        data-theme.color="#ff7529"
+    >
+
+    </script>
     
-</form> --}}
+</form>
 
 
 

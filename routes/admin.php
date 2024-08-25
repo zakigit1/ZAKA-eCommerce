@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Backend\Admin\Payment\PaypalSettingController;
+use App\Http\Controllers\Backend\Admin\Payment\Gateways\PaypalSettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Admin\AdminController;
 use App\Http\Controllers\Backend\Admin\AdminVendroProfileController;
@@ -19,7 +19,8 @@ use App\Http\Controllers\Backend\Admin\Product\SellerProductController;
 use App\Http\Controllers\Backend\Admin\SettingController;
 use App\Http\Controllers\Backend\Admin\CouponController;
 use App\Http\Controllers\Backend\Admin\Payment\PaymentSettingController;
-use App\Http\Controllers\Backend\Admin\Payment\StripeSettingController;
+use App\Http\Controllers\Backend\Admin\Payment\Gateways\RazorpaySettingController;
+use App\Http\Controllers\Backend\Admin\Payment\Gateways\StripeSettingController;
 use App\Http\Controllers\Backend\Admin\ShippingRuleController;
 
 Route::get('login',[AdminController::class,'login'])->name('login.page');

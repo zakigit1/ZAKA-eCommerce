@@ -54,17 +54,17 @@
             <div class="form-group">
                 {{-- convert from you currency of site to USD  --}}
                 <label >Currency Rate (Per {{$settings->currency_name}})</label>
-                <input type="text" name="currency_rate" class="form-control" value="{{@$paypalSetting->currency_rate}}">
+                <input type="text" name="currency_rate" class="form-control" placeholder="Enter Convert currency" value="{{@$paypalSetting->currency_rate}}">
             </div>
 
             <div class="form-group">
-                <label >Paypal Client Id</label>
-                <input type="text" name="client_id" class="form-control" value="{{@$paypalSetting->client_id}}">
+                <label >Paypal Client Id</label> 
+                <input type="text" name="client_id" class="form-control" placeholder="Enter Paypal Client Id" value="{{@$paypalSetting->client_id}}">
             </div>
 
             <div class="form-group">
                 <label >Paypal Securet Key </label>
-                <input type="text" name="secret_key" class="form-control" value="{{@$paypalSetting->secret_key}}">
+                <input type="text" name="secret_key" class="form-control" placeholder="Enter Paypal Secret Key" value="{{@$paypalSetting->secret_key}}">
             </div>
 
 

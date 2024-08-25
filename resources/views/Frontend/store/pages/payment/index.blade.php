@@ -40,20 +40,25 @@
                                 aria-orientation="vertical">
 
                                 <button class="nav-link common_btn active" id="v-pills-paypal-tab" data-bs-toggle="pill"
-                                    data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
+                                    data-bs-target="#v-pills-paypal" type="button" role="tab" aria-controls="v-pills-paypal"
                                     aria-selected="true">Paypal </button>
 
                                 <button class="nav-link common_btn" id="v-pills-stripe-tab" data-bs-toggle="pill"
-                                    data-bs-target="#v-pills-profile" type="button" role="tab"
-                                    aria-controls="v-pills-profile" aria-selected="false">Stripe </button>
+                                    data-bs-target="#v-pills-stripe" type="button" role="tab"
+                                    aria-controls="v-pills-stripe" aria-selected="false">Stripe </button>
+
+                                <button class="nav-link common_btn" id="v-pills-razorpay-tab" data-bs-toggle="pill"
+                                    data-bs-target="#v-pills-razorpay" type="button" role="tab"
+                                    aria-controls="v-pills-razorpay" aria-selected="false">Razorpay </button>
 
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-5 col-lg-5">
                         <div class="tab-content" id="v-pills-tabContent" id="sticky_sidebar">
-                            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                            <div class="tab-pane fade show active" id="v-pills-paypal" role="tabpanel"
                                 aria-labelledby="v-pills-paypal-tab">
+
                                 {{-- <div class="row">
                                     <div class="col-xl-12 m-auto">
                                         <div class="wsus__payment_area">
@@ -99,13 +104,11 @@
                                 </div> --}}
 
                                 <div class="wsus__payment_area">
-
                                     @include('Frontend.store.pages.payment.includes.paypal')
-                                
                                 </div>
                             </div>
 
-                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                            <div class="tab-pane fade" id="v-pills-stripe" role="tabpanel"
                                 aria-labelledby="v-pills-stripe-tab">
 
                                 <div class="wsus__payment_area">
@@ -113,8 +116,8 @@
                                 </div>
                             </div>
 
-                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
-                                aria-labelledby="v-pills-stripe-tab">
+                            <div class="tab-pane fade" id="v-pills-razorpay" role="tabpanel"
+                                aria-labelledby="v-pills-razorpay-tab">
 
                                 <div class="wsus__payment_area">
                                     @include('Frontend.store.pages.payment.includes.razorpay')

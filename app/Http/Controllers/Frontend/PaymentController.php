@@ -14,6 +14,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Razorpay\Api\Api;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Stripe\Charge;
 use Stripe\Stripe;
@@ -145,7 +146,7 @@ class PaymentController extends Controller
          * Calculate Paypal Amount depending to currency rate exp : DA  -> USD  or Euro to USD: 
         */
 
-            $paidAmountfinal = $this->paidAmount();
+            $paidAmountfinal = $this->paidAmount($paypalSetting);
             // dd($totalAmountFinal);
 
 
@@ -186,6 +187,7 @@ class PaymentController extends Controller
                 }
             }
         }else{
+            toastr('Something wrong in the first step of paypal payment try again','error','Error in payment with Paypal Gatways!');
             return to_route('user.paypal.cancel');
         }
 
@@ -248,7 +250,7 @@ class PaymentController extends Controller
                 $paypalSetting = PaypalSetting::first() ;   
 
                 // Calculate Stripe Amount depending to currency rate exp : DA  -> USD  or Euro to USD: 
-                $paidAmountfinal= $this->paidAmount();
+                $paidAmountfinal= $this->paidAmount($paypalSetting);
 
 
                 $paidCurrencyName  = $paypalSetting->currency_name;
@@ -263,13 +265,13 @@ class PaymentController extends Controller
                 return redirect()->route('user.payment.success');
 
             }else {
-                toastr('Payment was not completed','error'); 
+                toastr('Payment was not completed','error','Error in payment with Paypal Gatways!'); 
                 return redirect()->route('user.paypal.cancel');
             }
         } catch (\Exception $e) {
             
             // toastr($e->getMessage(),'error');
-            toastr('Somthing Went Wrong Try Again Later !','error','Error!');
+            toastr('Somthing Went Wrong Try Again Later !','error','Error in payment with Paypal Gatways!');
             return redirect()->route('user.paypal.cancel');
         }
     }
@@ -294,14 +296,14 @@ class PaymentController extends Controller
             $stripeSetting = StripeSetting::first() ;  
 
             // Calculate Stripe Amount depending to currency rate exp : DA  -> USD  or Euro to USD: 
-            $paidAmountfinal = $this->paidAmount();
+            $paidAmountfinal = $this->paidAmount($stripeSetting);
 
             Stripe::setApiKey($stripeSetting->secret_key);
 
 
 
             $response = Charge::create([
-                'amount' =>  $paidAmountfinal * 100,
+                'amount' => $paidAmountfinal * 100,
                 'currency' => $stripeSetting->currency_name,
                 'source' => $request->stripe_token,
                 'description'=> "Product Purchase!",
@@ -323,13 +325,13 @@ class PaymentController extends Controller
                 return redirect()->route('user.payment.success');
 
             }else {
-                toastr('Payment was not completed','error'); 
+                toastr('Payment was not completed','error','Error in payment with Stripe Gatways!'); 
                 return redirect()->route('user.payment');
             }
 
         }catch (\Exception $e) { 
             // toastr($e->getMessage(),'error');
-            toastr('Somthing Went Wrong Try Again Later !','error','Error!');
+            toastr('Somthing Went Wrong Try Again Later !','error','Error in payment with Stripe Gatways!');
             return redirect()->route('user.payment');
         }
         
@@ -343,7 +345,48 @@ class PaymentController extends Controller
     
     //######################################### razorpay Gatway Start #########################################\\
     
-    
+    public function razorpayPayment(Request $request){
+
+        dd($request->all());
+
+        $razorpaySetting = \App\Models\RazorpaySetting::first() ;   
+
+        $api = new Api($razorpaySetting->razorpay_key , $razorpaySetting->razorpay_secret_key);
+
+        $paidAmountFinal = $this->paidAmount($razorpaySetting);
+
+        // $razorpayAmountFinal = $paidAmountFinal * 100 ;
+
+        if($request->has('razorpay_payment_id') && $request->filled('razorpay_payment_id')){
+            try{
+
+                $response = $api->payment->fetch($request->razorpay_payment_id)
+                            ->capture(['amount' =>$paidAmountFinal * 100]);
+
+            }catch(\Exception $ex){
+                toastr($ex->getMessage(),'error','Error in payment with Razorpay Gatways!');
+                // toastr('Somthing Went Wrong Try Again Later !','error','Error in Razorpay Gatways!');
+                return redirect()->route('user.payment');
+            }
+
+            if($response['status'] == 'captured'){
+
+                $this->storeOreder('razorpay' ,1 ,$response['id'] ,$paidAmountFinal ,$razorpaySetting->currency_name);
+               
+                /** Clear Session : */
+                $this->clearSession();
+
+
+                toastr('Payment completed successfully','success'); 
+                return redirect()->route('user.payment.success');
+                
+            }else{
+                toastr('Payment was not completed','error','Error in payment with Razorpay Gatways!'); 
+                return redirect()->route('user.payment');
+            }
+        }
+
+    }
     //######################################### razorpay Gatway End #########################################\\
 
 
@@ -355,12 +398,11 @@ class PaymentController extends Controller
 
 
 
-    public function paidAmount(){
-        $stripeSetting = StripeSetting::first() ;   
-
+    public function paidAmount($gatewaySettngs){
+        
         // Calculate Stripe Amount depending to currency rate exp : DA  -> USD  or Euro to USD: 
             $total = finalAmount();//this function in general file 
-            $paidAmount  = round( $total * $stripeSetting->currency_rate , 2);// you get the price in USD 
+            $paidAmount  = round( $total * $gatewaySettngs->currency_rate , 2);// you get the price in USD 
         
         return $paidAmount ;
     }
