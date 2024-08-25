@@ -19,6 +19,7 @@ use App\Http\Controllers\Backend\Admin\Product\SellerProductController;
 use App\Http\Controllers\Backend\Admin\SettingController;
 use App\Http\Controllers\Backend\Admin\CouponController;
 use App\Http\Controllers\Backend\Admin\Payment\PaymentSettingController;
+use App\Http\Controllers\Backend\Admin\Payment\StripeSettingController;
 use App\Http\Controllers\Backend\Admin\ShippingRuleController;
 
 Route::get('login',[AdminController::class,'login'])->name('login.page');
@@ -205,11 +206,23 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
 
         
         ############################## Paypal Settings gateway  Start  #################################
-
+        
         /** Update Or Create Paypal Settings :( if Paypal settings is not created yet we created else we update paypal settings)  */
         Route::put('/paypal-settings',[PaypalSettingController::class,'UpdatePaypalSettings'])->name('paypal-setting');
-
+        
         ############################## Paypal Settings gateway  End  #################################
+        
+        ############################## Stripe Settings gateway  Start  #################################
+        
+        /** Update Or Create Stripe Settings :( if Stripe settings is not created yet we created else we update stripe settings)  */
+        Route::put('/stripe-settings',[StripeSettingController::class,'UpdateStripeSettings'])->name('stripe-setting');
+        ############################## Stripe Settings gateway  End  #################################
+
+        ############################## Razorpay Settings gateway  Start  #################################
+        
+        /** Update Or Create Razorpay Settings :( if Razorpay settings is not created yet we created else we update razorpay settings)  */
+        Route::put('/razorpay-settings',[RazorpaySettingController::class,'UpdateRazorpaySettings'])->name('razorpay-setting');
+        ############################## Razorpay Settings gateway  End  #################################
     });
 
     ############################## Payment  End  ###################################

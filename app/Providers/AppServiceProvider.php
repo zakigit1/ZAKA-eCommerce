@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
         // ? Share currency icons in all view project : 
         // the  "*" signs mean all view files if you want to do just for admin view file 'admin.*' . this is just example 
         view()->composer('*', function ($view) use($generalSettings) { 
-            return $view->with('settings',$generalSettings);
+            return $view->with('settings', $generalSettings);
         });
     }   
 }

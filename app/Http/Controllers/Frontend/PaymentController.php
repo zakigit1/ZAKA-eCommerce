@@ -8,18 +8,21 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\PaypalSetting;
 use App\Models\Product;
+use App\Models\StripeSetting;
 use App\Models\Transaction;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use Stripe\Charge;
+use Stripe\Stripe;
 
 class PaymentController extends Controller
 {
     public function index(){
 
-        if(!Session::has('shipping_address')){
+        if(!Session::has('address')){
             return redirect()->route('user.checkout');
         }
 
@@ -33,15 +36,18 @@ class PaymentController extends Controller
 
     public function clearSession (){
         Cart::destroy();
+        
         Session::forget('address');
-        Session::forget('shipping_address');//first time 
         Session::forget('shipping_method');
-        Session::forget('coupon');
+
+        if(Session::has('coupon')){ // just for protection 
+            Session::forget('coupon');
+        }
     }
 
 
 
-    //######################################### Paypal Gatway : #########################################\\
+    //######################################### Paypal Gatway Start  #########################################\\
 
 
     public function storeOreder($paymentMethod ,$paymentStatus ,$transactionId ,$paidAmount ,$paidCurrencyName) {
@@ -131,6 +137,7 @@ class PaymentController extends Controller
     public function paypalPayment(){
 
         $paypalSetting = PaypalSetting::first() ;
+
         $config = $this->paypalConfigration();
         // dd($config);
         
@@ -138,8 +145,7 @@ class PaymentController extends Controller
          * Calculate Paypal Amount depending to currency rate exp : DA  -> USD  or Euro to USD: 
         */
 
-            $total = finalAmount();//this function in general file 
-            $totalAmountFinal = round( $total * $paypalSetting->currency_rate , 2);// you get the price in USD 
+            $paidAmountfinal = $this->paidAmount();
             // dd($totalAmountFinal);
 
 
@@ -165,7 +171,7 @@ class PaymentController extends Controller
                 [
                     "amount" => [
                         "currency_code" => $config['currency'],
-                        "value"=> $totalAmountFinal 
+                        "value"=> $paidAmountfinal 
                     ]
                 ]
             ]
@@ -241,14 +247,13 @@ class PaymentController extends Controller
                 
                 $paypalSetting = PaypalSetting::first() ;   
 
-                // Calculate Paypal Amount depending to currency rate exp : DA  -> USD  or Euro to USD: 
-                    $total = finalAmount();//this function in general file 
-                    $paidAmount  = round( $total * $paypalSetting->currency_rate , 2);// you get the price in USD 
+                // Calculate Stripe Amount depending to currency rate exp : DA  -> USD  or Euro to USD: 
+                $paidAmountfinal= $this->paidAmount();
 
 
                 $paidCurrencyName  = $paypalSetting->currency_name;
 
-                $this->storeOreder($paymentMethod ,$paymentStatus ,$transactionId ,$paidAmount ,$paidCurrencyName);
+                $this->storeOreder($paymentMethod ,$paymentStatus ,$transactionId ,$paidAmountfinal ,$paidCurrencyName);
 
                 /** Clear Session : */
                 $this->clearSession();
@@ -263,7 +268,7 @@ class PaymentController extends Controller
             }
         } catch (\Exception $e) {
             
-            toastr($e->getMessage(),'error');
+            // toastr($e->getMessage(),'error');
             toastr('Somthing Went Wrong Try Again Later !','error','Error!');
             return redirect()->route('user.paypal.cancel');
         }
@@ -274,8 +279,96 @@ class PaymentController extends Controller
         return redirect()->route('user.payment');
     }
 
+    //######################################### Paypal Gatway End  #########################################\\
 
-    //######################################### stripe Gatway : #########################################\\
+
+    //######################################### stripe Gatway Start #########################################\\
+
+
+    public function stripePayment(Request $request){
+
+
+        try{
+
+            // dd($request->all());
+            $stripeSetting = StripeSetting::first() ;  
+
+            // Calculate Stripe Amount depending to currency rate exp : DA  -> USD  or Euro to USD: 
+            $paidAmountfinal = $this->paidAmount();
+
+            Stripe::setApiKey($stripeSetting->secret_key);
+
+
+
+            $response = Charge::create([
+                'amount' =>  $paidAmountfinal * 100,
+                'currency' => $stripeSetting->currency_name,
+                'source' => $request->stripe_token,
+                'description'=> "Product Purchase!",
+            ]);
+
+            // dd($response);
+
+            if($response->status == 'succeeded'){
+
+                 /** Store Order : */
+
+                $this->storeOreder('stripe' ,1 ,$response->id ,$paidAmountfinal ,$stripeSetting->currency_name);
+               
+                /** Clear Session : */
+                $this->clearSession();
+
+
+                toastr('Payment completed successfully','success'); 
+                return redirect()->route('user.payment.success');
+
+            }else {
+                toastr('Payment was not completed','error'); 
+                return redirect()->route('user.payment');
+            }
+
+        }catch (\Exception $e) { 
+            // toastr($e->getMessage(),'error');
+            toastr('Somthing Went Wrong Try Again Later !','error','Error!');
+            return redirect()->route('user.payment');
+        }
+        
+        
+    }
+
+    
+
+    //######################################### stripe Gatway End #########################################\\
+    
+    
+    //######################################### razorpay Gatway Start #########################################\\
+    
+    
+    //######################################### razorpay Gatway End #########################################\\
+
+
+
+
+
+
+
+
+
+
+    public function paidAmount(){
+        $stripeSetting = StripeSetting::first() ;   
+
+        // Calculate Stripe Amount depending to currency rate exp : DA  -> USD  or Euro to USD: 
+            $total = finalAmount();//this function in general file 
+            $paidAmount  = round( $total * $stripeSetting->currency_rate , 2);// you get the price in USD 
+        
+        return $paidAmount ;
+    }
+
+
+
+
+
 
 
 }

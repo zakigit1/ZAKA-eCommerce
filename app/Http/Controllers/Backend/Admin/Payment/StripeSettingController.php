@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Backend\Admin\Payment;
 
 use App\Http\Controllers\Controller;
-use App\Models\PaypalSetting;
+use App\Models\StripeSetting;
 use Illuminate\Http\Request;
 
-class PaypalSettingController extends Controller
+class StripeSettingController extends Controller
 {
-    public function updatePaypalSettings(Request $request){
+    public function updateStripeSettings(Request $request){
 
         // dd($request->all());
         $request->validate([
@@ -25,7 +25,7 @@ class PaypalSettingController extends Controller
         // dd($request->all());
 
         try{   
-            $paypalSettings = PaypalSetting::updateOrCreate(
+            $paypalSettings = StripeSetting::updateOrCreate(
                 ['id'=> 1],
                 [
                     'status'=>$request->status,
@@ -38,7 +38,7 @@ class PaypalSettingController extends Controller
                 ]
             );
 
-            toastr('Paypal Settings Has Been Updated Successfully !','success','Success');
+            toastr('Stripe Settings Has Been Updated Successfully !','success','Success');
             return redirect()->back();
 
         }catch(\Exception $ex){

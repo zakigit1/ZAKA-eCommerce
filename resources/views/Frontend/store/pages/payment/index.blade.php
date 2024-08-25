@@ -99,9 +99,8 @@
                                 </div> --}}
 
                                 <div class="wsus__payment_area">
-                                    <a href="{{route('user.paypal.payment')}}" class="nav-link common_btn text-center">
-                                        Pay with PayPal
-                                    </a>
+
+                                    @include('Frontend.store.pages.payment.includes.paypal')
                                 
                                 </div>
                             </div>
@@ -110,8 +109,15 @@
                                 aria-labelledby="v-pills-stripe-tab">
 
                                 <div class="wsus__payment_area">
-                                
-                                    <button class="nav-link common_btn">Pay with Stripe</button>
+                                    @include('Frontend.store.pages.payment.includes.stripe')
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                                aria-labelledby="v-pills-stripe-tab">
+
+                                <div class="wsus__payment_area">
+                                    @include('Frontend.store.pages.payment.includes.razorpay')
                                 </div>
                             </div>
 
@@ -139,8 +145,3 @@
 
 @endsection
 
-@push('scripts')
-    <script>
-
-    </script>
-@endpush

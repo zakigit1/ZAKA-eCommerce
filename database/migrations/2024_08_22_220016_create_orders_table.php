@@ -31,6 +31,8 @@ return new class extends Migration
             $table->boolean('order_status');
             $table->timestamps();
 
+            $table->softDeletes();
+
             $table->foreign('user_id')->references('id')->on('users');
 
         });

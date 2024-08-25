@@ -28,21 +28,21 @@
                           <div class="row">
                             <div class="col-2">
                               <div class="list-group" id="list-tab" role="tablist">
-                                <a class="list-group-item list-group-item-action active" id="list-paypal-list" data-toggle="list" href="#list-home" role="tab">Paypal Payment</a>
-                                <a class="list-group-item list-group-item-action" id="list-stripe-list" data-toggle="list" href="#list-profile" role="tab">Stripe Payment</a>
+                                <a class="list-group-item list-group-item-action active" id="list-paypal-list" data-toggle="list" href="#list-paypal" role="tab">Paypal Payment</a>
+                                <a class="list-group-item list-group-item-action" id="list-stripe-list" data-toggle="list" href="#list-stripe" role="tab">Stripe Payment</a>
+                                <a class="list-group-item list-group-item-action" id="list-razor-list" data-toggle="list" href="#list-razor" role="tab">Razor Payment</a>
 
                               </div>
                             </div>
                             <div class="col-10">
                               <div class="tab-content" id="nav-tabContent">
 
-                                <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-paypal-list">
+                                <div class="tab-pane fade show active" id="list-paypal" role="tabpanel" aria-labelledby="list-paypal-list">
                                       @include('admin.payment-setting.includes.paypal-setting')
                                 </div>
                                       
                                       
-                                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-stripe-list">
-                                        
+                                <div class="tab-pane fade show" id="list-stripe" role="tabpanel" aria-labelledby="list-stripe-list">   
                                       @include('admin.payment-setting.includes.stripe-setting')
                                 </div>
 

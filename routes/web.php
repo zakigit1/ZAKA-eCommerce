@@ -71,8 +71,17 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
         Route::get('paypal',[PaymentController::class,'paypalPayment'])->name('paypal.payment');
         Route::get('paypal/success',[PaymentController::class,'success'])->name('paypal.success');
         Route::get('paypal/cancel',[PaymentController::class,'cancel'])->name('paypal.cancel');
-    
+        
+        /** Stripe Payment :  */
+        Route::post('stripe',[PaymentController::class,'stripePayment'])->name('stripe.payment');
 
+
+        /** Razorpay Payment :  */
+        Route::get('razorpay',[PaymentController::class,'razorpayPayment'])->name('razorpay.payment');
+        Route::get('razorpay/success',[PaymentController::class,'success'])->name('razorpay.success');
+        Route::get('razorpay/cancel',[PaymentController::class,'cancel'])->name('razorpay.cancel');
+
+    
     });
 });
 

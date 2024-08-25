@@ -1,14 +1,14 @@
 <div class="card border">
     <div class="card-body">
 
-        <form action="{{route('admin.payment.paypal-setting')}}" method="post">
+        <form action="{{route('admin.payment.paypal-setting')}}" method="POST">
 
             @csrf
             @method('PUT')
 
 
             <div class="form-group ">
-                <label >Status</label>
+                <label >Paypal Status</label>
                 <select class="form-control"  name="status">
                     <option @if(@$paypalSetting->status == 0) selected @endif value="0">Disable</option>
                     <option {{(@$paypalSetting->status == 1) ? 'selected' : '' }} value="1">Enable</option>
@@ -16,7 +16,7 @@
             </div>
 
             <div class="form-group ">
-                <label >Account Mode</label>
+                <label >Paypal Account Mode</label>
                 <select class="form-control"  name="mode">
                     <option selected disabled>-- Select --</option>
                     <option {{(@$paypalSetting->mode == 'sandbox') ? 'selected' : '' }}  value="sandbox">Sandbox</option>
@@ -52,8 +52,8 @@
 
 
             <div class="form-group">
-                {{-- convert from you currency to USD  --}}
-                <label >Currency Rate (Per USD)</label>
+                {{-- convert from you currency of site to USD  --}}
+                <label >Currency Rate (Per {{$settings->currency_name}})</label>
                 <input type="text" name="currency_rate" class="form-control" value="{{@$paypalSetting->currency_rate}}">
             </div>
 

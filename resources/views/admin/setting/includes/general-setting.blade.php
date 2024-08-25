@@ -25,8 +25,8 @@
                 <label >Default Currency Name</label>
                 <select name="currency_name"  class="form-control select2">
                     <option value="" disabled >Select</option>
-                    @foreach (config('settings.currency_list') as $currency)
-                        <option {{@$generalSetting->currency_name == $currency ? 'selected' : ''}} value="{{$currency}}" >{{$currency}}</option>
+                    @foreach (config('settings.currency_list') as $key =>$currency)
+                        <option {{@$generalSetting->currency_name == $key ? 'selected' : ''}} value="{{$key}}" >{{$currency}}</option>
                     @endforeach
 
                 </select>
