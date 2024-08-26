@@ -18,6 +18,7 @@ use App\Http\Controllers\Backend\Admin\Product\ProductVariantItemController;
 use App\Http\Controllers\Backend\Admin\Product\SellerProductController;
 use App\Http\Controllers\Backend\Admin\SettingController;
 use App\Http\Controllers\Backend\Admin\CouponController;
+use App\Http\Controllers\Backend\Admin\OrderController;
 use App\Http\Controllers\Backend\Admin\Payment\PaymentSettingController;
 use App\Http\Controllers\Backend\Admin\Payment\Gateways\RazorpaySettingController;
 use App\Http\Controllers\Backend\Admin\Payment\Gateways\StripeSettingController;
@@ -227,5 +228,10 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     });
 
     ############################## Payment  End  ###################################
+    
+    ############################## Order  Start  ###################################
 
+        Route::resource('order',OrderController::class);
+
+    ############################## Order  End  ###################################
 });
