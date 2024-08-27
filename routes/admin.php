@@ -231,6 +231,7 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     
     ############################## Order  Start  ###################################
 
+        Route::put('/order/change-status/',[OrderController::class,'change_status'])->name('order.change-status');
         Route::resource('order',OrderController::class);
 
     ############################## Order  End  ###################################

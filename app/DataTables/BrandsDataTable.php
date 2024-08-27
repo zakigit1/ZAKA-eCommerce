@@ -65,7 +65,7 @@ class BrandsDataTable extends DataTable
             
         })
         ->rawColumns(['status','is_featured'])//if you add in this file html code you need to insert the column name inside (rawColumns)
-            ->setRowId('id');
+        ->setRowId('id');
     }
 
     /**

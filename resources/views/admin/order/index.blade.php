@@ -50,14 +50,14 @@
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 
         <!-- Change Status ajax : -->
-        {{-- <script>
+        <script>
             $(document).ready(function(){
                 $('body').on('click', '.change-status', function(){
                     let isChecked = $(this).is(':checked');
                     let id = $(this).data('id');
     
                     $.ajax({
-                        url: '{{route("admin.brand.change-status")}}',
+                        url: '{{route("admin.order.change-status")}}',
                         method: 'PUT',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -85,6 +85,6 @@
                     });
                 });
             });
-        </script> --}}
+        </script>
     
 @endpush

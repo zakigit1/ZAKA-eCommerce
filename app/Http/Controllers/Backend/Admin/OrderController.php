@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Admin;
 
 use App\DataTables\OrdersDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -16,29 +17,6 @@ class OrderController extends Controller
         return $dataTable->render('admin.order.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -63,4 +41,26 @@ class OrderController extends Controller
     {
         //
     }
+
+    // public function change_status(Request $request)
+    // {
+
+    //     $order = Order::find($request->id);
+
+    //     if(!$order){
+    //         toastr()->error( 'order is not found!');
+    //         return to_route('admin.order.index');
+    //     }
+
+       
+    //     $order->order_status = $request->status == 'true' ? 1 : 0;
+         
+    //     $order->save();
+
+    //     $status =($order->order_status == 1) ? 'activated' : 'deactivated';
+
+    //     return response(['status'=>'success','message'=>"The Order has been $status"]);
+
+       
+    // }
 }

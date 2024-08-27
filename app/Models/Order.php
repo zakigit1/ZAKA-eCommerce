@@ -31,4 +31,9 @@ class Order extends Model
         'created_at',
         'updated_at'
     ];
+
+
+    public function user(){
+        return $this->belongsTo(Order::class,'user_id','id');
+    }
 }
