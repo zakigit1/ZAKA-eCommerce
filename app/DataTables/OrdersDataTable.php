@@ -29,24 +29,31 @@ class OrdersDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
-                $user_role='admin';
-                $type='order';
 
-                $actions='
-                <a class="btn btn-primary href="'.route('admin.order.show',$query->id).'"><i class="fas fa-eye"></i></a>
-                <a class="btn btn-danger ml-2  delete-item-with-ajax  href="'.route('admin.order.destroy',$query->id).'"><i class="fas fa-trash-alt"></i></a>
-                <a class="btn btn-warning ml-2  href="'.route('admin.order.change-status',$query->id).'"><i class="fas fa-truck"></i></a>
-                ';
+                $actions="
+                <a class='btn btn-success' href='".route('admin.order.show',$query->id)."'><i class='fas fa-eye'></i></a>
+                <a class='btn btn-danger ml-2  delete-item-with-ajax'  href='".route('admin.order.destroy',$query->id)."'><i class='fas fa-trash-alt'></i></a>
+                <a class='btn btn-warning ml-2 '  href='".route('admin.order.change-status',$query->id)."'><i class='fas fa-truck'></i></a>
+                ";
 
                 return $actions;
-
-                // return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]) . $order_status;
             })
             ->addColumn('amount', function($query){
                 return  $this->currencyIcon . $query->amount;
             })
             ->addColumn('date', function($query){
                 return  date('Y-m-d',strtotime($query->created_at));
+            })
+            ->addColumn('payment_status', function($query){
+               
+                if($query->payment_status == 1){
+                   return '<i class="badge badge-success">Complete</i>';
+                }else{ 
+                    return '<i class="badge badge-danger">Pending</i>';
+                }
+                // $No='<i class="badge badge-danger">No</i>';
+
+                
             })
             ->addColumn('order_status', function($query){
                 /** we need to modify this we can use switch better  */
@@ -75,7 +82,7 @@ class OrdersDataTable extends DataTable
                 
             // })
 
-            ->rawColumns(['status','order_status','action'])//if you add in this file html code you need to insert the column name inside (rawColumns)
+            ->rawColumns(['status','order_status','action','payment_status'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
     }
 
@@ -116,11 +123,12 @@ class OrdersDataTable extends DataTable
     {
         return [
             Column::make('id')->width(100),
-            Column::make('invoice_id')->width(100),
+            Column::make('invoice_id')->width(150),
             Column::make('date'),
             Column::make('product_qty'),
             Column::make('amount'),
             Column::make('order_status'),
+            Column::make('payment_status'),
             Column::make('payment_method'),
             Column::computed('action')
                 ->exportable(false)

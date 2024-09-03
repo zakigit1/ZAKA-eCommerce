@@ -62,7 +62,7 @@ class PaymentController extends Controller
 
         $order->invoice_id = rand(1 ,9999999) ; 
         $order->user_id = Auth::user()->id; 
-        $order->sub_total = cartTotal() ; // the total price of product mines coupon
+        $order->sub_total = getCartSubtotal() ; // the total price of product mines coupon
         $order->amount = finalAmount(); // the total price of product mines coupon plus shipping fee
         $order->currency_name = $generalSettings->currency_name; 
         $order->currency_icon = $generalSettings->currency_icon; 
@@ -72,7 +72,7 @@ class PaymentController extends Controller
         $order->order_address=json_encode(Session::get('address')) ; 
         $order->shipping_method= json_encode(Session::get('shipping_method')); 
         $order->coupon=json_encode(Session::get('coupon')) ; 
-        $order->order_status= 0; //default 0
+        $order->order_status= 'pending'; //default 0
         $order->save(); 
         
         /** Store Order Products :  */ 

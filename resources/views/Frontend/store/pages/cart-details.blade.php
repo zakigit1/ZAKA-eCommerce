@@ -141,7 +141,7 @@
                             
                             
                             <p>
-                                <span id="discount_type_cart">Coupon (- {{(session()->has('coupon') ? (session()->get('coupon')['discount_type'] == 'amount' ? $settings->currency_icon.session()->get('coupon')['discount']: session()->get('coupon')['discount'].'%' ) : '')}}):</span>
+                                <span id="discount_type_cart">Coupon (- {{(session()->has('coupon') ? (session()->get('coupon')['discount_type'] == 'amount' ? $settings->currency_icon.session()->get('coupon')['discount']: session()->get('coupon')['discount_percentage'].'%' ) : '')}}):</span>
                                 <span id="cart_discount">{{$settings->currency_icon}} {{cartDiscount()}}</span>
                             </p>
                            

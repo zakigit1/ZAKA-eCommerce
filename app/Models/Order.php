@@ -36,4 +36,12 @@ class Order extends Model
     public function user(){
         return $this->belongsTo(Order::class,'user_id','id');
     }
+
+    public function transaction(){
+        return $this->hasOne(Transaction::class,'order_id','id');
+    }
+
+    public function orderProducts(){
+        return $this->hasMany(OrderProduct::class,'order_id','id');
+    }
 }

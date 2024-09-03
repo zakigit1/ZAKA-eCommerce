@@ -216,11 +216,15 @@ class CartController extends Controller
                 'discount'=>$coupon->discount
             ]);
         }elseif($coupon->discount_type == 'percent'){
+
+            $discount = getCartSubtotal() - ((getCartSubtotal() * $coupon->discount) / 100);
+
             Session::put('coupon',[
-                'coupon_name'=>$coupon->name,
-                'coupon_code'=>$coupon->code,
-                'discount_type'=>$coupon->discount_type,
-                'discount'=>$coupon->discount
+                'coupon_name'=> $coupon->name,
+                'coupon_code' => $coupon->code,
+                'discount_type' => $coupon->discount_type,
+                'discount_percentage' => $coupon->discount,
+                'discount'=> $discount
             ]);
 
         }
@@ -250,7 +254,9 @@ class CartController extends Controller
 
             }elseif($coupon->discount_type == 'percent'){
 
-                $discountType = $coupon->discount.'%';
+                $discountType = $coupon->discount.'%'; //this is from DB
+                // $discountType = $couponSession['discount_percentage'].'%'; // this is from the session
+
                 $discount = $subTotal - (($subTotal * $coupon->discount) / 100);
                 $total = round($subTotal - $discount , 2) ; // return two number after the cuma .
 

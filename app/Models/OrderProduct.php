@@ -26,4 +26,10 @@ class OrderProduct extends Model
         'updated_at'
     ];
 
+    public function vendor(){
+        return $this->belongsTo(Vendor::class,'vendor_id','id');
+    }
+
+
+
 }

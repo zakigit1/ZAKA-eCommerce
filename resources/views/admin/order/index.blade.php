@@ -11,11 +11,11 @@
 
     <section class="section">
         <div class="section-header">
-        <h1>Manage Orders</h1>
-        <div class="section-header-breadcrumb">
-            <div class="breadcrumb-item active"><a href="{{route('admin.dashboard')}}">Dashboard</a></div>
-            <div class="breadcrumb-item">Orders</div>
-        </div>
+            <h1>Manage Orders</h1>
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="{{route('admin.dashboard')}}">Dashboard</a></div>
+                <div class="breadcrumb-item">Orders</div>
+            </div>
         </div>
 
         <div class="section-body">

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\DataTables\OrdersDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\User;
+use App\Models\UserAddress;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -18,12 +20,28 @@ class OrderController extends Controller
     }
 
 
+
+    public function show(string $id)
+    {
+        $data['order'] = Order::with('transaction')->find($id);
+
+        if(!$data['order']){
+            toastr('Order Not Found','error','Error!');
+            return redirect()->route('admin.orders.index');
+        }
+
+       $data['order_address'] = json_decode($data['order']->order_address);
+       $data['shipping_method'] = json_decode($data['order']->shipping_method);
+       $data['coupon'] = json_decode($data['order']->coupon);
+       
+        return view('admin.order.order-details',$data);
+    }
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        //
+        dd('edit page');
     }
 
     /**
