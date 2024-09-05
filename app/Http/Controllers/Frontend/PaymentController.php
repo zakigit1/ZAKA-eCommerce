@@ -66,12 +66,12 @@ class PaymentController extends Controller
         $order->amount = finalAmount(); // the total price of product mines coupon plus shipping fee
         $order->currency_name = $generalSettings->currency_name; 
         $order->currency_icon = $generalSettings->currency_icon; 
-        $order->product_qty = Cart::content()->count() ; 
-        $order->payment_method = $paymentMethod ; 
-        $order->payment_status= $paymentStatus ; 
-        $order->order_address=json_encode(Session::get('address')) ; 
+        $order->product_qty = Cart::content()->count(); 
+        $order->payment_method = $paymentMethod; 
+        $order->payment_status= $paymentStatus; 
+        $order->order_address=json_encode(Session::get('address')); 
         $order->shipping_method= json_encode(Session::get('shipping_method')); 
-        $order->coupon=json_encode(Session::get('coupon')) ; 
+        $order->coupon=json_encode(Session::get('coupon')); 
         $order->order_status= 'pending'; //default 0
         $order->save(); 
         

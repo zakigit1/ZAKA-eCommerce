@@ -232,6 +232,9 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     ############################## Order  Start  ###################################
 
         Route::put('/order/change-status/',[OrderController::class,'change_status'])->name('order.change-status');
+        Route::get('/order/trashed-orders/',[OrderController::class,'trashed_orders'])->name('order.trashed-orders');
+        Route::get('/order/trashed-orders/{id}/restore',[OrderController::class,'trashed_orders_restore'])->name('order.trashed-orders.restore');
+        Route::get('/order/trashed-orders/{id}/force-delete',[OrderController::class,'trashed_orders_delete'])->name('order.trashed-orders.delete');
         Route::resource('order',OrderController::class);
 
     ############################## Order  End  ###################################

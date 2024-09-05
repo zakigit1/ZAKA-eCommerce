@@ -100,7 +100,16 @@
 
 
                                             <td>{{++$loop->index}}</td>
-                                            <td>{{$product->product_name}}</td>
+
+                                            <td>
+                                                @if(isset($product->product->slug))
+                                                    <a target="_blank" href="{{route('product-details',[$product->product->slug])}}">    
+                                                        {{$product->product_name}}
+                                                    </a>
+                                                @else
+                                                    {{$product->product_name}}
+                                                @endif
+                                            </td>
                                             <td>
                                                 @if(!empty($variants))
                                                     @foreach ($variants as $key=>$variant)

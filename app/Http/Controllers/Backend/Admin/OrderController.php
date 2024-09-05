@@ -27,7 +27,7 @@ class OrderController extends Controller
 
         if(!$data['order']){
             toastr('Order Not Found','error','Error!');
-            return redirect()->route('admin.orders.index');
+            return redirect()->route('admin.order.index');
         }
 
        $data['order_address'] = json_decode($data['order']->order_address);
@@ -57,8 +57,55 @@ class OrderController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // dd($id);
+        $order = Order::find($id);
+        $order_id = $order->invoice_id;
+
+        if(!$order){
+            toastr()->error( 'Order is not found!');
+            return to_route('admin.order.index');
+        }
+        
+        $order->delete();
+        
+        return response(['status'=>'success','message'=>"The Order Number $order_id has been sent to the trash !"]);
+        
     }
+
+    public function trashed_orders(){
+        $trashed_orders = Order::onlyTrashed()->get();
+
+        // dd($trashed_orders);
+        return view('admin.order.order_trash',compact('trashed_orders'));
+    }
+
+    public function trashed_orders_restore(string $id){
+       
+        $restore = Order::withTrashed()->find($id)->restore();
+        toastr()->success( 'Order Has Been Resotred Successfully !');
+        return to_route('admin.order.trashed-orders');
+    }
+
+    public function trashed_orders_delete(string $id){
+        $delete = Order::withTrashed()->find($id)->forceDelete();
+
+        toastr()->success( 'Order Has Been Deleted Successfully !');
+        return to_route('admin.order.trashed-orders');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // public function change_status(Request $request)
     // {
