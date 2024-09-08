@@ -33,7 +33,7 @@ class OrdersDataTable extends DataTable
                 $actions="
                 <a class='btn btn-success' href='".route('admin.order.show',$query->id)."'><i class='fas fa-eye'></i></a>
                 <a class='btn btn-danger ml-2  delete-item-with-ajax'  href='".route('admin.order.destroy',$query->id)."'><i class='fas fa-trash-alt'></i></a>
-                <a class='btn btn-warning ml-2 '  href='".route('admin.order.change-status',$query->id)."'><i class='fas fa-truck'></i></a>
+                <a class='btn btn-warning ml-2 '  href='".route('admin.order.change-order-status',$query->id)."'><i class='fas fa-truck'></i></a>
                 ";
 
                 return $actions;
@@ -49,19 +49,42 @@ class OrdersDataTable extends DataTable
                 if($query->payment_status == 1){
                    return '<i class="badge badge-success">Complete</i>';
                 }else{ 
-                    return '<i class="badge badge-danger">Pending</i>';
-                }
-                // $No='<i class="badge badge-danger">No</i>';
-
-                
+                    return '<i class="badge badge-warning">Pending</i>';
+                }    
             })
-            ->addColumn('order_status', function($query){
-                /** we need to modify this we can use switch better  */
+            ->addColumn('order_status',function($query){
 
-                $pending='<i class="badge badge-warning">pending</i>';
-                // $No='<i class="badge badge-danger">No</i>';
+                switch ($query->order_status) {
+                    case 'pending':
+                        return '<i class="badge badge-warning">Pending</i>';
+                         break;
 
-                return ($query->order_status == 'pending') ? $pending : '' ;
+                    case 'processed_and_ready_to_ship':
+                       return '<i class="badge badge-info">Processing</i>';
+                        break;
+                    case 'dropped_off':
+                        return'<i class="badge badge-info">Dropped Off</i>';
+                        break;   
+                        
+                    case 'shipped':
+                        return'<i class="badge badge-info">Shipped</i>';
+                        break;
+
+                    case 'out_for_delivery':
+                        return'<i class="badge badge-light">Out For Delivery</i>';
+                        break;
+
+                    case 'delivered':
+                       return '<i class="badge badge-success">Delivered</i>';
+                        break ;
+                    case 'canceled':
+                       return '<i class="badge badge-danger">Canceled</i>';
+                        break ;
+
+                    default:
+                        return'<i class="badge badge-dark">None</i>';
+                        break;
+                }
             })
             // ->addColumn('status',function($query){
                     

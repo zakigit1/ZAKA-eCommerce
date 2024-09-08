@@ -230,8 +230,8 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     ############################## Payment  End  ###################################
     
     ############################## Order  Start  ###################################
-
-        Route::put('/order/change-status/',[OrderController::class,'change_status'])->name('order.change-status');
+        Route::put('/order/change-payment-status/',[OrderController::class,'change_payment_status'])->name('order.change-payment-status');
+        Route::get('/order/change-order-status/',[OrderController::class,'change_order_status'])->name('order.change-order-status');
         Route::get('/order/trashed-orders/',[OrderController::class,'trashed_orders'])->name('order.trashed-orders');
         Route::get('/order/trashed-orders/{id}/restore',[OrderController::class,'trashed_orders_restore'])->name('order.trashed-orders.restore');
         Route::get('/order/trashed-orders/{id}/force-delete',[OrderController::class,'trashed_orders_delete'])->name('order.trashed-orders.delete');

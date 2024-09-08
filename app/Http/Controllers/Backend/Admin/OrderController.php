@@ -96,36 +96,52 @@ class OrderController extends Controller
 
 
 
+    public function change_order_status(Request $request)
+    {
 
+        $order = Order::find($request->id);
 
-
-
-
-
-
-
-
-
-
-    // public function change_status(Request $request)
-    // {
-
-    //     $order = Order::find($request->id);
-
-    //     if(!$order){
-    //         toastr()->error( 'order is not found!');
-    //         return to_route('admin.order.index');
-    //     }
+        if(!$order){
+            toastr()->error( 'order is not found!');
+            return to_route('admin.order.index');
+        }
 
        
-    //     $order->order_status = $request->status == 'true' ? 1 : 0;
+        $order->order_status = $request->status;
          
-    //     $order->save();
+        $order->save();
 
-    //     $status =($order->order_status == 1) ? 'activated' : 'deactivated';
-
-    //     return response(['status'=>'success','message'=>"The Order has been $status"]);
+        
+        return response([
+            'status'=>'success',
+            'message'=>"Update Order Status Successfully!"
+        ]);
 
        
-    // }
+    }
+
+
+
+
+    public function change_payment_status(Request $request)
+    {
+        // dd($request->all());
+        $order = Order::find($request->id);
+
+        if(!$order){
+            toastr()->error( 'order is not found!');
+            return to_route('admin.order.index');
+        }
+
+       
+        $order->payment_status = $request->status ;
+         
+        $order->save();
+
+        $status =($order->payment_status == 1) ? 'Complete' : 'Pending';
+
+        return response(['status'=>'success','message'=>"Payment Status Has Been Updated Successfully!"]);
+
+       
+    }
 }

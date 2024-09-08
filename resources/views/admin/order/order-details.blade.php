@@ -129,7 +129,8 @@
                             </div>
 
                             <div class="row mt-4">
-                                <div class="col-lg-8">
+
+                                {{-- <div class="col-lg-8">
                                     <div class="section-title">Payment Method</div>
                                     <p class="section-lead">The payment method that we provide is to make it easier for you to pay invoices.</p>
                                     <div class="images">
@@ -138,7 +139,38 @@
                                         <img src="{{asset('backend/assets/img/mastercard.png')}}" alt="mastercard">
                                         <img src="{{asset('backend/assets/img/paypal.png')}}" alt="paypal">
                                     </div>
+                                </div> --}}
+
+                                <div class="col-lg-8">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="">Payment Status</label>
+                                            <select class="form-control" name="payment_status" id="payment_status" data-id="{{$order->id}}">
+                                                
+                                                <option {{$order->payment_status == 0 ? 'selected' : '' }} value="0"> Pending  </option>
+                                                <option {{$order->payment_status == 1 ? 'selected' : '' }} value="1"> Complete </option>
+                                               
+                                            </select>  
+                                        </div>
+
+                                    </div>
                                 </div>
+
+                                <div class="col-lg-8">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="">Order Status</label>
+                                            <select class="form-control" name="order_status" id="order_status" data-id="{{$order->id}}">
+                                                @foreach (Config('order_status.order_status_admin') as $key => $order_status)
+                                                    <option {{$order->order_status == $key ? 'selected' : '' }} value="{{$key}}">{{$order_status['status']}}</option>
+                                                @endforeach
+
+                                            </select>  
+                                        </div>
+                                    </div>
+                                </div>
+
+
                                 <div class="col-lg-4 text-right">
                                     <div class="invoice-detail-item">
                                         <div class="invoice-detail-name">Subtotal</div>
@@ -183,31 +215,60 @@
 
 @push('scripts')
 
-        <!-- Change Status ajax : -->
+        <!-- Change Order Status ajax : -->
         <script>
             $(document).ready(function(){
-                $('body').on('click', '.change-status', function(){
-                    let isChecked = $(this).is(':checked');
+                $('#order_status').on('change', function(){
+                    let status = $(this).val();
                     let id = $(this).data('id');
     
                     $.ajax({
-                        url: '{{route("admin.order.change-status")}}',
+                        url: '{{route("admin.order.change-order-status")}}',
+                        method: 'GET',
+                        data: {
+                            status: status,
+                            id: id
+                        },
+                        success: function(data){
+                           
+                            if (data.status == 'success') {
+                                toastr.success(data.message);
+                            }
+                        },
+                        error: function(xhr, status, error){
+                            console.log('error');
+                        }
+                    });
+                });
+            });
+        </script>
+
+        <!-- Change Payment Status ajax : -->
+        <script>
+            $(document).ready(function(){
+                $('#payment_status').on('change', function(){
+
+                    let status = $(this).val();
+                    let id = $(this).data('id');
+    
+                    $.ajax({
+                        url: '{{route("admin.order.change-payment-status")}}',
                         method: 'PUT',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         data: {
                             _token: $('meta[name="csrf-token"]').attr('content'), // Include the CSRF token in the data
-                            status: isChecked,
+                            status: status,
                             id: id
                         },
                         success: function(data){
-                           // Note the change to toastr.success instead of toastr().success
+                            // Note the change to toastr.success instead of toastr().success
                             if (data.status == 'success') {
                                 toastr.success(data.message);
                             }else if(data.status == 'error'){ 
                                 toastr.warning(data.message);
-                               
+                                
                                 setTimeout(function(){
                                     window.location.reload();
                                 }, 3000);        
