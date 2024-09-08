@@ -196,11 +196,8 @@
                 </div>
                 <hr>
                 <div class="text-md-right">
-                    <div class="float-lg-left mb-lg-0 mb-3">
-                        <button class="btn btn-primary btn-icon icon-left"><i class="fas fa-credit-card"></i> Process Payment</button>
-                        <button class="btn btn-danger btn-icon icon-left"><i class="fas fa-times"></i> Cancel</button>
-                    </div>
-                    <button class="btn btn-warning btn-icon icon-left"><i class="fas fa-print"></i> Print</button>
+
+                    <button class="btn btn-warning btn-icon icon-left print-order-details"><i class="fas fa-print"></i> Print</button>
                 </div>
             </div>
 
@@ -215,9 +212,9 @@
 
 @push('scripts')
 
-        <!-- Change Order Status ajax : -->
-        <script>
-            $(document).ready(function(){
+    <script>
+        $(document).ready(function(){
+            //  <!-- Change Order Status ajax : -->
                 $('#order_status').on('change', function(){
                     let status = $(this).val();
                     let id = $(this).data('id');
@@ -240,17 +237,12 @@
                         }
                     });
                 });
-            });
-        </script>
-
-        <!-- Change Payment Status ajax : -->
-        <script>
-            $(document).ready(function(){
+            // <!-- Change Payment Status ajax : -->
                 $('#payment_status').on('change', function(){
 
                     let status = $(this).val();
                     let id = $(this).data('id');
-    
+
                     $.ajax({
                         url: '{{route("admin.order.change-payment-status")}}',
                         method: 'PUT',
@@ -278,8 +270,26 @@
                             console.log('error');
                         }
                     });
+                });   
+            
+            //<!-- Print The invoice Details ajax : -->
+                $('.print-order-details').on('click', function(){
+                    let printBody = $('.invoice-print');
+                    let originContent = $('body').html();
+
+                    $('body').html(printBody.html());
+                    
+                    window.print();
+                    
+                    $('body').html(originContent);
+
                 });
-            });
-        </script>
-    
+
+            
+        });
+    </script>
+
+        
+
+
 @endpush
