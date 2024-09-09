@@ -33,14 +33,14 @@
                                 <thead style="background: #f2f2f2">
                                   <tr>
                                     <th scope="col">invoice_id</th>
-                                    <th scope="col" style="width: 40%">date</th>
-                                    <th scope="col" style="width: 40%">deleted_at</th>
-                                    <th scope="col" style="width: 10%">product_qty</th>
-                                    <th scope="col" style="width: 20%">amount</th>
-                                    <th scope="col" style="width: 10%">order_status</th>
-                                    <th scope="col" style="width: 10%">payment_status</th>
-                                    <th scope="col" style="width: 10%">payment_method</th>
-                                    <th scope="col" style="width: 20%">Action</th>
+                                    <th scope="col">date</th>
+                                    <th scope="col">deleted_at</th>
+                                    <th scope="col">product_qty</th>
+                                    <th scope="col">amount</th>
+                                    <th scope="col">order_status</th>
+                                    <th scope="col">payment_status</th>
+                                    <th scope="col">payment_method</th>
+                                    <th scope="col">Action</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -51,11 +51,38 @@
                                                 <td>{{date('Y-m-d',strtotime($trashed_order->created_at))}}</td>
                                                 <td>{{date('Y-m-d',strtotime($trashed_order->deleted_at))}}</td>
                                                 <td>{{$trashed_order->product_qty}}</td>
-                                                <td>{{$settings->currency_icon}} {{$trashed_order->amount}} </td>
+                                                <td>{{$settings->currency_icon}}{{$trashed_order->amount}} </td>
                                                 <td> 
-                                                    @if($trashed_order->order_status == 'pending') 
-                                                    <i class="badge badge-warning">pending</i>
-                                                    @endif
+
+                                                    @switch($trashed_order->order_status)
+                                                        @case('pending')
+                                                            <i class="badge badge-warning">Pending</i>
+                                                            @break
+                                                        @case('processed_and_ready_to_ship')
+                                                            <i class="badge badge-info">Processing</i>
+                                                            @break
+                                                        @case('dropped_off')
+                                                            <i class="badge badge-info">Dropped Off</i>
+                                                            @break
+                                                        @case('shipped')
+                                                            <i class="badge badge-info">Shipped</i>
+                                                            @break
+                                                        @case('out_for_delivery')
+                                                            <i class="badge badge-light">Out For Delivery</i>
+                                                            @break
+                                                        @case('delivered')
+                                                            <i class="badge badge-success">Delivered</i>
+                                                            @break
+                                                        @case('canceled')
+                                                            <i class="badge badge-danger">Canceled</i>
+                                                            @break
+                                                    
+                                                        @default
+                                                            <i class="badge badge-dark">None</i>
+                                                    @endswitch
+
+
+
                                                     
                                                 </td>
 
@@ -73,8 +100,8 @@
 
                                                 <td>  
                                                     <div class="d-flex">
-                                                        <a class="btn-sm btn-primary btn mx-2" href="{{route('admin.order.trashed-orders.restore', $trashed_order->id)}}">Restore</a>
-                                                        <a class="btn-sm btn-danger btn mx-2" href="{{route('admin.order.trashed-orders.delete', $trashed_order->id)}}">Delete</a>
+                                                        <a class="btn-sm btn-primary btn mx-2" href="{{route('admin.order.trashed-orders.restore', $trashed_order->id)}}">Restore <i class="fas fa-undo"></i></a>
+                                                        <a class="btn-sm btn-danger btn mx-2" href="{{route('admin.order.trashed-orders.delete', $trashed_order->id)}}">Delete <i class='fas fa-trash-alt'></i></a>
                                                     </div>
                             
                                                 </td>

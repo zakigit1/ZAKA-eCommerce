@@ -20,8 +20,6 @@ class CheckoutController extends Controller
 
     public function createAddress(Request $request){
         
-        
-        
         $request->validate([
             'name'=>['required' ,'max:200'],
             'email'=>['required','max:200','email'],

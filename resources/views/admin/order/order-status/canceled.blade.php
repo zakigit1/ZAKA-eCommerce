@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{"$settings->site_name || Admin Order "}}
+    {{"$settings->site_name || Admin Canceled Order "}}
 @endsection
 
 
@@ -23,10 +23,7 @@
                 <div class="col-12 ">
                     <div class="card">
                         <div class="card-header">
-                            <h4>All Orders</h4>
-                            <div class="card-header-action">
-                                <a href="{{route('admin.order.trashed-orders')}}" class="btn btn-danger" > <i class="fas fa-dumpster"></i> Trashed Orders</a>
-                            </div>
+                            <h4>All Canceled Orders</h4>
                         </div>
  
                         <div class="card-body">

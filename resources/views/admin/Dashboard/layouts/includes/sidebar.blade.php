@@ -86,15 +86,37 @@
         </li>
 
 
-        <li class="dropdown  {{setActive(['admin.order.*'])}}">
+        <li class="dropdown  {{setActive([
+          'admin.order.*',
+          'admin.order.pending',
+          'admin.order.processing',
+          'admin.order.dropped-off',
+          'admin.order.shipped',
+          'admin.order.out-for-delivery',
+          'admin.order.delivered',
+          'admin.order.canceled',
+          'admin.order.trashed-orders'
+
+        ])}}">
           <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Orders</span></a>
           <ul class="dropdown-menu">
             <li class="{{setActive(['admin.order.*'])}}"><a class="nav-link" href="{{route('admin.order.index')}}">All Orders</a></li>
+
+            <li class="{{setActive(['admin.order.pending'])}}"><a class="nav-link" href="{{route('admin.order.pending')}}">All Pending Orders</a></li>
+            <li class="{{setActive(['admin.order.processing'])}}"><a class="nav-link" href="{{route('admin.order.processing')}}">All Processing Orders</a></li>
+            <li class="{{setActive(['admin.order.dropped-off'])}}"><a class="nav-link" href="{{route('admin.order.dropped-off')}}">All Dropped Off Orders</a></li>
+            <li class="{{setActive(['admin.order.shipped'])}}"><a class="nav-link" href="{{route('admin.order.shipped')}}">All Shipped Orders</a></li>
+            <li class="{{setActive(['admin.order.out-for-delivery'])}}"><a class="nav-link" href="{{route('admin.order.out-for-delivery')}}">All Out For Delivery Orders</a></li>
+            <li class="{{setActive(['admin.order.delivered'])}}"><a class="nav-link" href="{{route('admin.order.delivered')}}">All Delivered Orders</a></li>
+            <li class="{{setActive(['admin.order.canceled'])}}"><a class="nav-link" href="{{route('admin.order.canceled')}}">All Canceled Orders</a></li>
+            
+            <li class="{{setActive(['admin.order.trashed-orders'])}}"><a class="nav-link" href="{{route('admin.order.trashed-orders')}}">All Trashed Orders</a></li>
 
           </ul>
         </li>
 
 
+        <li class="{{setActive(['admin.transaction.index'])}}"><a class="nav-link" href="{{route('admin.transaction.index')}}"><i class="fas fa-cog"></i> <span>All Transactions</span></a></li>
 
 
         <li class="{{setActive(['admin.settings.*'])}}"><a class="nav-link" href="{{route('admin.settings.index')}}"><i class="fas fa-cog"></i> <span>Settings</span></a></li>

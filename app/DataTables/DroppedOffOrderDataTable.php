@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\DroppedOffOrder;
 use App\Models\GeneralSetting;
 use App\Models\Order;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
@@ -13,13 +14,8 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class OrdersDataTable extends DataTable
+class DroppedOffOrderDataTable extends DataTable
 {
-
-    protected $currencyIcon;
-    public function __construct(){
-        $this->currencyIcon = GeneralSetting::first()->currency_icon;
-    }
     /**
      * Build the DataTable class.
      *
@@ -38,7 +34,8 @@ class OrdersDataTable extends DataTable
                 return $actions;
             })
             ->addColumn('amount', function($query){
-                return  $this->currencyIcon . $query->amount;
+                $currencyIcon = GeneralSetting::first()->currency_icon;
+                return  $currencyIcon . $query->amount;
             })
             ->addColumn('date', function($query){
                 return  date('Y-m-d',strtotime($query->created_at));
@@ -85,26 +82,7 @@ class OrdersDataTable extends DataTable
                         break;
                 }
             })
-            // ->addColumn('status',function($query){
-                    
-            //         $checked = ($query->order_status) ? 'checked' : '';
-        
-            //         $Status_button ='
-            //             <label  class="custom-switch mt-2" >
-            //                     <input type="checkbox" name="custom-switch-checkbox" 
-            //                     class="custom-switch-input  change-status"
-            //                     data-id="'.$query->id.'"
-            //                     '.$checked.'>
-            //                 <span class="custom-switch-indicator" ></span>
-            //             </label>';
-        
-            //         return $Status_button;
-    
-    
-                
-            // })
-
-            ->rawColumns(['status','order_status','action','payment_status'])//if you add in this file html code you need to insert the column name inside (rawColumns)
+            ->rawColumns(['order_status','action','payment_status'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
     }
 
@@ -113,7 +91,7 @@ class OrdersDataTable extends DataTable
      */
     public function query(Order $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->where('order_status','dropped_off')->newQuery();
     }
 
     /**
@@ -122,7 +100,7 @@ class OrdersDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('orders-table')
+                    ->setTableId('droppedofforder-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -165,6 +143,6 @@ class OrdersDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Orders_' . date('YmdHis');
+        return 'DroppedOffOrder_' . date('YmdHis');
     }
 }

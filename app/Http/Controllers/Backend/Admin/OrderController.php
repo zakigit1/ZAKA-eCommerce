@@ -2,7 +2,14 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 
+use App\DataTables\CanceledOrderDataTable;
+use App\DataTables\DeliveredOrderDataTable;
+use App\DataTables\DroppedOffOrderDataTable;
 use App\DataTables\OrdersDataTable;
+use App\DataTables\OutForDeliveryOrderDataTable;
+use App\DataTables\PendingOrderDataTable;
+use App\DataTables\ProcessedOrderDataTable;
+use App\DataTables\ShippedOrderDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\User;
@@ -13,11 +20,53 @@ class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
-     */
+    */
     public function index(OrdersDataTable $dataTable)
     {
         return $dataTable->render('admin.order.index');
     }
+    
+    
+    /**
+        * Order Status 
+    */
+
+    public function pendingOrders(PendingOrderDataTable $dataTable){
+        
+        return $dataTable->render('admin.order.order-status.pending');
+    }
+
+    public function processedOrders(ProcessedOrderDataTable $dataTable){
+        
+        return $dataTable->render('admin.order.order-status.processing');
+    }
+
+    public function dropped_offOrders(DroppedOffOrderDataTable $dataTable){
+        
+        return $dataTable->render('admin.order.order-status.dropped-off');
+    }
+
+    public function shippedOrders(ShippedOrderDataTable $dataTable){
+        
+        return $dataTable->render('admin.order.order-status.shipped');
+    }
+
+    public function out_for_deliveryOrders(OutForDeliveryOrderDataTable $dataTable){
+        
+        return $dataTable->render('admin.order.order-status.out-for-delivery');
+    }
+
+    public function deliveredOrders(DeliveredOrderDataTable $dataTable){
+        
+        return $dataTable->render('admin.order.order-status.delivered');
+    }
+
+    public function canceledOrders(CanceledOrderDataTable $dataTable){
+        
+        return $dataTable->render('admin.order.order-status.canceled');
+    }
+
+
 
 
 
@@ -44,13 +93,6 @@ class OrderController extends Controller
         dd('edit page');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -59,13 +101,15 @@ class OrderController extends Controller
     {
         // dd($id);
         $order = Order::find($id);
-        $order_id = $order->invoice_id;
+        
 
         if(!$order){
             toastr()->error( 'Order is not found!');
             return to_route('admin.order.index');
         }
-        
+
+        $order_id = $order->invoice_id;
+
         $order->delete();
         
         return response(['status'=>'success','message'=>"The Order Number $order_id has been sent to the trash !"]);
@@ -87,6 +131,23 @@ class OrderController extends Controller
     }
 
     public function trashed_orders_delete(string $id){
+
+
+        /** 
+            * ! this two line i dont need it because i am using a forgein key in my tables if
+            i delete the order the orderProducts and transaction will deleted automatique 
+
+            if i dont use a forgein key i need to delete the orderproducts + transaction
+        */
+
+        // // first we delete the orderProducts : 
+        // $order->orderProducts()->delete();
+
+        // // secendly we delete the transaction : 
+        // $order->transaction()->delete();
+
+        //finally we delete the order : 
+
         $delete = Order::withTrashed()->find($id)->forceDelete();
 
         toastr()->success( 'Order Has Been Deleted Successfully !');

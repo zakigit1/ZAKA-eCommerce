@@ -23,6 +23,7 @@ use App\Http\Controllers\Backend\Admin\Payment\PaymentSettingController;
 use App\Http\Controllers\Backend\Admin\Payment\Gateways\RazorpaySettingController;
 use App\Http\Controllers\Backend\Admin\Payment\Gateways\StripeSettingController;
 use App\Http\Controllers\Backend\Admin\ShippingRuleController;
+use App\Http\Controllers\Backend\Admin\TransactionController;
 
 Route::get('login',[AdminController::class,'login'])->name('login.page');
 // Route::post('login',[AdminController::class,'loginCheck'])->name('login.check');
@@ -230,6 +231,18 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     ############################## Payment  End  ###################################
     
     ############################## Order  Start  ###################################
+
+        ############################## Order Status  Start  #################################
+            Route::get('/order/pending/',[OrderController::class,'pendingOrders'])->name('order.pending');
+            Route::get('/order/processing/',[OrderController::class,'processedOrders'])->name('order.processing');
+            Route::get('/order/dropped-off/',[OrderController::class,'dropped_offOrders'])->name('order.dropped-off');
+            Route::get('/order/shipped/',[OrderController::class,'shippedOrders'])->name('order.shipped');
+            Route::get('/order/out-for-delivery/',[OrderController::class,'out_for_deliveryOrders'])->name('order.out-for-delivery');
+            Route::get('/order/delivered/',[OrderController::class,'deliveredOrders'])->name('order.delivered');
+            Route::get('/order/canceled/',[OrderController::class,'canceledOrders'])->name('order.canceled');
+        ############################## Order Status  End  ###################################
+
+
         Route::put('/order/change-payment-status/',[OrderController::class,'change_payment_status'])->name('order.change-payment-status');
         Route::get('/order/change-order-status/',[OrderController::class,'change_order_status'])->name('order.change-order-status');
         Route::get('/order/trashed-orders/',[OrderController::class,'trashed_orders'])->name('order.trashed-orders');
@@ -238,4 +251,12 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
         Route::resource('order',OrderController::class);
 
     ############################## Order  End  ###################################
+
+
+    ############################## Transaction  Start  ###################################
+    Route::get('/transactions',[TransactionController::class,'index'])->name('transaction.index');
+
+
+
+    ############################## Transaction  End  ###################################
 });
