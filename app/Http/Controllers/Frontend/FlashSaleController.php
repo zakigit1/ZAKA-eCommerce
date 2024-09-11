@@ -32,7 +32,7 @@ class FlashSaleController extends Controller
                         },
                         'brand'=>function($query){
                             // get just brand active 
-                            $query->where('status',1);
+                            return $query->where('status',1);
                         }])
 
                     ->where('status',1);

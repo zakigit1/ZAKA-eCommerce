@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Vendor\VendorController;
+use App\Http\Controllers\Backend\Vendor\VendorOrderController;
 use App\Http\Controllers\Backend\Vendor\VendorProduct\VendorProductController;
 use App\Http\Controllers\Backend\Vendor\VendorProduct\VendorProductImageGalleryController;
 use App\Http\Controllers\Backend\Vendor\VendorProduct\VendorProductVariantController;
@@ -82,6 +83,18 @@ Route::group(['middleware'=>['auth:web','role:vendor'],'prefix'=>'vendor','as'=>
         ##############################  Product End  ###################################
 
     ##############################  Vendor Product End  ###################################
+    ##############################  Vendor Orders Start  ###################################
+
+    Route::put('/order/change-payment-status/',[VendorOrderController::class,'change_payment_status'])->name('order.change-payment-status');
+    Route::get('/order/change-order-status/',[VendorOrderController::class,'change_order_status'])->name('order.change-order-status');
+
+    Route::get('/order/trashed-orders/',action: [VendorOrderController::class,'trashed_orders'])->name('order.trashed-orders');
+    Route::get('/order/trashed-orders/{id}/restore',[VendorOrderController::class,'trashed_orders_restore'])->name('order.trashed-orders.restore');
+    Route::get('/order/trashed-orders/{id}/force-delete',[VendorOrderController::class,'trashed_orders_delete'])->name('order.trashed-orders.delete');
+   
+    Route::resource('order',VendorOrderController::class)->except(['store','edit','update']);
+
+    ##############################  Vendor Orders End  ###################################
 });
 
 

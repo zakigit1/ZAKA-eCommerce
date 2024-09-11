@@ -1,0 +1,152 @@
+<?php
+
+namespace App\DataTables;
+
+use App\Models\GeneralSetting;
+use App\Models\Order;
+use App\Models\VendorOrder;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use Yajra\DataTables\Html\Button;
+use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Html\Editor\Editor;
+use Yajra\DataTables\Html\Editor\Fields;
+use Yajra\DataTables\Services\DataTable;
+
+class VendorOrdersDataTable extends DataTable
+{
+    /**
+     * Build the DataTable class.
+     *
+     * @param QueryBuilder $query Results from query() method.
+     */
+    public function dataTable(QueryBuilder $query): EloquentDataTable
+    {
+        return (new EloquentDataTable($query))
+            ->addColumn('action', function($query){
+
+                $actions="
+                <a class='btn btn-success' href='".route('vendor.order.show',$query->id)."'><i class='fas fa-eye'></i></a>
+                <a class='btn btn-danger ml-2  delete-item-with-ajax'  href='".route('vendor.order.destroy',$query->id)."'><i class='fas fa-trash-alt'></i></a>
+                ";
+
+                return $actions;
+            })
+            ->addColumn('amount', function($query){
+                $currencyIcon = GeneralSetting::first()->currency_icon;
+                return  $currencyIcon . $query->amount;
+            })
+            ->addColumn('date', function($query){
+                return  date('Y-m-d',strtotime($query->created_at));
+            })
+            ->addColumn('payment_status', function($query){
+               
+                if($query->payment_status == 1){
+                   return '<i class="badge bg-success">Complete</i>';
+                }else{ 
+                    return '<i class="badge bg-warning">Pending</i>';
+                }    
+            })
+            ->addColumn('order_status',function($query){
+
+                switch ($query->order_status) {
+                    case 'pending':
+                        return '<i class="badge bg-warning">Pending</i>';
+                         break;
+
+                    case 'processed_and_ready_to_ship':
+                       return '<i class="badge bg-info">Processing</i>';
+                        break;
+                    case 'dropped_off':
+                        return'<i class="badge bg-info">Dropped Off</i>';
+                        break;   
+                        
+                    case 'shipped':
+                        return'<i class="badge bg-info">Shipped</i>';
+                        break;
+
+                    case 'out_for_delivery':
+                        return'<i class="badge bg-light">Out For Delivery</i>';
+                        break;
+
+                    case 'delivered':
+                       return '<i class="badge bg-success">Delivered</i>';
+                        break ;
+                    case 'canceled':
+                       return '<i class="badge bg-danger">Canceled</i>';
+                        break ;
+
+                    default:
+                        return'<i class="badge bg-dark">None</i>';
+                        break;
+                }
+            })
+            ->rawColumns(['status','order_status','action','payment_status'])//if you add in this file html code you need to insert the column name inside (rawColumns)
+            ->setRowId('id');
+    }
+
+    /**
+     * Get the query source of dataTable.
+     */
+    public function query(Order $model): QueryBuilder
+    {
+        return $model->whereHas('orderProducts',function($q){
+            return $q->where('vendor_id',Auth::user()->vendor->id);
+        })
+        ->newQuery();
+    }
+
+    /**
+     * Optional method if you want to use the html builder.
+     */
+    public function html(): HtmlBuilder
+    {
+        return $this->builder()
+                    ->setTableId('orders-table')
+                    ->columns($this->getColumns())
+                    ->minifiedAjax()
+                    //->dom('Bfrtip')
+                    ->orderBy(0)
+                    ->selectStyleSingle()
+                    ->buttons([
+                        Button::make('excel'),
+                        Button::make('csv'),
+                        Button::make('pdf'),
+                        Button::make('print'),
+                        Button::make('reset'),
+                        Button::make('reload')
+                    ]);
+    }
+
+    /**
+     * Get the dataTable columns definition.
+     */
+    public function getColumns(): array
+    {
+        return [
+            Column::make('id')->width(100),
+            Column::make('invoice_id')->width(150),
+            Column::make('date')->width(150),
+            Column::make('product_qty'),
+            Column::make('amount'),
+            Column::make('order_status'),
+            Column::make('payment_status'),
+            Column::make('payment_method'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(200)
+                ->addClass('text-center'),
+        ];
+    }
+
+    /**
+     * Get the filename for export.
+     */
+    protected function filename(): string
+    {
+        return 'VendorOrders_' . date('YmdHis');
+    }
+}

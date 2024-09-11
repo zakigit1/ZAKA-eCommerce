@@ -1,78 +1,51 @@
 <?php
 
-namespace App\Http\Controllers\Backend\Admin;
+namespace App\Http\Controllers\Backend\Vendor;
 
-use App\DataTables\CanceledOrderDataTable;
-use App\DataTables\DeliveredOrderDataTable;
-use App\DataTables\DroppedOffOrderDataTable;
-use App\DataTables\OrdersDataTable;
-use App\DataTables\OutForDeliveryOrderDataTable;
-use App\DataTables\PendingOrderDataTable;
-use App\DataTables\ProcessedOrderDataTable;
-use App\DataTables\ShippedOrderDataTable;
+use App\DataTables\VendorOrdersDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Models\User;
-use App\Models\UserAddress;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class OrderController extends Controller
+class VendorOrderController extends Controller
 {
     /**
      * Display a listing of the resource.
-    */
-    public function index(OrdersDataTable $dataTable)
+     */
+    public function index(VendorOrdersDataTable $dataTable)
     {
-        return $dataTable->render('admin.order.index');
+        return $dataTable->render('vendor.order.index');
     }
-    
-    
+
+
     /**
         * Order Status 
     */
 
-    public function pendingOrders(PendingOrderDataTable $dataTable){
+    // public function pendingOrders(VendorPendingOrderDataTable $dataTable){
         
-        return $dataTable->render('admin.order.order-status.pending');
-    }
+    //     return $dataTable->render('vendor.order.order-status.pending');
+    // }
 
-    public function processedOrders(ProcessedOrderDataTable $dataTable){
+    // public function processedOrders(VendorProcessedOrderDataTable $dataTable){
         
-        return $dataTable->render('admin.order.order-status.processing');
-    }
+    //     return $dataTable->render('vendor.order.order-status.processing');
+    // }
 
-    public function dropped_offOrders(DroppedOffOrderDataTable $dataTable){
-        
-        return $dataTable->render('admin.order.order-status.dropped-off');
-    }
+   
 
-    public function shippedOrders(ShippedOrderDataTable $dataTable){
-        
-        return $dataTable->render('admin.order.order-status.shipped');
-    }
-
-    public function out_for_deliveryOrders(OutForDeliveryOrderDataTable $dataTable){
-        
-        return $dataTable->render('admin.order.order-status.out-for-delivery');
-    }
-
-    public function deliveredOrders(DeliveredOrderDataTable $dataTable){
-        
-        return $dataTable->render('admin.order.order-status.delivered');
-    }
-
-    public function canceledOrders(CanceledOrderDataTable $dataTable){
-        
-        return $dataTable->render('admin.order.order-status.canceled');
-    }
-
-
-
-
-
+    /**
+     * Display the specified resource.
+     */
     public function show(string $id)
     {
-        $data['order'] = Order::with('transaction')->find($id);
+        $data['order'] = Order::with([
+            'transaction',
+            'orderProducts'=>function($q){
+            return $q->where('vendor_id',Auth::user()->vendor->id);
+        }])->find($id);
+
 
         if(!$data['order']){
             toastr('Order Not Found','error','Error!');
@@ -83,10 +56,8 @@ class OrderController extends Controller
        $data['shipping_method'] = json_decode($data['order']->shipping_method);
        $data['coupon'] = json_decode($data['order']->coupon);
        
-        return view('admin.order.order-details',$data);
+        return view('vendor.order.order-details',$data);
     }
-
-
     /**
      * Remove the specified resource from storage.
      */
@@ -98,7 +69,7 @@ class OrderController extends Controller
 
         if(!$order){
             toastr()->error( 'Order is not found!');
-            return to_route('admin.order.index');
+            return to_route('vendor.order.index');
         }
 
         $order_id = $order->invoice_id;
@@ -113,14 +84,14 @@ class OrderController extends Controller
         $trashed_orders = Order::onlyTrashed()->get();
 
         // dd($trashed_orders);
-        return view('admin.order.order_trash',compact('trashed_orders'));
+        return view('vendor.order.order_trash',compact('trashed_orders'));
     }
 
     public function trashed_orders_restore(string $id){
        
         $restore = Order::withTrashed()->find($id)->restore();
         toastr()->success( 'Order Has Been Resotred Successfully !');
-        return to_route('admin.order.trashed-orders');
+        return to_route('vendor.order.trashed-orders');
     }
 
     public function trashed_orders_delete(string $id){
@@ -144,10 +115,8 @@ class OrderController extends Controller
         $delete = Order::withTrashed()->find($id)->forceDelete();
 
         toastr()->success( 'Order Has Been Deleted Successfully !');
-        return to_route('admin.order.trashed-orders');
+        return to_route('vendor.order.trashed-orders');
     }
-
-
 
 
     public function change_order_status(Request $request)
@@ -157,7 +126,7 @@ class OrderController extends Controller
 
         if(!$order){
             toastr()->error( 'order is not found!');
-            return to_route('admin.order.index');
+            return to_route('vendor.order.index');
         }
 
        
@@ -184,7 +153,7 @@ class OrderController extends Controller
 
         if(!$order){
             toastr()->error( 'order is not found!');
-            return to_route('admin.order.index');
+            return to_route('vendor.order.index');
         }
 
        

@@ -15,6 +15,14 @@ use Yajra\DataTables\Services\DataTable;
 
 class TransactionsDataTable extends DataTable
 {
+
+
+    protected $currencyIcon;
+
+    public function __construct(){
+        $this->currencyIcon = GeneralSetting::first()->currency_icon;
+    }
+
     /**
      * Build the DataTable class.
      *
@@ -28,12 +36,12 @@ class TransactionsDataTable extends DataTable
                 return '#'.$query->order->invoice_id;
             })
             ->addColumn('amount_in_base_currency', function($query){// your currency 
-                $currencyIcon = GeneralSetting::first()->currency_icon;
-                return  $currencyIcon . $query->amount.''.$query->order->currency_name;
+
+                return  $this->currencyIcon . $query->amount.''.$query->order->currency_name;
             })
             ->addColumn('amount_in_real_currency', function($query){// the currency you paid with it 
-                $currencyIcon = GeneralSetting::first()->currency_icon;
-                return  $currencyIcon . $query->amount_real_currency.''.$query->amount_real_currency_name;
+
+                return  $this->currencyIcon . $query->amount_real_currency.''.$query->amount_real_currency_name;
             })
             //this filter use it when we use data of relation in the search bar of datatable 
             ->filterColumn('invoice_id',function($query , $keyword){
