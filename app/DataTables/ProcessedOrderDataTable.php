@@ -82,6 +82,10 @@ class ProcessedOrderDataTable extends DataTable
                         break;
                 }
             })
+            ->addColumn('customer', function($query){
+                
+                return $query->user->name;
+            })
             ->rawColumns(['order_status','action','payment_status'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
     }
@@ -124,7 +128,8 @@ class ProcessedOrderDataTable extends DataTable
         return [
             Column::make('id')->width(100),
             Column::make('invoice_id')->width(150),
-            Column::make('date'),
+            Column::make('customer'),
+            Column::make('date')->width('150'),
             Column::make('product_qty'),
             Column::make('amount'),
             Column::make('order_status'),

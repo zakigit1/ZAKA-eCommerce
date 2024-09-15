@@ -9,6 +9,7 @@ use App\Http\Controllers\Frontend\FrontendProductController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\User\UserAddressController;
 use App\Http\Controllers\Frontend\User\UserDashboard;
+use App\Http\Controllers\Frontend\User\UserOrderController;
 use App\Http\Controllers\Frontend\User\UserProfileController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -83,6 +84,24 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
 
     
     });
+
+
+        ##############################  Vendor Orders Start  ###################################
+
+
+    
+        Route::get('/order/trashed-orders/',action: [UserOrderController::class,'trashed_orders'])->name('order.trashed-orders');
+        Route::get('/order/trashed-orders/{id}/restore',[UserOrderController::class,'trashed_orders_restore'])->name('order.trashed-orders.restore');
+        Route::get('/order/trashed-orders/{id}/force-delete',[UserOrderController::class,'trashed_orders_delete'])->name('order.trashed-orders.delete');
+       
+        Route::resource('order',UserOrderController::class)->except(['store','edit','update']);
+    
+        ##############################  Vendor Orders End  ###################################
+
+
+
+
+
 });
 
 

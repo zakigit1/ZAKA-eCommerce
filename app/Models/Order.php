@@ -34,7 +34,7 @@ class Order extends Model
 
 
     public function user(){
-        return $this->belongsTo(Order::class,'user_id','id');
+        return $this->belongsTo(User::class,'user_id','id');
     }
 
     public function transaction(){

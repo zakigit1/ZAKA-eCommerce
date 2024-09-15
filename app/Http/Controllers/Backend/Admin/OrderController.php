@@ -72,7 +72,7 @@ class OrderController extends Controller
 
     public function show(string $id)
     {
-        $data['order'] = Order::with('transaction')->find($id);
+        $data['order'] = Order::with(['transaction','orderProducts'])->find($id);
 
         if(!$data['order']){
             toastr('Order Not Found','error','Error!');
@@ -152,7 +152,7 @@ class OrderController extends Controller
 
     public function change_order_status(Request $request)
     {
-
+        
         $order = Order::find($request->id);
 
         if(!$order){

@@ -37,6 +37,12 @@ class OrdersDataTable extends DataTable
 
                 return $actions;
             })
+            ->addColumn('invoice_id',function($query){
+                return '#'.$query->invoice_id;
+            })
+            ->addColumn('customer',function($query){
+                return $query->user->name;
+            })
             ->addColumn('amount', function($query){
                 return  $this->currencyIcon . $query->amount;
             })
@@ -85,24 +91,11 @@ class OrdersDataTable extends DataTable
                         break;
                 }
             })
-            // ->addColumn('status',function($query){
-                    
-            //         $checked = ($query->order_status) ? 'checked' : '';
-        
-            //         $Status_button ='
-            //             <label  class="custom-switch mt-2" >
-            //                     <input type="checkbox" name="custom-switch-checkbox" 
-            //                     class="custom-switch-input  change-status"
-            //                     data-id="'.$query->id.'"
-            //                     '.$checked.'>
-            //                 <span class="custom-switch-indicator" ></span>
-            //             </label>';
-        
-            //         return $Status_button;
-    
-    
-                
-            // })
+            //this filter use it when we use data of relation in the search bar of datatable 
+
+            ->filterColumn('invoice_id',function($query , $keyword){
+                 $query->where('invoice_id','like',"%$keyword%");
+            })
 
             ->rawColumns(['status','order_status','action','payment_status'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
@@ -144,14 +137,15 @@ class OrdersDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id')->width(100),
+            Column::make('id'),
             Column::make('invoice_id')->width(150),
-            Column::make('date'),
-            Column::make('product_qty'),
+            Column::make('customer'),
+            Column::make('date')->width(150),
+            Column::make('product_qty')->width(150),
             Column::make('amount'),
-            Column::make('order_status'),
-            Column::make('payment_status'),
-            Column::make('payment_method'),
+            Column::make('order_status')->width(150),
+            Column::make('payment_status')->width(150),
+            Column::make('payment_method')->width(150),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

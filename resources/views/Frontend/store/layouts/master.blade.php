@@ -37,7 +37,6 @@
         <link rel="stylesheet" href="{{asset('frontend/assets/css/responsive.css')}}">
         <!-- <link rel="stylesheet" href="css/rtl.css"> -->
 
-
         <!-- toastr CSS -->
     
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
@@ -180,6 +179,7 @@
 
         <!-- SweetAlert2 JS -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 
         <!-- toastr JS -->

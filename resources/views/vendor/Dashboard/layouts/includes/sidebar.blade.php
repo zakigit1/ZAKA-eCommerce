@@ -18,7 +18,6 @@
 
       <li><a class="{{ setActive([
         'vendor.order.*',
-
         ])}}" href="{{route('vendor.order.index')}}"><i class="far fa-user"></i>Order</a></li>
 
    

@@ -19,21 +19,7 @@ class VendorOrderController extends Controller
     }
 
 
-    /**
-        * Order Status 
-    */
 
-    // public function pendingOrders(VendorPendingOrderDataTable $dataTable){
-        
-    //     return $dataTable->render('vendor.order.order-status.pending');
-    // }
-
-    // public function processedOrders(VendorProcessedOrderDataTable $dataTable){
-        
-    //     return $dataTable->render('vendor.order.order-status.processing');
-    // }
-
-   
 
     /**
      * Display the specified resource.
@@ -121,7 +107,7 @@ class VendorOrderController extends Controller
 
     public function change_order_status(Request $request)
     {
-
+        // dd($request->all());
         $order = Order::find($request->id);
 
         if(!$order){
@@ -144,27 +130,4 @@ class VendorOrderController extends Controller
     }
 
 
-
-
-    public function change_payment_status(Request $request)
-    {
-        // dd($request->all());
-        $order = Order::find($request->id);
-
-        if(!$order){
-            toastr()->error( 'order is not found!');
-            return to_route('vendor.order.index');
-        }
-
-       
-        $order->payment_status = $request->status ;
-         
-        $order->save();
-
-        $status =($order->payment_status == 1) ? 'Complete' : 'Pending';
-
-        return response(['status'=>'success','message'=>"Payment Status Has Been Updated Successfully!"]);
-
-       
-    }
 }

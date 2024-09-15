@@ -1,7 +1,7 @@
-@extends('vendor.Dashboard.layouts.master')
+@extends('Frontend.user.Dashboard.layouts.master')
 
 @section('title')
-    {{"$settings->site_name || Vendor Order Details"}}
+    {{"$settings->site_name || User Order Details"}}
 @endsection
 
 
@@ -15,7 +15,7 @@
                 
 
                 <div class="back_button">
-                    <a href="{{route('vendor.order.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
+                    <a href="{{route('user.order.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
                 </div>
 
                 <div class="wsus__dashboard_profile">
@@ -130,6 +130,7 @@
                                                         </td>
                                                         <td class="vendor_name">
                                                             {{$product->vendor->shop_name}}
+                                                            
                                                         </td>
                                                         <td class="amount">
                                                             {{$settings->currency_icon}}{{$product->unit_price}}
@@ -144,21 +145,10 @@
                                                         </td>
                                                     </tr>
 
+                                                @endforeach
 
 
                                             </table>
-
-
-                                        @endforeach
-
-
-
-
-
-
-
-
-
 
 
 
@@ -169,7 +159,11 @@
                                 </div>
 
                                 <div class="wsus__invoice_footer">
-                                    <p><span><strong> Total Amount :</strong></span>{{$settings->currency_icon }}{{$total}} </p>
+                                    <p><span><strong> Subtotal :</strong></span>{{$settings->currency_icon}}{{$order->sub_total}}</p>
+                                    <p><span><strong> Shipping (+) :</strong></span>{{$settings->currency_icon}}{{@$shipping_method->cost}}</p>
+                                    <p><span><strong> Coupon (-{{@$coupon->discount_percentage ? @$coupon->discount_percentage."%":''}}) :</strong></span> {{$settings->currency_icon}}{{@$coupon->discount  ? @$coupon->discount : 0}}</p>
+                                    <p><span><strong> Total  :</strong></span> {{$settings->currency_icon}}{{@$order->amount}}</p>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -178,18 +172,6 @@
                         INVOICE PAGE END
                     ==============================-->
 
-
-                    <div class="col-md-4">
-                        <div class="form-group mt-5">
-                            <label class="mt-2"> Order Status : </label>
-                            <select class="form-control" name="order_status" id="order_status" data-id="{{$order->id}}">
-                                @foreach (Config('order_status.order_status_vendor') as $key => $order_status)
-                                    <option {{$order->order_status == $key ? 'selected' : '' }} value="{{$key}}">{{$order_status['status']}}</option>
-                                @endforeach
-                            </select>
-
-                        </div>
-                    </div>
 
 
 
@@ -215,35 +197,7 @@
 
     <script>
         $(document).ready(function(){
-            //  <!-- Change Order Status ajax : -->
-                $('#order_status').on('change', function(){
-                    let status = $(this).val();
-                    let id = $(this).data('id');
-                    
-                    const orderStatuses = @json(Config('order_status.order_status_vendor'));
-                    
-                    $.ajax({
-                        url: '{{route("vendor.order.change-order-status")}}',
-                        method: 'GET',
-                        data: {
-                            status: status,
-                            id: id
-                        },
-                        success: function(data){
-                           
-                            if (data.status == 'success') {
-                                const statusText = orderStatuses[status]['status'];
-                                $('.order_st').html('<h6> Order Status : ' + statusText + '</h6>');
 
-                                toastr.success(data.message);
-                            }
-                        },
-                        error: function(xhr, status, error){
-                            console.log('error');
-                        }
-                    });
-                });
- 
             
             //<!-- Print The invoice Details ajax : -->
                 $('.print-order-details').on('click', function(){

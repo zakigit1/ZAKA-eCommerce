@@ -6,7 +6,11 @@
     <a href="{{route('home')}}" class="dash_logo"><img src="{{asset('frontend/assets/images/logo.png')}}" alt="logo" class="img-fluid"></a>
     <ul class="dashboard_link">
       <li><a class="bg-success"  href="javascript:;"><i class="fas fa-tachometer"></i>Dashboard</a></li>
-      <li><a href="dsahboard_order.html"><i class="fas fa-list-ul"></i> Orders</a></li>
+      
+      <li><a class="{{ setActive([
+        'user.order.*',
+        ])}}" href="{{route('user.order.index')}}"><i class="far fa-user"></i>Orders</a></li>
+        
       <li><a href="dsahboard_review.html"><i class="far fa-star"></i> Reviews</a></li>
       <li><a href="dsahboard_wishlist.html"><i class="far fa-heart"></i> Wishlist</a></li>
       <li><a class="{{ setActive(['user.profile.*'])}}" href="{{route('user.profile.index')}}"><i class="far fa-user"></i> My Profile</a></li>

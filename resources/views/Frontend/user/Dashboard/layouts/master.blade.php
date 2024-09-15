@@ -35,10 +35,20 @@
   <link rel="stylesheet" href="{{asset('frontend/assets/css/responsive.css')}}">
   <!-- <link rel="stylesheet" href="css/rtl.css"> -->
 
-    <!-- toastr CSS -->
+  <!-- Yjra-DataTable Jquery CSS -->
+  <link rel="stylesheet" href="//cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css">
+
+  <!-- Yjra-DataTable Jquery Bootsrap5 JS (to fix styling)-->
+  <link rel="stylesheet" href="//cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">  
+
+  <!-- toastr CSS -->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+
+
+
   
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 
 <body>
@@ -118,10 +128,17 @@
   <!--main/custom js-->
   <script src="{{asset('frontend/assets/js/main.js')}}"></script>
 
-    <!-- SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
+  <!-- Yjra-DataTable Jquery JS -->
+
+  <script src="//cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+
+  <!-- Yjra-DataTable Jquery Bootsrap5 JS (to fix styling)-->
+  
+  <script src="//cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

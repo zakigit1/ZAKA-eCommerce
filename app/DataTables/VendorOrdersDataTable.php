@@ -34,6 +34,13 @@ class VendorOrdersDataTable extends DataTable
 
                 return $actions;
             })
+            ->addColumn('invoice_id',function($query){
+                return '#'.$query->invoice_id;
+            })
+            ->addColumn('customer', function($query){
+                
+                return $query->user->name;
+            })
             ->addColumn('amount', function($query){
                 $currencyIcon = GeneralSetting::first()->currency_icon;
                 return  $currencyIcon . $query->amount;
@@ -83,6 +90,12 @@ class VendorOrdersDataTable extends DataTable
                         break;
                 }
             })
+            
+            //this filter use it when we use data of relation in the search bar of datatable 
+
+            ->filterColumn('invoice_id',function($query , $keyword){
+                $query->where('invoice_id','like',"%$keyword%");
+            })
             ->rawColumns(['status','order_status','action','payment_status'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
     }
@@ -128,6 +141,7 @@ class VendorOrdersDataTable extends DataTable
         return [
             Column::make('id')->width(100),
             Column::make('invoice_id')->width(150),
+            Column::make('customer'),
             Column::make('date')->width(150),
             Column::make('product_qty'),
             Column::make('amount'),

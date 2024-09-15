@@ -85,7 +85,7 @@ Route::group(['middleware'=>['auth:web','role:vendor'],'prefix'=>'vendor','as'=>
     ##############################  Vendor Product End  ###################################
     ##############################  Vendor Orders Start  ###################################
 
-    Route::put('/order/change-payment-status/',[VendorOrderController::class,'change_payment_status'])->name('order.change-payment-status');
+    
     Route::get('/order/change-order-status/',[VendorOrderController::class,'change_order_status'])->name('order.change-order-status');
 
     Route::get('/order/trashed-orders/',action: [VendorOrderController::class,'trashed_orders'])->name('order.trashed-orders');
