@@ -18,6 +18,7 @@ use App\Http\Controllers\Backend\Admin\Product\ProductVariantItemController;
 use App\Http\Controllers\Backend\Admin\Product\SellerProductController;
 use App\Http\Controllers\Backend\Admin\SettingController;
 use App\Http\Controllers\Backend\Admin\CouponController;
+use App\Http\Controllers\Backend\Admin\HomePageSettingController;
 use App\Http\Controllers\Backend\Admin\OrderController;
 use App\Http\Controllers\Backend\Admin\Payment\PaymentSettingController;
 use App\Http\Controllers\Backend\Admin\Payment\Gateways\RazorpaySettingController;
@@ -256,8 +257,24 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
 
     ############################## Transaction  Start  ###################################
     Route::get('/transactions',[TransactionController::class,'index'])->name('transaction.index');
-
-
-
     ############################## Transaction  End  ###################################
+    
+    
+    
+    ############################## Home Page Settings  Start  ###################################
+    Route::group(['prefix'=>'home-page-setting','as'=>'home-page-setting.'],function(){
+
+        Route::get('/',[HomePageSettingController::class,'index'])->name('index');
+        Route::put('popular-category/update',[HomePageSettingController::class , 'UpdatePopularCategory'])->name('popular-category.update');
+    
+        Route::get('/get-sub-categories',[HomePageSettingController::class,'get_subcategories'])->name('get-sub-categories');
+        Route::get('/get-child-categories',[HomePageSettingController::class,'get_childcategories'])->name('get-child-categories');
+    
+    });
+    ############################## Home Page Settings  End  ###################################
+
+
+
+
+
 });
