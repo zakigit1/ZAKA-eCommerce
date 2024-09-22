@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\FlashSale;
 use App\Models\FlashSaleItem;
+use App\Models\HomePageSetting;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 
@@ -22,8 +23,13 @@ class HomeController extends Controller
         
         //we need to modify get with pagination
         $data['sliders'] = Slider::orderBy('serial','asc')->active()->get();
+
         $data['flashSale'] = FlashSale::first();
+
         $data['flashSaleItem'] = FlashSaleItem::where('show_at_home',1)->active()->get();
+
+        $data['popularCategories'] = HomePageSetting::where('key','popular_category_section')->first();
+        $data['popularCategories'] = json_decode($data['popularCategories']->value,true);//true mean the data inside the array will be in array form not a object like when we use it first one in admin dashboard 
 
         return view('frontend.store.home.home',$data);
     }

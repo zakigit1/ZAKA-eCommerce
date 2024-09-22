@@ -16,8 +16,12 @@ class HomePageSettingController extends Controller
      */
     public function index()
     {
-        $categories = Category::active()->get(['id','name']);
-        return view('admin.home-page-setting.index',compact('categories'));
+        $data['categories'] = Category::active()->get(['id','name']);
+
+        $data['popularCategories'] = HomePageSetting::where('key','popular_category_section')->first();
+        $data['popularCategories'] = json_decode($data['popularCategories']->value);
+        
+        return view('admin.home-page-setting.index',$data);
     }
 
 
@@ -49,30 +53,43 @@ class HomePageSettingController extends Controller
     {
         // dd($request->all());
 
-        $data =[
-            [
-                'category'=>$request->cat_one,
-                'sub_category'=>$request->sub_cat_one,
-                'child_category'=>$request->child_cat_one,
-            ],
-            [
-                'category'=>$request->cat_two,
-                'sub_category'=>$request->sub_cat_two,
-                'child_category'=>$request->child_cat_two,
-            ],
-            [
-                'category'=>$request->cat_three,
-                'sub_category'=>$request->sub_cat_three,
-                'child_category'=>$request->child_cat_three,
-            ],
-            [
-                'category'=>$request->cat_four,
-                'sub_category'=>$request->sub_cat_four,
-                'child_category'=>$request->child_cat_four,
-            ],
-        ];
+        /** M1 */
+        // $data =[
+        //     [
+        //         'category'=>$request->cat_one,
+        //         'sub_category'=>$request->sub_cat_one,
+        //         'child_category'=>$request->child_cat_one,
+        //     ],
+        //     [
+        //         'category'=>$request->cat_two,
+        //         'sub_category'=>$request->sub_cat_two,
+        //         'child_category'=>$request->child_cat_two,
+        //     ],
+        //     [
+        //         'category'=>$request->cat_three,
+        //         'sub_category'=>$request->sub_cat_three,
+        //         'child_category'=>$request->child_cat_three,
+        //     ],
+        //     [
+        //         'category'=>$request->cat_four,
+        //         'sub_category'=>$request->sub_cat_four,
+        //         'child_category'=>$request->child_cat_four,
+        //     ],
+        // ];
 
+        
 
+        /** M2 */
+        $data = [];
+        for($i=1 ; $i<=4 ; $i++){
+            $data[] = [
+                'category' => $request->{'cat_'.$i},
+                'sub_category' => $request->{'sub_cat_'.$i},
+                'child_category' => $request->{'child_cat_'.$i},
+            ];
+        };
+
+        // dd($data);
 
         $update = HomePageSetting::updateOrCreate(
             [

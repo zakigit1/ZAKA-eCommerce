@@ -5,6 +5,7 @@ use App\Models\GeneralSetting;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 
 
@@ -197,4 +198,11 @@ use Illuminate\Support\Facades\Session;
 
     function finalAmount(){
         return cartTotal() + shippingFee() ;
+    }
+
+
+/** Text limitaion :  [FrontEnd]*/
+
+    function limitText($text , $limit =20){
+        return Str::limit($text ,$limit);
     }

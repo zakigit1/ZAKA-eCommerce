@@ -7,17 +7,16 @@
             @method('PUT')
 
   
-            <h5>Category 1 </h5>
+            {{-- <h5>Category 1 </h5>
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
                         <label >Category</label>
                         <select  name="cat_one" class="form-control  main-category">
                             
-        
-                                <option selected disabled>-- Select --</option>
+                                <option  disabled value="">-- Select --</option>
                             @foreach ($categories as $category)
-                                <option  value="{{$category->id}}">{{$category->name}}</option>
+                                <option {{$category->id == $popularCategories[0]->category ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
                             
                         </select>
@@ -26,10 +25,20 @@
 
                 <div class="col-md-4">
                     <div class="form-group">
+                        @php 
+                            $subCategories = \App\Models\Subcategory::where('category_id',$popularCategories[0]->category)->active()->get(['id','name']);
+                        @endphp
+
+
                         <label >Sub Categories</label>
                         <select class="form-control sub-category"  name="sub_cat_one">
-                        
-                            <option selected disabled>-- Select --</option>
+                            
+                                <option disabled value="">-- Select --</option>
+                            @foreach ($subCategories as $subCategory)
+                                <option {{$subCategory->id == $popularCategories[0]->sub_category ? 'selected' : ''}} value="{{$subCategory->id}}">
+                                    {{$subCategory->name}} 
+                                </option>
+                            @endforeach
 
                         </select>
                     </div>
@@ -37,10 +46,19 @@
 
                 <div class="col-md-4">
                     <div class="form-group">
+                        @php 
+                            $childCategories = \App\Models\Childcategory::where('sub_category_id',$popularCategories[0]->sub_category)->active()->get(['id','name']);
+                        @endphp
+
                         <label >Child Categories</label>
                         <select class="form-control child-category"  name="child_cat_one">
                         
-                            <option selected disabled>-- Select --</option>
+                                <option disabled value="">-- Select --</option>
+                            @foreach ($childCategories as $childCategory)
+                                <option {{$childCategory->id == $popularCategories[0]->child_category ? 'selected' : ''}} value="{{$childCategory->id}}">
+                                    {{$childCategory->name}} 
+                                </option>
+                            @endforeach
 
                         </select>
                     </div> 
@@ -58,7 +76,7 @@
         
                                 <option selected disabled>-- Select --</option>
                             @foreach ($categories as $category)
-                                <option  value="{{$category->id}}">{{$category->name}}</option>
+                                <option {{$category->id == $popularCategories[1]->category ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
                             
                         </select>
@@ -67,21 +85,36 @@
 
                 <div class="col-md-4">
                     <div class="form-group">
+                        @php 
+                        $subCategories = \App\Models\Subcategory::where('category_id',$popularCategories[1]->category)->active()->get(['id','name']);
+                    @endphp
                         <label >Sub Categories</label>
                         <select class="form-control sub-category"  name="sub_cat_two">
                         
-                            <option selected disabled>-- Select --</option>
-
+                                <option  disabled value="">-- Select --</option>
+                            @foreach ($subCategories as $subCategory)
+                                <option {{$subCategory->id == $popularCategories[1]->sub_category ? 'selected' : ''}} value="{{$subCategory->id}}">
+                                    {{$subCategory->name}} 
+                                </option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="form-group">
+                        @php 
+                            $childCategories = \App\Models\Childcategory::where('sub_category_id',$popularCategories[1]->sub_category)->active()->get(['id','name']);
+                        @endphp
                         <label >Child Categories</label>
                         <select class="form-control child-category"  name="child_cat_two">
                         
-                            <option selected disabled>-- Select --</option>
+                                <option  disabled value="">-- Select --</option>
+                            @foreach ($childCategories as $childCategory)
+                                <option {{$childCategory->id == $popularCategories[1]->child_category ? 'selected' : ''}} value="{{$childCategory->id}}">
+                                    {{$childCategory->name}} 
+                                </option>
+                            @endforeach
 
                         </select>
                     </div> 
@@ -99,7 +132,7 @@
         
                                 <option selected disabled>-- Select --</option>
                             @foreach ($categories as $category)
-                                <option  value="{{$category->id}}">{{$category->name}}</option>
+                                <option {{$category->id == $popularCategories[2]->category ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
                             
                         </select>
@@ -108,10 +141,18 @@
 
                 <div class="col-md-4">
                     <div class="form-group">
+                        @php 
+                            $subCategories = \App\Models\Subcategory::where('category_id',$popularCategories[2]->category)->active()->get(['id','name']);
+                        @endphp
                         <label >Sub Categories</label>
                         <select class="form-control sub-category"  name="sub_cat_three">
                         
-                            <option selected disabled>-- Select --</option>
+                                <option disabled value="">-- Select --</option>
+                            @foreach ($subCategories as $subCategory)
+                                <option {{$subCategory->id == $popularCategories[2]->sub_category ? 'selected' : ''}} value="{{$subCategory->id}}">
+                                    {{$subCategory->name}} 
+                                </option>
+                            @endforeach
 
                         </select>
                     </div>
@@ -119,10 +160,18 @@
 
                 <div class="col-md-4">
                     <div class="form-group">
+                        @php 
+                            $childCategories = \App\Models\Childcategory::where('sub_category_id',$popularCategories[2]->sub_category)->active()->get(['id','name']);
+                        @endphp
                         <label >Child Categories</label>
                         <select class="form-control child-category"  name="child_cat_three">
                         
-                            <option selected disabled>-- Select --</option>
+                                <option disabled value="">-- Select --</option>
+                            @foreach ($childCategories as $childCategory)
+                                <option {{$childCategory->id == $popularCategories[2]->child_category ? 'selected' : ''}} value="{{$childCategory->id}}">
+                                    {{$childCategory->name}} 
+                                </option>
+                            @endforeach
 
                         </select>
                     </div> 
@@ -138,9 +187,9 @@
                         <select  name="cat_four" class="form-control  main-category">
                             
         
-                                <option selected disabled>-- Select --</option>
+                                <option  disabled>-- Select --</option>
                             @foreach ($categories as $category)
-                                <option  value="{{$category->id}}">{{$category->name}}</option>
+                                <option {{$category->id == $popularCategories[3]->category ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
                             
                         </select>
@@ -149,10 +198,18 @@
 
                 <div class="col-md-4">
                     <div class="form-group">
+                        @php 
+                             $subCategories = \App\Models\Subcategory::where('category_id',$popularCategories[3]->category)->active()->get(['id','name']);
+                        @endphp
                         <label >Sub Categories</label>
                         <select class="form-control sub-category"  name="sub_cat_four">
                         
-                            <option selected disabled>-- Select --</option>
+                                <option disabled value="">-- Select --</option>
+                            @foreach ($subCategories as $subCategory)
+                                <option {{$subCategory->id == $popularCategories[3]->sub_category ? 'selected' : ''}} value="{{$subCategory->id}}">
+                                    {{$subCategory->name}} 
+                                </option>
+                            @endforeach
 
                         </select>
                     </div>
@@ -160,16 +217,102 @@
 
                 <div class="col-md-4">
                     <div class="form-group">
+                        @php 
+                            $childCategories = \App\Models\Childcategory::where('sub_category_id',$popularCategories[3]->sub_category)->active()->get(['id','name']);
+                        @endphp
                         <label >Child Categories</label>
                         <select class="form-control child-category"  name="child_cat_four">
                         
-                            <option selected disabled>-- Select --</option>
+                                <option disabled value="">-- Select --</option>
+                            @foreach ($childCategories as $childCategory)
+                                <option {{$childCategory->id == $popularCategories[3]->child_category ? 'selected' : ''}} value="{{$childCategory->id}}">
+                                    {{$childCategory->name}} 
+                                </option>
+                            @endforeach
 
                         </select>
                     </div> 
                 </div> 
                 
-            </div>
+            </div> --}}
+
+
+            {{-- ------------------------------------------------Method 2 (more professional)----------------------------------------- --}}
+
+            @for ($i = 0 ; $i<=3 ; $i++)
+                <h5>Category {{$i+1}} </h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label >Category</label>
+                            <select  name="cat_{{$i+1}}" class="form-control  main-category">
+                                
+                                    <option  disabled value="">-- Select --</option>
+                                @foreach ($categories as $category)
+                                    <option {{$category->id == @$popularCategories[$i]->category ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
+                                @endforeach
+                                
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @php 
+                                $subCategories = \App\Models\Subcategory::where('category_id',@$popularCategories[$i]->category)->active()->get(['id','name']);
+                            @endphp
+
+
+                            <label >Sub Categories</label>
+                            <select class="form-control sub-category"  name="sub_cat_{{$i+1}}">
+                                
+                                    <option disabled value="">-- Select --</option>
+                                @foreach ($subCategories as $subCategory)
+                                    <option {{$subCategory->id == @$popularCategories[$i]->sub_category ? 'selected' : ''}} value="{{$subCategory->id}}">
+                                        {{$subCategory->name}} 
+                                    </option>
+                                @endforeach
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @php 
+                                $childCategories = \App\Models\Childcategory::where('sub_category_id',@$popularCategories[$i]->sub_category)->active()->get(['id','name']);
+                            @endphp
+
+                            <label >Child Categories</label>
+                            <select class="form-control child-category"  name="child_cat_{{$i+1}}">
+                            
+                                    <option disabled value="">-- Select --</option>
+                                @foreach ($childCategories as $childCategory)
+                                    <option {{$childCategory->id == @$popularCategories[$i]->child_category ? 'selected' : ''}} value="{{$childCategory->id}}">
+                                        {{$childCategory->name}} 
+                                    </option>
+                                @endforeach
+
+                            </select>
+                        </div> 
+                    </div> 
+                    
+                </div>    
+            @endfor
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             <button type="submit" class="btn btn-primary">Update</button>

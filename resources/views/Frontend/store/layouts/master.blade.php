@@ -273,7 +273,12 @@
 
         </script>
 
-        
+        <script>
+            $(document).ready(function() {
+                $('.auto_click').click();
+            });
+        </script>
+
         @include('Frontend.store.layouts.includes.scripts')
 
 
