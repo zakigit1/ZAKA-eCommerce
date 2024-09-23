@@ -38,7 +38,7 @@
     <!--============================
         BRAND SLIDER START
     ==============================-->
-    {{-- @include('Frontend.store.home.includes.sections.brand-slider') --}}
+    @include('Frontend.store.home.includes.sections.brand-slider')
     <!--============================
         BRAND SLIDER END
     ==============================-->
@@ -47,7 +47,7 @@
     <!--============================
         SINGLE BANNER START
     ==============================-->
-    {{-- @include('Frontend.store.home.includes.sections.single-banner') --}}
+    @include('Frontend.store.home.includes.sections.single-banner')
     <!--============================
         SINGLE BANNER END  
     ==============================-->

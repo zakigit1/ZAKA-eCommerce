@@ -35,7 +35,7 @@ class Brand extends Model
     }       
     public function scopeIsFeatured($query) // to show just the active slide in store 
     {
-        return $query->where('status', 1);
+        return $query->where('is_featured', 1);
     }       
 /*                                                  End Local Scopes                                  */
     /*                                                 Begin GET                                          */

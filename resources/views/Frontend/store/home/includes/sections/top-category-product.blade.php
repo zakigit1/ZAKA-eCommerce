@@ -67,11 +67,6 @@
 
                         @endforeach
 
-
-                        {{-- <button data-filter=".elec">Electronic</button>
-                        <button data-filter=".spk">Speakers</button>
-                        <button data-filter=".cam">Cameras</button>
-                        <button data-filter=".wat">Watches</button> --}}
                     </div>
                 </div>
             </div>
@@ -112,10 +107,6 @@
                             </div>
                         @endforeach
                     @endforeach
-
-
-
-
 
                 </div>
 

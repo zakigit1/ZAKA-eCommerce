@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\FlashSale;
 use App\Models\FlashSaleItem;
 use App\Models\HomePageSetting;
@@ -30,6 +31,11 @@ class HomeController extends Controller
 
         $data['popularCategories'] = HomePageSetting::where('key','popular_category_section')->first();
         $data['popularCategories'] = json_decode($data['popularCategories']->value,true);//true mean the data inside the array will be in array form not a object like when we use it first one in admin dashboard 
+
+        // $data['brands'] = Brand::where('is_featured',1)->active()->get();
+        $data['brands'] = Brand::active()->isFeatured()->get();
+
+        // dd( $data['brands']);
 
         return view('frontend.store.home.home',$data);
     }
