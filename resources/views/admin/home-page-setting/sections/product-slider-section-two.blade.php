@@ -1,0 +1,167 @@
+<div class="card border">
+    <div class="card-body">
+
+        <form action="{{route('admin.home-page-setting.product-slider-section-two.update')}}" method="post">
+
+            @csrf
+            @method('PUT')
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label >Category</label>
+                        <select  name="category" class="form-control  main-category">
+                            @if (is_null(@$productSliderSectionTwo->category))
+                                    <option  selected  value="">-- Select --</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                @endforeach
+                            @else  
+                                @foreach ($categories as $category)
+                                    <option {{$category->id == $productSliderSectionTwo->category ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
+                                @endforeach
+                            @endif
+                            
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @php 
+                            $subCategories = \App\Models\Subcategory::where('category_id',@$productSliderSectionTwo->category)->active()->get(['id','name']);
+                        @endphp
+
+
+                        <label >Sub Categories</label>
+                        <select class="form-control sub-category"  name="sub_category">
+                            
+
+                            @if (is_null(@$productSliderSectionTwo->sub_category))
+                                    <option  selected  value="">-- Select --</option>
+
+                                    @foreach ($subCategories as $subCategory)
+                                        <option value="{{$subCategory->id}}">
+                                            {{$subCategory->name}} 
+                                        </option>
+                                    @endforeach
+                            @else  
+                                @foreach ($subCategories as $subCategory)
+                                    <option {{$subCategory->id == $productSliderSectionTwo->sub_category ? 'selected' : ''}} value="{{$subCategory->id}}">
+                                        {{$subCategory->name}} 
+                                    </option>
+                                    @endforeach
+                                <option value="">none</option>
+                            @endif
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @php 
+                            $childCategories = \App\Models\Childcategory::where('sub_category_id',@$productSliderSectionTwo->sub_category)->active()->get(['id','name']);
+                        @endphp
+
+                        <label >Child Categories</label>
+                        <select class="form-control child-category"  name="child_category">
+                        
+
+                            @if (is_null(@$productSliderSectionTwo->child_category))
+                                    <option  selected  value="">-- Select --</option>
+
+                                @foreach ($childCategories as $childCategory)
+                                    <option value="{{$childCategory->id}}">
+                                        {{$childCategory->name}} 
+                                    </option>
+                                @endforeach
+                            @else  
+                                @foreach ($childCategories as $childCategory)
+                                    <option {{$childCategory->id == $productSliderSectionTwo->child_category ? 'selected' : ''}} value="{{$childCategory->id}}">
+                                        {{$childCategory->name}} 
+                                    </option>
+                                @endforeach
+                                <option value="">none</option>
+                            @endif
+
+
+                        </select>
+                    </div> 
+                </div> 
+                
+            </div>    
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+
+    </div>
+</div>
+
+
+@push('scripts')
+   <script>
+        $(document).ready(function(){
+
+            //              get sub categories : 
+
+            $('body').on('change', '.main-category', function(e){
+
+                let id = $(this).val();
+                let row = $(this).closest('.row');
+
+                $.ajax({
+                    method: 'GET',
+                    url: '{{route("admin.home-page-setting.get-sub-categories")}}',
+                    data: {
+                        category_id: id,
+                    },
+                    success: function(data){
+                        let selectorSubcategory = row.find('.sub-category');
+                        let selectorChildcategory = row.find('.child-category');
+                        //this line to reset the sub-categories when you change the category  
+                        selectorSubcategory.html('<option selected value="">Select</option>');
+                        //this line to reset the child-categories when you change the category  
+                        selectorChildcategory.html('<option selected value="">Select</option>');
+
+                        $.each(data, function(i, item) {
+                            // $('.sub-category').append('<option value="'+item.id+'">'+item.name+'</option>');
+                        
+                            selectorSubcategory.append(`<option value="${item.id}">${item.name}</option>`);
+                        });
+                    },
+                    error: function(xhr, status, error){
+                        console.log('error');
+                    }
+                });
+            });
+
+            //              get child categories : 
+
+            $('body').on('change', '.sub-category', function(e){
+                
+                let id = $(this).val();
+                let row = $(this).closest('.row');
+
+                $.ajax({
+                    method: 'GET',
+                    url: '{{route("admin.home-page-setting.get-child-categories")}}',
+                    data: {
+                        sub_category_id: id,
+                    },
+                    success: function(data){
+                        let selector = row.find('.child-category');
+                        selector.html('<option selected value="">Select</option>');
+
+                        $.each(data, function(i, item) {
+                        
+                            selector.append(`<option value="${item.id}">${item.name}</option>`);
+                        });
+                    },
+                    error: function(xhr, status, error){
+                        console.log('error');
+                    }
+                });
+            });
+        });
+    </script> 
+@endpush

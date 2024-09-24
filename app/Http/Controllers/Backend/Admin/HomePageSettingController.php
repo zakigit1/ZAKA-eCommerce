@@ -19,8 +19,22 @@ class HomePageSettingController extends Controller
         $data['categories'] = Category::active()->get(['id','name']);
 
         $data['popularCategories'] = HomePageSetting::where('key','popular_category_section')->first();
-        $data['popularCategories'] = json_decode($data['popularCategories']->value);
+        $data['popularCategories'] = json_decode(@$data['popularCategories']->value);
+
+        $data['productSliderSectionOne'] = HomePageSetting::where('key','product_slider_section_one')->first();
+        $data['productSliderSectionOne'] = json_decode(@$data['productSliderSectionOne']->value);
+
         
+        // $cat_type =$this->checkTheLastKey($data['productSliderSectionOne']);// make some modification (i want to remove the category of the section one )
+        // dd($cat_type);
+        // $data['categories2'] = Category::where('id',"!=",$data['productSliderSectionOne']->$cat_type)->active()->get(['id','name']);
+        
+        $data['productSliderSectionTwo'] = HomePageSetting::where('key','product_slider_section_two')->first();
+        $data['productSliderSectionTwo'] = json_decode(@$data['productSliderSectionTwo']->value);
+
+        
+        // dd($data['categories2']);
+        // dd($data['productSliderSectionOne']->category);
         return view('admin.home-page-setting.index',$data);
     }
 
@@ -51,6 +65,18 @@ class HomePageSettingController extends Controller
      */
     public function UpdatePopularCategory(Request $request)
     {
+
+        $request->validate([
+            'cat_one' => 'required' ,
+            'cat_two' => 'required' ,
+            'cat_three' => 'required' ,
+            'cat_four' => 'required' ,
+        ],[
+            'cat_one.required' => 'The Category One Is Required ' ,
+            'cat_two.required' => 'The Category Two Is Required' ,
+            'cat_three.required' => 'The Category Three Is Required' ,
+            'cat_four.required' => 'The Category Four Is Required' ,
+        ]);
         // dd($request->all());
 
         /** M1 */
@@ -79,6 +105,7 @@ class HomePageSettingController extends Controller
 
         
 
+
         /** M2 */
         $data = [];
         for($i=1 ; $i<=4 ; $i++){
@@ -103,6 +130,77 @@ class HomePageSettingController extends Controller
         toastr('Popular Category Section Has Been Updated Successfully !','success','Success');
         return redirect()->back();
     }
+
+
+    public function UpdateProductSliderSectionOne(Request $request){
+
+        //   dd($request->all());
+            $request->validate([
+                'category' => 'required' ,
+            ]);
+    
+            $data =[
+                'category'=>$request->category,
+                'sub_category'=>$request->sub_category,
+                'child_category'=>$request->child_category,
+            ];
+    
+            $update = HomePageSetting::updateOrCreate(
+                [
+                    'key'=>'product_slider_section_one'
+                ],
+                [
+                    'value'=>json_encode($data)
+                ]
+            );
+            toastr('Product Slider Section One Has Been Updated Successfully !','success','Success');
+            return redirect()->back();
+    }
+
+    public function UpdateProductSliderSectionTwo(Request $request){
+
+    //   dd($request->all());
+        $request->validate([
+            'category' => 'required' ,
+        ]);
+
+        $data =[
+            'category'=>$request->category,
+            'sub_category'=>$request->sub_category,
+            'child_category'=>$request->child_category,
+        ];
+
+        $update = HomePageSetting::updateOrCreate(
+            [
+                'key'=>'product_slider_section_two'
+            ],
+            [
+                'value'=>json_encode($data)
+            ]
+        );
+        toastr('Product Slider Section Two Has Been Updated Successfully !','success','Success');
+        return redirect()->back();
+    }
+
+
+    // public function checkTheLastKey($cat_types){
+
+    //     if(is_null($cat_types->child_category)){
+
+    //         if(is_null($cat_types->sub_category)){
+    //             return 'category';
+
+    //         }else{
+    //             return 'sub_category';
+    //         }
+            
+    //     }else{
+    //         return 'child_category';
+    //     }
+
+
+
+    // }
 
 
 }

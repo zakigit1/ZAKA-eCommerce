@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\FlashSale;
 use App\Models\FlashSaleItem;
 use App\Models\HomePageSetting;
+use App\Models\Product;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 
@@ -35,8 +36,44 @@ class HomeController extends Controller
         // $data['brands'] = Brand::where('is_featured',1)->active()->get();
         $data['brands'] = Brand::active()->isFeatured()->get();
 
-        // dd( $data['brands']);
 
+
+        $data['typeBaseProducts'] = $this->getTypeProducts();
+
+        $data['productSliderSectionOne'] = HomePageSetting::where('key','product_slider_section_one')->first();
+        $data['productSliderSectionOne'] = json_decode($data['productSliderSectionOne']->value,true);
+
+        $data['productSliderSectionTwo'] = HomePageSetting::where('key','product_slider_section_two')->first();
+        $data['productSliderSectionTwo'] = json_decode($data['productSliderSectionTwo']->value,true);
+
+
+        // dd( $data['typeBaseProducts']);
         return view('frontend.store.home.home',$data);
     }
+
+
+
+
+
+
+    /** Get the products depending on the type : */
+    public function getTypeProducts(){
+        $typeBaseProduct = [];
+
+        $typeBaseProduct['new_arrival'] = Product::where(['product_type' => 'new_arrival' , 'is_approved' => 1 , 'status' => 1])->orderBy('id','DESC')->take(8)->get();
+        $typeBaseProduct['featured_product'] = Product::where(['product_type' => 'featured_product' , 'is_approved' => 1 , 'status' => 1])->orderBy('id','DESC')->take(8)->get();
+        $typeBaseProduct['top_product'] = Product::where(['product_type' => 'top_product' , 'is_approved' => 1 , 'status' => 1])->orderBy('id','DESC')->take(8)->get();
+        $typeBaseProduct['best_product'] = Product::where(['product_type' => 'best_product' , 'is_approved' => 1 , 'status' => 1])->orderBy('id','DESC')->take(8)->get();
+
+        return $typeBaseProduct ;
+    }
+
+
+
+
+
+
+
 }
+
+

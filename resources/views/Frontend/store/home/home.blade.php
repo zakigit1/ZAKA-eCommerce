@@ -9,7 +9,7 @@
         BANNER PART 2 START
     ==============================-->
 
-    @include('Frontend.store.home.includes.sections.banner')
+    {{-- @include('Frontend.store.home.includes.sections.banner') --}}
     <!--============================
         BANNER PART 2 END
     ==============================-->
@@ -19,7 +19,7 @@
         FLASH SELL START
     ==============================-->
 
-    @include('Frontend.store.home.includes.sections.flash-sale')
+    {{-- @include('Frontend.store.home.includes.sections.flash-sale') --}}
     <!--============================
         FLASH SELL END
     ==============================-->
@@ -28,7 +28,7 @@
     <!--============================
        MONTHLY TOP PRODUCT START (Top Categories Products)
     ==============================-->
-    @include('Frontend.store.home.includes.sections.top-category-product')
+    {{-- @include('Frontend.store.home.includes.sections.top-category-product') --}}
 
     <!--============================
        MONTHLY TOP PRODUCT END
@@ -38,7 +38,7 @@
     <!--============================
         BRAND SLIDER START
     ==============================-->
-    @include('Frontend.store.home.includes.sections.brand-slider')
+    {{-- @include('Frontend.store.home.includes.sections.brand-slider') --}}
     <!--============================
         BRAND SLIDER END
     ==============================-->
@@ -47,7 +47,7 @@
     <!--============================
         SINGLE BANNER START
     ==============================-->
-    @include('Frontend.store.home.includes.sections.single-banner')
+    {{-- @include('Frontend.store.home.includes.sections.single-banner') --}}
     <!--============================
         SINGLE BANNER END  
     ==============================-->
@@ -65,7 +65,7 @@
     <!--============================
         ELECTRONIC PART START  (category 1 )
     ==============================-->
-    {{-- @include('Frontend.store.home.includes.sections.category-one') --}}
+    @include('Frontend.store.home.includes.sections.category-one')
     <!--============================
         ELECTRONIC PART END  
     ==============================-->
@@ -74,7 +74,7 @@
     <!--============================
         ELECTRONIC PART START   (category 2 )
     ==============================-->
-    {{-- @include('Frontend.store.home.includes.sections.category-two') --}}
+    @include('Frontend.store.home.includes.sections.category-two')
     <!--============================
         ELECTRONIC PART END  
     ==============================-->

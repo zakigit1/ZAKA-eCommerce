@@ -266,6 +266,8 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
 
         Route::get('/',[HomePageSettingController::class,'index'])->name('index');
         Route::put('popular-category/update',[HomePageSettingController::class , 'UpdatePopularCategory'])->name('popular-category.update');
+        Route::put('product-slider-section-one/update',[HomePageSettingController::class , 'UpdateProductSliderSectionOne'])->name('product-slider-section-one.update');
+        Route::put('product-slider-section-two/update',[HomePageSettingController::class , 'UpdateProductSliderSectionTwo'])->name('product-slider-section-two.update');
     
         Route::get('/get-sub-categories',[HomePageSettingController::class,'get_subcategories'])->name('get-sub-categories');
         Route::get('/get-child-categories',[HomePageSettingController::class,'get_childcategories'])->name('get-child-categories');
