@@ -111,6 +111,7 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     Route::get('/flash-sale',[FlashSaleController::class,'index'])->name('flash-sale.index');
 
     // ?  Product Details
+    Route::get('products',[FrontendProductController::class , 'productsIndex'])->name('products.index');
     Route::get('product-details/{slug}',[FrontendProductController::class , 'showProduct'])->name('product-details');
     
 

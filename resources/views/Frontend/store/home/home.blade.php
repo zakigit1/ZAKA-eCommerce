@@ -56,7 +56,7 @@
     <!--============================
         HOT DEALS START
     ==============================-->
-    {{-- @include('Frontend.store.home.includes.sections.hot-deals') --}}
+    {{-- @include('Frontend.store.home.includes.sections.hot-deals')  --}}
     <!--============================
         HOT DEALS END  
     ==============================-->
@@ -65,7 +65,7 @@
     <!--============================
         ELECTRONIC PART START  (category 1 )
     ==============================-->
-    @include('Frontend.store.home.includes.sections.category-one')
+    {{-- @include('Frontend.store.home.includes.sections.category-one') --}}
     <!--============================
         ELECTRONIC PART END  
     ==============================-->
@@ -74,7 +74,7 @@
     <!--============================
         ELECTRONIC PART START   (category 2 )
     ==============================-->
-    @include('Frontend.store.home.includes.sections.category-two')
+    {{-- @include('Frontend.store.home.includes.sections.category-two') --}}
     <!--============================
         ELECTRONIC PART END  
     ==============================-->
@@ -93,7 +93,7 @@
         WEEKLY BEST ITEM START  
     ==============================-->
 
-    {{-- @include('Frontend.store.home.includes.sections.weekly-best-item') --}}
+    @include('Frontend.store.home.includes.sections.weekly-best-item')
     <!--============================
         WEEKLY BEST ITEM END 
     ==============================-->

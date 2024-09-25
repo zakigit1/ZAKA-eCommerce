@@ -32,8 +32,11 @@ class HomePageSettingController extends Controller
         $data['productSliderSectionTwo'] = HomePageSetting::where('key','product_slider_section_two')->first();
         $data['productSliderSectionTwo'] = json_decode(@$data['productSliderSectionTwo']->value);
 
+        $data['weeklyBestProducts'] = HomePageSetting::where('key','weekly_best_products')->first();
+        $data['weeklyBestProducts'] = json_decode(@$data['weeklyBestProducts']->value);
+
         
-        // dd($data['categories2']);
+        // dd($data['weeklyBestProducts'][0]);
         // dd($data['productSliderSectionOne']->category);
         return view('admin.home-page-setting.index',$data);
     }
@@ -60,22 +63,20 @@ class HomePageSettingController extends Controller
 
 
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function UpdatePopularCategory(Request $request)
     {
 
         $request->validate([
-            'cat_one' => 'required' ,
-            'cat_two' => 'required' ,
-            'cat_three' => 'required' ,
-            'cat_four' => 'required' ,
+            'cat_1' => 'required' ,
+            'cat_2' => 'required' ,
+            'cat_3' => 'required' ,
+            'cat_4' => 'required' ,
         ],[
-            'cat_one.required' => 'The Category One Is Required ' ,
-            'cat_two.required' => 'The Category Two Is Required' ,
-            'cat_three.required' => 'The Category Three Is Required' ,
-            'cat_four.required' => 'The Category Four Is Required' ,
+            'cat_1.required' => 'The Category One Is Required ' ,
+            'cat_2.required' => 'The Category Two Is Required' ,
+            'cat_3.required' => 'The Category Three Is Required' ,
+            'cat_4.required' => 'The Category Four Is Required' ,
         ]);
         // dd($request->all());
 
@@ -181,6 +182,60 @@ class HomePageSettingController extends Controller
         toastr('Product Slider Section Two Has Been Updated Successfully !','success','Success');
         return redirect()->back();
     }
+
+
+    public function UpdateWeeklyBestProducts(Request $request)
+    {
+
+        // dd($request->all());
+        
+        $request->validate([
+            'cat_1' => 'required',
+            'cat_2' => 'required',
+            
+        ],[
+            'cat_1.required' => 'The Category One Of Weekly Best Products Is Required ' ,
+            'cat_2.required' => 'The Category Two Of Weekly Best Products Is Required' ,
+        ]);
+        
+
+        $data =[
+            [
+                'category'=>$request->cat_1,
+                'sub_category'=>$request->sub_cat_1,
+                'child_category'=>$request->child_cat_1,
+            ],
+            [
+                'category'=>$request->cat_2,
+                'sub_category'=>$request->sub_cat_2,
+                'child_category'=>$request->child_cat_2,
+            ],
+
+        ];
+
+        
+
+        // dd($data);
+
+        $update = HomePageSetting::updateOrCreate(
+            [
+                'key'=>'weekly_best_products'
+            ],
+            [
+                'value'=>json_encode($data)
+            ]
+        );
+
+        toastr('Weekly Best Products Has Been Updated Successfully !','success','Success');
+        return redirect()->back();
+    }
+
+
+    
+
+
+
+
 
 
     // public function checkTheLastKey($cat_types){

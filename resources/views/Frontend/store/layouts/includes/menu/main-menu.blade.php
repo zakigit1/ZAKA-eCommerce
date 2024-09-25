@@ -24,8 +24,8 @@
                     @if(isset($categories) && count($categories) > 0 )
                         <ul class="wsus_menu_cat_item show_home toggle_menu">                                
                             @foreach($categories as $category)
-                            
-                                <li><a class="{{(count($category->subcategories) > 0) ? 'wsus__droap_arrow' : ''}}" href="#"><i class="{{$category->icon}}"></i> {{$category->name}} </a>
+
+                                <li><a class="{{(count($category->subcategories) > 0) ? 'wsus__droap_arrow' : ''}}" href="{{route('products.index',['category' => $category->slug])}}"><i class="{{$category->icon}}"></i> {{$category->name}} </a>
                                     
                                     {{-- Start Sub Category --}}
                                     @if(isset($category->subcategories) && count($category->subcategories) > 0)

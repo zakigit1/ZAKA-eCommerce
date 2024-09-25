@@ -4,10 +4,23 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-
+use Illuminate\Http\Request;
 
 class FrontendProductController extends Controller
 {
+
+
+    public function productsIndex(Request $request){
+
+
+        return  view('Frontend.store.product.index');
+    }
+
+
+
+
+
+
     public function showProduct(string $slug){
 
         

@@ -266,7 +266,7 @@
                             <label >Sub Categories</label>
                             <select class="form-control sub-category"  name="sub_cat_{{$i+1}}">
                                 
-                                    <option disabled value="">-- Select --</option>
+                                    <option {{ is_null(@$popularCategories[$i]->sub_category) ? 'selected' : '' }}  value="">-- Select --</option>
                                 @foreach ($subCategories as $subCategory)
                                     <option {{$subCategory->id == @$popularCategories[$i]->sub_category ? 'selected' : ''}} value="{{$subCategory->id}}">
                                         {{$subCategory->name}} 
@@ -286,7 +286,7 @@
                             <label >Child Categories</label>
                             <select class="form-control child-category"  name="child_cat_{{$i+1}}">
                             
-                                    <option disabled value="">-- Select --</option>
+                                    <option {{ is_null(@$popularCategories[$i]->child_category) ? 'selected' : '' }}  value="">-- Select --</option>
                                 @foreach ($childCategories as $childCategory)
                                     <option {{$childCategory->id == @$popularCategories[$i]->child_category ? 'selected' : ''}} value="{{$childCategory->id}}">
                                         {{$childCategory->name}} 
