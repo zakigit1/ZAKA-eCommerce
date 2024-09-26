@@ -6,7 +6,7 @@
                 $q->where('status',1);
             }]);
         }])
-    ->get(['id','name']);
+    ->get(['id','name','slug']);
 ?>
 
 
@@ -24,7 +24,6 @@
                     @if(isset($categories) && count($categories) > 0 )
                         <ul class="wsus_menu_cat_item show_home toggle_menu">                                
                             @foreach($categories as $category)
-
                                 <li><a class="{{(count($category->subcategories) > 0) ? 'wsus__droap_arrow' : ''}}" href="{{route('products.index',['category' => $category->slug])}}"><i class="{{$category->icon}}"></i> {{$category->name}} </a>
                                     
                                     {{-- Start Sub Category --}}
@@ -33,14 +32,14 @@
                                                 @foreach($category->subcategories as $subcategory)
                                                     {{-- @if( $subcategory->status !== 0 ) <!-- to display just the active subcategories --> --}}
 
-                                                    <li><a href="#">{{$subcategory->name}} <i class="{{(count($subcategory->childcategories) > 0) ? 'fas fa-angle-right' : ''}}"></i> </a>
+                                                    <li><a href="{{route('products.index',['sub_category' => $subcategory->slug])}}">{{$subcategory->name}} <i class="{{(count($subcategory->childcategories) > 0) ? 'fas fa-angle-right' : ''}}"></i> </a>
 
                                                         {{-- Start Child Category --}}
                                                         @if(isset($subcategory->childcategories) && count($subcategory->childcategories) > 0 )
                                                             <ul class="wsus__sub_category">
                                                                 @foreach($subcategory->childcategories as $childcategory)
                                                                     {{-- @if( $childcategory->status !== 0 )<!-- to display just the active subcategories --> --}}
-                                                                        <li><a href="#">{{$childcategory->name}}</a> </li>
+                                                                        <li><a href="{{route('products.index',['child_category' => $childcategory->slug])}}">{{$childcategory->name}}</a> </li>
                                                                     {{-- @endif --}}
                                                                 @endforeach
                                                             </ul>

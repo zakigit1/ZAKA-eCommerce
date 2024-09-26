@@ -9,7 +9,7 @@
             </div>
             <div class="col-xl-2 col-7 col-md-8 col-lg-2">
                 <div class="wsus_logo_area">
-                    <a class="wsus__header_logo" href="index.html">
+                    <a class="wsus__header_logo" href="{{route('home')}}">
                         <img src="{{asset('frontend/assets/images/logo_2.png')}}" alt="logo" class="img-fluid w-100">
                     </a>
                 </div>
@@ -29,13 +29,13 @@
                             <i class="fas fa-user-headset"></i>
                         </div>
                         <div class="wsus__call_text">
-                            <p>example@gmail.com</p>
-                            <p>+569875544220</p>
+                            <p>Bousbaa@gmail.com</p>
+                            <p>+213 0781640569</p>
                         </div>
                     </div>
                     <ul class="wsus__icon_area">
-                        <li><a href="wishlist.html"><i class="fal fa-heart"></i><span>05</span></a></li>
-                        <li><a href="compare.html"><i class="fal fa-random"></i><span>03</span></a></li>
+                        <li><a href="#"><i class="fal fa-heart"></i><span>05</span></a></li>
+                        <li><a href="#"><i class="fal fa-random"></i><span>03</span></a></li>
                         <li><a class="wsus__cart_icon" href="#">
                             {{-- <i class="fal fa-shopping-bag"></i><span>{{Cart::count();}}</span></a></li> --}}
                             <i class="fal fa-shopping-bag"></i><span id="cart-count">{{Cart::content()->count();}}</span></a></li>

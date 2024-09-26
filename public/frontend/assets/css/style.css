@@ -150,11 +150,28 @@ p {
   -moz-border-radius: 3px;
   -ms-border-radius: 3px;
   -o-border-radius: 3px;
+
+ /* the new design */
+  /* position: static;
+  padding: 0px 19px;
+  font-size: 16px;
+  width: auto;
+  height: 40px;
+  color: #fff;
+  border: none;
+  background: #08C;
+  margin-right: 10px; */
 }
 
 .add_cart:hover {
-  color: #fff;
-  background: rgb(2, 82, 122);
+  /* color: #fff;
+  background: rgb(2, 82, 122); */
+
+
+  /* the new design */
+  color: #08C;
+  border: 1px solid #08C;
+  background: #fff;
 }
 
 /*======================
@@ -1812,6 +1829,7 @@ PRODUCT MODAL VIEW END
   width: 100%;
   text-align: center;
   border-radius: 0;
+  border: 1px solid #08C;
 }
 
 /* .wsus__product_item:hover 
@@ -3727,9 +3745,12 @@ PRODUCT DETAILS START
   padding: 10px 20px;
   font-size: 14px;
   margin-right: 10px;
-  border: none;
+  /* border: none; */
+  border: 1px solid #08C;
   border-radius: 30px;
 }
+
+
 
 .wsus__button_area li .buy_now,
 .wsus__ofer_det_footer_btn .buy_now {
@@ -9602,3 +9623,23 @@ input.razorpay-payment-button{
   -o-transition: all linear 0.3s ease;
 
 }
+
+/* .cart-btn-design {
+  position: static;
+  padding: 0px 19px;
+  font-size: 16px;
+  width: auto;
+  height: 40px;
+  color: #fff;
+  border: none;
+  background: #08C;
+  margin-right: 10px;
+}
+
+.cart-btn-design:hover {
+
+  color: #08C;
+  border: 1px solid #08C;
+  background: #fff;
+
+} */

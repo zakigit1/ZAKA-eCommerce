@@ -113,6 +113,9 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     // ?  Product Details
     Route::get('products',[FrontendProductController::class , 'productsIndex'])->name('products.index');
     Route::get('product-details/{slug}',[FrontendProductController::class , 'showProduct'])->name('product-details');
+    Route::get('change-product-view-list',[FrontendProductController::class , 'changeViewList'])->name('change-product-view-list');
+
+
     
 
     /**    Cart  Routes : */  

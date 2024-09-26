@@ -63,7 +63,7 @@ class Product extends Model
          * ?  is category_id in this case you can dont write the foreign key)
         */
 
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class,'category_id','id','id');
         
     }
     public function subcategory(){

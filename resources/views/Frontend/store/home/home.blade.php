@@ -19,7 +19,7 @@
         FLASH SELL START
     ==============================-->
 
-    {{-- @include('Frontend.store.home.includes.sections.flash-sale') --}}
+    @include('Frontend.store.home.includes.sections.flash-sale')
     <!--============================
         FLASH SELL END
     ==============================-->
@@ -56,7 +56,7 @@
     <!--============================
         HOT DEALS START
     ==============================-->
-    {{-- @include('Frontend.store.home.includes.sections.hot-deals')  --}}
+    @include('Frontend.store.home.includes.sections.hot-deals') 
     <!--============================
         HOT DEALS END  
     ==============================-->
@@ -65,7 +65,7 @@
     <!--============================
         ELECTRONIC PART START  (category 1 )
     ==============================-->
-    {{-- @include('Frontend.store.home.includes.sections.category-one') --}}
+    @include('Frontend.store.home.includes.sections.category-one')
     <!--============================
         ELECTRONIC PART END  
     ==============================-->
@@ -74,7 +74,7 @@
     <!--============================
         ELECTRONIC PART START   (category 2 )
     ==============================-->
-    {{-- @include('Frontend.store.home.includes.sections.category-two') --}}
+    @include('Frontend.store.home.includes.sections.category-two')
     <!--============================
         ELECTRONIC PART END  
     ==============================-->
