@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Childcategory;
 use App\Models\Product;
@@ -49,35 +50,75 @@ class FrontendProductController extends Controller
 
     public function productsIndex(Request $request){
 
-
+        // dd($request->query());// this is like dd($request->all())
+        
         if($request->has('category')){
 
             $categoryId = Category::where('slug',$request->category)->firstOrFail()->id;
-            $products = Product::where(['category_id' => $categoryId , 'is_approved' => 1])->active()->paginate(1);
+            $products = Product::where(['category_id' => $categoryId , 'is_approved' => 1])
+            ->active()
+            ->when($request->has('price_range') && $request->price_range != null ,function($query) use($request) {
+                $price = explode(';',$request->price_range);
+                $from = $price [0];
+                $to = $price [1];
+
+                return $query->where('price','>=',$from)->where('price','<=',$to);
+            })
+            ->paginate(12);
 
         }elseif($request->has('sub_category')){
             
             $sub_categoryId = Subcategory::where('slug',$request->sub_category)->firstOrFail()->id;
-            $products = Product::where(['sub_category_id' => $sub_categoryId , 'is_approved' => 1])->active()->paginate(2);
+            $products = Product::where(['sub_category_id' => $sub_categoryId , 'is_approved' => 1])
+            ->when($request->has('price_range') && $request->price_range != null ,function($query) use($request) {
+                $price = explode(';',$request->price_range);
+                $from = $price [0];
+                $to = $price [1];
+
+                return $query->where('price','>=',$from)->where('price','<=',$to);
+            })
+            ->active()
+            ->paginate(12);
 
         }elseif($request->has('child_category')){
 
             $child_categoryId = Childcategory::where('slug',$request->child_category)->firstOrFail()->id;
-            $products = Product::where(['child_category_id' => $child_categoryId , 'is_approved' => 1])->active()->paginate(2);
+            $products = Product::where(['child_category_id' => $child_categoryId , 'is_approved' => 1])
+            ->when($request->has('price_range') && $request->price_range != null ,function($query) use($request) {
+                $price = explode(';',$request->price_range);
+                $from = $price [0];
+                $to = $price [1];
+
+                return $query->where('price','>=',$from)->where('price','<=',$to);
+            })
+            ->active()
+            ->paginate(12);
+            
+        }elseif($request->has('brand')){
+            $brandId = Brand::where('slug',$request->brand)->firstOrFail()->id;
+            $products = Product::where(['brand_id' => $brandId , 'is_approved' => 1])
+            ->when($request->has('price_range') && $request->price_range != null ,function($query) use($request) {
+                $price = explode(';',$request->price_range);
+                $from = $price [0];
+                $to = $price [1];
+
+                return $query->where('price','>=',$from)->where('price','<=',$to);
+            })
+            ->active()
+            ->paginate(12);
 
         }
 
         $categories = Category::active()->get(['id','name','slug']);
+        $brands = Brand::active()->get(['id','name','slug']);
 
-        return  view('Frontend.store.product.index' ,compact('products','categories'));
+        return  view('Frontend.store.product.index' ,compact('products','categories','brands'));
     }
 
 
 
     public function changeViewList(Request $request){
-
         Session::put('product_list_view_style',$request->style);
-
     }
 
 
