@@ -253,12 +253,14 @@
 
                                     <div class="nav nav-pills " id="v-pills-tab" role="tablist"
                                         aria-orientation="vertical">
+
                                         <button class="nav-link list-view {{session()->has('product_list_view_style') && session()->get('product_list_view_style') == 'grid' ? 'active' : ''}} 
                                             {{!session()->has('product_list_view_style') ? 'active' : '' }}" data-id="grid" id="v-pills-home-tab" data-bs-toggle="pill"
                                             data-bs-target="#v-pills-home" type="button" role="tab"
                                             aria-controls="v-pills-home" aria-selected="true">
                                             <i class="fas fa-th"></i>
                                         </button>
+
                                         <button class="nav-link list-view {{session()->has('product_list_view_style') && session()->get('product_list_view_style') == 'list' ? 'active' : ''}} " 
                                             data-id="list" id="v-pills-profile-tab" data-bs-toggle="pill"
                                             data-bs-target="#v-pills-profile" type="button" role="tab"
@@ -266,6 +268,7 @@
                                             <i class="fas fa-list-ul"></i>
                                         </button>
                                     </div>
+
                                     <div class="wsus__topbar_select">
                                         <select class="select_2" name="state">
                                             <option>default shorting</option>
@@ -276,6 +279,7 @@
                                         </select>
                                     </div>
                                 </div>
+
                                 <div class="wsus__topbar_select">
                                     <select class="select_2" name="state">
                                         <option>show 12</option>
@@ -287,6 +291,7 @@
                             </div>
                         </div>
                         <div class="tab-content" id="v-pills-tabContent">
+                            
                             <div class="tab-pane fade {{session()->has('product_list_view_style') && session()->get('product_list_view_style') == 'grid' ? 'show active' : ''}} 
                                 {{!session()->has('product_list_view_style') ? 'show active' : '' }}"
                                 id="v-pills-home" role="tabpanel"
@@ -327,7 +332,7 @@
                                                         <span>(133 review)</span>
                                                     </p>
 
-                                                    <a class="wsus__pro_name" href="{{route('product-details',$product->slug)}}">{{$product->name}}</a>
+                                                    <a class="wsus__pro_name" href="{{route('product-details',$product->slug)}}">{{limitText($product->name,53)}}</a>
 
                                                     <!-- Start check if there is discount or not -->
                                                     @if(check_discount($product))
@@ -409,7 +414,7 @@
                                                         <span>(17 review)</span>
                                                     </p>
 
-                                                    <a class="wsus__pro_name" href="{{route('product-details',$product->slug)}}">{{$product->name}}</a>
+                                                    <a class="wsus__pro_name" href="{{route('product-details',$product->slug)}}">{{limitText($product->name,53)}}</a>
 
 
 

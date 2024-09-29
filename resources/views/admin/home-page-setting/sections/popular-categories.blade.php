@@ -6,7 +6,6 @@
             @csrf
             @method('PUT')
 
-  
             {{-- <h5>Category 1 </h5>
             <div class="row">
                 <div class="col-md-4">
@@ -312,7 +311,7 @@
    <script>
         $(document).ready(function(){
 
-            //              get sub categories : 
+            // get sub categories : 
 
             $('body').on('change', '.main-category', function(e){
 

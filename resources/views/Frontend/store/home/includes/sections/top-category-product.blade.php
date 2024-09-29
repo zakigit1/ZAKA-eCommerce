@@ -85,7 +85,7 @@
                                         <img src="{{$item->thumb_image}}" alt="bag" class="img-fluid w-100">
                                     </div>
                                     <div class="wsus__hot_deals__single_text">
-                                        <h5>{{limitText($item->name)}}</h5>
+                                        <h5>{{limitText($item->name,53)}}</h5>
                                         <p class="wsus__rating">
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star"></i>

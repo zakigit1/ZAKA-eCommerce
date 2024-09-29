@@ -28,7 +28,7 @@
     <!--============================
        MONTHLY TOP PRODUCT START (Top Categories Products)
     ==============================-->
-    {{-- @include('Frontend.store.home.includes.sections.top-category-product') --}}
+    @include('Frontend.store.home.includes.sections.top-category-product')
 
     <!--============================
        MONTHLY TOP PRODUCT END
@@ -74,7 +74,7 @@
     <!--============================
         ELECTRONIC PART START   (category 2 )
     ==============================-->
-    @include('Frontend.store.home.includes.sections.category-two')
+    {{-- @include('Frontend.store.home.includes.sections.category-two') --}}
     <!--============================
         ELECTRONIC PART END  
     ==============================-->
@@ -93,7 +93,7 @@
         WEEKLY BEST ITEM START  
     ==============================-->
 
-    @include('Frontend.store.home.includes.sections.weekly-best-item')
+    {{-- @include('Frontend.store.home.includes.sections.weekly-best-item') --}}
     <!--============================
         WEEKLY BEST ITEM END 
     ==============================-->

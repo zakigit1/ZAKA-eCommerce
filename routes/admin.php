@@ -270,6 +270,8 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
         Route::put('product-slider-section-two/update',[HomePageSettingController::class , 'UpdateProductSliderSectionTwo'])->name('product-slider-section-two.update');
         Route::put('weekly-best-products/update',[HomePageSettingController::class , 'UpdateWeeklyBestProducts'])->name('weekly-best-products.update');
     
+        Route::get('list-view',[HomePageSettingController::class , 'changeViewList'])->name('view-list');
+
         Route::get('/get-sub-categories',[HomePageSettingController::class,'get_subcategories'])->name('get-sub-categories');
         Route::get('/get-child-categories',[HomePageSettingController::class,'get_childcategories'])->name('get-child-categories');
     

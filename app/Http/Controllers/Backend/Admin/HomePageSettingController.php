@@ -8,6 +8,7 @@ use App\Models\Childcategory;
 use App\Models\HomePageSetting;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session ;
 
 class HomePageSettingController extends Controller
 {
@@ -68,16 +69,23 @@ class HomePageSettingController extends Controller
     {
 
         $request->validate([
-            'cat_1' => 'required' ,
-            'cat_2' => 'required' ,
-            'cat_3' => 'required' ,
-            'cat_4' => 'required' ,
+            'cat_1' => 'required|exists:categories,id',
+            'cat_2' => 'required|exists:categories,id',
+            'cat_3' => 'required|exists:categories,id',
+            'cat_4' => 'required|exists:categories,id',
+            
         ],[
-            'cat_1.required' => 'The Category One Is Required ' ,
-            'cat_2.required' => 'The Category Two Is Required' ,
-            'cat_3.required' => 'The Category Three Is Required' ,
-            'cat_4.required' => 'The Category Four Is Required' ,
+            'cat_1.required' => 'The Category One Is Required',
+            'cat_1.exists' => 'The Category One Does Not Exist',
+            'cat_2.required' => 'The Category Two Is Required',
+            'cat_2.exists' => 'The Category Two Does Not Exist',
+            'cat_3.required' => 'The Category three Is Required',
+            'cat_3.exists' => 'The Category three Does Not Exist',
+            'cat_4.required' => 'The Category four Is Required',
+            'cat_4.exists' => 'The Category four Does Not Exist',
         ]);
+        
+
         // dd($request->all());
 
         /** M1 */
@@ -190,12 +198,14 @@ class HomePageSettingController extends Controller
         // dd($request->all());
         
         $request->validate([
-            'cat_1' => 'required',
-            'cat_2' => 'required',
+            'cat_1' => 'required|exists:categories,id',
+            'cat_2' => 'required|exists:categories,id',
             
         ],[
-            'cat_1.required' => 'The Category One Of Weekly Best Products Is Required ' ,
-            'cat_2.required' => 'The Category Two Of Weekly Best Products Is Required' ,
+            'cat_1.required' => 'The Category One Is Required',
+            'cat_1.exists' => 'The Category One Does Not Exist',
+            'cat_2.required' => 'The Category Two Is Required',
+            'cat_2.exists' => 'The Category Two Does Not Exist',
         ]);
         
 
@@ -232,6 +242,17 @@ class HomePageSettingController extends Controller
 
 
     
+
+    public function changeViewList(Request $request){
+        Session::put('home_page_settings_view_list',$request->style);
+    }
+
+
+
+
+
+
+
 
 
 

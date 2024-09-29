@@ -107,6 +107,29 @@ class FrontendProductController extends Controller
             ->active()
             ->paginate(12);
 
+        }elseif($request->has('search')){
+            $products = Product::where('is_approved' , 1)->active()->where(function($query) use ($request){
+                $query->where('name','like' ,'%' .$request->search .'%')
+
+                ->orWhere('long_description','like' ,'%' .$request->search .'%')
+
+                ->orWhereHas('category',function($query) use ($request){
+                    $query->where('name','like' ,'%' .$request->search .'%');
+                })
+                ->orWhereHas('subcategory',function($query) use ($request){
+                    $query->where('name','like' ,'%' .$request->search .'%');
+                })
+                ->orWhereHas('childcategory',function($query) use ($request){
+                    $query->where('name','like' ,'%' .$request->search .'%');
+                })
+                ->orWhereHas('brand',function($query) use ($request){
+                    $query->where('name','like' ,'%' .$request->search .'%');
+                });
+            })
+            ->paginate(12);
+
+        }else{
+            $products = Product::where('is_approved' , 1)->action()->orderBy('id','DESC')->paginate(12);
         }
 
         $categories = Category::active()->get(['id','name','slug']);

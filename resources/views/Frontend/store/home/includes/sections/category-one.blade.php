@@ -77,7 +77,7 @@
                                     <i class="fas fa-star-half-alt"></i>
                                     <span>(133 review)</span>
                                 </p>
-                                <a class="wsus__pro_name" href="{{route('product-details',$product->slug)}}">{{$product->name}}</a>
+                                <a class="wsus__pro_name" href="{{route('product-details',$product->slug)}}">{{limitText($product->name,53)}}}</a>
                                 <!-- Start check if there is discount or not -->
                                 @if(check_discount($product))
                                     <p class="wsus__price">{{$settings->currency_icon}} {{$product->offer_price}} <del>{{$settings->currency_icon}} {{$product->price}}</del></p>

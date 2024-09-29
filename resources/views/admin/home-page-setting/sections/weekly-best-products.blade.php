@@ -14,10 +14,19 @@
                         <label >Category</label>
                         <select  name="cat_one" class="form-control  main-category">
                             
-                                <option  disabled value="">-- Select --</option>
-                            @foreach ($categories as $category)
-                                <option {{$category->id == $popularCategories[0]->category ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
-                            @endforeach
+
+                            @if (is_null(@@$weeklyBestProducts[0]->category))
+                                <option selected disabled value="">-- Select --</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            @else
+                                @foreach ($categories as $category)
+                                    <option
+                                        {{ $category->id == $weeklyBestProducts[0]->category ? 'selected' : '' }}
+                                        value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            @endif
                             
                         </select>
                     </div>
@@ -26,7 +35,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         @php 
-                            $subCategories = \App\Models\Subcategory::where('category_id',$popularCategories[0]->category)->active()->get(['id','name']);
+                            $subCategories = \App\Models\Subcategory::where('category_id',@$weeklyBestProducts[0]->category)->active()->get(['id','name']);
                         @endphp
 
 
@@ -35,7 +44,7 @@
                             
                                 <option disabled value="">-- Select --</option>
                             @foreach ($subCategories as $subCategory)
-                                <option {{$subCategory->id == $popularCategories[0]->sub_category ? 'selected' : ''}} value="{{$subCategory->id}}">
+                                <option {{$subCategory->id == @$weeklyBestProducts[0]->sub_category ? 'selected' : ''}} value="{{$subCategory->id}}">
                                     {{$subCategory->name}} 
                                 </option>
                             @endforeach
@@ -47,7 +56,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         @php 
-                            $childCategories = \App\Models\Childcategory::where('sub_category_id',$popularCategories[0]->sub_category)->active()->get(['id','name']);
+                            $childCategories = \App\Models\Childcategory::where('sub_category_id',@$weeklyBestProducts[0]->sub_category)->active()->get(['id','name']);
                         @endphp
 
                         <label >Child Categories</label>
@@ -55,7 +64,7 @@
                         
                                 <option disabled value="">-- Select --</option>
                             @foreach ($childCategories as $childCategory)
-                                <option {{$childCategory->id == $popularCategories[0]->child_category ? 'selected' : ''}} value="{{$childCategory->id}}">
+                                <option {{$childCategory->id == @$weeklyBestProducts[0]->child_category ? 'selected' : ''}} value="{{$childCategory->id}}">
                                     {{$childCategory->name}} 
                                 </option>
                             @endforeach
@@ -76,7 +85,7 @@
         
                                 <option selected disabled>-- Select --</option>
                             @foreach ($categories as $category)
-                                <option {{$category->id == $popularCategories[1]->category ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
+                                <option {{$category->id == @$weeklyBestProducts[1]->category ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
                             
                         </select>
@@ -86,14 +95,14 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         @php 
-                        $subCategories = \App\Models\Subcategory::where('category_id',$popularCategories[1]->category)->active()->get(['id','name']);
+                        $subCategories = \App\Models\Subcategory::where('category_id',@$weeklyBestProducts[1]->category)->active()->get(['id','name']);
                     @endphp
                         <label >Sub Categories</label>
                         <select class="form-control sub-category"  name="sub_cat_two">
                         
                                 <option  disabled value="">-- Select --</option>
                             @foreach ($subCategories as $subCategory)
-                                <option {{$subCategory->id == $popularCategories[1]->sub_category ? 'selected' : ''}} value="{{$subCategory->id}}">
+                                <option {{$subCategory->id == @$weeklyBestProducts[1]->sub_category ? 'selected' : ''}} value="{{$subCategory->id}}">
                                     {{$subCategory->name}} 
                                 </option>
                             @endforeach
@@ -104,14 +113,14 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         @php 
-                            $childCategories = \App\Models\Childcategory::where('sub_category_id',$popularCategories[1]->sub_category)->active()->get(['id','name']);
+                            $childCategories = \App\Models\Childcategory::where('sub_category_id',@$weeklyBestProducts[1]->sub_category)->active()->get(['id','name']);
                         @endphp
                         <label >Child Categories</label>
                         <select class="form-control child-category"  name="child_cat_two">
                         
                                 <option  disabled value="">-- Select --</option>
                             @foreach ($childCategories as $childCategory)
-                                <option {{$childCategory->id == $popularCategories[1]->child_category ? 'selected' : ''}} value="{{$childCategory->id}}">
+                                <option {{$childCategory->id == @$weeklyBestProducts[1]->child_category ? 'selected' : ''}} value="{{$childCategory->id}}">
                                     {{$childCategory->name}} 
                                 </option>
                             @endforeach
@@ -120,11 +129,12 @@
                     </div> 
                 </div> 
                 
-            </div>
+            </div> --}}
 
             {{-- ------------------------------------------------Method 2 (more professional)----------------------------------------- --}}
 
             @for ($i = 0; $i <= 1; $i++)
+
                 <h5>Weekly Best {{ $i == 0 ? 'Rated ' : 'Sale ' }}Products</h5>
                 <div class="row">
                     <div class="col-md-4">
@@ -133,8 +143,8 @@
                             <select name="cat_{{$i + 1}}" class="form-control  main-category">
 
 
-                                @if (is_null(@$weeklyBestProducts[$i]->category))
-                                    <option selected value="">-- Select --</option>
+                                @if (is_null(@@$weeklyBestProducts[$i]->category))
+                                    <option selected disabled value="">-- Select --</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
@@ -166,17 +176,7 @@
                             <label>Sub Categories</label>
                             <select class="form-control sub-category" name="sub_cat_{{$i + 1}}">
 
-{{-- 
-                                @if (is_null(@$weeklyBestProducts[$i]->sub_category))
-                                    <option selected value="">-- Select --</option>
 
-                                    @foreach ($subCategories as $subCategory)
-                                        <option value="{{ $subCategory->id }}">
-                                            {{ $subCategory->name }}
-                                        </option>
-                                    @endforeach
-                                @else
-                                @endif --}}
                                 <option {{ is_null(@$weeklyBestProducts[$i]->sub_category) ? 'selected' : '' }} value="">--Select--</option>
                                 @foreach ($subCategories as $subCategory)
                                     <option
