@@ -28,7 +28,7 @@
     <!--============================
        MONTHLY TOP PRODUCT START (Top Categories Products)
     ==============================-->
-    @include('Frontend.store.home.includes.sections.top-category-product')
+    {{-- @include('Frontend.store.home.includes.sections.top-category-product') --}}
 
     <!--============================
        MONTHLY TOP PRODUCT END
@@ -56,7 +56,7 @@
     <!--============================
         HOT DEALS START
     ==============================-->
-    @include('Frontend.store.home.includes.sections.hot-deals') 
+    {{-- @include('Frontend.store.home.includes.sections.hot-deals')  --}}
     <!--============================
         HOT DEALS END  
     ==============================-->
@@ -65,7 +65,7 @@
     <!--============================
         ELECTRONIC PART START  (category 1 )
     ==============================-->
-    @include('Frontend.store.home.includes.sections.category-one')
+    {{-- @include('Frontend.store.home.includes.sections.category-one') --}}
     <!--============================
         ELECTRONIC PART END  
     ==============================-->

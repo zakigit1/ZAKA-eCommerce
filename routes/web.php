@@ -11,6 +11,7 @@ use App\Http\Controllers\Frontend\User\UserAddressController;
 use App\Http\Controllers\Frontend\User\UserDashboard;
 use App\Http\Controllers\Frontend\User\UserOrderController;
 use App\Http\Controllers\Frontend\User\UserProfileController;
+use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -88,9 +89,7 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
 
         ##############################  Vendor Orders Start  ###################################
 
-
-    
-        Route::get('/order/trashed-orders/',action: [UserOrderController::class,'trashed_orders'])->name('order.trashed-orders');
+        Route::get('/order/trashed-orders/',[UserOrderController::class,'trashed_orders'])->name('order.trashed-orders');
         Route::get('/order/trashed-orders/{id}/restore',[UserOrderController::class,'trashed_orders_restore'])->name('order.trashed-orders.restore');
         Route::get('/order/trashed-orders/{id}/force-delete',[UserOrderController::class,'trashed_orders_delete'])->name('order.trashed-orders.delete');
        
@@ -98,8 +97,11 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     
         ##############################  Vendor Orders End  ###################################
 
-
-
+    Route::group(['prefix'=>'wishlist' , 'as'=>'wishlist.'],function(){
+        route::get('/',[WishlistController::class,'index'])->name('index');
+        route::get('/store',[WishlistController::class,'addToWishlist'])->name('store');
+        route::get('/destroy',[WishlistController::class,'removeProductFromWishlist'])->name('destroy');
+    });
 
 
 });

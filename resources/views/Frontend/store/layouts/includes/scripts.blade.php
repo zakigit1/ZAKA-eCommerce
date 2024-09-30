@@ -162,6 +162,31 @@
                 });
             }
 
+
+        // Add Products to the  Wishlist: 
+
+        $('.add_to_wishlist').on('click',function(e){
+            e.preventDefault();
+
+            let productId = $(this).data('id');
+
+            $.ajax({
+                    url: "{{ route('user.wishlist.store') }}",
+                    method: 'GET',
+                    data: {productId : productId },
+                    success: function(data) {
+                        if(data.status =='success'){
+                            $('#wishlist_count').text(data.count)
+                            toastr.success(data.message);
+                        }else if(data.status =='error'){
+                            toastr.error(data.message);   
+                        }
+                    },
+                    error: function(data) {
+                        console.log('error');
+                    }
+                });
+        })
         
     });
 </script>

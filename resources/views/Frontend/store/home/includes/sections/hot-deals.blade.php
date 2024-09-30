@@ -147,6 +147,7 @@
                 </div>
             </div>
             <div class="row grid2">
+                
                 @foreach ($typeBaseProducts as $key => $products)
                     @foreach ($products as  $product) 
 
@@ -169,7 +170,7 @@
                                 </a>
                                 <ul class="wsus__single_pro_icon">
                                     <li><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal-{{$product->id}}"><i class="far fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="far fa-heart"></i></a></li>
+                                    <li><a href="" class="add_to_wishlist" data-id="{{$product->id}}"><i class="far fa-heart"></i></a></li>
                                     <li><a href="#"><i class="far fa-random"></i></a>
                                 </ul>
                                 <div class="wsus__product_details">
@@ -499,7 +500,7 @@
     </div>
 </section>
 
-
+{{-- product_popup_modal --}}
 @foreach ($typeBaseProducts as $key => $products)
     @foreach ($products as  $product) 
         <section class="product_popup_modal">
@@ -621,7 +622,7 @@
                                             <ul class="wsus__button_area">
                                                 <li><button type="submit" class="add_cart" href="#">add to cart</button></li>
                                                 <li><a class="buy_now" href="#">buy now</a></li>
-                                                <li><a href="#"><i class="fal fa-heart"></i></a></li>
+                                                <li><a href="" class="add_to_wishlist" data-id="{{$product->id}}"><i class="fal fa-heart"></i></a></li>
                                                 <li><a href="#"><i class="far fa-random"></i></a></li>
                                             </ul>
                                         </form>

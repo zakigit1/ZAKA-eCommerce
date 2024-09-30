@@ -47,7 +47,7 @@ class HomeController extends Controller
         $data['productSliderSectionTwo'] = json_decode($data['productSliderSectionTwo']->value,true);
        
         $data['weeklyBestProducts'] = HomePageSetting::where('key','weekly_best_products')->first();
-        $data['weeklyBestProducts'] = json_decode($data['weeklyBestProducts']->value,true);
+        $data['weeklyBestProducts'] = json_decode(@$data['weeklyBestProducts']->value,true);
 
 
         // dd( $data['typeBaseProducts']);
