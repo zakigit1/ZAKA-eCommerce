@@ -170,6 +170,8 @@
 
             let productId = $(this).data('id');
 
+            // i want to add codition about when you click if user are not login it will get a message about need to login to add your product to wishlist
+
             $.ajax({
                     url: "{{ route('user.wishlist.store') }}",
                     method: 'GET',

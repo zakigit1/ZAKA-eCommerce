@@ -49,7 +49,7 @@
                             <div class="form-group">
                                 <label>Phone</label>
                                 {{-- <input type="tel" name="" id=""> --}}
-                                <input type="phone" name="phone" class="form-control" id="" placeholder="Phone" value="{{$profile->phone}}">
+                                <input type="phone" name="phone" class="form-control" id="" placeholder="Phone Number" value="{{$profile->phone}}">
                             </div>
                             <div class="form-group">
                                 <label >Email</label>

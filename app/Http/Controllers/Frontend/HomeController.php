@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\FlashSale;
 use App\Models\FlashSaleItem;
+use App\Models\FooterInfo;
+use App\Models\FooterSocial;
 use App\Models\HomePageSetting;
 use App\Models\Product;
 use App\Models\Slider;
@@ -48,6 +50,11 @@ class HomeController extends Controller
        
         $data['weeklyBestProducts'] = HomePageSetting::where('key','weekly_best_products')->first();
         $data['weeklyBestProducts'] = json_decode(@$data['weeklyBestProducts']->value,true);
+
+
+        // Footer DATA : 
+        $data['footerInfo'] = FooterInfo::first();
+        $data['footerSocials'] = FooterSocial::where('status', 1)->get();
 
 
         // dd( $data['typeBaseProducts']);

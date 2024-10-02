@@ -38,12 +38,13 @@ class Brand extends Model
         return $query->where('is_featured', 1);
     }       
 /*                                                  End Local Scopes                                  */
-    /*                                                 Begin GET                                          */
-    public function getLogoAttribute($value)
-    {
-        return ($value !== NULL) ? asset( 'storage/Uploads/images/brands/'.$value) : " ";
-    }
-    /*                                                 End GET                                            */
+
+/*                                                 Begin GET                                          */
+public function getLogoAttribute($value)
+{
+    return ($value !== NULL) ? asset( 'storage/Uploads/images/brands/'.$value) : " ";
+}
+/*                                                 End GET                                            */
 
 
 /*                                                  Begin Relation                                  */

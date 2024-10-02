@@ -18,6 +18,8 @@ use App\Http\Controllers\Backend\Admin\Product\ProductVariantItemController;
 use App\Http\Controllers\Backend\Admin\Product\SellerProductController;
 use App\Http\Controllers\Backend\Admin\SettingController;
 use App\Http\Controllers\Backend\Admin\CouponController;
+use App\Http\Controllers\Backend\Admin\Footer\FooterInfoController;
+use App\Http\Controllers\Backend\Admin\Footer\FooterSocialController;
 use App\Http\Controllers\Backend\Admin\HomePageSettingController;
 use App\Http\Controllers\Backend\Admin\OrderController;
 use App\Http\Controllers\Backend\Admin\Payment\PaymentSettingController;
@@ -80,7 +82,7 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
 
         });
 
-    ##############################  Vendor Profile Start  ###################################
+    ############################## Admin  Vendor Profile Start  ###################################
 
         Route::group(['prefix'=>'vendor-profile','as'=>'vendor-profile.'],function(){
             
@@ -90,10 +92,7 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
 
         });
 
-
-
-   
-    ##############################  Vendor Profile End  ###################################
+    ############################## Admin Vendor Profile End  ###################################
 
     ##############################  Product Start  ###################################
 
@@ -277,6 +276,28 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     
     });
     ############################## Home Page Settings  End  ###################################
+    
+    
+    
+    
+
+    ############################## Footer  Start  ###################################
+
+        ############################## Footer Information  Start  ###################################
+            Route::get('footer-info',[FooterInfoController::class , 'index'])->name('footer-info.index');
+            Route::post('footer-info',[FooterInfoController::class , 'update'])->name('footer-info.update');
+
+        ############################## Footer Information  End  ###################################
+
+        ############################## Footer Socials  Start  ###################################
+            Route::put('footer-socials/change-status/',[FooterSocialController::class,'change_status'])->name('footer-socials.change-status');
+            Route::resource('footer-socials',FooterSocialController::class);
+        ############################## Footer Socials  End  ###################################
+
+    ############################## Footer  End  ###################################
+
+
+
 
 
 
