@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\FlashSale;
 use App\Models\FlashSaleItem;
-use App\Models\FooterInfo;
-use App\Models\FooterSocial;
 use App\Models\HomePageSetting;
 use App\Models\Product;
 use App\Models\Slider;
@@ -19,11 +17,11 @@ class HomeController extends Controller
 
 
         // $sliders = Slider::where('status',1)->orderBy('serial','asc')->get();
-        
-        
+    
         // $data['flashSaleItem'] = FlashSaleItem::with(['product'=>function($query){
         //     return $query->select('id','name')->get();
         // }])->where('show_at_home',1)->active()->get();
+
         
         //we need to modify get with pagination
         $data['sliders'] = Slider::orderBy('serial','asc')->active()->get();
@@ -38,8 +36,6 @@ class HomeController extends Controller
         // $data['brands'] = Brand::where('is_featured',1)->active()->get();
         $data['brands'] = Brand::active()->isFeatured()->get();
 
-
-
         $data['typeBaseProducts'] = $this->getTypeProducts();
 
         $data['productSliderSectionOne'] = HomePageSetting::where('key','product_slider_section_one')->first();
@@ -50,11 +46,6 @@ class HomeController extends Controller
        
         $data['weeklyBestProducts'] = HomePageSetting::where('key','weekly_best_products')->first();
         $data['weeklyBestProducts'] = json_decode(@$data['weeklyBestProducts']->value,true);
-
-
-        // Footer DATA : 
-        $data['footerInfo'] = FooterInfo::first();
-        $data['footerSocials'] = FooterSocial::where('status', 1)->get();
 
 
         // dd( $data['typeBaseProducts']);

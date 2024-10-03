@@ -18,6 +18,8 @@ use App\Http\Controllers\Backend\Admin\Product\ProductVariantItemController;
 use App\Http\Controllers\Backend\Admin\Product\SellerProductController;
 use App\Http\Controllers\Backend\Admin\SettingController;
 use App\Http\Controllers\Backend\Admin\CouponController;
+use App\Http\Controllers\Backend\Admin\Footer\FooterGridThreeController;
+use App\Http\Controllers\Backend\Admin\Footer\FooterGridTwoController;
 use App\Http\Controllers\Backend\Admin\Footer\FooterInfoController;
 use App\Http\Controllers\Backend\Admin\Footer\FooterSocialController;
 use App\Http\Controllers\Backend\Admin\HomePageSettingController;
@@ -178,6 +180,12 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
 
             /** Update Or Create general Settings :( if general settings is not created yet we created else we update general settings)  */
             Route::put('/general-settings/update',[SettingController::class , 'UpdateSettingsGeneral'])->name('general-settings.update');
+            
+            /** Update Or Create Email configuration Settings :( if general settings is not created yet we created else we update email configuration settings)  */
+            Route::put('/email-settings/update',[SettingController::class , 'UpdateEmailConfiguration'])->name('email-settings.update');
+
+
+            Route::get('list-view',[SettingController::class , 'changeViewList'])->name('view-list');
         });
     
     ############################## Settings  End  ###################################
@@ -293,6 +301,18 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
             Route::put('footer-socials/change-status/',[FooterSocialController::class,'change_status'])->name('footer-socials.change-status');
             Route::resource('footer-socials',FooterSocialController::class);
         ############################## Footer Socials  End  ###################################
+            
+        ############################## Footer Grid Two  Start  ###################################
+            Route::put('footer-grid-two/change-status/',[FooterGridTwoController::class,'change_status'])->name('footer-grid-two.change-status');
+            Route::put('footer-grid-two/change-title/',[FooterGridTwoController::class,'changeTitle'])->name('footer-grid-two.change-title');
+            Route::resource('footer-grid-two',FooterGridTwoController::class);
+        ############################## Footer Grid Two   End  ###################################
+
+        ############################## Footer Grid Three  Start  ###################################
+            Route::put('footer-grid-three/change-status/',[FooterGridThreeController::class,'change_status'])->name('footer-grid-three.change-status');
+            Route::put('footer-grid-three/change-title/',[FooterGridThreeController::class,'changeTitle'])->name('footer-grid-three.change-title');
+            Route::resource('footer-grid-three',FooterGridThreeController::class);
+        ############################## Footer Grid Three   End  ###################################
 
     ############################## Footer  End  ###################################
 

@@ -32,7 +32,7 @@ class FooterSocialController extends Controller
     {
         $this->validate($request, [
             'icon'=> ['required','not_in:empty'],
-            'name'=> 'required|string|max:200|unique:categories,name',
+            'name'=> 'required|string|max:200|unique:footer_socials,name',
             'url'=> 'required|url',
             'status'=> 'required|boolean',
         ]);
@@ -77,7 +77,7 @@ class FooterSocialController extends Controller
     {
         $this->validate($request, [
             'icon'=> ['required','not_in:empty'],
-            'name' => 'required|string|max:200|unique:categories,name,'.$id,
+            'name' => 'required|string|max:200|unique:footer_socials,name,'.$id,
             'url'=> 'required|url',
             'status'=> 'required|boolean',
 

@@ -13,7 +13,7 @@ class WishlistController extends Controller
 
         // $wishlist_products = auth()->user()->wishlist()->get();
 
-        $wishlists = Wishlist::where('user_id' , Auth::user()->id)->orderBy('id','DESC')->get();
+        $wishlists = Wishlist::with('product')->where('user_id' , Auth::user()->id)->orderBy('id','DESC')->get();
 
         // if(count($wishlists) == 0 ){
 

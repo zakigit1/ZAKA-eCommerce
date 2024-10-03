@@ -55,7 +55,7 @@ class FrontendProductController extends Controller
         if($request->has('category')){
 
             $categoryId = Category::where('slug',$request->category)->firstOrFail()->id;
-            $products = Product::where(['category_id' => $categoryId , 'is_approved' => 1])
+            $products = Product::with(['brand','category'])->where(['category_id' => $categoryId , 'is_approved' => 1])
             ->active()
             ->when($request->has('price_range') && $request->price_range != null ,function($query) use($request) {
                 $price = explode(';',$request->price_range);
@@ -69,7 +69,7 @@ class FrontendProductController extends Controller
         }elseif($request->has('sub_category')){
             
             $sub_categoryId = Subcategory::where('slug',$request->sub_category)->firstOrFail()->id;
-            $products = Product::where(['sub_category_id' => $sub_categoryId , 'is_approved' => 1])
+            $products = Product::with(['brand','category','gallery','variants'])->where(['sub_category_id' => $sub_categoryId , 'is_approved' => 1])
             ->when($request->has('price_range') && $request->price_range != null ,function($query) use($request) {
                 $price = explode(';',$request->price_range);
                 $from = $price [0];
@@ -83,7 +83,7 @@ class FrontendProductController extends Controller
         }elseif($request->has('child_category')){
 
             $child_categoryId = Childcategory::where('slug',$request->child_category)->firstOrFail()->id;
-            $products = Product::where(['child_category_id' => $child_categoryId , 'is_approved' => 1])
+            $products = Product::with(['brand','category'])->where(['child_category_id' => $child_categoryId , 'is_approved' => 1])
             ->when($request->has('price_range') && $request->price_range != null ,function($query) use($request) {
                 $price = explode(';',$request->price_range);
                 $from = $price [0];
@@ -96,7 +96,7 @@ class FrontendProductController extends Controller
             
         }elseif($request->has('brand')){
             $brandId = Brand::where('slug',$request->brand)->firstOrFail()->id;
-            $products = Product::where(['brand_id' => $brandId , 'is_approved' => 1])
+            $products = Product::with(['brand','category'])->where(['brand_id' => $brandId , 'is_approved' => 1])
             ->when($request->has('price_range') && $request->price_range != null ,function($query) use($request) {
                 $price = explode(';',$request->price_range);
                 $from = $price [0];
@@ -108,7 +108,7 @@ class FrontendProductController extends Controller
             ->paginate(12);
 
         }elseif($request->has('search')){
-            $products = Product::where('is_approved' , 1)->active()->where(function($query) use ($request){
+            $products = Product::with(['brand','category'])->where('is_approved' , 1)->active()->where(function($query) use ($request){
                 $query->where('name','like' ,'%' .$request->search .'%')
 
                 ->orWhere('long_description','like' ,'%' .$request->search .'%')
@@ -129,7 +129,7 @@ class FrontendProductController extends Controller
             ->paginate(12);
 
         }else{
-            $products = Product::where('is_approved' , 1)->action()->orderBy('id','DESC')->paginate(12);
+            $products = Product::with(['brand','category'])->where('is_approved' , 1)->action()->orderBy('id','DESC')->paginate(12);
         }
 
         $categories = Category::active()->get(['id','name','slug']);

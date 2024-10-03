@@ -7,6 +7,7 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\FlashSaleController;
 use App\Http\Controllers\Frontend\FrontendProductController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\NewsletterController;
 use App\Http\Controllers\Frontend\User\UserAddressController;
 use App\Http\Controllers\Frontend\User\UserDashboard;
 use App\Http\Controllers\Frontend\User\UserOrderController;
@@ -143,7 +144,10 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
 
 
 
+    //News Letter footer : 
 
+    Route::post('newletter-request',[NewsletterController::class ,'newLetterRequest'])->name('newsletter-request');
+    Route::get('newletter-verify/{token}',[NewsletterController::class ,'newLetterEmailVerify'])->name('newsletter-verify');
 
 
 
