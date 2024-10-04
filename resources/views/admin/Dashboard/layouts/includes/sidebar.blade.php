@@ -145,6 +145,9 @@
 
         {{-- Payment --}}
         <li class="{{setActive(['admin.payment.*'])}}"><a class="nav-link" href="{{route('admin.payment.index')}}"><i class="fas fa-cog"></i> <span>Payment Settings</span></a></li>
+       
+        {{-- Subscriber --}}
+        <li class="{{setActive(['admin.subscriber.*'])}}"><a class="nav-link" href="{{route('admin.subscriber.index')}}"><i class="fas fa-cog"></i> <span>Subscribers</span></a></li>
 
       </ul>
 

@@ -28,6 +28,7 @@ use App\Http\Controllers\Backend\Admin\Payment\PaymentSettingController;
 use App\Http\Controllers\Backend\Admin\Payment\Gateways\RazorpaySettingController;
 use App\Http\Controllers\Backend\Admin\Payment\Gateways\StripeSettingController;
 use App\Http\Controllers\Backend\Admin\ShippingRuleController;
+use App\Http\Controllers\Backend\Admin\SubscriberController;
 use App\Http\Controllers\Backend\Admin\TransactionController;
 
 Route::get('login',[AdminController::class,'login'])->name('login.page');
@@ -314,7 +315,19 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
             Route::resource('footer-grid-three',FooterGridThreeController::class);
         ############################## Footer Grid Three   End  ###################################
 
+        ############################## Newsletter Subscriber  Start  ###################################
+            Route::get('subscriber/',[SubscriberController::class,'index'])->name('subscriber.index');
+            Route::delete('subscriber/{id}/destory',[SubscriberController::class,'destroy'])->name('subscriber.destroy');
+
+            Route::post('subscriber/send-mail',[SubscriberController::class ,'sendMail'])->name('subscriber.send-mail');
+        ############################## Newsletter Subscriber   End  ###################################
+
     ############################## Footer  End  ###################################
+
+
+
+
+
 
 
 

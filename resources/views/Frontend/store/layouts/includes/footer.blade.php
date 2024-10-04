@@ -86,8 +86,8 @@
                     <form  method="POST" id="newsletter">
                         @csrf
 
-                        <input type="text" name="email" placeholder="Enter Your Email">
-                        <button type="submit" class="common_btn">subscribe</button>
+                        <input class="newsletter_email" type="text" name="email" placeholder="Enter Your Email">
+                        <button type="submit" class="common_btn subscribe_btn">Subscribe</button>
 
                     </form>
                     <div class="footer_payment">
