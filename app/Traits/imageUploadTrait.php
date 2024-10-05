@@ -26,14 +26,16 @@ trait imageUploadTrait{
 
     function deleteImage_Trait($old_image):void
     {
+        
         if(file_exists(public_path($old_image))){
             File::delete(public_path($old_image));   
         }
     }
 
 
-    function updateImage_Trait(Request $request ,$inputName, $folderPath, $folderName,$old_image){
+    function updateImage_Trait(Request $request ,$inputName, $folderPath, $folderName, $old_image = null){
 
+        
         #-------- begin of Delete the old image ---------#
         
             // if(file_exists(public_path($old_image))){

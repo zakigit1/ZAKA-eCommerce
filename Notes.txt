@@ -51,3 +51,13 @@ $collection = collect([
 $flattenedCollection = $collection->flatten();
 
 // Output: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+
+
+//
+if the value is null ,for save it : 
+$oldBanner = $bannerOne['banner_image'] ?? null;
+
+
+
+

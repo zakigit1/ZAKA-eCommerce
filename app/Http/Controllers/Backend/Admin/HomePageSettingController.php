@@ -249,34 +249,4 @@ class HomePageSettingController extends Controller
 
 
 
-
-
-
-
-
-
-
-
-
-
-    // public function checkTheLastKey($cat_types){
-
-    //     if(is_null($cat_types->child_category)){
-
-    //         if(is_null($cat_types->sub_category)){
-    //             return 'category';
-
-    //         }else{
-    //             return 'sub_category';
-    //         }
-            
-    //     }else{
-    //         return 'child_category';
-    //     }
-
-
-
-    // }
-
-
 }

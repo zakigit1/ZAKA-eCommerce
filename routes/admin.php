@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\Admin\Payment\Gateways\PaypalSettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Admin\AdminController;
 use App\Http\Controllers\Backend\Admin\AdminVendroProfileController;
+use App\Http\Controllers\Backend\Admin\AdvertisementController;
 use App\Http\Controllers\Backend\Admin\BrandController;
 use App\Http\Controllers\Backend\Admin\SliderController;
 use App\Http\Controllers\Backend\Admin\CategoryController;
@@ -325,10 +326,26 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     ############################## Footer  End  ###################################
 
 
+    ############################## advertisements  Start  ###################################
 
+    Route::group(['prefix'=>'advertisement','as'=>'advertisement.'],function(){
 
+        Route::get('',[AdvertisementController::class ,'index'])->name('index');
+    
+        
+        Route::put('/homepage-banner-section-one',[AdvertisementController::class ,'homepageBannerSectionOne'])->name('homepage-banner-section-one');
+        Route::put('/homepage-banner-section-two',[AdvertisementController::class ,'homepageBannerSectionTwo'])->name('homepage-banner-section-two');
+        Route::put('/homepage-banner-section-three',[AdvertisementController::class ,'homepageBannerSectionThree'])->name('homepage-banner-section-three');
+        Route::put('/homepage-banner-section-four',[AdvertisementController::class ,'homepageBannerSectionFour'])->name('homepage-banner-section-four');
 
+        Route::put('/productpage-banner',[AdvertisementController::class ,'productpageBanner'])->name('productpage-banner');
+        Route::put('/cartpage-banner',[AdvertisementController::class ,'cartpageBanner'])->name('cartpage-banner');
+    
+    
+        Route::get('/list-view',[AdvertisementController::class , 'changeViewList'])->name('view-list');
+    });
 
+    ############################## advertisements  End  ###################################
 
 
 

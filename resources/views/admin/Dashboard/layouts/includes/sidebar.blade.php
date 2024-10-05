@@ -148,6 +148,9 @@
        
         {{-- Subscriber --}}
         <li class="{{setActive(['admin.subscriber.*'])}}"><a class="nav-link" href="{{route('admin.subscriber.index')}}"><i class="fas fa-cog"></i> <span>Subscribers</span></a></li>
+        
+        {{-- Advertisements --}}
+        <li class="{{setActive(['admin.advertisement.*'])}}"><a class="nav-link" href="{{route('admin.advertisement.index')}}"><i class="fas fa-cog"></i> <span>Advertisements</span></a></li>
 
       </ul>
 

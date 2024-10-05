@@ -40,10 +40,10 @@ class Brand extends Model
 /*                                                  End Local Scopes                                  */
 
 /*                                                 Begin GET                                          */
-public function getLogoAttribute($value)
-{
-    return ($value !== NULL) ? asset( 'storage/Uploads/images/brands/'.$value) : " ";
-}
+    public function getLogoAttribute($value)
+    {
+        return ($value !== NULL) ? asset( 'storage/Uploads/images/brands/'.$value) : " ";
+    }
 /*                                                 End GET                                            */
 
 
