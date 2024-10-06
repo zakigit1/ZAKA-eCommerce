@@ -36,16 +36,14 @@
 
                 {{-- banner --}}
                 <div class="col-xl-12">
-                    <div class="wsus__pro_page_bammer">
-                        <img src="{{asset('frontend/assets/images/pro_banner_1.jpg')}}" alt="banner" class="img-fluid w-100">
-                        <div class="wsus__pro_page_bammer_text">
-                            <div class="wsus__pro_page_bammer_text_center">
-                                <p>up to <span>70% off</span></p>
-                                <h5>wemen's jeans Collection</h5>
-                                <h3>fashion for wemen's</h3>
-                                <a href="#" class="add_cart">Discover Now</a>
-                            </div>
-                        </div>
+                    <div class="wsus__pro_page_bammer text-center">
+                        
+                        @if ($productpageBanner->status == 1)
+                            <a href="{{$productpageBanner->banner_url}}">
+                                <img src="{{asset($productpageBanner->banner_image)}}" alt="banner" class="img-fluid w-100">
+                            </a>
+                        @endif
+                        
                     </div>
                 </div>
 

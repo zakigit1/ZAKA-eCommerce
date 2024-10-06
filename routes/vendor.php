@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Frontend\ReviewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Vendor\VendorController;
 use App\Http\Controllers\Backend\Vendor\VendorOrderController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Backend\Vendor\VendorProduct\VendorProductController;
 use App\Http\Controllers\Backend\Vendor\VendorProduct\VendorProductImageGalleryController;
 use App\Http\Controllers\Backend\Vendor\VendorProduct\VendorProductVariantController;
 use App\Http\Controllers\Backend\Vendor\VendorProduct\VendorProductVariantItemController;
+use App\Http\Controllers\Backend\Vendor\VendorProductReviewController;
 use App\Http\Controllers\Backend\Vendor\VendorShopProfileController;
 
 // Route::get('vendor/dashboard',[VendorController::class,'index'])->middleware(['auth:web','role:vendor'])->name('vendor.dashboard');
@@ -95,6 +97,13 @@ Route::group(['middleware'=>['auth:web','role:vendor'],'prefix'=>'vendor','as'=>
     Route::resource('order',VendorOrderController::class)->except(['store','edit','update']);
 
     ##############################  Vendor Orders End  ###################################
+    
+    ##############################  Review Start  ###################################
+    route::get('/review',[VendorProductReviewController::class,'index'])->name(name: 'review.index');
+    ##############################  Review End  ###################################
+
+
+
 });
 
 

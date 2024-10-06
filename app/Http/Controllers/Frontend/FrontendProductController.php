@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Advertisement;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Childcategory;
 use App\Models\Product;
+use App\Models\ProductReview;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -38,7 +40,7 @@ class FrontendProductController extends Controller
             )
         ->where('slug', $slug)->first();
 
-
+        $data['reviews'] = ProductReview::with(['user','productReviewGalleries'])->where(['product_id' => $data['product']->id , 'status' => 1])->paginate(1);
 
         if (!$data['product']) {
             abort(404);
@@ -135,7 +137,10 @@ class FrontendProductController extends Controller
         $categories = Category::active()->get(['id','name','slug']);
         $brands = Brand::active()->get(['id','name','slug']);
 
-        return  view('Frontend.store.product.index' ,compact('products','categories','brands'));
+        $productpageBanner = Advertisement::where('key','productpage_banner')->first();
+        $productpageBanner = json_decode($productpageBanner?->value);
+
+        return  view('Frontend.store.product.index' ,compact('products','categories','brands','productpageBanner'));
     }
 
 

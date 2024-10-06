@@ -2,52 +2,30 @@
     <div class="container">
         <div class="row">
 
-
-
-
-            {{-- @foreach ($collection as $item)
-                <div class="col-xl-6 col-lg-6">
-                    <div class="wsus__single_banner_content">
-                        <div class="wsus__single_banner_img">
-                            <img src="{{asset('frontend/assets/images/single_banner_7.jpg')}}" alt="banner" class="img-fluid w-100">
-                        </div>
-                        <div class="wsus__single_banner_text">
-                            <h6>sell on <span>35% off</span></h6>
-                            <h3>smart watch</h3>
-                            <a class="shop_btn" href="#">shop now</a>
-                        </div>
-                    </div>
-                </div>
-            @endforeach --}}
-
-
-
-
-
-
-
             <div class="col-xl-6 col-lg-6">
                 <div class="wsus__single_banner_content">
                     <div class="wsus__single_banner_img">
-                        <img src="{{asset('frontend/assets/images/single_banner_7.jpg')}}" alt="banner" class="img-fluid w-100">
+                        
+                        @if ($homepageBannerSectionTwo[2]->status == 1)
+                            <a href="{{$homepageBannerSectionTwo[0]->banner_1->banner_url_1}}">
+                                <img src="{{asset($homepageBannerSectionTwo[0]->banner_1->banner_image_1)}}" alt="banner" class="img-fluid w-100">
+                            </a>
+                        @endif
+
                     </div>
-                    <div class="wsus__single_banner_text">
-                        <h6>sell on <span>35% off</span></h6>
-                        <h3>smart watch</h3>
-                        <a class="shop_btn" href="#">shop now</a>
-                    </div>
+
                 </div>
             </div>
             <div class="col-xl-6 col-lg-6">
                 <div class="wsus__single_banner_content single_banner_2">
                     <div class="wsus__single_banner_img">
-                        <img src="{{asset('frontend/assets/images/single_banner_8.jpg')}}" alt="banner" class="img-fluid w-100">
+                        @if ($homepageBannerSectionTwo[2]->status == 1)
+                            <a href="{{$homepageBannerSectionTwo[1]->banner_2->banner_url_2}}">
+                                <img src="{{asset($homepageBannerSectionTwo[1]->banner_2->banner_image_2)}}" alt="banner" class="img-fluid w-100">
+                            </a>
+                        @endif
                     </div>
-                    <div class="wsus__single_banner_text">
-                        <h6>New Collection</h6>
-                        <h3>bicycle</h3>
-                        <a class="shop_btn" href="#">shop now</a>
-                    </div>
+
                 </div>
             </div>
         </div>

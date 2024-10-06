@@ -8,6 +8,7 @@ use App\Http\Controllers\Frontend\FlashSaleController;
 use App\Http\Controllers\Frontend\FrontendProductController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\NewsletterController;
+use App\Http\Controllers\Frontend\ReviewController;
 use App\Http\Controllers\Frontend\User\UserAddressController;
 use App\Http\Controllers\Frontend\User\UserDashboard;
 use App\Http\Controllers\Frontend\User\UserOrderController;
@@ -88,24 +89,53 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     });
 
 
-        ##############################  Vendor Orders Start  ###################################
+    ##############################  Vendor Orders Start  ###################################
 
-        Route::get('/order/trashed-orders/',[UserOrderController::class,'trashed_orders'])->name('order.trashed-orders');
-        Route::get('/order/trashed-orders/{id}/restore',[UserOrderController::class,'trashed_orders_restore'])->name('order.trashed-orders.restore');
-        Route::get('/order/trashed-orders/{id}/force-delete',[UserOrderController::class,'trashed_orders_delete'])->name('order.trashed-orders.delete');
-       
-        Route::resource('order',UserOrderController::class)->except(['store','edit','update']);
+    Route::get('/order/trashed-orders/',[UserOrderController::class,'trashed_orders'])->name('order.trashed-orders');
+    Route::get('/order/trashed-orders/{id}/restore',[UserOrderController::class,'trashed_orders_restore'])->name('order.trashed-orders.restore');
+    Route::get('/order/trashed-orders/{id}/force-delete',[UserOrderController::class,'trashed_orders_delete'])->name('order.trashed-orders.delete');
     
-        ##############################  Vendor Orders End  ###################################
+    Route::resource('order',UserOrderController::class)->except(['store','edit','update']);
 
+    ##############################  Vendor Orders End  ###################################
+    
+    ##############################  Wishlist Start  ###################################
+    
     Route::group(['prefix'=>'wishlist' , 'as'=>'wishlist.'],function(){
         route::get('/',[WishlistController::class,'index'])->name('index');
         route::get('/store',[WishlistController::class,'addToWishlist'])->name('store');
         route::get('/destroy',[WishlistController::class,'removeProductFromWishlist'])->name('destroy');
     });
 
+    ##############################  Wishlist End  ###################################
 
+
+    ##############################  Review Start  ###################################
+    Route::group(['prefix'=>'review' , 'as'=>'review.'],function(){
+    
+        route::get('/',[ReviewController::class,'index'])->name('index');
+        route::post('/create',[ReviewController::class,'create'])->name('create');
+
+    });
+
+
+    ##############################  Review End  ###################################
+
+
+
+
+
+    
 });
+
+
+
+
+
+
+
+
+
 
 
 

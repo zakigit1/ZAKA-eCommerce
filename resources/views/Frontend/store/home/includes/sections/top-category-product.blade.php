@@ -7,7 +7,17 @@
     <div class="container">
         <!-- Black Friday Sale -->
 
-        <div class="row">
+        {{-- Banner section 1 --}}
+        <div class="row text-center">
+
+            @if ($homepageBannerSectionOne->status == 1)
+                <a href="{{$homepageBannerSectionOne->banner_url}}">
+                    <img src="{{asset($homepageBannerSectionOne->banner_image)}}" alt="banner" class="img-fluid w-100">
+                </a>
+            @endif
+
+        </div>
+        {{-- <div class="row">
             <div class="col-xl-12 col-lg-12">
                 <div class="wsus__monthly_top_banner">
                     <div class="wsus__monthly_top_banner_img">
@@ -22,7 +32,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
+
+        <br><br>
 
         <!-- Top Categories Of The Month -->
 

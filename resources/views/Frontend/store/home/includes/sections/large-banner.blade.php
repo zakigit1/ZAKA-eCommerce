@@ -1,17 +1,25 @@
+
+
 <section id="wsus__large_banner">
     <div class="container">
-        <div class="row">
+        <div class="row text-center">
             <div class="cl-xl-12">
-                <div class="wsus__large_banner_content" style="background: url({{asset('frontend/assets/images/large_banner_img.jpg')}});">
+                <div class="wsus__large_banner_content">
+                    @if ($homepageBannerSectionFour->status == 1)
+                        <a href="{{$homepageBannerSectionFour->banner_url}}">
+                            <img src="{{asset($homepageBannerSectionFour->banner_image)}}" alt="banner" class="img-fluid">
+                        </a>
+                    @endif
+                </div>
+
+
+                {{-- <div class="wsus__large_banner_content" style="background: url({{asset($homepageBannerSectionFour->banner_image)}});">
                     <div class="wsus__large_banner_content_overlay">
                         <div class="row">
                             <div class="col-xl-6 col-12 col-md-6">
                                 <div class="wsus__large_banner_text">
-                                    <h3>This Week's Deal</h3>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem repudiandae in
-                                        ipsam
-                                        nesciunt.</p>
-                                    <a class="shop_btn" href="#">view more</a>
+
+                                    <a class="shop_btn" href="{{$homepageBannerSectionFour->banner_url}}">view more</a>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-12 col-md-6">
@@ -24,7 +32,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

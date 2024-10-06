@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Advertisement;
 use App\Models\Brand;
 use App\Models\FlashSale;
 use App\Models\FlashSaleItem;
@@ -46,6 +47,26 @@ class HomeController extends Controller
        
         $data['weeklyBestProducts'] = HomePageSetting::where('key','weekly_best_products')->first();
         $data['weeklyBestProducts'] = json_decode(@$data['weeklyBestProducts']->value,true);
+
+
+        //banners sections 
+
+        /** Top Category Product Banners */
+        $data['homepageBannerSectionOne'] = Advertisement::where('key','homepage_banner_section_one')->first();
+        $data['homepageBannerSectionOne'] = json_decode($data['homepageBannerSectionOne']?->value);
+        
+        /** Single Banner */
+        $data['homepageBannerSectionTwo'] = Advertisement::where('key','homepage_banner_section_two')->first();
+        $data['homepageBannerSectionTwo'] = json_decode($data['homepageBannerSectionTwo']?->value);
+        
+        /** Hot Deal Banner */
+        $data['homepageBannerSectionThree'] = Advertisement::where('key','homepage_banner_section_three')->first();
+        $data['homepageBannerSectionThree'] = json_decode($data['homepageBannerSectionThree']?->value);
+        
+        /** Large Banner */
+        $data['homepageBannerSectionFour'] = Advertisement::where('key','homepage_banner_section_four')->first();
+        $data['homepageBannerSectionFour'] = json_decode($data['homepageBannerSectionFour']?->value);
+
 
 
         // dd( $data['typeBaseProducts']);

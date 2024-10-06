@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Advertisement;
 use App\Models\Coupon;
 use App\Models\GeneralSetting;
 use App\Models\Product;
@@ -93,7 +94,12 @@ class CartController extends Controller
         // dd($cartProducts);
         // dd($cartProducts['400e29e1df375d66dcb86a793720c4d0']->rowId);
 
-        return view('Frontend.store.pages.cart-details',compact('cartProducts'));
+        $cartpageBanner = Advertisement::where('key','cartpage_banner')->first();
+        $cartpageBanner = json_decode($cartpageBanner?->value);
+
+
+
+        return view('Frontend.store.pages.cart-details',compact('cartProducts','cartpageBanner'));
     }
 
     /** Quantity Increment : */
