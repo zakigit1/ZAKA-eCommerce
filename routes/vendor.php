@@ -99,7 +99,7 @@ Route::group(['middleware'=>['auth:web','role:vendor'],'prefix'=>'vendor','as'=>
     ##############################  Vendor Orders End  ###################################
     
     ##############################  Review Start  ###################################
-    route::get('/review',[VendorProductReviewController::class,'index'])->name(name: 'review.index');
+    route::get('/product-review',[VendorProductReviewController::class,'index'])->name(name: 'product-review.index');
     ##############################  Review End  ###################################
 
 

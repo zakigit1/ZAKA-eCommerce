@@ -19,7 +19,7 @@
           ])}}" href="{{route('vendor.product.index')}}"><i class="far fa-user"></i> Product</a></li>
 
 
-      <li><a class="{{ setActive(['vendor.review.index'])}}" href="{{route('vendor.review.index')}}"><i class="far fa-user"></i> Reviews </a></li>
+      <li><a class="{{ setActive(['vendor.product-review.index'])}}" href="{{route('vendor.product-review.index')}}"><i class="far fa-user"></i>Product Reviews </a></li>
 
       <li><a class="{{ setActive([
         'vendor.order.*',

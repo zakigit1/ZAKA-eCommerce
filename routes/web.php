@@ -111,7 +111,7 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
 
 
     ##############################  Review Start  ###################################
-    Route::group(['prefix'=>'review' , 'as'=>'review.'],function(){
+    Route::group(['prefix'=>'product-review' , 'as'=>'product-review.'],function(){
     
         route::get('/',[ReviewController::class,'index'])->name('index');
         route::post('/create',[ReviewController::class,'create'])->name('create');

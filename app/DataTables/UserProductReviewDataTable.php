@@ -40,27 +40,34 @@ class UserProductReviewDataTable extends DataTable
                      break;
 
                 case 2:
-                    return '<i class="fas fa-star"></i> <i class="fas fa-star"></i>';
+                    for($i = 0 ; $i<=1 ;$i++){
+                        $stars [] = '<i class="fas fa-star"></i>' ;
+                       };
+                    return str_replace(',','',implode(',',$stars));
                     break;
                 case 3:
                     
-                    // for($i = 0 ;$i<=2;$i++){
-                    //     $stars [] = '<i class="fas fa-star"></i>' ;
-                    //    };
-    
-                    // return $stars;
-                    // break;
-
-                   
-                    return '<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i>';
+                    for($i = 0 ;$i <= 2 ;$i++){
+                        $stars [] = '<i class="fas fa-star"></i>' ;
+                       };
+                    return str_replace(',','',implode(',',$stars));
                     break;
+
+                    // return '<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i>';
+                    // break;
                     
                 case 4:
-                    return '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
-                     break;
+                    for($i = 0 ;$i <= 3 ;$i++){
+                        $stars [] = '<i class="fas fa-star"></i>' ;
+                       };
+                    return str_replace(',','',implode(',',$stars));
+                    break;
 
                 case 5:
-                    return'<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i>';
+                    for($i = 0 ;$i <=4 ;$i++){
+                        $stars [] = '<i class="fas fa-star"></i>' ;
+                       };
+                    return str_replace(',','',implode(',',$stars));
                     break;
 
                 default:

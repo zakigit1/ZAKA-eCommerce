@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Backend\Admin\Payment\Gateways\PaypalSettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Admin\AdminController;
+use App\Http\Controllers\Backend\Admin\AdminProductReviewController;
 use App\Http\Controllers\Backend\Admin\AdminVendroProfileController;
 use App\Http\Controllers\Backend\Admin\AdvertisementController;
 use App\Http\Controllers\Backend\Admin\BrandController;
@@ -347,6 +348,14 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
 
     ############################## advertisements  End  ###################################
 
+
+    ##############################  Review Start  ###################################
+    route::get('/product-review',[AdminProductReviewController::class,'index'])->name('product-review.index');
+    Route::put('product-review/change-status/',[AdminProductReviewController::class,'change_status'])->name('product-review.change-status');
+    route::delete('/product-review/{id}/destroy',[AdminProductReviewController::class,'destroy'])->name('product-review.destory');
+    route::get('/product-review/{id}/Gallery',[AdminProductReviewController::class,'productReviewGallery'])->name('product-review-gallery');
+    route::delete('/product-review/Gallery/{id}/destroy',[AdminProductReviewController::class,'productReviewGalleryDestroy'])->name('product-review-gallery.destroy');
+    ##############################  Review End  ###################################
 
 
 

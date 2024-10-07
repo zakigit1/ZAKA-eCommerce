@@ -9,7 +9,7 @@
       
       <li><a class="{{ setActive(['user.order.*'])}}" href="{{route('user.order.index')}}"><i class="far fa-user"></i>Orders</a></li>
         
-      <li><a class="{{ setActive(['user.review.*'])}}" href="{{route('user.review.index')}}"><i class="far fa-star"></i> Reviews</a></li>
+      <li><a class="{{ setActive(['user.product-review.index'])}}" href="{{route('user.product-review.index')}}"><i class="far fa-star"></i>Product Reviews</a></li>
       
       <li><a class="{{ setActive(['user.profile.*'])}}" href="{{route('user.profile.index')}}"><i class="far fa-user"></i> My Profile</a></li>
       

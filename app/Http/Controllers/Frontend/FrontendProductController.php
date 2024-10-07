@@ -40,7 +40,7 @@ class FrontendProductController extends Controller
             )
         ->where('slug', $slug)->first();
 
-        $data['reviews'] = ProductReview::with(['user','productReviewGalleries'])->where(['product_id' => $data['product']->id , 'status' => 1])->paginate(1);
+        $data['reviews'] = ProductReview::with(['user','productReviewGalleries'])->where(['product_id' => $data['product']->id , 'status' => 1])->paginate(5);
 
         if (!$data['product']) {
             abort(404);

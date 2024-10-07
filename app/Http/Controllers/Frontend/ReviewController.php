@@ -21,13 +21,6 @@ class ReviewController extends Controller
     public function index(UserProductReviewDataTable  $dataTable){
         return $dataTable->render('Frontend.user.Dashboard.review.index');    
     }
-
-
-
-
-
-
-
     public function create(Request $request){
 
 

@@ -27,19 +27,14 @@ class UserOrdersDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
 
-                $actions="
+                $action="
                 <a class='btn btn-success' href='".route('user.order.show',$query->id)."'><i class='fas fa-eye'></i></a>
-                <a class='btn btn-danger ml-2  delete-item-with-ajax'  href='".route('user.order.destroy',$query->id)."'><i class='fas fa-trash-alt'></i></a>
                 ";
 
-                return $actions;
+                return $action;
             })
             ->addColumn('invoice_id',function($query){
                 return '#'.$query->invoice_id;
-            })
-            ->addColumn('customer', function($query){
-                
-                return $query->user->name;
             })
             ->addColumn('amount', function($query){
                 $currencyIcon = GeneralSetting::first()->currency_icon;
@@ -137,7 +132,7 @@ class UserOrdersDataTable extends DataTable
         return [
             Column::make('id')->width(100),
             Column::make('invoice_id')->width(150),
-            Column::make('customer'),
+            
             Column::make('date')->width(150),
             Column::make('product_qty'),
             Column::make('amount'),

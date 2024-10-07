@@ -64,13 +64,13 @@
 
                                 if(array_keys($lastkey)[0] == 'category'){
                                     $cat_type = \App\Models\Category::find($lastkey['category']);
-                                    $products [] =\App\Models\Product::where('category_id',$cat_type->id)->orderBy('id','DESC')->take(12)->get();
+                                    $products [] =\App\Models\Product::with('reviews')->where('category_id',$cat_type->id)->orderBy('id','DESC')->take(12)->get();
                                 }elseif (array_keys($lastkey)[0] == 'sub_category') {
                                     $cat_type = \App\Models\Subcategory::find($lastkey['sub_category']);
-                                    $products [] =\App\Models\Product::where('sub_category_id',$cat_type->id)->orderBy('id','DESC')->take(12)->get();
+                                    $products [] =\App\Models\Product::with('reviews')->where('sub_category_id',$cat_type->id)->orderBy('id','DESC')->take(12)->get();
                                 }elseif(array_keys($lastkey)[0] == 'child_category') {
                                     $cat_type = \App\Models\Childcategory::find($lastkey['child_category']);
-                                    $products [] =\App\Models\Product::where('child_category_id',$cat_type->id)->orderBy('id','DESC')->take(12)->get();
+                                    $products [] =\App\Models\Product::with('reviews')->where('child_category_id',$cat_type->id)->orderBy('id','DESC')->take(12)->get();
                                 }
      
                             @endphp
@@ -99,11 +99,19 @@
                                     <div class="wsus__hot_deals__single_text">
                                         <h5>{{limitText($item->name,53)}}</h5>
                                         <p class="wsus__rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
+                                                @php
+
+                                                    $avgRating = $item->reviews()->avg('rating'); // calculate the avg reviews rating
+                                                    $fullRating = round($avgRating) ;// we convert to integer num
+                                                @endphp                       
+        
+                                                @for($i = 1 ; $i <= 5 ;$i++)
+                                                    @if( $i <= $fullRating)
+                                                        <i class="fas fa-star"></i>
+                                                    @else
+                                                        <i class="far fa-star"></i>
+                                                    @endif
+                                                @endfor
                                         </p>
 
                                         <!-- Start check if there is discount we show offer price if not we show price  -->

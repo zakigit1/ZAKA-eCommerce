@@ -2,8 +2,8 @@
 
 namespace App\DataTables;
 
+use App\Models\AdminProductReview;
 use App\Models\ProductReview;
-
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -13,7 +13,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class VendorProductReviewDataTable extends DataTable
+class AdminProductReviewDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -23,16 +23,36 @@ class VendorProductReviewDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('status',function($query){
+        ->addColumn('action', function($query){
 
-            $active='<i class="badge bg-success">Approved</i>';
-            
-            $inactive='<i class="badge bg-warning">Pending</i>';
-            return ($query->status) ? $active : $inactive ;
+            $actions="
+            <a class='btn btn-success' href='".route('admin.product-review-gallery',$query->id)."'><i class='fas fa-eye'></i></a>
+            <a class='btn btn-danger ml-2  delete-item-with-ajax'  href='".route('admin.product-review.destory',$query->id)."'><i class='fas fa-trash-alt'></i></a>
+            ";
+
+            return $actions;
+        })
+        ->addColumn('status',function($query){   
+                $checked = ($query->status) ? 'checked' : '';
+    
+                $Status_button ='
+                    <label  class="custom-switch mt-2" >
+                            <input type="checkbox" name="custom-switch-checkbox" 
+                            class="custom-switch-input  change-status"
+                            data-id="'.$query->id.'"
+                            '.$checked.'>
+                        <span class="custom-switch-indicator" ></span>
+                    </label>';
+    
+                return $Status_button;
+   
         })
         ->addColumn('product',function($query){
             
             return '<a href ="'.route('product-details', $query->product->slug).'">'.$query->product->name.'</a>';
+        })
+        ->addColumn('review',function($query){
+            return $query->review != null ? $query->review : '<b>\\No-Review\\</b>';
         })
         ->addColumn('rating',function($query){
             switch ($query->rating) {
@@ -89,7 +109,7 @@ class VendorProductReviewDataTable extends DataTable
                 $query->where('name','like',"%$keyword%");
             });
         })
-        ->rawColumns(['status','rating','product'])
+        ->rawColumns(['status','rating','product','action','review'])
         ->setRowId('id');
     }
 
@@ -98,7 +118,7 @@ class VendorProductReviewDataTable extends DataTable
      */
     public function query(ProductReview $model): QueryBuilder
     {
-        return $model->where('vendor_id',auth()->user()->vendor->id)->newQuery();
+        return $model->newQuery();
     }
 
     /**
@@ -134,7 +154,12 @@ class VendorProductReviewDataTable extends DataTable
             Column::make('product'),
             Column::make('rating'),
             Column::make('review'),
-            Column::make('status')
+            Column::make('status'),
+            Column::computed('action')
+            ->exportable(false)
+            ->printable(false)
+            ->width(200)
+            ->addClass('text-center'),
         ];
     }
 
@@ -143,6 +168,6 @@ class VendorProductReviewDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'VendorProductReview_' . date('YmdHis');
+        return 'AdminProductReview_' . date('YmdHis');
     }
 }

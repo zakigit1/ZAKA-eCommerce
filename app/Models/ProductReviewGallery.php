@@ -26,6 +26,10 @@ class ProductReviewGallery extends Model
         return ($value !== NULL) ? asset( 'storage/Uploads/images/products/review/'.$value) : " ";
     }
 
+    public function review(){
+
+        return $this->belongsTo(ProductReview::class,'product_review_id');
+    }
 
 
 

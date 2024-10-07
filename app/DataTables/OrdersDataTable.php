@@ -137,12 +137,12 @@ class OrdersDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            Column::make('id')->width(50),
             Column::make('invoice_id')->width(150),
             Column::make('customer'),
             Column::make('date')->width(150),
-            Column::make('product_qty')->width(150),
-            Column::make('amount'),
+            Column::make('product_qty')->width(50),
+            Column::make('amount')->width(100),
             Column::make('order_status')->width(150),
             Column::make('payment_status')->width(150),
             Column::make('payment_method')->width(150),

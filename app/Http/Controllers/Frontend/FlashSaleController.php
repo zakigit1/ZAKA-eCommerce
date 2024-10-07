@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\FlashSale;
 use App\Models\FlashSaleItem;
+use App\Models\ProductReview;
 use Illuminate\Http\Request;
 
 class FlashSaleController extends Controller
@@ -37,6 +38,9 @@ class FlashSaleController extends Controller
 
                     ->where('status',1);
         }])->active()->orderBy('id','asc')->paginate(20);
+
+
+        
 
         return view('Frontend.store.pages.flash-sale-see-more',$data);
     }

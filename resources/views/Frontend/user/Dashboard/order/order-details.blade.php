@@ -54,7 +54,7 @@
                                             <div class="col-xl-4 col-md-4">
                                                 <div class="wsus__invoice_single text-md-end">
                                                     <h5>Order Id : #{{$order->invoice_id}}</h5>
-                                                    <div class="order_st"><h6>Order Status : {{Config('order_status.order_status_vendor')[$order->order_status]['status']}} </h6></div>
+                                                    <div class="order_st"><h6>Order Status : {{Config('order_status.order_status_admin')[$order->order_status]['status']}} </h6></div>
                                                     <p>Payment Method : {{$order->payment_method}} </p>
                                                     <p>Transaction Id : {{@$order->transaction->transaction_id}} </p>
                                                     <p>Payment Status : {{$order->payment_status == 1 ? 'Complete' : 'Pending'}} </p>

@@ -5,8 +5,8 @@
 @section('content')
 
     <!--==========================
-              PRODUCT MODAL VIEW START
-            ===========================-->
+                      PRODUCT MODAL VIEW START
+                    ===========================-->
     {{-- <section class="product_popup_modal">
         <div class="modal fade" id="exampleModal2" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
@@ -144,13 +144,13 @@
         </div>
     </section> --}}
     <!--==========================
-              PRODUCT MODAL VIEW END
-            ===========================-->
+                      PRODUCT MODAL VIEW END
+                    ===========================-->
 
 
     <!--============================
-                BREADCRUMB START
-            ==============================-->
+                        BREADCRUMB START
+                    ==============================-->
 
 
     <section id="wsus__breadcrumb">
@@ -172,13 +172,13 @@
 
 
     <!--============================
-                BREADCRUMB END
-            ==============================-->
+                        BREADCRUMB END
+                    ==============================-->
 
 
     <!--============================
-                PRODUCT DETAILS START
-            ==============================-->
+                        PRODUCT DETAILS START
+                    ==============================-->
 
 
     <section id="wsus__product_details">
@@ -196,7 +196,7 @@
                                         </a>
                                     @endif
                                     <ul class='exzoom_img_ul'>
-                                        <li><img class="zoom ing-fluid w-100" src="{{$product->thumb_image}}"
+                                        <li><img class="zoom ing-fluid w-100" src="{{ $product->thumb_image }}"
                                                 alt="product"></li>
                                         @if (isset($product->gallery) && count($product->gallery) > 0)
                                             @foreach ($product->gallery as $image)
@@ -232,7 +232,8 @@
                             <!-- Start check if there is discount we show offer price if not we show price  -->
                             @if (check_discount($product))
                                 <h4>{{ $settings->currency_icon }} {{ $product->offer_price }}
-                                    <del>{{ $settings->currency_icon }} {{ $product->price }}</del></h4>
+                                    <del>{{ $settings->currency_icon }} {{ $product->price }}</del>
+                                </h4>
                             @else
                                 <h4>{{ $settings->currency_icon }} {{ $product->price }}</h4>
                             @endif
@@ -240,12 +241,21 @@
 
 
                             <p class="review">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                                <span>20 review</span>
+                                @php
+
+                                    $avgRating = $product->reviews()->avg('rating'); // calculate the avg reviews rating
+                                    $fullRating = round($avgRating); // we convert to integer num
+                                @endphp
+
+                                @for ($i = 1; $i <= 5; $i++)
+                                    @if ($i <= $fullRating)
+                                        <i class="fas fa-star"></i>
+                                    @else
+                                        <i class="far fa-star"></i>
+                                    @endif
+                                @endfor
+
+                                <span>{{ count($product->reviews) }} review</span>
                             </p>
 
 
@@ -291,7 +301,8 @@
                                 <ul class="wsus__button_area">
                                     <li><button type="submit" class="add_cart" href="#">add to cart</button></li>
                                     <li><a class="buy_now" href="#">buy now</a></li>
-                                    <li><a href="" class="add_to_wishlist" data-id="{{$product->id}}"><i class="fal fa-heart"></i></a></li>
+                                    <li><a href="" class="add_to_wishlist" data-id="{{ $product->id }}"><i
+                                                class="fal fa-heart"></i></a></li>
                                     <li><a href="#"><i class="far fa-random"></i></a></li>
                                 </ul>
                             </form>
@@ -410,18 +421,27 @@
                                                 <div class="wsus__pro_det_vendor_text">
                                                     <h4>{{ $product->vendor->user->name }}</h4>
                                                     <p class="rating">
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <span>(41 review)</span>
+                                                        @php
+
+                                                            $avgRating = $product->reviews()->avg('rating'); // calculate the avg reviews rating
+                                                            $fullRating = round($avgRating); // we convert to integer num
+                                                        @endphp
+
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                            @if ($i <= $fullRating)
+                                                                <i class="fas fa-star"></i>
+                                                            @else
+                                                                <i class="far fa-star"></i>
+                                                            @endif
+                                                        @endfor
+
+                                                        <span>({{ count($product->reviews) }} review)</span>
                                                     </p>
                                                     <p><span>Store Name:</span> {{ $product->vendor->shop_name }}</p>
                                                     <p><span>Address:</span> {{ $product->vendor->address }}</p>
                                                     <p><span>Phone:</span> {{ $product->vendor->phone }}</p>
                                                     <p><span>mail:</span> {{ $product->vendor->email }}</p>
-                                                    <a href="vendor_details.html" class="see_btn">visit store</a>
+                                                    <a href="javascript:;" class="see_btn">visit store</a>
                                                 </div>
                                             </div>
                                             <div class="col-xl-12">
@@ -441,25 +461,26 @@
 
                                                     <div class="wsus__comment_area">
 
-                                                        <h4>Reviews <span>{{count($reviews)}}</span></h4>
+                                                        <h4>Reviews <span>{{ count($reviews) }}</span></h4>
 
                                                         @foreach ($reviews as $review)
                                                             <div class="wsus__main_comment">
                                                                 <div class="wsus__comment_img">
-                                                                    <img src="{{$review->user->image}}" alt="user"
+                                                                    <img src="{{ $review->user->image }}" alt="user"
                                                                         class="img-fluid w-100">
                                                                 </div>
                                                                 <div class="wsus__comment_text reply">
-                                                                    <h6>{{$review->user->name}}<span>{{$review->rating}} <i
-                                                                                class="fas fa-star"></i></span></h6>
-                                                                    <span>{{date('Y M d',strtotime($review->created_at))}}</span>
-                                                                    <p>{{($review->review != null) ? $review->review : ''}}</p>
+                                                                    <h6>{{ $review->user->name }}<span>{{ $review->rating }}
+                                                                            <i class="fas fa-star"></i></span></h6>
+                                                                    <span>{{ date('Y M d', strtotime($review->created_at)) }}</span>
+                                                                    <p>{{ $review->review != null ? $review->review : '' }}
+                                                                    </p>
                                                                     @if (isset($review->productReviewGalleries) && count($review->productReviewGalleries) > 0)
                                                                         <ul class="">
                                                                             @foreach ($review->productReviewGalleries as $productReviewImage)
-                                                                                
-                                                                                <li><img src="{{$productReviewImage->image}}" alt="product"
-                                                                                    class="img-fluid w-100"></li>
+                                                                                <li><img src="{{ $productReviewImage->image }}"
+                                                                                        alt="product"
+                                                                                        class="img-fluid w-100"></li>
                                                                             @endforeach
 
                                                                         </ul>
@@ -490,7 +511,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>--}}
+                                                                    </div> --}}
 
                                                                 </div>
                                                             </div>
@@ -517,32 +538,39 @@
                                                 @auth
                                                     @php
                                                         // ? After we check if the user has already order the product and delivered to him , after he can rate the product
-                                                        $orders = \App\Models\Order::where(['user_id'=>auth()->user()->id ,'order_status' => 'delivered'])->get() ;
+                                                        $orders = \App\Models\Order::where([
+                                                            'user_id' => auth()->user()->id,
+                                                            'order_status' => 'delivered',
+                                                        ])->get();
 
                                                         // dd($orders);
                                                         $isBought = false;
                                                         foreach ($orders as $key => $order) {
-                                                        $productExist = $order->orderProducts->where('product_id',$product->id)->first();
+                                                            $productExist = $order->orderProducts
+                                                                ->where('product_id', $product->id)
+                                                                ->first();
                                                         }
 
-                                                        if($productExist){
+                                                        if ($productExist) {
                                                             $isBought = true;
                                                         }
-                                                        
-                                                        
+
                                                     @endphp
 
-                                                
+
                                                     @if ($isBought)
                                                         <div class="col-xl-4 col-lg-5 mt-4 mt-lg-0">
                                                             <div class="wsus__post_comment rev_mar" id="sticky_sidebar3">
                                                                 <h4>write a Review</h4>
-                                                                <form action="{{route('user.review.create')}}" method="POST" enctype="multipart/form-data">
+                                                                <form action="{{ route('user.product-review.create') }}"
+                                                                    method="POST" enctype="multipart/form-data">
                                                                     @csrf
 
-                                                                    <input type="hidden" name="product_id" value="{{$product->id}}">
+                                                                    <input type="hidden" name="product_id"
+                                                                        value="{{ $product->id }}">
 
-                                                                    <input type="hidden" name="vendor_id"  value="{{$product->vendor_id}}">
+                                                                    <input type="hidden" name="vendor_id"
+                                                                        value="{{ $product->vendor_id }}">
 
 
 
@@ -551,19 +579,25 @@
                                                                         <span>select your rating : </span>
                                                                         {{-- <i class="fas fa-star"></i> --}}
                                                                     </p>
-                                                                    
+
                                                                     <div class="row">
                                                                         <div class="col-xl-12 mb-4">
                                                                             <div class="wsus__single_com">
-                                                                                
+
                                                                                 <select class="form-control" name="rating">
-                                                                                    
-                                                                                    <option disabled selected value="">Select</option>
-                                                                                    <option class="fas fa-star" value="1">1 </option>
-                                                                                    <option class="fas fa-star" value="2">2 </option>
-                                                                                    <option class="fas fa-star" value="3">3 </option>
-                                                                                    <option class="fas fa-star" value="4">4 </option>
-                                                                                    <option class="fas fa-star" value="5">5 </option>
+
+                                                                                    <option disabled selected value="">
+                                                                                        Select</option>
+                                                                                    <option class="fas fa-star"
+                                                                                        value="1">1 </option>
+                                                                                    <option class="fas fa-star"
+                                                                                        value="2">2 </option>
+                                                                                    <option class="fas fa-star"
+                                                                                        value="3">3 </option>
+                                                                                    <option class="fas fa-star"
+                                                                                        value="4">4 </option>
+                                                                                    <option class="fas fa-star"
+                                                                                        value="5">5 </option>
                                                                                 </select>
                                                                             </div>
                                                                         </div>
@@ -575,16 +609,18 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div> 
+                                                                    </div>
                                                                     <div class="img_upload">
                                                                         <div class="gallery">
-                                                                            <label >Share Images :</label><br><br>
-                                                                            <input type="file" class='form-control' name="images[]" multiple id="">
+                                                                            <label>Share Images :</label><br><br>
+                                                                            <input type="file" class='form-control'
+                                                                                name="images[]" multiple id="">
                                                                         </div>
                                                                     </div>
 
-                                                                    <button class="common_btn" type="submit">submit review</button>
-                                                                        
+                                                                    <button class="common_btn" type="submit">submit
+                                                                        review</button>
+
                                                                 </form>
                                                             </div>
                                                         </div>
@@ -606,13 +642,13 @@
 
 
     <!--============================
-                PRODUCT DETAILS END
-            ==============================-->
+                        PRODUCT DETAILS END
+                    ==============================-->
 
 
     <!--============================
-                RELATED PRODUCT START
-            ==============================-->
+                        RELATED PRODUCT START
+                    ==============================-->
 
 
     {{-- <section id="wsus__flash_sell">
@@ -780,9 +816,6 @@
 
 
     <!--============================
-                RELATED PRODUCT END
-            ==============================-->
+                        RELATED PRODUCT END
+                    ==============================-->
 @endsection
-
-
-

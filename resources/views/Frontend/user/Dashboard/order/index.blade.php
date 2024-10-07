@@ -16,9 +16,6 @@
                 <div class="wsus__dashboard_profile">
                     <div class="wsus__dash_pro_area">
 
-                        <div class="create_button">
-                            <a href="{{route('user.order.trashed-orders')}}" class="btn btn-danger" > <i class="fas fa-dumpster"></i> Trashed Orders</a>
-                        </div>
                         <div class="card">
                             
                             <div class="card-body">
