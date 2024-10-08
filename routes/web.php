@@ -24,11 +24,13 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 require __DIR__.'/auth.php';
 
@@ -125,15 +127,9 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
 
 
 
+
     
 });
-
-
-
-
-
-
-
 
 
 
@@ -178,6 +174,20 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
 
     Route::post('newletter-request',[NewsletterController::class ,'newLetterRequest'])->name('newsletter-request');
     Route::get('newletter-verify/{token}',[NewsletterController::class ,'newLetterEmailVerify'])->name('newsletter-verify');
+
+
+
+    //Show Vendors At Frontend : 
+
+    Route::get('/vendors',[HomeController::class,'vednorIndex'])->name('vendor.index');
+    Route::get('vendor/{id}/products',[HomeController::class,'vendorProducts'])->name('vendor.products');
+
+
+
+
+
+
+
 
 
 

@@ -7,7 +7,7 @@
                 <div class="wsus__large_banner_content">
                     @if ($homepageBannerSectionFour->status == 1)
                         <a href="{{$homepageBannerSectionFour->banner_url}}">
-                            <img src="{{asset($homepageBannerSectionFour->banner_image)}}" alt="banner" class="img-fluid">
+                            <img src="{{asset($homepageBannerSectionFour->banner_image)}}" alt="banner" class="img-fluid w-100">
                         </a>
                     @endif
                 </div>

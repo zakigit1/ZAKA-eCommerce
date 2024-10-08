@@ -255,7 +255,7 @@
                         @if ($homepageBannerSectionThree[3]->status == 1)
                             <a href="{{ $homepageBannerSectionThree[0]->banner_1->banner_url_1 }}">
                                 <img src="{{ asset($homepageBannerSectionThree[0]->banner_1->banner_image_1) }}"
-                                    alt="banner" class="img-fluid">
+                                    alt="banner" class="img-fluid w-100">
                             </a>
                         @endif
 
@@ -268,7 +268,7 @@
                                 @if ($homepageBannerSectionThree[3]->status == 1)
                                     <a href="{{ $homepageBannerSectionThree[1]->banner_2->banner_url_2 }}">
                                         <img src="{{ asset($homepageBannerSectionThree[1]->banner_2->banner_image_2) }}"
-                                            alt="banner" class="img-fluid">
+                                            alt="banner" class="img-fluid w-100">
                                     </a>
                                 @endif
 
@@ -279,7 +279,7 @@
                                 @if ($homepageBannerSectionThree[3]->status == 1)
                                     <a href="{{ $homepageBannerSectionThree[2]->banner_3->banner_url_3 }}">
                                         <img src="{{ asset($homepageBannerSectionThree[2]->banner_3->banner_image_3) }}"
-                                            alt="banner" class="img-fluid">
+                                            alt="banner" class="img-fluid w-100">
                                     </a>
                                 @endif
 
@@ -573,7 +573,7 @@
                                 <div class="col-xl-6 col-12 col-sm-12 col-md-12 col-lg-6">
 
                                     <div class="wsus__pro_details_text">
-                                        <a class="title" href="#">{{ $product->name }}</a>
+                                        <a class="title" href="{{ route('product-details', $product->slug)}}">{{ $product->name }}</a>
 
                                         <!-- in stock / out of stock :     -->
 

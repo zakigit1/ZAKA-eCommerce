@@ -60,7 +60,8 @@ class User extends Authenticatable
          
         // return ($value !== NULL) ? asset( 'storage/Uploads/images/profiles/'.$value) : " ";
 
-        return ($value !== NULL) ? asset( 'storage/Uploads/images/profiles/'.auth()->user()->role.'/'.$value) : " ";
+        $role = auth()->user()->role ?? 'user';
+        return ($value !== NULL) ? asset( 'storage/Uploads/images/profiles/'.$role.'/'.$value) : " ";
   
     }
 

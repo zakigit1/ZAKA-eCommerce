@@ -13,7 +13,7 @@
                     <div class="col-12">
                         <h4>Flash Sale Products</h4>
                         <ul>
-                            <li><a href="{{ route('home') }}">Dashboard</a></li>
+                            <li><a href="{{ route('home') }}">Home</a></li>
                             <li><a href="javascript:;">flash sale products</a></li>
                         </ul>
                     </div>

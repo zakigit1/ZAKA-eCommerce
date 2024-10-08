@@ -201,7 +201,7 @@
                                 <div class="col-xl-6 col-12 col-sm-12 col-md-12 col-lg-6">
 
                                     <div class="wsus__pro_details_text">
-                                        <a class="title" href="#">{{ $product->name }}</a>
+                                        <a class="title" href="{{ route('product-details', $product->slug)}}">{{ $product->name }}</a>
 
                                         <!-- in stock / out of stock :     -->
 

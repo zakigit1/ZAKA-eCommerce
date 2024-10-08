@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Advertisement;
 use App\Models\Brand;
+use App\Models\Category;
 use App\Models\FlashSale;
 use App\Models\FlashSaleItem;
 use App\Models\HomePageSetting;
 use App\Models\Product;
 use App\Models\Slider;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -74,10 +76,6 @@ class HomeController extends Controller
     }
 
 
-
-
-
-
     /** Get the products depending on the type : */
     public function getTypeProducts(){
         $typeBaseProduct = [];
@@ -90,8 +88,29 @@ class HomeController extends Controller
         return $typeBaseProduct ;
     }
 
+    public function vednorIndex(){
+
+        $vendors = Vendor::paginate(20);
+
+        return view('Frontend.store.pages.vendor.index',compact('vendors'));
+    }
+    public function vendorProducts(String $id){
 
 
+        $products = Product::with(['brand','category','reviews','variants','gallery'])->where(['status' => 1 ,'is_approved' => 1,'vendor_id' => $id])->orderBy('id','DESC')->paginate(12);
+        
+
+        $vendor = Vendor::find($id);
+
+        if(!$vendor){
+            return abort(404);
+        }
+
+
+
+
+        return view('Frontend.store.pages.vendor.vendor-products',compact('products','vendor'));
+    }
 
 
 
