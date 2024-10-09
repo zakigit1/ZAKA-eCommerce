@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Backend\Admin\CustomerListController;
 use App\Http\Controllers\Backend\Admin\Payment\Gateways\PaypalSettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Admin\AdminController;
@@ -32,6 +33,8 @@ use App\Http\Controllers\Backend\Admin\Payment\Gateways\StripeSettingController;
 use App\Http\Controllers\Backend\Admin\ShippingRuleController;
 use App\Http\Controllers\Backend\Admin\SubscriberController;
 use App\Http\Controllers\Backend\Admin\TransactionController;
+use App\Http\Controllers\Backend\Admin\VendorListController;
+use App\Http\Controllers\Backend\Admin\VendorRequestController;
 
 Route::get('login',[AdminController::class,'login'])->name('login.page');
 // Route::post('login',[AdminController::class,'loginCheck'])->name('login.check');
@@ -356,6 +359,34 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     route::get('/product-review/{id}/Gallery',[AdminProductReviewController::class,'productReviewGallery'])->name('product-review-gallery');
     route::delete('/product-review/Gallery/{id}/destroy',[AdminProductReviewController::class,'productReviewGalleryDestroy'])->name('product-review-gallery.destroy');
     ##############################  Review End  ###################################
+    
+    
+    
+    ##############################  Vendor Request Start  ###################################
+    Route::get('vendor-request',[VendorRequestController::class ,'index'])->name('vendor-request.index');
+    Route::get('vendor-request/{id}/show',[VendorRequestController::class ,'show'])->name('vendor-request.show');
+    Route::get('/vendor-request/pending/',[VendorRequestController::class,'pendingVendorRequest'])->name('vendor-request.pending');
+    Route::get('/vendor-request/Approved/',[VendorRequestController::class,'ApprovedVendorRequest'])->name('vendor-request.approved');
+    Route::post('/vendor-request/{id}/change-status',[VendorRequestController::class,'changeStatus'])->name('vendor-request.change-status');
+
+    ##############################  Vendor Request End  ###################################
+
+
+    ##############################  Customer (client) List Start  ###################################
+    Route::get('customer-list',[CustomerListController::class ,'index'])->name('customer-list.index');
+    Route::put('customer-list/change-status',[CustomerListController::class,'change_status'])->name('customer-list.change-status');
+    
+    ##############################  Customer (client) List End  ###################################
+    ##############################  Vendor List Start  ###################################
+    
+    Route::get('vendor-list',[VendorListController::class ,'index'])->name('vendor-list.index');
+    Route::put('vendor-list/change-status',[VendorListController::class,'change_status'])->name('vendor-list.change-status');
+    
+    ##############################  Vendor List End  ###################################
+    
+
+
+
 
 
 

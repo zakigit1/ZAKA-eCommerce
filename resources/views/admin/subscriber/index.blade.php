@@ -5,10 +5,10 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-        <h1>Subscriber</h1>
+        <h1>Subscriber Of Newsletter</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="{{route('admin.dashboard')}}">Dashboard</a></div>
-            <div class="breadcrumb-item">Subscriber</div>
+            <div class="breadcrumb-item">Subscriber </div>
         </div>
         </div>
 

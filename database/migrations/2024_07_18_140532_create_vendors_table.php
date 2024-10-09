@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
             $table->text('banner');
+            $table->string('shop_name');
             $table->string('phone');
             $table->string('email');
             $table->text('address');
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->text('tw_link')->nullable();
             $table->text('insta_link')->nullable();
             $table->bigInteger('user_id',false,true);
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

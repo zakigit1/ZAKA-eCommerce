@@ -61,3 +61,9 @@ $oldBanner = $bannerOne['banner_image'] ?? null;
 
 
 
+// ida tla3lak error 500 (server error) : 
+3raf bli rak ghalat fl push ta3 data ll database exp blak ghlat fl name ta3 column wla kch haja  example: 
+    vendor::create([
+    'name' => $request->name, // fl database 3ndan shop_name noot name hna radi t3tin 500 server error
+    ])
+ltajanob had error wt3raf cha howa error ldarlak had problem you can use try&catch (this is the best solution )

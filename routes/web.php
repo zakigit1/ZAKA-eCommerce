@@ -13,6 +13,7 @@ use App\Http\Controllers\Frontend\User\UserAddressController;
 use App\Http\Controllers\Frontend\User\UserDashboard;
 use App\Http\Controllers\Frontend\User\UserOrderController;
 use App\Http\Controllers\Frontend\User\UserProfileController;
+use App\Http\Controllers\Frontend\User\UserVendorRequestController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -124,7 +125,17 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     ##############################  Review End  ###################################
 
 
+    ##############################  User Ask To Be A Vendor Start  #################################
 
+    Route::get('vendor-request',[UserVendorRequestController::class ,'index'])->name('vendor-request.index');
+    Route::post('vendor-request/',[UserVendorRequestController::class ,'store'])->name('vendor-request.store');
+
+
+
+    ##############################  User Ask To Be A Vendor End  ###################################
+
+
+    
 
 
 

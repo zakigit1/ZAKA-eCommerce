@@ -115,6 +115,29 @@
           </ul>
         </li>
 
+        <li class="dropdown {{setActive([
+            'admin.vendor-request.*',
+            'admin.customer-list.index',
+            'admin.vendor-list.index',
+          ])}}">
+          <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Users</span></a>
+          <ul class="dropdown-menu">
+
+
+            <li class="{{setActive(['admin.customer-list.index'])}}"><a class="nav-link" href="{{route('admin.customer-list.index')}}">Customer List</a></li>
+            <li class="{{setActive(['admin.vendor-list.index'])}}"><a class="nav-link" href="{{route('admin.vendor-list.index')}}">Vendor List</a></li>
+
+
+
+            <li class="{{setActive(['admin.vendor-request.index',
+            'admin.vendor-request.show'])}}" ><a class="nav-link" href="{{route('admin.vendor-request.index')}}">Vendor Request</a></li>
+            
+            <li class="{{setActive(['admin.vendor-request.pending'])}}"><a class="nav-link" href="{{route('admin.vendor-request.pending')}}">Pending Vendor Request</a></li>
+            <li class="{{setActive(['admin.vendor-request.approved'])}}"><a class="nav-link" href="{{route('admin.vendor-request.approved')}}">Approved Vendor Request</a></li>
+
+          </ul>
+        </li>
+
 
 
         {{-- Order --}}

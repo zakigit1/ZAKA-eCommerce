@@ -28,7 +28,7 @@ return new class extends Migration
             $table->text('shipping_method');
             $table->text('coupon');
 
-            $table->boolean('order_status');
+            $table->string('order_status');
             $table->timestamps();
 
             $table->softDeletes();

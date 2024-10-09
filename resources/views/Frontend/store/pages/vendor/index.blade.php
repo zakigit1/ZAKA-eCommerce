@@ -41,7 +41,7 @@
                     <div class="row">
 
                         @foreach ($vendors as $vendor)   
-                            <div class="col-xl-4 col-md-6">{{-- if you want to modify the size of the squares --}}
+                            <div class="col-xl-6 col-md-6">{{-- if you want to modify the size of the squares xl-* --}}
                                 <div class="wsus__vendor_single">
                                     <img src="{{$vendor->banner}}" alt="vendor" class="img-fluid w-100">
                                     <div class="wsus__vendor_text">

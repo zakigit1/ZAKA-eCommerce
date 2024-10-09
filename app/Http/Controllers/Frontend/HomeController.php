@@ -90,7 +90,7 @@ class HomeController extends Controller
 
     public function vednorIndex(){
 
-        $vendors = Vendor::paginate(20);
+        $vendors = Vendor::where('status' , 1)->paginate(20);
 
         return view('Frontend.store.pages.vendor.index',compact('vendors'));
     }

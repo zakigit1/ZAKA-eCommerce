@@ -33,6 +33,7 @@ class VendorShopProfileSeeder extends Seeder
                     'address'=>'Algeria-Oran',
                     'description'=>'bio bio bio bio biob iobo',
                     'user_id'=>$user->id,
+                    'status' => 1,
                 ],
             ];
         }

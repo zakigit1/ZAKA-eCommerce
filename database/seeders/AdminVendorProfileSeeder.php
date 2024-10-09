@@ -23,8 +23,9 @@ class AdminVendorProfileSeeder extends Seeder
 
     public function admin_vendor_profile(){
 
-        // $user_id=User::where('email','admin@gmail.com')->first(['id']);
-        $user=User::where('email','admin@gmail.com')->first();
+        // $user_id = User::where('email','admin@gmail.com')->first(['id']);
+        
+        $user=User:: where('email','admin@gmail.com')->first();
        return [
             [
                 'banner'=>'adminVendorProfile_default.jpg',
@@ -34,6 +35,7 @@ class AdminVendorProfileSeeder extends Seeder
                 'address'=>'Algeria-oran',
                 'description'=>'bio bio bio bio biob iobo',
                 'user_id'=>$user->id,
+                'status'=>1,
             ],
         ];
     }
