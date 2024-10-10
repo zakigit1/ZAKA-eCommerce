@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Backend\Admin\AboutController;
 use App\Http\Controllers\Backend\Admin\CustomerListController;
 use App\Http\Controllers\Backend\Admin\Payment\Gateways\PaypalSettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Admin\AdminController;
+use App\Http\Controllers\Backend\Admin\AdminListController;
 use App\Http\Controllers\Backend\Admin\AdminProductReviewController;
 use App\Http\Controllers\Backend\Admin\AdminVendroProfileController;
 use App\Http\Controllers\Backend\Admin\AdvertisementController;
@@ -26,15 +28,26 @@ use App\Http\Controllers\Backend\Admin\Footer\FooterGridTwoController;
 use App\Http\Controllers\Backend\Admin\Footer\FooterInfoController;
 use App\Http\Controllers\Backend\Admin\Footer\FooterSocialController;
 use App\Http\Controllers\Backend\Admin\HomePageSettingController;
+use App\Http\Controllers\Backend\Admin\ManageUserController;
 use App\Http\Controllers\Backend\Admin\OrderController;
 use App\Http\Controllers\Backend\Admin\Payment\PaymentSettingController;
 use App\Http\Controllers\Backend\Admin\Payment\Gateways\RazorpaySettingController;
 use App\Http\Controllers\Backend\Admin\Payment\Gateways\StripeSettingController;
 use App\Http\Controllers\Backend\Admin\ShippingRuleController;
 use App\Http\Controllers\Backend\Admin\SubscriberController;
+use App\Http\Controllers\Backend\Admin\TermAndConditionController;
 use App\Http\Controllers\Backend\Admin\TransactionController;
+use App\Http\Controllers\Backend\Admin\VendorConditionController;
 use App\Http\Controllers\Backend\Admin\VendorListController;
 use App\Http\Controllers\Backend\Admin\VendorRequestController;
+
+
+
+
+                /** The Prefix admin is in App\Providers\RouteServiceProvider */
+
+
+                
 
 Route::get('login',[AdminController::class,'login'])->name('login.page');
 // Route::post('login',[AdminController::class,'loginCheck'])->name('login.check');
@@ -383,10 +396,42 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     Route::put('vendor-list/change-status',[VendorListController::class,'change_status'])->name('vendor-list.change-status');
     
     ##############################  Vendor List End  ###################################
+
+
+    ##############################  Vendor Conditions Start  ###################################
+    Route::get('vendor-condition',[VendorConditionController::class , 'index'])->name('vendor-condition.index');
+    Route::put('vendor-condition/update',[VendorConditionController::class , 'updateVendorCondition'])->name('vendor-condition.update');
+
+    ##############################  Vendor Conditions End  ###################################
+
+    ##############################  Vendor Conditions Start  ###################################
+    Route::get('about',[AboutController::class , 'index'])->name('about.index');
+    Route::put('about/update',[AboutController::class , 'updateAbout'])->name('about.update');
+
+    ##############################  Vendor Conditions End  ###################################
+    
+    ##############################  Vendor Conditions Start  ###################################
+    Route::get('terms-and-conditions',[TermAndConditionController::class , 'index'])->name('terms-and-conditions.index');
+    Route::put('terms-and-conditions/update',[TermAndConditionController::class , 'updateTermsAndConditions'])->name('terms-and-conditions.update');
+
+    ##############################  Vendor Conditions End  ###################################
+    
+    
+    ##############################  Manage-user Start  ###################################
+    Route::get('manage-user',[ManageUserController::class , 'index'])->name('manage-user.index');
+    Route::post('manage-user/store',[ManageUserController::class , 'store'])->name('manage-user.store');
+
+    ##############################  Manage-user End  ###################################
     
 
 
-
+    ##############################  Admin List Start  ###################################
+    
+    Route::get('admin-list',[AdminListController::class ,'index'])->name('admin-list.index');
+    Route::put('admin-list/change-status',[AdminListController::class,'change_status'])->name('admin-list.change-status');
+    route::delete('admin-list/{id}/destroy',[AdminListController::class,'destroy'])->name('admin-list.destroy');
+    
+    ##############################  Admin List End  ###################################
 
 
 

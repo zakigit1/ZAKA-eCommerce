@@ -2,8 +2,8 @@
 
 namespace App\DataTables;
 
-use App\Models\Vendor;
-
+use App\Models\AdminList;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -13,7 +13,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class VendorRequestDataTable extends DataTable
+class AdminListDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -25,42 +25,38 @@ class VendorRequestDataTable extends DataTable
         return (new EloquentDataTable($query))
         ->addColumn('action', function($query){
 
-            $action="
-            <a class='btn btn-primary' href='".route('admin.vendor-request.show',$query->id)."'><i class='fas fa-eye'></i></a>
-            ";
+            $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("admin.admin-list.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
+            if($query->id != 21 || $query->id != 1){ // change it to id = 1 
+                return $delete_btn;   
+            }
 
-            return $action;
-        })
-        ->addColumn('user_name', function($query){
-            return $query->user->name;
-        })
-        ->addColumn('shop_email', function($query){
-            return $query->email;
         })
         ->addColumn('status', function($query){
-            if($query->status == 1){
-                return '<i class="badge badge-success">Approved</i>';
-            }else{
-                return '<i class="badge badge-warning">Pending</i>';
+                
+            $checked = ($query->status == 'active') ? 'checked' : '';
+
+            $Status_button ='
+                <label  class="custom-switch mt-2" >
+                        <input type="checkbox" name="custom-switch-checkbox" 
+                        class="custom-switch-input  change-status"
+                        data-id="'.$query->id.'"
+                        '.$checked.'>
+                    <span class="custom-switch-indicator" ></span>
+                </label>';
+            if($query->id != 21 || $query->id != 1){ // change it to id = 1 
+                return $Status_button;
             }
         })
-
-        ->filterColumn('user_name',function($query , $keyword){
-            $query->whereHas('user',function($query) use($keyword){
-                $query->where('name','like',"%$keyword%");
-            });
-        })
-
-        ->rawColumns(['status','status','action'])
+        ->rawColumns(['status','action'])
         ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Vendor $model): QueryBuilder
+    public function query(User $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->where('role','admin')->newQuery();
     }
 
     /**
@@ -69,11 +65,11 @@ class VendorRequestDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('vendors-table')
+                    ->setTableId('adminlist-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(0)
+                    ->orderBy(0, 'asc')
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -92,9 +88,8 @@ class VendorRequestDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('user_name'),
-            Column::make('shop_name'),
-            Column::make('shop_email'),
+            Column::make('name'),
+            Column::make('email'),
             Column::make('status'),
             Column::computed('action')
                   ->exportable(false)
@@ -109,6 +104,6 @@ class VendorRequestDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'VendorRequest_' . date('YmdHis');
+        return 'AdminList_' . date('YmdHis');
     }
 }

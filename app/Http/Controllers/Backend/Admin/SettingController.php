@@ -23,6 +23,11 @@ class SettingController extends Controller
             'site_name'=>'required|max:200',
             'layout'=>'required|max:200',
             'contact_email'=>'required|max:200',
+            
+            'contact_phone'=>'nullable',
+            'contact_address'=>'nullable',
+            'contact_map'=>'nullable|url',
+            
             'currency_name'=>'required|max:200',
             'currency_icon'=>'required|max:200',
             'time_zone'=>'required|max:200',
@@ -36,6 +41,11 @@ class SettingController extends Controller
                     'site_name'=>$request->site_name,
                     'layout'=>$request->layout,
                     'contact_email'=>$request->contact_email,
+
+                    'contact_phone'=>$request->contact_phone,
+                    'contact_address'=>$request->contact_address,
+                    'contact_map'=>$request->contact_map,
+
                     'currency_name'=>$request->currency_name,
                     'currency_icon'=>$request->currency_icon,
                     'time_zone'=>$request->time_zone,

@@ -6,9 +6,11 @@
     <a href="{{route('home')}}" class="dash_logo"><img src="{{asset('frontend/assets/images/logo.png')}}" alt="logo" class="img-fluid"></a>
     <ul class="dashboard_link">
       <li><a class="bg-success"  href="{{route('user.dashboard')}}"><i class="fas fa-tachometer"></i>Dashboard</a></li>
+
       @if(auth()->user()->role == 'vendor')
         <li><a class="bg-success"  href="{{route('vendor.dashboard')}}"><i class="fas fa-tachometer"></i>Go To Vendor Dashboard</a></li>
       @endif
+
       <li><a class="{{ setActive(['user.order.*'])}}" href="{{route('user.order.index')}}"><i class="far fa-user"></i>Orders</a></li>
         
       <li><a class="{{ setActive(['user.product-review.index'])}}" href="{{route('user.product-review.index')}}"><i class="far fa-star"></i>Product Reviews</a></li>
@@ -16,7 +18,8 @@
       <li><a class="{{ setActive(['user.profile.*'])}}" href="{{route('user.profile.index')}}"><i class="far fa-user"></i> My Profile</a></li>
       
       <li><a class="{{ setActive(['user.address.*'])}}" href="{{route('user.address.index')}}"><i class="fal fa-gift-card"></i> Addresses</a></li>
-      @if(auth()->user()->role != 'vendor')
+      
+      @if(auth()->user()->role != 'vendor') {{-- You can add new condition for check if this vendor have bought any product from our website --}}
         <li><a class="{{ setActive(['user.vendor-request.index'])}}" href="{{route('user.vendor-request.index')}}"><i class="far fa-user"></i> Vendor Request</a></li>
       @endif
 

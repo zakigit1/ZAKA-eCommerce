@@ -1,6 +1,6 @@
 @extends('Frontend.store.layouts.master')
 
-@section('title', "$settings->site_name || Payment Success")
+@section('title', "$settings->site_name || Terms & Conditions")
 
 @section('content')
 
@@ -12,10 +12,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h4>payment</h4>
+                        <h4>Terms & Conditions</h4>
                         <ul>
                             <li><a href="{{ route('home') }}">home</a></li>
-                            <li><a href="javascript:;">payment</a></li>
+                            <li><a href="javascript:;">Terms & Conditions</a></li>
                         </ul>
                     </div>
                 </div>
@@ -29,8 +29,12 @@
         <div class="container">
             <div class="wsus__pay_info_area">
                 <div class="row">
+                    <div class="card">
+                        <div class="card-body p-5">
+                            {!! @$termsAndConditions->content !!}
 
-                    <h1><b> Payment Successfully ! </b> </h1>
+                        </div>
+                    </div>
 
                 </div>
             </div>

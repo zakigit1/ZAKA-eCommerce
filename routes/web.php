@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\CartController;
@@ -195,8 +196,17 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
 
 
 
+    // About Page :
+    Route::get('/about',[PageController::class,'aboutIndex'])->name('about.index');
+
+    // Terms and conditions Page :
+    Route::get('/terms-and-conditions',[PageController::class,'termsAndConditionsIndex'])->name('terms-and-conditions.index');
+    
 
 
+    //Contact Page :
+    Route::get('/contact',[PageController::class,'index'])->name('contact.index');
+    Route::post('/contact',[PageController::class,'handleContactForm'])->name('handle-contact-form');
 
 
 

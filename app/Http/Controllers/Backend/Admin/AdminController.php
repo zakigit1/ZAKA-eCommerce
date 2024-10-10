@@ -24,13 +24,7 @@ class AdminController extends Controller
         return view('admin.auth.login');
     }
 
-    // public function loginCheck(LoginRequest $request){
 
-    //     return $request;
-    //     return to_route('admin.dashboard');
-    // }
-    
-    
     public function profile(){
 
 

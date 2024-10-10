@@ -19,7 +19,7 @@
                         <div class="card">
                             
                             <div class="card-body">
-                                
+                                {!! @$vendorCondition->content !!}
                             </div>
                         </div> 
 

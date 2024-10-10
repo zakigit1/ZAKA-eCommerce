@@ -25,6 +25,8 @@ return new class extends Migration
             $table->bigInteger('user_id',false,true);
             $table->boolean('status')->default(0);
             $table->timestamps();
+            //i add this in the last of course
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
