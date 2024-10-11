@@ -10,6 +10,7 @@ use App\Http\Controllers\Frontend\FrontendProductController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\NewsletterController;
 use App\Http\Controllers\Frontend\ReviewController;
+use App\Http\Controllers\Frontend\TrackOrderController;
 use App\Http\Controllers\Frontend\User\UserAddressController;
 use App\Http\Controllers\Frontend\User\UserDashboard;
 use App\Http\Controllers\Frontend\User\UserOrderController;
@@ -136,7 +137,14 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     ##############################  User Ask To Be A Vendor End  ###################################
 
 
-    
+
+    ##############################  Track Order Start  ###################################
+
+    Route::get('track-order',[TrackOrderController::class,'index'])->name('track-order.index');
+    ##############################  Track Order End  ###################################
+
+
+
 
 
 

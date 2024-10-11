@@ -148,7 +148,9 @@
                                 <li><a href="brands.html">brands</a></li>
                             </ul>
                         </li>
-                        <li><a href="track_order.html">track order</a></li>
+                        @auth
+                            <li><a href="{{route('user.track-order.index')}}">track order</a></li>
+                        @endauth
                         <li><a href="daily_deals.html">daily deals</a></li>
                     </ul>
                     <ul class="wsus__menu_item wsus__menu_item_right">

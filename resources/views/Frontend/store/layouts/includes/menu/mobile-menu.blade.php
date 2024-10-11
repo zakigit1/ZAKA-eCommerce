@@ -111,7 +111,7 @@
                                 </div>
                             </div>
                         </li>
-                        <li><a href="track_order.html">track order</a></li>
+                        <li><a href="{{route('user.track-order.index')}}">track order</a></li>
                         <li><a href="daily_deals.html">daily deals</a></li>
                     </ul>
                 </div>
