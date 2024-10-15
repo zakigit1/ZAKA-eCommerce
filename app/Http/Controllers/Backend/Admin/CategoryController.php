@@ -189,7 +189,11 @@ class CategoryController extends Controller
 
             //     return response(['status'=>'error','message'=>"$category_name Can't Deleted Because they have subcategories !"]);
             // }
-            $category->delete();
+
+
+
+            //! you cant delete the category because if the category have product add another condtion for product .
+            // $category->delete();
 
             // we are using ajax : 
             return response(['status'=>'success','message'=>"$category_name Category Deleted Successfully !"]);

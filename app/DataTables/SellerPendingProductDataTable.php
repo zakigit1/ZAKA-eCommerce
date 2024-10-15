@@ -101,6 +101,17 @@ class SellerPendingProductDataTable extends DataTable
             </select>";
             
         })
+
+        // try this if it work
+        ->filterColumn('shop_name',function($query , $keyword){
+            $query->whereHas('vendor',function($query) use($keyword){
+                $query->where('shop_name','like',"%$keyword%");
+            });
+        })
+
+
+
+
  
         ->rawColumns(['status','action','type','approve'])//if you add in this file html code you need to insert the column name inside (rawColumns)
         ->setRowId('id');

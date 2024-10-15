@@ -37,13 +37,16 @@ return new class extends Migration
             $table->string('seo_title')->nullable();
             $table->string('seo_description')->nullable();
             
+            $table->timestamps();
+
+
             $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('sub_category_id')->references('id')->on('subcategories')->onDelete('cascade');
             $table->foreign('child_category_id')->references('id')->on('childcategories')->onDelete('cascade');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
 
-            $table->timestamps();
+            
         });
     }
 

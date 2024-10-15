@@ -6,10 +6,10 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-        <h1>Add New Slider</h1>
+        <h1>Add New Product</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="{{route('admin.dashboard')}}">Dashboard</a></div>
-            <div class="breadcrumb-item"><a href="{{route('admin.slider.index')}}">Sliders</a></div>
+            <div class="breadcrumb-item"><a href="{{route('admin.product.index')}}">Products</a></div>
             <div class="breadcrumb-item">Create</div>
         </div>
         </div>
@@ -20,10 +20,10 @@
         <div class="row">
             <div class="col-12 ">
                 <a href="{{route('admin.product.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a><br>
-                <br>
+                <br><br>
                 <div class="card">
                     <div class="card-header">
-                        <h4>Create New Slider</h4>
+                        <h4>Create New Product</h4>
 
                     </div>
 

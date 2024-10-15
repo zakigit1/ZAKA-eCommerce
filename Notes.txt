@@ -67,3 +67,5 @@ $oldBanner = $bannerOne['banner_image'] ?? null;
     'name' => $request->name, // fl database 3ndan shop_name noot name hna radi t3tin 500 server error
     ])
 ltajanob had error wt3raf cha howa error ldarlak had problem you can use try&catch (this is the best solution )
+
+

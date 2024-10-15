@@ -225,15 +225,15 @@ class ProductController extends Controller
             ]);
 
             DB::commit();
-            toastr('Product has been created successfully','success');
+            toastr('Product has been updated successfully','success');
 
             return to_route('admin.product.index');
             // return redirect()->back();
         }catch(\Exception $ex){
 
             DB::rollback();
-            toastr($ex->getMessage(),'error');
-            // toastr('Product has not been created successfully','error');
+            // toastr($ex->getMessage(),'error');
+            toastr('Product has not been updated successfully','error');
             return to_route('admin.product.index');
         }
     }

@@ -43,12 +43,24 @@ class TransactionsDataTable extends DataTable
 
                 return  $this->currencyIcon . $query->amount_real_currency.''.$query->amount_real_currency_name;
             })
+
             //this filter use it when we use data of relation in the search bar of datatable 
             ->filterColumn('invoice_id',function($query , $keyword){
                 $query->whereHas('order',function($query) use($keyword){
                     $query->where('invoice_id','like',"%$keyword%");
                 });
             })
+
+
+            //! I dont sure about this line
+            ->filterColumn('amount_in_base_currency',function($query , $keyword){
+                $query->whereHas('order',function($query) use($keyword){
+                    $query->where('currency_name','like',"%$keyword%");
+                });
+            })
+
+
+
             ->setRowId('id');
     }
 

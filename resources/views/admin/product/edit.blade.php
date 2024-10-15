@@ -20,6 +20,7 @@
         <div class="row">
             <div class="col-12 ">
                 <a href="{{route('admin.product.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a><br>
+                <br><br>
                 <div class="card">
                     <div class="card-header">
                         <h4>Update Product</h4>

@@ -52,9 +52,18 @@ class SubcategoriesDataTable extends DataTable
                 // $categoryName= Category::where('id',$query->category_id)->select('name')->first();
                 // return $categoryName['name'];  
 
-                $categoryName =$query->category->name;
+                $categoryName = $query->category->name;
                 return $categoryName;
             })
+
+            ->filterColumn('category',function($query , $keyword){
+                $query->whereHas('category',function($query) use($keyword){
+                    $query->where('name','like',"%$keyword%");
+                });
+            })
+
+
+
             ->rawColumns(['status',])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
     }

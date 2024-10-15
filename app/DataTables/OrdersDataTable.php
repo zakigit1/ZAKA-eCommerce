@@ -97,6 +97,14 @@ class OrdersDataTable extends DataTable
                  $query->where('invoice_id','like',"%$keyword%");
             })
 
+            ->filterColumn('customer',function($query , $keyword){
+                $query->whereHas('user',function($query) use($keyword){
+                    $query->where('name','like',"%$keyword%");
+                });
+            })
+
+
+
             ->rawColumns(['status','order_status','action','payment_status'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
     }

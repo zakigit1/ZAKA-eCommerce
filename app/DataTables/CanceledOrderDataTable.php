@@ -86,6 +86,13 @@ class CanceledOrderDataTable extends DataTable
                         break;
                 }
             })
+
+            ->filterColumn('customer',function($query , $keyword){
+                $query->whereHas('user',function($query) use($keyword){
+                    $query->where('name','like',"%$keyword%");
+                });
+            })
+            
             ->rawColumns(['order_status','action','payment_status'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
     }

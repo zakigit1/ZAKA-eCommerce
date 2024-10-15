@@ -2,8 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\FlashSaleItem;
-use App\Models\Product;
+use App\Models\Blog;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -13,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class FlashSaleItemDataTable extends DataTable
+class BlogDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -24,27 +23,13 @@ class FlashSaleItemDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
         ->addColumn('action', function($query){
-                        
-            $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("admin.flash-sale.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
-            return $delete_btn;
+            $user_role='admin';
+            $type='blog';
+            return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
         })
-        ->addColumn('show_at_home',function($query){
-            
-            $checked = ($query->show_at_home) ? 'checked' : '';
 
-            $Show_at_home_button ='
-                <label  class="custom-switch mt-2" >
-                        <input type="checkbox" name="custom-switch-checkbox" 
-                        class="custom-switch-input  change-at-home-status"
-                        data-id="'.$query->id.'"
-                        '.$checked.'>
-                    <span class="custom-switch-indicator" ></span>
-                </label>';
-
-            return $Show_at_home_button;          
-        })
         ->addColumn('status',function($query){
-            
+
             $checked = ($query->status) ? 'checked' : '';
 
             $Status_button ='
@@ -56,47 +41,57 @@ class FlashSaleItemDataTable extends DataTable
                     <span class="custom-switch-indicator" ></span>
                 </label>';
 
-            return $Status_button;          
+            return $Status_button;
+            
         })
-        ->addColumn('product',function($query){
-        //   $product=Product::find($query->product_id)  ;
-        //     return $product->name;
-        
-        //   return $query->product->name;
-          return '<a href="'.route('admin.product.edit',$query->product->id).'">'.$query->product->name.'</a>';
+
+        ->addColumn('image',function($query){
+            
+            $columnName="image";
+            return view('Backend.DataTable.yajra_datatable_columns.image',['query'=>$query,'columnName'=>$columnName]);
+            
+            
         })
-        ->addColumn('End Date',function($query){
-          return $query->flashSale->end_date;
+
+        ->addColumn('user_name',function($query){
+            return $query->user->name;
+        })
+
+        ->addColumn('publish_date',function($query){
+            return date('d M Y',strtotime($query->created_at));
         })
 
 
-        
-        ->filterColumn('product',function($query , $keyword){
-            $query->whereHas('product',function($query) use($keyword){
+        ->addColumn('category',function($query){
+            return $query->blogcategory->name;
+        })
+
+        // Filtring : 
+
+        ->filterColumn('user_name',function($query , $keyword){
+            $query->whereHas('user',function($query) use($keyword){
                 $query->where('name','like',"%$keyword%");
             });
         })
 
-        //  try this if it work
-        
-        ->filterColumn('End Date',function($query , $keyword){
-            $query->whereHas('flashSale',function($query) use($keyword){
-                $query->where('end_date','like',"%$keyword%");
+        ->filterColumn('category',function($query , $keyword){
+            $query->whereHas('blogcategory',function($query) use($keyword){
+                $query->where('name','like',"%$keyword%");
             });
         })
-
-
-
-
-
-        ->rawColumns(['status','action','show_at_home','product'])
-        ->setRowId('id');
+        
+        ->filterColumn('publish_date', function ($query, $keyword) {
+            $query->where('created_at','like',"%$keyword%");
+        })
+ 
+        ->rawColumns(['status','action'])//if you add in this file html code you need to insert the column name inside (rawColumns)
+        ->setRowId('id',);
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(FlashSaleItem $model): QueryBuilder
+    public function query(Blog $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -107,7 +102,7 @@ class FlashSaleItemDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('flashsaleitem-table')
+                    ->setTableId('blogs-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -129,11 +124,15 @@ class FlashSaleItemDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id')->width(100),
-            Column::make('product'),
-            Column::make('End Date'),
-            Column::make('show_at_home'),
+            Column::make('id'),
+            Column::make('image'),
+            Column::make('title'),
+            Column::make('user_name'),
+            Column::make('category'),
+
+            Column::make('publish_date'),
             Column::make('status'),
+
             Column::computed('action')
             ->exportable(false)
             ->printable(false)
@@ -147,6 +146,6 @@ class FlashSaleItemDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'FlashSaleItem_' . date('YmdHis');
+        return 'Blog_' . date('YmdHis');
     }
 }

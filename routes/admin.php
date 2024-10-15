@@ -10,6 +10,8 @@ use App\Http\Controllers\Backend\Admin\AdminListController;
 use App\Http\Controllers\Backend\Admin\AdminProductReviewController;
 use App\Http\Controllers\Backend\Admin\AdminVendroProfileController;
 use App\Http\Controllers\Backend\Admin\AdvertisementController;
+use App\Http\Controllers\Backend\Admin\BlogCategoryController;
+use App\Http\Controllers\Backend\Admin\BlogController;
 use App\Http\Controllers\Backend\Admin\BrandController;
 use App\Http\Controllers\Backend\Admin\SliderController;
 use App\Http\Controllers\Backend\Admin\CategoryController;
@@ -432,6 +434,20 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     route::delete('admin-list/{id}/destroy',[AdminListController::class,'destroy'])->name('admin-list.destroy');
     
     ##############################  Admin List End  ###################################
+
+
+    ##############################  Blog  Start  ###################################
+
+    Route::put('/blog/change-status/',[BlogController::class,'change_status'])->name('blog.change-status');
+    Route::resource('blog',BlogController::class);
+
+        ##############################  Blog Category Start  ###################################
+        Route::put('/blog-category/change-status/',[BlogCategoryController::class,'change_status'])->name('blog-category.change-status');
+        Route::resource('blog-category',BlogCategoryController::class);
+        ##############################  Blog Category End  ###################################
+
+
+    ##############################  Blog  End  ###################################
 
 
 

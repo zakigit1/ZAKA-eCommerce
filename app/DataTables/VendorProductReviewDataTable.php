@@ -79,11 +79,14 @@ class VendorProductReviewDataTable extends DataTable
         ->addColumn('client',function($query){
             return $query->user->name;
         })
+
+
         ->filterColumn('product',function($query , $keyword){
             $query->whereHas('product',function($query) use($keyword){
                 $query->where('name','like',"%$keyword%");
             });
         })
+        
         ->filterColumn('client',function($query , $keyword){
             $query->whereHas('user',function($query) use($keyword){
                 $query->where('name','like',"%$keyword%");
