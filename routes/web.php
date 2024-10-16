@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\PaymentController;
@@ -142,13 +143,15 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
 
     Route::get('track-order',[TrackOrderController::class,'index'])->name('track-order.index');
     ##############################  Track Order End  ###################################
-
-
-
-
-
-
     
+    ##############################  Comment To Blog Start  ###################################
+
+    Route::post('blog-comment',[BlogController::class,'blogComment'])->name('blog-comment');
+    ##############################  Comment To Blog End  ###################################
+
+
+
+
 });
 
 
@@ -217,7 +220,10 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     Route::post('/contact',[PageController::class,'handleContactForm'])->name('handle-contact-form');
 
 
+    //Blog detail page :
 
+    Route::get('blog-details/{slug}',[BlogController::class,'blogDetails'])->name('blog-details');
+    Route::get('blog',[BlogController::class,'blogIndex'])->name('blog');
 
 
 

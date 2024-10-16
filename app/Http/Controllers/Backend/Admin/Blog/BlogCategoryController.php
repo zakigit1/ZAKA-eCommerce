@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Backend\Admin;
+namespace App\Http\Controllers\Backend\Admin\Blog;
 
 use App\DataTables\BlogCategoryDataTable;
 use App\Http\Controllers\Controller;

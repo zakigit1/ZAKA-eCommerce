@@ -19,7 +19,7 @@
         FLASH SELL START
     ==============================-->
 
-    @include('Frontend.store.home.includes.sections.flash-sale')
+    {{-- @include('Frontend.store.home.includes.sections.flash-sale') --}}
     <!--============================
         FLASH SELL END
     ==============================-->
@@ -65,7 +65,7 @@
     <!--============================
         ELECTRONIC PART START  (category 1 )
     ==============================-->
-    @include('Frontend.store.home.includes.sections.category-one')
+    {{-- @include('Frontend.store.home.includes.sections.category-one') --}}
     <!--============================
         ELECTRONIC PART END  
     ==============================-->
@@ -74,7 +74,7 @@
     <!--============================
         ELECTRONIC PART START   (category 2 )
     ==============================-->
-    @include('Frontend.store.home.includes.sections.category-two')
+    {{-- @include('Frontend.store.home.includes.sections.category-two') --}}
     <!--============================
         ELECTRONIC PART END  
     ==============================-->
@@ -83,7 +83,7 @@
     <!--============================
         LARGE BANNER  START  
     ==============================-->
-    @include('Frontend.store.home.includes.sections.large-banner')
+    {{-- @include('Frontend.store.home.includes.sections.large-banner') --}}
     <!--============================
         LARGE BANNER  END  
     ==============================-->
@@ -93,7 +93,7 @@
         WEEKLY BEST ITEM START  
     ==============================-->
 
-    @include('Frontend.store.home.includes.sections.weekly-best-item')
+    {{-- @include('Frontend.store.home.includes.sections.weekly-best-item') --}}
     <!--============================
         WEEKLY BEST ITEM END 
     ==============================-->
@@ -111,7 +111,7 @@
     <!--============================
         HOME BLOGS START
     ==============================-->
-    {{-- @include('Frontend.store.home.includes.sections.home-blog') --}}
+    @include('Frontend.store.home.includes.sections.home-blog')
     <!--============================
         HOME BLOGS END
     ==============================-->

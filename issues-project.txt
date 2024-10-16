@@ -1,0 +1,5 @@
+// tani ta3 ajax khas ttsagad ki tkon cart details empty tdik ll home bsah problem mt9dch dir add to ccart hata dir refresh ll page
+// image size need to fix it 
+/// khas tsagad problem ta3 images ta3 user ngl3a hadi role wndir hom ga3 folder user wahd 
+/// zid l3fsa tae session fl register wl login ki tkon example fl login wdir reload tg3ad fl login mtdigch ll register
+// chang main function to queue in 

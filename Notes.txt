@@ -69,3 +69,5 @@ $oldBanner = $bannerOne['banner_image'] ?? null;
 ltajanob had error wt3raf cha howa error ldarlak had problem you can use try&catch (this is the best solution )
 
 
+// if you want to share any thing in post in social media you can search about : (we do one in blog-details page if you forget how you do it )
+    ******** html social share links ***********

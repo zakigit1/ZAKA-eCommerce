@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Advertisement;
+use App\Models\Blog;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\FlashSale;
@@ -69,9 +70,14 @@ class HomeController extends Controller
         $data['homepageBannerSectionFour'] = Advertisement::where('key','homepage_banner_section_four')->first();
         $data['homepageBannerSectionFour'] = json_decode($data['homepageBannerSectionFour']?->value);
 
+        /** Blogs */
+        $data['blogs'] = Blog::with('blogcategory')->where('status',1)->orderBy('id','DESC')->take(8)->get();
+        
 
 
-        // dd( $data['typeBaseProducts']);
+
+        
+        // dd( $data['blogs']);
         return view('frontend.store.home.home',$data);
     }
 

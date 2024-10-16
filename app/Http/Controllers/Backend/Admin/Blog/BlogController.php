@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Backend\Admin;
+namespace App\Http\Controllers\Backend\Admin\Blog;
 
 
 use App\DataTables\BlogDataTable;
@@ -20,8 +20,6 @@ class BlogController extends Controller
 
     const FOLDER_PATH = '/Uploads/images/';
     const FOLDER_NAME = 'blogs';
-
-
 
     /**
      * Display a listing of the resource.
@@ -197,7 +195,10 @@ class BlogController extends Controller
             
             $this->deleteImage_Trait($blog->image);
             
-               
+            //********************   Delete Blog Comments    ******************** */
+            $blog->comments()->delete();
+            
+            //********************   Delete Blog    ******************** */
             $blog->delete();
 
 
