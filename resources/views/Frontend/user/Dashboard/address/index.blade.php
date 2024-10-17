@@ -11,7 +11,7 @@
   <div class="row">
       <div class="col-xl-9 col-xxl-10 col-lg-9 ms-auto">
         <div class="dashboard_content">
-          <h3><i class="fal fa-gift-card"></i> address</h3>
+          <h3><i class="fas fa-map-marked-alt"></i> address</h3>
           <div class="wsus__dashboard_add">
             <div class="row">
 

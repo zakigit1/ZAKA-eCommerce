@@ -54,7 +54,7 @@
                                             <div class="col-xl-4 col-md-4">
                                                 <div class="wsus__invoice_single text-md-end">
                                                     <h5>Order Id : #{{$order->invoice_id}}</h5>
-                                                    <div class="order_st"><h6>Order Status : {{Config('order_status.order_status_vendor')[$order->order_status]['status']}} </h6></div>
+                                                    <div class="order_st"><h6>Order Status : {{Config('order_status.order_status_admin')[$order->order_status]['status']}} </h6></div>
                                                     <p>Payment Method : {{$order->payment_method}} </p>
                                                     <p>Transaction Id : {{@$order->transaction->transaction_id}} </p>
                                                     <p>Payment Status : {{$order->payment_status == 1 ? 'Complete' : 'Pending'}} </p>
@@ -152,18 +152,6 @@
                                         @endforeach
 
 
-
-
-
-
-
-
-
-
-
-
-
-
                                         </div>
                                     </div>
                                 </div>
@@ -178,18 +166,31 @@
                         INVOICE PAGE END
                     ==============================-->
 
+                    @if (in_array($order->order_status, array_keys(Config('order_status.order_status_vendor'))))
+                        <div class="col-md-4">
+                            <div class="form-group mt-5">
+                                <label class="mt-2"> Order Status : </label>
+                                <select class="form-control" name="order_status" id="order_status" data-id="{{$order->id}}">
+                                    @foreach (Config('order_status.order_status_vendor') as $key => $order_status)
+                                        <option {{$order->order_status == $key ? 'selected' : '' }} value="{{$key}}">{{$order_status['status']}}</option>
+                                    @endforeach
+                                </select>
 
-                    <div class="col-md-4">
-                        <div class="form-group mt-5">
-                            <label class="mt-2"> Order Status : </label>
-                            <select class="form-control" name="order_status" id="order_status" data-id="{{$order->id}}">
-                                @foreach (Config('order_status.order_status_vendor') as $key => $order_status)
-                                    <option {{$order->order_status == $key ? 'selected' : '' }} value="{{$key}}">{{$order_status['status']}}</option>
-                                @endforeach
-                            </select>
-
+                            </div>
                         </div>
-                    </div>
+                    @else
+                        <div class="col-md-4">
+                            <div class="form-group mt-5">
+                                <label class="mt-2"> Order Status : </label>
+                                <select class="form-control" name="order_status" id="order_status" data-id="{{$order->id}}">
+   
+                                    <option selected disabled>{{Config('order_status.order_status_admin')[$order->order_status]['status']}}</option>
+                                    
+                                </select>
+
+                            </div>
+                        </div>
+                    @endif
 
 
 

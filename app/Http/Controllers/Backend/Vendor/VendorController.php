@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Backend\Vendor;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductReview;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,7 +19,85 @@ class VendorController extends Controller
      */
     public function index()
     {
-        return view('vendor.Dashboard.dashboard');
+
+        $data['todaysOrders'] = Order::whereDate('created_at',Carbon::today())
+            ->whereHas('orderProducts',function($q){
+                $q->where('vendor_id' , Auth::user()->vendor->id);
+            })
+            ->count();
+
+        $data['todaysPendingOrders'] = Order::whereDate('created_at',Carbon::today())
+            ->where('order_status' ,'pending')
+            ->whereHas('orderProducts',function($q){
+                $q->where('vendor_id' , Auth::user()->vendor->id);
+            })
+            ->count();
+
+        $data['totalOrders'] = Order::whereHas('orderProducts',function($q){
+                    $q->where('vendor_id' , Auth::user()->vendor->id);
+                })
+                ->count();
+        
+        $data['totalPendingOrders'] = Order::where('order_status' , 'pending')
+                ->whereHas('orderProducts',function($q){
+                    $q->where('vendor_id' , Auth::user()->vendor->id);
+                })
+                ->count();
+        
+        $data['totalCompleteOrders'] = Order::where('order_status' , 'delivered')
+                ->whereHas('orderProducts',function($q){
+                    $q->where('vendor_id' , Auth::user()->vendor->id);
+                })
+                ->count();
+                
+        $data['totalProducts'] =Product::where('vendor_id' , Auth::user()->vendor->id)->count();
+                
+        
+
+        //  in the course we do created_at instead of update_at  also sub_total instead of amount 
+        $data['todayEarning'] = Order::where('order_status' , 'delivered')
+                ->whereDate('updated_at',Carbon::today())
+                ->whereHas('orderProducts',function($q){
+                    $q->where('vendor_id' , Auth::user()->vendor->id);
+                })
+                // ->sum('sub_total');
+                ->sum('amount');
+
+        $data['monthEarning'] = Order::where('order_status' , 'delivered')
+                ->whereMonth('updated_at',Carbon::now()->month)
+                ->whereHas('orderProducts',function($q){
+                    $q->where('vendor_id' , Auth::user()->vendor->id);
+                })
+                // ->sum('sub_total');
+                ->sum('amount');
+
+        $data['yearEarning'] = Order::where('order_status' , 'delivered')
+                ->whereYear('updated_at',Carbon::now()->year)
+                ->whereHas('orderProducts',function($q){
+                    $q->where('vendor_id' , Auth::user()->vendor->id);
+                })
+                // ->sum('sub_total');
+                ->sum('amount');
+
+        $data['totalEarning'] = Order::where('order_status' , 'delivered')
+                ->whereHas('orderProducts',function($q){
+                    $q->where('vendor_id' , Auth::user()->vendor->id);
+                })
+                // ->sum('sub_total');
+                ->sum('amount');
+
+
+        $data['totalReview'] =  ProductReview::whereHas('product',function($q){
+                    $q->where('vendor_id' , Auth::user()->vendor->id);
+                })
+                ->count();
+              
+
+
+
+
+
+        return view('vendor.Dashboard.dashboard',$data);
     }
 
     public function profile(){

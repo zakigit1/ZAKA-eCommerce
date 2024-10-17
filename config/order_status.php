@@ -34,6 +34,7 @@
 
 
             ],
+            
         'order_status_vendor'=> [
                 'pending'=> [
                     'status' => 'Pending',

@@ -55,8 +55,14 @@ $flattenedCollection = $collection->flatten();
 
 
 //
-if the value is null ,for save it : 
-$oldBanner = $bannerOne['banner_image'] ?? null;
+if the value is null ,for save it : this just example (this use it in the controller not in the view)
+
+    in the Controller you can use : 
+    $oldBanner = $bannerOne['banner_image'] ?? null ; [for array]
+    $oldBanner = $bannerOne?->banner_image ; [for object]
+
+    in the View you can use : 
+    @$user->name
 
 
 

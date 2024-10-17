@@ -4,7 +4,19 @@ namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+
+use App\Models\Brand;
+use App\Models\Blog;
+use App\Models\Category;
+use App\Models\Childcategory;
+use App\Models\NewsletterSubscriber;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductReview;
+use App\Models\Subcategory;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
@@ -16,7 +28,68 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.Dashboard.dashboard');
+
+        $data['todaysOrders'] = Order::whereDate('created_at',Carbon::today())
+            ->count();
+
+        $data['todaysPendingOrders'] = Order::whereDate('created_at',Carbon::today())
+            ->where('order_status' ,'pending')
+            ->count();
+
+        $data['totalOrders'] = Order::count();
+    
+        $data['totalPendingOrders'] = Order::where('order_status' , 'pending')
+            ->count();
+    
+        $data['totalCompleteOrders'] = Order::where('order_status' , 'delivered')
+            ->count();
+        
+        $data['totalCanceledOrders'] = Order::where('order_status' , 'canceled')
+            ->count();
+            
+        $data['totalProducts'] = Product::count();
+            
+
+        //  in the course we do created_at instead of update_at  also sub_total instead of amount 
+        $data['todayEarning'] = Order::where('order_status' , '!=','canceled')
+            ->whereDate('updated_at',Carbon::today())
+            // ->sum('sub_total');
+            ->sum('amount');
+
+        $data['monthEarning'] = Order::where('order_status' , '!=','canceled')
+            ->whereMonth('updated_at',Carbon::now()->month)
+            // ->sum('sub_total');
+            ->sum('amount');
+
+        $data['yearEarning'] = Order::where('order_status' , '!=','canceled')
+            ->whereYear('updated_at',Carbon::now()->year)
+            // ->sum('sub_total');
+            ->sum('amount');
+
+        $data['totalEarning'] = Order::where('order_status' , '!=','canceled')
+            // ->sum('sub_total');
+            ->sum('amount');
+
+
+        $data['totalReview'] =  ProductReview::count();
+        
+        $data['totalBrand'] =  Brand::count();
+        
+        
+        $data['totalCategory'] =  Category::count() + Subcategory::count() + Childcategory::count()  ;
+        
+        $data['totalBlog'] =  Blog::count();
+        
+        $data['totalSubscriber'] =  NewsletterSubscriber::count();
+        
+        $data['totalVendor'] =  User::where('role','vendor')->count();
+
+        $data['totalUser'] =  User::where('role','user')->count();
+ 
+
+
+
+        return view('admin.Dashboard.dashboard',$data);
     }
 
 
