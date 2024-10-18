@@ -108,7 +108,7 @@
                         <h4>Login / Register</h4>
                         <ul>
                             <li><a href="{{route('home')}}">home</a></li>
-                            <li><a href="{{route('login')}}">Login / Register</a></li>
+                            <li><a href="javascript:;">Register / Login</a></li>
                         </ul>
                     </div>
                 </div>
@@ -129,23 +129,33 @@
                 <div class="col-xl-5 m-auto">
                     <div class="wsus__login_reg_area">
                         <ul class="nav nav-pills mb-3" id="pills-tab2" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="pills-home-tab2" data-bs-toggle="pill"
-                                    data-bs-target="#pills-homes" type="button" role="tab" aria-controls="pills-homes"
+                        
+                            <li class="nav-item" role="presentation">   
+                                <button class="nav-link list-view  {{session()->has('auth_view_list') && session()->get('auth_view_list') == 'register-view' ? 'active' : ''}} 
+                                    {{!session()->has('auth_view_list') ? 'active' : '' }} "
+                                    data-id="register-view"
+                                    id="pills-home-tab2" data-bs-toggle="pill" data-bs-target="#pills-homes" type="button" role="tab" aria-controls="pills-homes"
                                     aria-selected="true">Register</button>
                             </li>
+
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-profile-tab2" data-bs-toggle="pill"
-                                    data-bs-target="#pills-profiles" type="button" role="tab"
+                                <button class="nav-link list-view {{session()->has('auth_view_list') && session()->get('auth_view_list') == 'login-view' ? 'active' : ''}} " 
+                                    data-id="login-view"
+                                    id="pills-profile-tab2" data-bs-toggle="pill" data-bs-target="#pills-profiles" type="button" role="tab"
                                     aria-controls="pills-profiles" aria-selected="true">Login</button>
                             </li>
+
                         </ul>
                         <div class="tab-content" id="pills-tabContent2">
 
-                            <div class="tab-pane fade show active" id="pills-homes" role="tabpanel"
-                                aria-labelledby="pills-home-tab2">
+                            <!--Register -->
+
+                            <div class="tab-pane fade {{session()->has('auth_view_list') && session()->get('auth_view_list') == 'register-view' ? 'show active' : ''}} 
+                                {{!session()->has('auth_view_list') ? 'show active' : '' }}" 
+                                id="pills-homes" role="tabpanel" aria-labelledby="pills-home-tab2">
+
                                 <div class="wsus__login">
-                                    <!--Register -->
+                                    
                                     <form method="POST" action="{{ route('register') }}">
                                         @csrf
                                         <!-- Name Field-->
@@ -177,11 +187,13 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="pills-profiles" role="tabpanel"
-                                aria-labelledby="pills-profile-tab2">
-                                <div class="wsus__login">
-                                    <!--Login -->
 
+                            <!--Login -->
+                            <div class="tab-pane fade {{session()->has('auth_view_list') && session()->get('auth_view_list') == 'login-view' ? 'show active' : ''}} " 
+                                id="pills-profiles" role="tabpanel" aria-labelledby="pills-profile-tab2">
+                                
+                                <div class="wsus__login">
+                                    
                                     <form method="POST" action="{{route('login')}}">
 
                                         @csrf
@@ -202,15 +214,28 @@
 
 
                                         <div class="wsus__login_save">
+                                            
+
+                                            
                                             <div class="form-check form-switch">
                                                 <input class="form-check-input" type="checkbox"  id="flexSwitchCheckDefault">
                                                   
                                                 <label class="form-check-label" for="flexSwitchCheckDefault">Remember me</label>
                                             </div>
+                                        
                                             @if (Route::has('password.request'))
-                                            <a class="forget_p" href="{{route('password.request')}}">Forget Your Password ?</a>
+                                            <a class="forget_p" href="{{route('password.request')}}">Forget Password ?</a>
                                             @endif
                                         </div>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -226,6 +251,7 @@
                                     </form>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -237,3 +263,28 @@
     ==============================-->
 
 @endsection
+
+@push('scripts')
+    <script>
+          $(document).ready(function(){
+
+              $('.list-view').on('click', function(){
+                
+                
+                  let style = $(this).data('id');
+                  
+                  $.ajax({
+                      method: 'GET',
+                      url: '{{route("auth-view-list")}}',
+                      data: {
+                          style: style,
+                      },
+                      success: function(data){
+
+                      }
+                  });
+              });
+
+          });
+    </script> 
+@endpush

@@ -62,10 +62,10 @@ class FooterInfoController extends Controller
             [
 
                 'logo' => $updateImage,
-                'phone' =>$request->phone,
-                'email' =>$request->email,
-                'address' =>$request->address,
-                'copyright' =>$request->copyright,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'address' => $request->address,
+                'copyright' => $request->copyright,
             ]
         );
 

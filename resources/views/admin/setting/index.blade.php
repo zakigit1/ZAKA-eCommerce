@@ -35,10 +35,11 @@
                                 <a class="list-group-item list-group-item-action list-view {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'email-configuration' ? 'active' : ''}}" 
                                     data-id="email-configuration" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab">Email Configuration</a>
                                 
-                                    
-                                {{-- <a class="list-group-item list-group-item-action list-view {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'pop' ? 'active' : ''}}" 
-                                    data-id="" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab">--</a>
-                                <a class="list-group-item list-group-item-action list-view {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'pop' ? 'active' : ''}}" 
+                                 <a class="list-group-item list-group-item-action list-view {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'logo-settings' ? 'active' : ''}}" 
+                                    data-id="logo-settings" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab">Logo & Favicon Settings</a>
+
+
+                                {{--<a class="list-group-item list-group-item-action list-view {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'pop' ? 'active' : ''}}" 
                                     data-id="" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab">--</a> --}}
                               </div>
                             </div>
@@ -58,12 +59,12 @@
                                 </div>
 
 
-                                {{-- <div class="tab-pane fade {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'popular-categories' ? 'show active' : ''}}"
+                                 <div class="tab-pane fade {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'logo-settings' ? 'show active' : ''}}"
                                 id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
-                                  
+                                  @include('admin.setting.includes.logo-and-favicon')
                                 </div>
 
-                                <div class="tab-pane fade {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'popular-categories' ? 'show active' : ''}}"
+                                {{--<div class="tab-pane fade {{session()->has('settings_view_list') && session()->get('settings_view_list') == '' ? 'show active' : ''}}"
                                 id="list-settings" role="tabpanel" aria-labelledby="list-settings-list"> --}}
                                  
                                 </div>
@@ -83,25 +84,25 @@
 
 
 @push('scripts')
-   <script>
-        $(document).ready(function(){
+    <script>
+          $(document).ready(function(){
 
-            $('.list-view').on('click', function(){
+              $('.list-view').on('click', function(){
 
-                let style = $(this).data('id');
-                
-                $.ajax({
-                    method: 'GET',
-                    url: '{{route("admin.settings.view-list")}}',
-                    data: {
-                        style: style,
-                    },
-                    success: function(data){
+                  let style = $(this).data('id');
+                  
+                  $.ajax({
+                      method: 'GET',
+                      url: '{{route("admin.settings.view-list")}}',
+                      data: {
+                          style: style,
+                      },
+                      success: function(data){
 
-                    }
-                });
-            });
+                      }
+                  });
+              });
 
-});
-</script> 
+          });
+    </script> 
 @endpush

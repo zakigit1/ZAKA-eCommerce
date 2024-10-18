@@ -1,4 +1,8 @@
 <div class="card border">
+    <div class="card-header">
+        <h4>General Settings</h4>
+    </div>
+
     <div class="card-body">
 
         <form action="{{route('admin.settings.general-settings.update')}}" method="post">

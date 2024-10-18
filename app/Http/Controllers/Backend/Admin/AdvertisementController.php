@@ -19,7 +19,6 @@ class AdvertisementController extends Controller
 
 
 
-
     public function index(){
 
         $data['homepageBannerSectionOne'] = Advertisement::where('key','homepage_banner_section_one')->first();
@@ -48,7 +47,6 @@ class AdvertisementController extends Controller
 
         return view('admin.advertisement.index',$data);
     }
-
 
 
     public function homepageBannerSectionOne(Request $request){
@@ -260,7 +258,6 @@ class AdvertisementController extends Controller
     }
 
 
-
     public function homepageBannerSectionFour(Request $request){
 
         $request->validate([
@@ -376,6 +373,8 @@ class AdvertisementController extends Controller
         return redirect()->back();
 
     }
+
+
     public function cartpageBanner(Request $request){
 
         $request->validate([

@@ -5,16 +5,28 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\EmailConfiguration;
 use App\Models\GeneralSetting;
-
+use App\Models\LogoSetting;
+use App\Traits\imageUploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
+use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\isNull;
+
 class SettingController extends Controller
 {
+
+    use imageUploadTrait;
+
+    const FOLDER_PATH = '/Uploads/images/';
+    const FOLDER_NAME = 'logoAndfavicon';
+
+
     public function index(){
         $generalSetting = GeneralSetting::first();
         $emailConfig = EmailConfiguration::first();
-        return view('admin.setting.index',compact('generalSetting','emailConfig'));
+        $logoSettings = LogoSetting::first();
+        return view('admin.setting.index',compact('generalSetting','emailConfig','logoSettings'));
     }
 
     public function UpdateSettingsGeneral(Request $request){
@@ -56,7 +68,7 @@ class SettingController extends Controller
             return redirect()->back();
 
         }catch(\Exception $ex){
-
+            // toastr($ex->getMessage() ,'error','Error');
             toastr('General Settings Has Not Been Updated Successfully !','error','Error');
             return redirect()->back();
         }
@@ -93,12 +105,103 @@ class SettingController extends Controller
             return redirect()->back();
 
         }catch(\Exception $ex){
-
+            // toastr($ex->getMessage() ,'error','Error');
             toastr('Email Configuration Has Not Been Updated Successfully !','error','Error');
             return redirect()->back();
         }
 
     }
+
+
+    public function UpdateLogaAndFavicon(Request $request){
+
+        $request->validate([
+            'logo'=>'image',
+            'favicon'=>'image',
+        ]);
+
+        // dd($request->all());
+
+        
+        try{   
+
+            $logoCheck = LogoSetting::first();
+
+           
+
+            if(!$request->hasFile('logo') &&  !$request->hasFile('favicon') ){
+                
+                if($logoCheck == null){
+
+                    toastr('You Must To Enter Logo & Favicon For Your Site !','error','Error');
+                    return redirect()->back();
+                    
+                }
+                toastr('You Need At Leaste Enter One Logo To Update !','error','Error');
+                return redirect()->back();
+            }
+
+
+
+            
+
+            $oldLogo = $logoCheck?->logo;            
+            $imageUpdatedLogo= $oldLogo ;
+
+            $oldFavicon = $logoCheck?->favicon;
+            $imageUpdatedFavicon= $oldFavicon ;
+            
+            
+
+            if($request->hasFile('logo') || $request->hasFile('favicon')){
+
+                if($request->hasFile('logo')){
+                    $imageUpdatedLogo = $this->updateImage_Trait($request,'logo',self::FOLDER_PATH,self::FOLDER_NAME,$imageUpdatedLogo);
+                }else{
+                    $imageUpdatedLogo = basename($imageUpdatedLogo);
+                }
+
+                if($request->hasFile('favicon')){
+                    $imageUpdatedFavicon = $this->updateImage_Trait($request,'favicon',self::FOLDER_PATH,self::FOLDER_NAME,$imageUpdatedFavicon);
+                }else{
+                    $imageUpdatedFavicon = basename($imageUpdatedFavicon);
+                }
+
+            }
+
+            // dd($imageUpdatedFooterLogo."||||||||".$imageUpdatedLogo."||||||||".$imageUpdatedFavicon);
+           
+
+            $logoAndfavicon = LogoSetting::updateOrCreate(
+                ['id'=> 1],
+                [
+                    'logo'=>$imageUpdatedLogo,
+                    'favicon'=>$imageUpdatedFavicon,
+                ]
+            );
+
+            toastr('Logo & Favicon Has Been Updated Successfully !','success','Success');
+            return redirect()->back();
+
+        }catch(\Exception $ex){
+
+            toastr($ex->getMessage() ,'error','Error');
+            // toastr('Logo & Favicon Has Not Been Updated Successfully !','error','Error');
+            return redirect()->back();
+        }
+
+
+
+
+
+
+    }
+
+
+
+
+
+
 
 
     public function changeViewList(Request $request){

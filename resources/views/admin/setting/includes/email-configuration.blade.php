@@ -1,4 +1,8 @@
 <div class="card border">
+    <div class="card-header">
+        <h4>Email Configuration</h4>
+    </div>
+
     <div class="card-body">
 
         <form action="{{route('admin.settings.email-settings.update')}}" method="post">

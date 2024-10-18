@@ -1,6 +1,13 @@
 <div class="card border">
     <div class="card-header">
-        <h4>Banner</h4>
+        <h5 style="color:rgb(219, 80, 80)">!! NOTE : To See The Banner's Go To The Bottum !!</h5>
+    </div>
+</div>
+
+
+<div class="card border">
+    <div class="card-header">
+        <h4>Banner Cart Page</h4>
     </div>
 
     <div class="card-body">

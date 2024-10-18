@@ -62,7 +62,9 @@
 
                     <ul class="wsus__menu_item">
                         <li><a class="active" href="index.html">home</a></li>
-                        <li><a href="product_grid_view.html">shop <i class="fas fa-caret-down"></i></a>
+                        <li><a href="{{route('vendor.index')}}">Vendor</a></li>
+                        <li><a href="{{route('blog')}}">Blog</a></li>
+                        {{-- <li><a href="product_grid_view.html">shop <i class="fas fa-caret-down"></i></a>
                             <div class="wsus__mega_menu">
                                 <div class="row">
                                     <div class="col-xl-3 col-lg-3">
@@ -127,11 +129,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </li>
-                        <li><a href="{{route('vendor.index')}}">vendor</a></li>
-                        <li><a href="{{route('blog')}}">blog</a></li>
-                        <li><a href="daily_deals.html">campain</a></li>
-                        <li class="wsus__relative_li"><a href="#">pages <i class="fas fa-caret-down"></i></a>
+                        </li> --}}
+                        {{-- <li><a href="daily_deals.html">campain</a></li> --}}
+                        {{-- <li class="wsus__relative_li"><a href="#">pages <i class="fas fa-caret-down"></i></a>
                             <ul class="wsus__menu_droapdown">
                                 <li><a href="404.html">404</a></li>
                                 <li><a href="faqs.html">faq</a></li>
@@ -147,11 +147,12 @@
                                 <li><a href="product_category.html">product category</a></li>
                                 <li><a href="brands.html">brands</a></li>
                             </ul>
-                        </li>
+                        </li> --}}
                         @auth
-                            <li><a href="{{route('user.track-order.index')}}">track order</a></li>
+                            <li><a href="{{route('user.track-order.index')}}">Track Order</a></li>
                         @endauth
-                        <li><a href="daily_deals.html">daily deals</a></li>
+                        <li><a href="{{route('flash-sale.index')}}">Flash Sale</a></li>
+                        {{-- <li><a href="daily_deals.html">daily deals</a></li> --}}
                     </ul>
                     <ul class="wsus__menu_item wsus__menu_item_right">
                         <li><a href="{{route('contact.index')}}">Contact</a></li>
@@ -161,7 +162,7 @@
                                 <li><a href="{{route(auth()->user()->role.'.dashboard')}}">My Account</a></li>
                                 
                             @else
-                                <li><a href="{{route('login')}}">Login</a></li>
+                                {{-- <li><a href="{{route('login')}}">Login</a></li> --}}
                                 @if (Route::has('register'))
                                     <li><a href="{{route('register')}}">Register</a></li>
                                 @endif
@@ -175,3 +176,7 @@
         </div>
     </div>
 </nav>  
+
+
+
+

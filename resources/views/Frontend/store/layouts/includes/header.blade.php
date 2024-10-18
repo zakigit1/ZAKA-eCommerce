@@ -10,7 +10,7 @@
             <div class="col-xl-2 col-7 col-md-8 col-lg-2">
                 <div class="wsus_logo_area">
                     <a class="wsus__header_logo" href="{{route('home')}}">
-                        <img src="{{asset('frontend/assets/images/logo_2.png')}}" alt="logo" class="img-fluid w-100">
+                        <img src="{{$logoSettings->logo}}" alt="logo" class="img-fluid w-100">
                     </a>
                 </div>
             </div>
@@ -29,8 +29,8 @@
                             <i class="fas fa-user-headset"></i>
                         </div>
                         <div class="wsus__call_text">
-                            <p>Bousbaa@gmail.com</p>
-                            <p>+213 0781640569</p>
+                            <p>{{$settings->contact_email}}</p>
+                            <p>+213 {{$settings->contact_phone}}</p>{{-- make a config file about +213 3la hasab country of admin--}}
                         </div>
                     </div>
                     <ul class="wsus__icon_area">

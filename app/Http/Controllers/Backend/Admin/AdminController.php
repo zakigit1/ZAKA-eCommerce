@@ -75,7 +75,6 @@ class AdminController extends Controller
         
         $data['totalBrand'] =  Brand::count();
         
-        
         $data['totalCategory'] =  Category::count() + Subcategory::count() + Childcategory::count()  ;
         
         $data['totalBlog'] =  Blog::count();

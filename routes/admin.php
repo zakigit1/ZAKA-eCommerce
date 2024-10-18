@@ -205,6 +205,9 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
             
             /** Update Or Create Email configuration Settings :( if general settings is not created yet we created else we update email configuration settings)  */
             Route::put('/email-settings/update',[SettingController::class , 'UpdateEmailConfiguration'])->name('email-settings.update');
+            
+            /** Update Or Create Logo & Favicon Settings :( if general settings is not created yet we created else we update logo & favicon settings)  */
+            Route::put('/logo-settings/update',[SettingController::class , 'UpdateLogaAndFavicon'])->name('logo-settings.update');
 
 
             Route::get('list-view',[SettingController::class , 'changeViewList'])->name('view-list');
