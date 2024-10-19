@@ -125,9 +125,7 @@ class SettingController extends Controller
         
         try{   
 
-            $logoCheck = LogoSetting::first();
-
-           
+            $logoCheck = LogoSetting::first(); 
 
             if(!$request->hasFile('logo') &&  !$request->hasFile('favicon') ){
                 
@@ -141,9 +139,6 @@ class SettingController extends Controller
                 return redirect()->back();
             }
 
-
-
-            
 
             $oldLogo = $logoCheck?->logo;            
             $imageUpdatedLogo= $oldLogo ;
@@ -189,9 +184,6 @@ class SettingController extends Controller
             // toastr('Logo & Favicon Has Not Been Updated Successfully !','error','Error');
             return redirect()->back();
         }
-
-
-
 
 
 

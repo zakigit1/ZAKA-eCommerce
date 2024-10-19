@@ -33,8 +33,11 @@
 
   <link rel="stylesheet" href="{{asset('frontend/assets/css/style.css')}}">
   <link rel="stylesheet" href="{{asset('frontend/assets/css/responsive.css')}}">
-  <!-- <link rel="stylesheet" href="css/rtl.css"> -->
-
+  
+  @if ($settings->layout == "rtl")
+    <link rel="stylesheet" href="{{asset('frontend/assets/css/rtl.css')}}">
+  @endif 
+  
   <!-- Yjra-DataTable Jquery CSS -->
   <link rel="stylesheet" href="//cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css">
 

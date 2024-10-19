@@ -35,7 +35,10 @@
 
         <link rel="stylesheet" href="{{asset('frontend/assets/css/style.css')}}">
         <link rel="stylesheet" href="{{asset('frontend/assets/css/responsive.css')}}">
-        <!-- <link rel="stylesheet" href="css/rtl.css"> -->
+        
+        @if ($settings->layout == "rtl")
+            <link rel="stylesheet" href="{{asset('frontend/assets/css/rtl.css')}}"> 
+        @endif
 
         <!-- toastr CSS -->
     

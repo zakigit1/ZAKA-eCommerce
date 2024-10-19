@@ -25,6 +25,11 @@
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{asset('backend/assets/css/style.css')}}">
   <link rel="stylesheet" href="{{asset('backend/assets/css/components.css')}}">
+  {{-- this is for RTL  --}}
+  
+  @if ($settings->layout == "rtl")
+    <link rel="stylesheet" href="{{asset('backend/assets/css/rtl.css')}}">
+  @endif 
   
   <!-- toastr CSS -->
   
@@ -74,6 +79,8 @@
       <div class="main-content">
         @yield('content')
       </div>
+
+      <!-- Footer -->
         @include('Admin.Dashboard.layouts.includes.footer')
     </div>
   </div>
