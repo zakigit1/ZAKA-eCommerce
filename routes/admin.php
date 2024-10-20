@@ -33,6 +33,7 @@ use App\Http\Controllers\Backend\Admin\Footer\FooterSocialController;
 use App\Http\Controllers\Backend\Admin\HomePageSettingController;
 use App\Http\Controllers\Backend\Admin\ManageUserController;
 use App\Http\Controllers\Backend\Admin\OrderController;
+use App\Http\Controllers\Backend\Admin\Payment\Gateways\CODSettingController;
 use App\Http\Controllers\Backend\Admin\Payment\PaymentSettingController;
 use App\Http\Controllers\Backend\Admin\Payment\Gateways\RazorpaySettingController;
 use App\Http\Controllers\Backend\Admin\Payment\Gateways\StripeSettingController;
@@ -43,7 +44,6 @@ use App\Http\Controllers\Backend\Admin\TransactionController;
 use App\Http\Controllers\Backend\Admin\VendorConditionController;
 use App\Http\Controllers\Backend\Admin\VendorListController;
 use App\Http\Controllers\Backend\Admin\VendorRequestController;
-
 
 
 
@@ -258,6 +258,10 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
         
         /** Update Or Create Razorpay Settings :( if Razorpay settings is not created yet we created else we update razorpay settings)  */
         Route::put('/razorpay-settings',[RazorpaySettingController::class,'UpdateRazorpaySettings'])->name('razorpay-setting');
+        ############################## Razorpay Settings gateway  End  #################################
+
+        /** Update Or Create cod Settings :( if Razorpay settings is not created yet we created else we update cod settings)  */
+        Route::put('/cod-settings',[CODSettingController::class,'UpdateCODSettings'])->name('cod-setting');
         ############################## Razorpay Settings gateway  End  #################################
     });
 

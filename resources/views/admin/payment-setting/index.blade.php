@@ -37,6 +37,9 @@
                                 <a class="list-group-item list-group-item-action" id="list-razorpay-list" data-toggle="list" href="#list-razorpay" role="tab">
                                   Razorpay Payment
                                 </a>
+                                <a class="list-group-item list-group-item-action" id="list-cod-list" data-toggle="list" href="#list-cod" role="tab">
+                                  COD Payment
+                                </a>
 
                               </div>
                             </div>
@@ -54,6 +57,9 @@
                                       
                                 <div class="tab-pane fade" id="list-razorpay" role="tabpanel" aria-labelledby="list-razorpay-list">   
                                       @include('admin.payment-setting.includes.razorpay-setting')
+                                </div>
+                                <div class="tab-pane fade" id="list-cod" role="tabpanel" aria-labelledby="list-cod-list">   
+                                      @include('admin.payment-setting.includes.cod-setting')
                                 </div>
 
                               </div>

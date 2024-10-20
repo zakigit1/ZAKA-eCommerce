@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Admin\Payment;
 
 use App\Http\Controllers\Controller;
+use App\Models\CODSetting;
 use App\Models\PaypalSetting;
 use App\Models\RazorpaySetting;
 use App\Models\StripeSetting;
@@ -15,6 +16,7 @@ class PaymentSettingController extends Controller
         $data['paypalSetting'] = PaypalSetting::first();
         $data['stripeSetting'] = StripeSetting::first();
         $data['razorpaySetting'] = RazorpaySetting::first();
+        $data['codSetting'] = CODSetting::first();
         return view('admin.payment-setting.index',$data);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\CODSetting;
 use App\Models\GeneralSetting;
 use App\Models\Order;
 use App\Models\OrderProduct;
@@ -14,6 +15,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Razorpay\Api\Api;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Stripe\Charge;
@@ -385,6 +387,49 @@ class PaymentController extends Controller
                 return redirect()->route('user.payment');
             }
         }
+
+    }
+    //######################################### razorpay Gatway End #########################################\\
+
+    //######################################### razorpay Gatway Start #########################################\\
+    
+    public function codPayment(){
+
+        try{
+            $codSetting = CODSetting::first();   
+            $Setting = GeneralSetting::first();   
+    
+            if($codSetting->status == 0){
+                toastr('The Cach On Delivery Option Is Not Available!','success','Success');
+                return redirect()->back();
+            }
+            
+            $total = finalAmount();//this function in general file 
+            $paidAmountFinal  = round( $total , 2);// you get the price in USD 
+    
+            $this->storeOreder('COD' ,0 ,Str::random(10) ,$paidAmountFinal ,$Setting->currency_name);
+                   
+            /** Clear Session : */
+            $this->clearSession();
+           
+            toastr('Payment completed successfully','success'); 
+            return redirect()->route('user.payment.success');
+
+        }catch(\Exception $ex){
+                toastr($ex->getMessage(),'error','Error in payment with Razorpay Gatways!');
+                // toastr('Somthing Went Wrong Try Again Later !','error','Error in Razorpay Gatways!');
+                return redirect()->route('user.payment');
+        }
+
+            
+
+
+
+
+
+                
+
+      
 
     }
     //######################################### razorpay Gatway End #########################################\\

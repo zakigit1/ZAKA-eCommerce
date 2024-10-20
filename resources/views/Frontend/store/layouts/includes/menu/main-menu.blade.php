@@ -61,7 +61,7 @@
                     {{-- End Main Category --}}
 
                     <ul class="wsus__menu_item">
-                        <li><a class="active" href="index.html">home</a></li>
+                        <li><a class="active" href="{{route('home')}}">home</a></li>
                         <li><a href="{{route('vendor.index')}}">Vendor</a></li>
                         <li><a href="{{route('blog')}}">Blog</a></li>
                         {{-- <li><a href="product_grid_view.html">shop <i class="fas fa-caret-down"></i></a>

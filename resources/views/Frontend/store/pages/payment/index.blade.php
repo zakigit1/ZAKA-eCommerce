@@ -50,6 +50,10 @@
                                 <button class="nav-link common_btn" id="v-pills-razorpay-tab" data-bs-toggle="pill"
                                     data-bs-target="#v-pills-razorpay" type="button" role="tab"
                                     aria-controls="v-pills-razorpay" aria-selected="false">Razorpay </button>
+                                
+                                <button class="nav-link common_btn" id="v-pills-cod-tab" data-bs-toggle="pill"
+                                    data-bs-target="#v-pills-cod" type="button" role="tab"
+                                    aria-controls="v-pills-cod" aria-selected="false">COD </button>
 
                             </div>
                         </div>
@@ -121,6 +125,14 @@
 
                                 <div class="wsus__payment_area">
                                     @include('Frontend.store.pages.payment.includes.razorpay')
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="v-pills-cod" role="tabpanel"
+                                aria-labelledby="v-pills-cod-tab">
+
+                                <div class="wsus__payment_area">
+                                    @include('Frontend.store.pages.payment.includes.cod')
                                 </div>
                             </div>
 

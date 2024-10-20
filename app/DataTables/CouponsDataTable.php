@@ -59,6 +59,9 @@ class CouponsDataTable extends DataTable
             $generalSetting = GeneralSetting::first();
             return ($query->discount_type == 'percent') ? ($query->discount.'%') : ($generalSetting->currency_icon.$query->discount)  ;  
         })
+        ->addColumn('coupon_code',function($query){
+            return $query->code;
+        })
         ->rawColumns(['status','discount_type'])//if you add in this file html code you need to insert the column name inside (rawColumns)
         ->setRowId('id');
     }
@@ -101,6 +104,7 @@ class CouponsDataTable extends DataTable
         return [
             Column::make('id')->width(50),
             Column::make('name'),
+            Column::make('coupon_code'),
             Column::make('discount_type'),
             Column::make('discount'),
             Column::make('start_date'),

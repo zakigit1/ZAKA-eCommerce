@@ -56,6 +56,7 @@ class VendorController extends Controller
 
         //  in the course we do created_at instead of update_at  also sub_total instead of amount 
         $data['todayEarning'] = Order::where('order_status' , 'delivered')
+                ->where('payment_status',1)
                 ->whereDate('updated_at',Carbon::today())
                 ->whereHas('orderProducts',function($q){
                     $q->where('vendor_id' , Auth::user()->vendor->id);
@@ -64,6 +65,7 @@ class VendorController extends Controller
                 ->sum('amount');
 
         $data['monthEarning'] = Order::where('order_status' , 'delivered')
+                ->where('payment_status',1)
                 ->whereMonth('updated_at',Carbon::now()->month)
                 ->whereHas('orderProducts',function($q){
                     $q->where('vendor_id' , Auth::user()->vendor->id);
@@ -72,6 +74,7 @@ class VendorController extends Controller
                 ->sum('amount');
 
         $data['yearEarning'] = Order::where('order_status' , 'delivered')
+                ->where('payment_status',1)
                 ->whereYear('updated_at',Carbon::now()->year)
                 ->whereHas('orderProducts',function($q){
                     $q->where('vendor_id' , Auth::user()->vendor->id);
@@ -80,6 +83,7 @@ class VendorController extends Controller
                 ->sum('amount');
 
         $data['totalEarning'] = Order::where('order_status' , 'delivered')
+                ->where('payment_status',1)
                 ->whereHas('orderProducts',function($q){
                     $q->where('vendor_id' , Auth::user()->vendor->id);
                 })

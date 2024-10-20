@@ -88,9 +88,10 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
 
         /** Razorpay Payment :  */
         Route::get('razorpay',[PaymentController::class,'razorpayPayment'])->name('razorpay.payment');
-        Route::get('razorpay/success',[PaymentController::class,'success'])->name('razorpay.success');
-        Route::get('razorpay/cancel',[PaymentController::class,'cancel'])->name('razorpay.cancel');
 
+
+        /** COD Payment :  */
+        Route::get('cod',[PaymentController::class,'codPayment'])->name('cod.payment');
     
     });
 

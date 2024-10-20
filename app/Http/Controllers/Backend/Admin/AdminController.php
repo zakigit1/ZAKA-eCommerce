@@ -52,21 +52,25 @@ class AdminController extends Controller
 
         //  in the course we do created_at instead of update_at  also sub_total instead of amount 
         $data['todayEarning'] = Order::where('order_status' , '!=','canceled')
+            ->where('payment_status',1)
             ->whereDate('updated_at',Carbon::today())
             // ->sum('sub_total');
             ->sum('amount');
 
         $data['monthEarning'] = Order::where('order_status' , '!=','canceled')
+            ->where('payment_status',1)
             ->whereMonth('updated_at',Carbon::now()->month)
             // ->sum('sub_total');
             ->sum('amount');
 
         $data['yearEarning'] = Order::where('order_status' , '!=','canceled')
+            ->where('payment_status',1)    
             ->whereYear('updated_at',Carbon::now()->year)
             // ->sum('sub_total');
             ->sum('amount');
 
         $data['totalEarning'] = Order::where('order_status' , '!=','canceled')
+            ->where('payment_status',1)
             // ->sum('sub_total');
             ->sum('amount');
 
