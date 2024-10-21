@@ -9652,4 +9652,9 @@ input.razorpay-payment-button{
   float: left;
 }
 
-
+/* this is for fix size images issue */
+.wsus__hot_deals__single_img img {
+  width: 200px !important;
+  height: 150px !important;
+  object-fit: cover;
+}

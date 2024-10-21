@@ -34,17 +34,20 @@
                         </div>
                     </div>
                     <ul class="wsus__icon_area">
-                        <li><a href="{{route('user.wishlist.index')}}"><i class="fal fa-heart"></i>
-                            @auth()
-                            <span id="wishlist_count">
-                                {{\App\Models\Wishlist::where('user_id' , auth()->user()->id)->count()}}    
-                            </span>
-                            @endauth
-                    </a></li>
+                        <li>
+                            <a href="{{route('user.wishlist.index')}}"><i class="fal fa-heart"></i>
+                                @auth()
+                                <span id="wishlist_count">
+                                    {{\App\Models\Wishlist::where('user_id' , auth()->user()->id)->count()}}    
+                                </span>
+                                @endauth
+                            </a>
+                        </li>
                         {{-- <li><a href="#"><i class="fal fa-random"></i><span>03</span></a></li> --}}
                         <li><a class="wsus__cart_icon" href="#">
                             {{-- <i class="fal fa-shopping-bag"></i><span>{{Cart::count();}}</span></a></li> --}}
-                            <i class="fal fa-shopping-bag"></i><span id="cart-count">{{Cart::content()->count()}}</span></a></li>
+                            <i class="fal fa-shopping-bag"></i><span id="cart-count">{{Cart::content()->count()}}</span></a>
+                        </li>
                     </ul>
                 </div>
             </div>

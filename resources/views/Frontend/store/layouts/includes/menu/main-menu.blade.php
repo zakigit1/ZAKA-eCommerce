@@ -154,11 +154,14 @@
                         <li><a href="{{route('flash-sale.index')}}">Flash Sale</a></li>
                         {{-- <li><a href="daily_deals.html">daily deals</a></li> --}}
                     </ul>
+
                     <ul class="wsus__menu_item wsus__menu_item_right">
                         <li><a href="{{route('contact.index')}}">Contact</a></li>
 
-                        @if (Route::has('login'))
+                        {{-- @if (Route::has('login')) --}}
+                       
                             @auth
+                                {{-- it mean (admin.dashboard Or user.dashboard Or vendor.dashboard) --}}
                                 <li><a href="{{route(auth()->user()->role.'.dashboard')}}">My Account</a></li>
                                 
                             @else
@@ -167,8 +170,6 @@
                                     <li><a href="{{route('register')}}">Register</a></li>
                                 @endif
                             @endauth    
-
-                        @endif
 
                     </ul>
                 </div>

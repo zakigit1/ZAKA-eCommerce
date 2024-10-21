@@ -18,34 +18,43 @@ class FrontendProductController extends Controller
 
     public function showProduct(string $slug){
 
-        
+        try{
 
-        $data['product'] = Product::with([
-            'gallery',
-            'variants'=>function($query){
-                return $query->with(['items'=>function($q){//items = variant items
-                    // get just variant items active 
-                    return $q->where('status',1);
-                }])
-                // get just variant active 
-                ->where('status',1);
-            },
-            'vendor'=>function($query){
-                return $query->with('user');
-            },
-            'brand'=>function($query){
-                // get just brand active 
-                $query->where('status',1);
-            }]
-            )
-        ->where('slug', $slug)->first();
+            $data['product'] = Product::with([
+                'gallery',
+                'variants'=>function($query){
+                    return $query->with(['items'=>function($q){//items = variant items
+                        // get just variant items active 
+                        return $q->where('status',1);
+                    }])
+                    // get just variant active 
+                    ->where('status',1);
+                },
+                'vendor'=>function($query){
+                    return $query->with('user');
+                },
+                'brand'=>function($query){
+                    // get just brand active 
+                    $query->where('status',1);
+                }]
+                )
+            ->where('slug', $slug)->first();
+    
+            $data['reviews'] = ProductReview::with(['user','productReviewGalleries'])
+                ->where(['product_id' => $data['product']->id , 'status' => 1])
+                ->paginate(5);
+    
+            if (!$data['product']) {
+                abort(404);
+            }
 
-        $data['reviews'] = ProductReview::with(['user','productReviewGalleries'])->where(['product_id' => $data['product']->id , 'status' => 1])->paginate(5);
-
-        if (!$data['product']) {
-            abort(404);
+            // dd($data['reviews']);
+            
+            return view('frontend.store.product.product-details',$data);
+        }catch(\Exception $e){
+            toastr($e->getMessage(),'error','Error');
+            return redirect()->back();
         }
-        return view('frontend.store.product.product-details',$data);
     }
 
 

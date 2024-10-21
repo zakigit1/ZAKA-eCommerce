@@ -43,9 +43,9 @@
             </div>
 
             <div class="card card-primary">
-              {{-- <div class="card-header">
+              <div class="card-header">
                 <h4>Login</h4>
-              </div> --}}
+              </div>
 
               <div class="card-body">
 
@@ -59,34 +59,30 @@
                     <label for="email"> Email </label>
                     <input id="email" type="email" class="form-control" name="email" tabindex="1" value="{{old('email')}}" required autofocus >
 
-
                     @if ($errors->has('email'))
                         <code>{{$errors->first('email')}}</code>                        
                     @endif
                   </div>
 
 
-                
-
-                  <div class="form-group ">
-                <div class="d-block">
-                        <i class="fas fa-key"></i>
-                        <label for="password" class="control-label">Password</label>
-
+                  <div class="form-group">
+                      <div class="d-block">
+                          <i class="fas fa-key"></i>
+                          <label for="password" class="control-label">Password</label>
                       </div>
-                    </div>
-                    <input id="password" type="password" class="form-control" name="password" tabindex="2" >
-                    
-                    @if ($errors->has('password'))
-                    <code>{{$errors->first('password')}}</code>                        
-                    @endif
-
-                    <div class="float-right">
-                      <a href="auth-forgot-password.html" class="text-small">
-                        Forgot Password?
-                      </a>
-                    </div>
+                      <input id="password" type="password" class="form-control" name="password" tabindex="2">
+                      @if ($errors->has('password'))
+                        <code>{{$errors->first('password')}}</code>                        
+                      @endif
                   </div>
+                    
+
+                  <div class="float-right">
+                    <a href="auth-forgot-password.html" class="text-small">
+                      Forgot Password?
+                    </a>
+                  </div>
+
 
                   <div class="form-group">
                     <div class="custom-control custom-checkbox">
@@ -105,14 +101,8 @@
 
               </div>
 
+            </div>
           </div>
-        </div>
-        <div class="mt-5 text-muted text-center">
-           Don't have an account? <a href="auth-register.html">Create One</a>
-        </div>
-        <div class="simple-footer">
-          Copyright &copy; Stisla 2018
-        </div>
         </div>
       </div>
     </section>

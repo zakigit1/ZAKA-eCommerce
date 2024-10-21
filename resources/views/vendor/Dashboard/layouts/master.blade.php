@@ -15,7 +15,8 @@
     @yield('title')
   </title>
 
-  <link rel="icon" type="image/png" href="{{asset('frontend/assets/images/favicon.png')}}">
+
+  <link rel="icon" type="image/png" href="{{$logoSettings->favicon}}">
   <link rel="stylesheet" href="{{asset('frontend/assets/css/all.min.css')}}">
   <link rel="stylesheet" href="{{asset('frontend/assets/css/bootstrap.min.css')}}">
   <link rel="stylesheet" href="{{asset('frontend/assets/css/select2.min.css')}}">
