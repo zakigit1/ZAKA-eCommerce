@@ -51,8 +51,9 @@ class UserOrderController extends Controller
         
 
         if(!$order){
-            toastr()->error( 'Order is not found!');
-            return to_route('user.order.index');
+            
+                return response(['status'=>'error','message'=>'Order is not found!']);
+            
         }
 
         $order_id = $order->invoice_id;

@@ -119,8 +119,7 @@ class BlogCategoryController extends Controller
             $blogCategory = BlogCategory::find($id);
 
             if(!$blogCategory){
-                toastr()->error( 'Blog Category is not found!');
-                return to_route('admin.blog-category.index');
+                return response(['status'=>'error','message'=>'Blog Category is not found!']);
             }
 
 
@@ -154,8 +153,7 @@ class BlogCategoryController extends Controller
         $blogCategory =BlogCategory::find($request->id);
 
         if(!$blogCategory){
-            toastr()->error( 'Blog Category is not found!');
-            return to_route('admin.blog-category.index');
+            return response(['status'=>'error','message'=>'Blog Category  is not found!']);
         }
 
         $blog_category_name =$blogCategory->name;

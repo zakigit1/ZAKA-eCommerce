@@ -8,13 +8,11 @@ use Illuminate\Http\Request;
 use App\Traits\imageUploadTrait;
 
 class FooterInfoController extends Controller
-{
-    
+{  
     use imageUploadTrait;
 
     const FOLDER_PATH = '/Uploads/images/';
     const FOLDER_NAME = 'footer';
-
 
 
     public function index () {
@@ -24,11 +22,6 @@ class FooterInfoController extends Controller
         
         return view('admin.footer.footer-info',compact('footerInfo'));
     }
-
-
-
-
-
 
     public function update (Request $request , int $id = 1) {
 
@@ -72,12 +65,5 @@ class FooterInfoController extends Controller
         toastr()->success('Footer Information Updated Successfully !');
         return redirect()->back();
     }
-
-
-
-
-
-
-
 
 }

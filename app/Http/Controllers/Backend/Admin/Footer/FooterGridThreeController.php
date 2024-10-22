@@ -106,8 +106,7 @@ class FooterGridThreeController extends Controller
             $footerGridThree = FooterGridThree::find($id);
 
             if(!$footerGridThree){
-                toastr('Footer Grid Three Not Found !','error','Error Footer Grid Three');
-                return redirect()->route('admin.footer-grid-three.index');
+                return response(['status'=>'error','message'=>'Footer Part (grid) three is not found!']);
             }
 
 
@@ -127,8 +126,7 @@ class FooterGridThreeController extends Controller
         $footerGridThree = FooterGridThree::find($request->id);
 
         if(!$footerGridThree){
-            toastr('Footer Grid Three Not Found !','error','Error Footer Grid Three');
-            return redirect()->route('admin.footer-grid-three.index');
+            return response(['status'=>'error','message'=>'Footer part three is not found!']);
         }
 
        

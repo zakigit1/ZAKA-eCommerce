@@ -6,6 +6,8 @@ use App\DataTables\SubcategoriesDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Childcategory;
+use App\Models\HomePageSetting;
+use App\Models\Product;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -133,24 +135,28 @@ class SubcategoryController extends Controller
 
             $subcategory = Subcategory::find($id);
 
-            if(!$subcategory){
-                toastr()->error( 'Subategory is not found!');
-                return to_route('admin.sub-category.index');
-            }
 
+
+            if(!$subcategory){
+                return response(['status'=>'error','message'=>'Sub Category is not found!']);
+            }
             $subcategory_name =$subcategory->name;
 
-            // ! you can't delete category if there is  child category
+            if(Product::where('child_category_id',$subcategory->id)->count()>0){
+                return response(['status'=>'error','message'=>"$subcategory_name Can't Deleted Because they have products communicated with it !"]);
+            }
 
-            /**
-                if(tchof ida sub categories 3nddah child categories )
-                    $category->childcategories()->delete();
-                    $category->subcategories()->delete();
-                else{
-                    $category->subcategories()->delete();
-                    
+            $homeSettings = HomePageSetting::all();
+
+            foreach($homeSettings as $item){
+                $array = json_decode($item->value ,true);
+                $collection = collect($array);
+
+                if($collection->contains('sub_category',$subcategory->id)){
+                    return response(['status'=>'error','message'=>"$subcategory_name Can't Deleted Because they have communication with home page settings!"]);
                 }
-            */
+            }
+
 
             ####### M1:
             $childcategories =Childcategory::where('sub_category_id',$subcategory->id)->count();
@@ -168,7 +174,7 @@ class SubcategoryController extends Controller
 
 
 
-            $subcategory->delete();
+            // $subcategory->delete();
 
             // we are using ajax : 
             return response(['status'=>'success','message'=>"$subcategory_name Category Deleted Successfully !"]);
@@ -185,19 +191,22 @@ class SubcategoryController extends Controller
         $subcategory =Subcategory::find($request->id);
 
         if(!$subcategory){
-            toastr()->error( 'Subcategory is not found!');
-            return to_route('admin.sub-category.index');
+            return response(['status'=>'error','message'=>'Sub Category is not found!']);
         }
 
         $subcategory_name =$subcategory->name;
 
         ### to check if category have subcategories , we can't desactive the status 
-        $childcategories =Childcategory::where('sub_category_id',$subcategory->id)->count();
+        $childcategories =Childcategory::where('sub_category_id',$subcategory->id)->get();
 
-        if($childcategories>0 && $request->status != 'true'){
+        if($childcategories->count() >0 && $request->status != 'true'){
             return response(['status'=>'error','message'=>"$subcategory_name contain a child categories ,if you want to deactive the sub category you have to desactive the Sub categories first "]);
         }
-    
+        
+        // if($childcategories->count()>0 && $request->status != 'true'){
+        //     $childcategories->update(['status' => 0]);
+        // }
+        
         
 
         //! also for this when you desactivate the subcategory , the child are desactivate also 

@@ -145,7 +145,7 @@ class ProductVariantItemController extends Controller
             }catch(\Exception $e){
                 // toastr()->error($e->getMessage());
                 toastr('variant Has Not Been Updated Successfully','error');
-                return redirect()->route('admin.product-variant-item.index',[$product_id,$variant_id]);
+                return redirect()->back();
             }
     }
 
@@ -167,9 +167,7 @@ class ProductVariantItemController extends Controller
             $product_id =$item->variant->product_id;
             if(!$item){
                 
-                toastr()->error( 'PItem is not exsist!');
-                return to_route('admin.product-variant-item.index',[$product_id, $variant_id]);
-                // return redirect()->back();
+                return response(['status'=>'error','message'=>'Product variant item is not found!']);
             }
 
             $item->delete();
@@ -183,24 +181,12 @@ class ProductVariantItemController extends Controller
     public function change_status(Request $request)
     {
         $item =ProductVariantItem::find($request->id);
-        $variant_id= $item->product_variant_id;
-        ##M1:
-        // $productId = ProductVariant::select('product_id')->find($product_variant_item->product_variant_id);
-        // $product_id =$productId->product_id;
-        
-        ##M2:
-        $product_id =$item->variant->product_id;
-
+    
         if(!$item){
            
-            toastr()->error( 'Item is not found!');
-            return to_route('admin.product-variant-item.index',[$product_id, $variant_id]);
-            // return redirect()->back();
+            return response(['status'=>'error','message'=>'Product variant item is not found!']);
         }
 
-        $product_name =$item->name;
-
-        
         $item->status = $request->status == 'true' ? 1 : 0;
          
         $item->save();

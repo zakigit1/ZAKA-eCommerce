@@ -73,8 +73,7 @@ class FlashSaleController extends Controller
             $flash_item = FlashSaleItem::find($id);
 
             if(!$flash_item){
-                toastr()->error( 'flashitem  is not found!');
-                return to_route('admin.flash-sale.index');
+                return response(['status'=>'error','message'=>'flash item is not found!']);
             }
 
             $flash_item->delete();
@@ -94,8 +93,7 @@ class FlashSaleController extends Controller
 
         if(!$flash_item){
            
-            toastr()->error( 'Item is not found!');
-            return to_route('admin.flash-sale.index');
+            return response(['status'=>'error','message'=>'Flash sale item is not found!']);
             // return redirect()->back();
         }
 

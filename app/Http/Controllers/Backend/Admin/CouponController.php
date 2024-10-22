@@ -140,8 +140,7 @@ class CouponController extends Controller
             $coupon = Coupon::find($id);
 
             if(!$coupon){
-                toastr()->error( 'Coupon is not found!');
-                return to_route('admin.coupons.index');
+                return response(['status'=>'error','message'=>'Coupon is not found!']);
             }
 
             $coupon_name =$coupon->name;
@@ -163,8 +162,7 @@ class CouponController extends Controller
         $coupon = Coupon::find($request->id);
 
         if(!$coupon){
-            toastr()->error( 'Coupon is not found!');
-            return to_route('admin.coupons.index');
+            return response(['status'=>'error','message'=>'Coupon is not found!']);
         }
 
        

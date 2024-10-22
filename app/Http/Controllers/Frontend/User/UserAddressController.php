@@ -131,8 +131,9 @@ class UserAddressController extends Controller
             $userAddress = UserAddress::find($id);
 
             if(!$userAddress){
-                toastr()->error( 'User Address is not found!');
-                return to_route('user.address.index');
+                
+                return response(['status'=>'error','message'=>'User Address is not found!']);
+                
             }
 
         

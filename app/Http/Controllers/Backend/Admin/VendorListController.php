@@ -25,8 +25,7 @@ class VendorListController extends Controller
         $user = User::find($request->id);
 
         if(!$user){
-            toastr()->error( 'user is not found!');
-            return to_route('admin.vendor-list.index');
+            return response(['status'=>'error','message'=>'User is not found!']);
         }
 
        

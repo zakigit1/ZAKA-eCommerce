@@ -23,8 +23,7 @@ class CustomerListController extends Controller
         $user = User::find($request->id);
 
         if(!$user){
-            toastr()->error( 'User is not found!');
-            return to_route('admin.customer-list.index');
+            return response(['status'=>'error','message'=>'User is not found!']);
         }
 
        

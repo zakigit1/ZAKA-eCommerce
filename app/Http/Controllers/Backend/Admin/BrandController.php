@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\DataTables\BrandsDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\Product;
 use App\Traits\imageUploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -163,42 +164,22 @@ class BrandController extends Controller
             $brand = Brand::find($id);
 
             if(!$brand){
-                toastr()->error( 'Brand is not found!');
-                return to_route('admin.brand.index');
+                return response(['status'=>'error','message'=>'Brand is not found!']);
             }
 
 
             $brand_name =$brand->name;
 
-            // ! you can't delete category if there are sub category or child category
-            //? first delete the sub category
-            /**
-            
-                if(lwla tchof ida had category 3ndha sub categories){
-                    if(tchof ida sub categories 3nddah child categories )
-                        $category->childcategories()->delete();
-                        $category->subcategories()->delete();
-                        $category->delete();
-                    else{
-                        $category->subcategories()->delete();
-                        $category->delete();
-                    }
-                }else{
-                 $category->delete();
-                }
-            */
-            ####### M1:
-            // $subcategories =Subcategory::where('category_id',$category->id)->count();
 
-            // if($subcategories>0){
-            //     return response(['status'=>'error','message'=>"$category_name contain a Sub categories , for delete this Main category you have to delete the Sub categories first "]);
+            # Check if the brand have product(s): [without using relation]
+            if(Product::where('brand_id',$brand->id)->count() > 0){
+                
+                return response(['status'=>'error','message'=>"$brand_name Can't Deleted Because they have products communicated with it !"]);
+            }
+            # Check if the brand have product(s): [using relation]
+            // if(isset($brand->products)  && count($brand->products) > 0){
 
-            // }
-
-            ####### M2:Relation
-            // if(isset($category->subcategories)  && count($category->subcategories)>0){
-
-            //     return response(['status'=>'error','message'=>"$category_name Can't Deleted Because they have subcategories !"]);
+            //     return response(['status'=>'error','message'=>"$brand_name Can't Deleted Because they have products communicated with it !"]);
             // }
 
             $this->deleteImage_Trait($brand->logo);
@@ -219,19 +200,24 @@ class BrandController extends Controller
         $brand =Brand::find($request->id);
 
         if(!$brand){
-            toastr()->error( 'Brand is not found!');
-            return to_route('admin.brand.index');
+            return response(['status'=>'error','message'=>'Brand is not found!']);
         }
 
         $brand_name =$brand->name;
 
-
-        ### to check if category have subcategories , we can't desactive the status 
-        // $subcategories =Subcategory::where('category_id',$category->id)->count();
-
-        // if($subcategories>0 && $request->status != 'true'){
-        //     return response(['status'=>'error','message'=>"$category_name contain a Sub categories ,if you want to deactive the  Main category you have to desactive the Sub categories first "]);
+        # Check if the brand have product(s): [without using relation]
+        // if(Product::where('brand_id',$brand->id)->count() > 0){
+            
+        //     return response(['status'=>'error','message'=>"$brand_name contain a product(s) ,if you want to deactive brand you have to desactive the product(s) first "]);
         // }
+        # Check if the brand have product(s): [using relation]
+        if(isset($brand->products)  && count($brand->products) > 0){
+
+            return response(['status'=>'error','message'=>"$brand_name contain a product(s) ,if you want to deactive brand you have to desactive the product(s) first "]);
+        }
+
+
+
 
         
         $brand->status = $request->status == 'true' ? 1 : 0;

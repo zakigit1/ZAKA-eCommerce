@@ -160,7 +160,7 @@ class VendorProductVariantController extends Controller
         }catch(\Exception $e){
             // toastr()->error($e->getMessage());
             toastr('variant Has Not Been Updated Successfully','error');
-            return redirect()->route('vendor.product-variant.index',['id'=>$product_variant->product_id]);
+            return redirect()->back();
         }
     }
 
@@ -176,8 +176,7 @@ class VendorProductVariantController extends Controller
             if(!$product_variant){
                 // $product_id =$product_variant->product->id;
 
-                toastr()->error( 'Product Variant is not exsist!');
-                return to_route('vendor.product-variant.index',['id'=> $product_variant->product_id]);
+                return response(['status'=>'error','message'=>'Product Variant is not found!']);
                 // return redirect()->back();
             }
 
@@ -190,9 +189,9 @@ class VendorProductVariantController extends Controller
             //*-------------------------------------------
 
             //? this i can use it for me to know the error but when you host your website you should to redirect to the 404 page 
-                toastr()->error( 'You are not authorized to delete this product variant  !');
-                return to_route('vendor.product-variant.index',['id'=> $product_variant->product_id]);
-                // return redirect()->back();
+
+            return response(['status'=>'error','message'=>'You are not authorized to delete this product variant  !']);
+
             }
 
             ####### M1:
@@ -225,9 +224,9 @@ class VendorProductVariantController extends Controller
         $product_variant =ProductVariant::find($request->id);
 
         if(!$product_variant){
-            // $product_id =$product_variant->product->id;
-            toastr()->error( 'Product is not found!');
-            return to_route('vendor.product.index',['id'=> $product_variant->product_id]);
+  
+            return response(['status'=>'error','message'=>'Product Variant is not found!']);
+        
         }
 
         /** 
@@ -238,9 +237,10 @@ class VendorProductVariantController extends Controller
             //*-------------------------------------------
 
             //? this i can use it for me to know the error but when you host your website you should to redirect to the 404 page 
-            toastr()->error( 'You are not authorized to change status of this product variant !');
-            // return redirect()->back();
-            return to_route('vendor.product.index',['id'=> $product_variant->product_id]);
+
+           
+                return response(['status'=>'error','message'=>'You are not authorized to change status of this product variant !']);
+
  
         }
 

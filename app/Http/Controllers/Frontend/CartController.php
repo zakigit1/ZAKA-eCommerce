@@ -67,8 +67,15 @@ class CartController extends Controller
 
 
         // dd($cartData);
+
+        // Product Qty Verfied :
+        $updateQty = ($product->qty - $request->qty);
+        $product->qty = $updateQty ;
+        $product->save();
         
+       
         $cart = Cart::add($cartData);
+ 
         // dd($cart->rowId);
  
         return response()->json([
@@ -94,6 +101,8 @@ class CartController extends Controller
         // dd($cartProducts);
         // dd($cartProducts['400e29e1df375d66dcb86a793720c4d0']->rowId);
 
+
+        // The banners :
         $cartpageBanner = Advertisement::where('key','cartpage_banner')->first();
         $cartpageBanner = json_decode($cartpageBanner?->value);
 
@@ -155,12 +164,42 @@ class CartController extends Controller
     /** Remove Product From Cart ( Cart Details page) : */
     public function removeProduct(string $rowId){
         
+
+        $cartItem = Cart::get($rowId);
+        $product = Product::find($cartItem->id);
+        $product->qty = ($product->qty + $cartItem->qty);
+        
+        // return response(['status'=>'success','message'=>$product->qty]);
+        
+
+        $product->save();
+
+
         Cart::remove($rowId);
         // return redirect()->back();
 
         //if you use ajax use this redirect : 
         return response(['status'=>'success','message'=>"Product Has Been Removed Successfully From The Cart !",'rowId'=>$rowId]);
     }
+
+    /** Remove Product From Cart Sidebar : */
+    public function removeSidebarProduct(Request $request){
+        // dd($request->all());
+        $cartItem = Cart::get($request->rowId);
+        $product = Product::find($cartItem->id);
+        $product->qty = ($product->qty + $cartItem->qty);
+
+        $product->save();
+        
+        Cart::remove($request->rowId);
+        return  response(['status'=>'success','message'=>"Product Has Been Removed Successfully From The Cart Sidebar !"]);
+    }
+
+
+
+
+
+
 
     /** Clear all Product Frome The Cart  ( Cart Details page) : */
     public function clearCart(){
@@ -181,13 +220,7 @@ class CartController extends Controller
         return Cart::content();
     }
 
-    /** Remove Product From Cart Sidebar : */
-    public function removeSidebarProduct(Request $request){
-        // dd($request->all());
-        
-        Cart::remove($request->rowId);
-        return  response(['status'=>'success','message'=>"Product Has Been Removed Successfully From The Cart Sidebar !"]);
-    }
+
 
 
     /** Check Coupon  : */

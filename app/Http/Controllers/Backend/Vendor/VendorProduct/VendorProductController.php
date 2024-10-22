@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Childcategory;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\Subcategory;
 use App\Models\Vendor;
@@ -267,8 +268,7 @@ class VendorProductController extends Controller
             $product = Product::find($id);
 
             if(!$product){
-                toastr()->error( 'Product is not found!');
-                return to_route('vendor.product.index');
+                return response(['status'=>'error','message'=>'Product is not found!']);
             }
             
             /** check if it's the owner of the product  : */
@@ -278,11 +278,18 @@ class VendorProductController extends Controller
 
             //*-------------------------------------------
             //? this i can use it for me to know the error but when you host your website you should to redirect to the 404 page 
-                toastr()->error( 'You are not authorized to delete this product!');
-                return to_route('vendor.product.index');
+
+            return response(['status'=>'error','message'=>'You are not authorized to delete this product!']);
+
             }
 
             $product_name =$product->name;
+
+
+            //if the product already bought(Order it) you can\'t delete it you can change his status to be disable
+            if(OrderProduct::where('product_id',$product->id)->count() > 0){
+                return response(['status'=>'error','message'=>"This Product Have Order(s) You Can'\t Delete it!"]);
+            }
 
             //********************   Delete Product the thumb image    ******************** */
             
@@ -351,21 +358,10 @@ class VendorProductController extends Controller
         $product =Product::find($request->id);
 
         if(!$product){
-            toastr()->error( 'Product is not found!');
-            return to_route('vendor.product.index');
+            return response(['status'=>'error','message'=>'Product is not found!']);
         }
 
-        $product_name =$product->name;
-
-
-        ### to check if category have subcategories , we can't desactive the status 
-        // $subcategories =Subcategory::where('category_id',$category->id)->count();
-
-        // if($subcategories>0 && $request->status != 'true'){
-        //     return response(['status'=>'error','message'=>"$category_name contain a Sub categories ,if you want to deactive the  Main category you have to desactive the Sub categories first "]);
-        // }
-
-        
+     
         $product->status = $request->status == 'true' ? 1 : 0;
          
         $product->save();

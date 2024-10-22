@@ -109,8 +109,7 @@ class ProductImageGalleryController extends Controller
             $product_gallery = ProductImageGallery::find($id);
 
             if(!$product_gallery){
-                toastr()->error( 'Product Gallery is not found!');
-                return to_route('admin.product-image-gallery.index');
+                return response(['status'=>'error','message'=>'Product Gallery is not found!']);
             }
 
 
@@ -129,7 +128,9 @@ class ProductImageGalleryController extends Controller
         try {
             
             $product = Product::find($id);
-
+            if(!$product){
+                return response(['status'=>'error','message'=>'Product is not found!']);
+            }
             if(isset($product->gallery)  && count($product->gallery)>0){
                 foreach($product->gallery as $product_image){
                     $this->deleteImage_Trait($product_image->image);

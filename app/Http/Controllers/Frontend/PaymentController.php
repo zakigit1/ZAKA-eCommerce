@@ -93,6 +93,13 @@ class PaymentController extends Controller
             $orderProduct->unit_price = $item->price;
             $orderProduct->qty = $item->qty ;            
             $orderProduct->save(); 
+
+
+            /** this you add it if you dont add this logic in the ading in the cart logic (you can find the logic in CartController) */
+            // // Update Product qty in Store :
+            // $updateQty = ($product->qty - $item->qty);
+            // $product->qty = $updateQty ;
+            // $product->save();
         }
 
         /** Store tansaction details  :  */ 

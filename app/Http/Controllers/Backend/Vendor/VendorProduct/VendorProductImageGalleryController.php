@@ -113,18 +113,16 @@ class VendorProductImageGalleryController extends Controller
 
 
             if(!$product_gallery){
-                toastr()->error( 'Product Gallery is not found!');
-                return to_route('vendor.product-image-gallery.index');
+                return response(['status'=>'error','message'=>'Product Gallery is not found!']);
             }
 
             if($product_gallery->product->vendor_id != auth()->user()->vendor->id){
                 // return to_route('404');
 
             //*-------------------------------------------
-
             //? this i can use it for me to know the error but when you host your website you should to redirect to the 404 page 
-                toastr()->error( 'You are not authorized to destroy this product image !');
-                return to_route('vendor.product-image-gallery.index',['id'=>$product_gallery->product_id]);
+            return response(['status'=>'error','message'=>'You are not authorized to destroy this product image!']);
+
             }
 
             $this->deleteImage_Trait($product_gallery->image);
@@ -145,8 +143,7 @@ class VendorProductImageGalleryController extends Controller
             $product = Product::find($id);
 
             if(!$product){
-                toastr()->error( 'Product is not found!');
-                return to_route('vendor.product-image-gallery.index',['id'=>$product->id]);
+                return response(['status'=>'error','message'=>'Product is not found!']);
             }
     
             /**
@@ -158,8 +155,8 @@ class VendorProductImageGalleryController extends Controller
             //*-------------------------------------------
 
             //? this i can use it for me to know the error but when you host your website you should to redirect to the 404 page 
-                toastr()->error( 'You are not authorized to destroy this product gallery !');                
-                return to_route('vendor.product-image-gallery.index',['id'=>$product->id]);
+            return response(['status'=>'error','message'=>'You are not authorized to destroy this product gallery !']);           
+               
             }
 
 

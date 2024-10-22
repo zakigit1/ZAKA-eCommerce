@@ -51,8 +51,12 @@ use App\Http\Controllers\Backend\Admin\VendorRequestController;
 
 
                 
+/* new update i add middleware guess for admin/login , because in the browser you can connect with single profile if 
+    if i don't add it this middleware ,if i m user or vendor and i access to user or vendor dashboard i can also open admin/login route 
+    and access it
+*/
 
-Route::get('login',[AdminController::class,'login'])->name('login.page');
+Route::get('login',[AdminController::class,'login'])->middleware('guest')->name('login.page');
 // Route::post('login',[AdminController::class,'loginCheck'])->name('login.check');
 
 

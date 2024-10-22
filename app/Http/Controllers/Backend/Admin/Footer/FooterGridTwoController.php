@@ -107,8 +107,7 @@ class FooterGridTwoController extends Controller
             $footerGridTwo = FooterGridTwo::find($id);
 
             if(!$footerGridTwo){
-                toastr('Footer Grid Two Not Found !','error','Error Footer Grid Two');
-                return redirect()->route('admin.footer-grid-two.index');
+                return response(['status'=>'error','message'=>'Footer Part (grid) two is not found!']);
             }
 
 
@@ -128,8 +127,7 @@ class FooterGridTwoController extends Controller
         $footerGridTwo = FooterGridTwo::find($request->id);
 
         if(!$footerGridTwo){
-            toastr('Footer Grid Two Not Found !','error','Error Footer Grid Two');
-            return redirect()->route('admin.footer-grid-two.index');
+            return response(['status'=>'error','message'=>'Footer part two is not found!']);
         }
 
        

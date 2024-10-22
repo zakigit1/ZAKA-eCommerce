@@ -54,8 +54,7 @@ class VendorOrderController extends Controller
         
 
         if(!$order){
-            toastr()->error( 'Order is not found!');
-            return to_route('vendor.order.index');
+            return response(['status'=>'error','message'=>'Order is not found!']);
         }
 
         $order_id = $order->invoice_id;
@@ -111,8 +110,9 @@ class VendorOrderController extends Controller
         $order = Order::find($request->id);
 
         if(!$order){
-            toastr()->error( 'order is not found!');
-            return to_route('vendor.order.index');
+            
+            return response(['status'=>'error','message'=>'Order is not found!']);
+            
         }
 
        

@@ -119,8 +119,7 @@ class ShippingRuleController extends Controller
             $shippingRule = ShippingRule::find($id);
 
             if(!$shippingRule){
-                toastr()->error( 'Shipping Rule is not found!');
-                return to_route('admin.shipping-rules.index');
+                return response(['status'=>'error','message'=>'Shipping Rule is not found!']);
             }
 
             $shippingRule->delete();
@@ -140,8 +139,7 @@ class ShippingRuleController extends Controller
         $shippingRule = ShippingRule::find($request->id);
 
         if(!$shippingRule){
-            toastr()->error( 'Shipping Rule is not found!');
-            return to_route('admin.shipping-rules.index');
+            return response(['status'=>'error','message'=>'Shipping rule is not found!']);
         }
 
        

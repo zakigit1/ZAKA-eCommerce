@@ -43,14 +43,13 @@ class VendorRequestController extends Controller
         $vendor = Vendor::find($id);
 
         if($vendor->status == 1){
-            toastr('This Vendor You Can\"t Change Their Status Because You Approve it last time','warning','Warning!');
-            return redirect()->back();
+            return response(['status'=>'error','message'=>'This Vendor You Can\"t Change Their Status Because You Approve it last time','warning','Warning!']);
+            
         }
 
 
         if(!$vendor){
-            toastr('Vendor Not Found!','error','Error');
-            return redirect()->back();
+            return response(['status'=>'error','message'=>'Vendor is not found!']);
         }
 
         $vendor->update([

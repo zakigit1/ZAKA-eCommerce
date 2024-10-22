@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\DataTables\CategoriesDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Childcategory;
+use App\Models\HomePageSetting;
+use App\Models\Product;
 use App\Models\Subcategory;
 // use App\Http\Requests\StoreCategoryRequest;
 // use App\Http\Requests\UpdateCategoryRequest;
@@ -149,31 +152,28 @@ class CategoryController extends Controller
 
             $category = Category::find($id);
 
+
             if(!$category){
-                toastr()->error( 'Category is not found!');
-                return to_route('admin.category.index');
+                return response(['status'=>'error','message'=>'Category is not found!']);
+            }
+            $category_name =$category->name;
+
+            if(Product::where('child_category_id',$category->id)->count()>0){
+                return response(['status'=>'error','message'=>"$category_name Can't Deleted Because they have products communicated with it !"]);
+            }
+
+            $homeSettings = HomePageSetting::all();
+
+            foreach($homeSettings as $item){
+                $array = json_decode($item->value ,true);
+                $collection = collect($array);
+
+                if($collection->contains('category',$category->id)){
+                    return response(['status'=>'error','message'=>"$category_name Can't Deleted Because they have communication with home page settings!"]);
+                }
             }
 
 
-            $category_name =$category->name;
-
-            // ! you can't delete category if there are sub category or child category
-            //? first delete the sub category
-            /**
-            
-                if(lwla tchof ida had category 3ndha sub categories){
-                    if(tchof ida sub categories 3nddah child categories )
-                        $category->childcategories()->delete();
-                        $category->subcategories()->delete();
-                        $category->delete();
-                    else{
-                        $category->subcategories()->delete();
-                        $category->delete();
-                    }
-                }else{
-                 $category->delete();
-                }
-            */
             ####### M1:
             $subcategories =Subcategory::where('category_id',$category->id)->count();
 
@@ -182,13 +182,13 @@ class CategoryController extends Controller
 
             }
 
-
-
             ####### M2:Relation
             // if(isset($category->subcategories)  && count($category->subcategories)>0){
 
             //     return response(['status'=>'error','message'=>"$category_name Can't Deleted Because they have subcategories !"]);
             // }
+
+
 
 
 
@@ -210,19 +210,26 @@ class CategoryController extends Controller
         $category =Category::find($request->id);
 
         if(!$category){
-            toastr()->error( 'Category is not found!');
-            return to_route('admin.category.index');
+            return response(['status'=>'error','message'=>'Category is not found!']);
         }
 
         $category_name =$category->name;
 
 
         ### to check if category have subcategories , we can't desactive the status 
-        $subcategories =Subcategory::where('category_id',$category->id)->count();
+        $subcategories =Subcategory::where('category_id',$category->id)->get();
 
-        if($subcategories>0 && $request->status != 'true'){
+        if($subcategories->count() > 0 && $request->status != 'true'){
             return response(['status'=>'error','message'=>"$category_name contain a Sub categories ,if you want to deactive the  Main category you have to desactive the Sub categories first "]);
         }
+
+        // // if you want to disable category
+        // if ($subcategories->count() > 0 && $request->status != 'true') {
+        //     $subcategories->update(['status' => 0]);
+        //     foreach ($subcategories as $subcategory) {
+        //         $subcategory->childcategories()->update(['status' => 0]);
+        //     }
+        // }
 
         
         $category->status = $request->status == 'true' ? 1 : 0;

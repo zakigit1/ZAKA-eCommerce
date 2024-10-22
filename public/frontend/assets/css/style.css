@@ -3754,7 +3754,7 @@ PRODUCT DETAILS START
 
 .wsus__button_area li .buy_now,
 .wsus__ofer_det_footer_btn .buy_now {
-  background: #ca6d00;
+  background: black;
   padding: 10px 20px;
   border-radius: 30px;
   text-transform: uppercase;
@@ -3770,7 +3770,7 @@ PRODUCT DETAILS START
 
 .wsus__button_area li .buy_now:hover,
 .wsus__ofer_det_footer_btn .buy_now:hover {
-  background: #915003;
+  background: #e8062c;
   color: #fff !important;
 }
 

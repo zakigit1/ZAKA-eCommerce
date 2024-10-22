@@ -236,8 +236,7 @@ class SliderController extends Controller
             $slider = Slider::find($id);
 
             if(!$slider){
-                toastr()->error( 'slider is not found!');
-                return to_route('admin.slider.index');
+                return response(['status'=>'error','message'=>'Slider is not found!']);
             }
 
             deleteImage($slider->banner);

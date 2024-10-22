@@ -154,22 +154,8 @@
         
                                     
         
-                                       
-                                    <div class="form-group wsus__input">
-                                        <label >Product Type</label>
-                                        <select class="form-control"  name="product_type">
-                                        
-                                            <option value="" @if($product->product_type === null) selected @endif>None</option>
-                                            <option value="new_arrival" @if($product->product_type === 'new_arrival') selected @endif>New Arrival</option>
-                                            <option value="featured_product" @if($product->product_type === 'featured_product') selected @endif>Featured</option>
-                                            <option value="top_product" @if($product->product_type === 'top_product') selected @endif>Top</option>
-                                            <option value="best_product" @if($product->product_type === 'best_product') selected @endif>Best</option>
-                                        
-                                        </select>
-                                    </div>
-                                       
-                   
-                
+
+        
         
                                     <div class="form-group wsus__input">
                                         

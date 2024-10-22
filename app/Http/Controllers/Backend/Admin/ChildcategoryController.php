@@ -6,6 +6,8 @@ use App\DataTables\ChildcategoriesDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Childcategory;
+use App\Models\HomePageSetting;
+use App\Models\Product;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -161,11 +163,26 @@ class ChildcategoryController extends Controller
             $childcategory = Childcategory::find($id);
 
             if(!$childcategory){
-                toastr()->error( 'Child Category is not found!');
-                return to_route('admin.child-category.index');
+                return response(['status'=>'error','message'=>'Child Category is not found!']);
+            }
+            $childcategory_name =$childcategory->name;
+
+            if(Product::where('child_category_id',$childcategory->id)->count()>0){
+                return response(['status'=>'error','message'=>"$childcategory_name Can't Deleted Because they have products communicated with it !"]);
             }
 
-            $childcategory_name =$childcategory->name;
+            $homeSettings = HomePageSetting::all();
+
+            foreach($homeSettings as $item){
+                $array = json_decode($item->value ,true);
+                $collection = collect($array);
+
+                if($collection->contains('child_category',$childcategory->id)){
+                    return response(['status'=>'error','message'=>"$childcategory_name Can't Deleted Because they have communication with home page settings!"]);
+                }
+            }
+
+            
 
 
             $childcategory->delete();
@@ -183,8 +200,7 @@ class ChildcategoryController extends Controller
         $childcategory =Childcategory::find($request->id);
 
         if(!$childcategory){
-            toastr()->error( 'Child Category is not found!');
-            return to_route('admin.child-category.index');
+            return response(['status'=>'error','message'=>'Child category is not found!']);
         }
 
        

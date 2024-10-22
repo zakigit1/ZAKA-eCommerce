@@ -185,8 +185,7 @@ class BlogController extends Controller
             $blog = Blog::find($id);
 
             if(!$blog){
-                toastr()->error( 'Product is not found!');
-                return to_route('admin.blog.index');
+                return response(['status'=>'error','message'=>'Blog is not found!']);
             }
 
             $blog_title =$blog->title;

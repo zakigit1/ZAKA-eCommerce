@@ -142,7 +142,7 @@
 
 
 
-
+<!--  Display error validation   -->
   <script>
 
     @if($errors->any())

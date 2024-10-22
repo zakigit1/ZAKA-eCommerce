@@ -26,8 +26,7 @@ class AdminListController extends Controller
         $admin = User::find($request->id);
 
         if(!$admin){
-            toastr()->error( 'admin is not found!');
-            return to_route('admin.admin-list.index');
+            return response(['status'=>'error','message'=>'Admin is not found!']);
         }
 
        
@@ -49,8 +48,7 @@ class AdminListController extends Controller
 
             
             if(!$admin){
-                toastr()->error( 'admin is not found!');
-                return to_route('admin.admin-list.index');
+                return response(['status'=>'error','message'=>'admin is not found!']);
             }
 
             // if this admin has products :(  ***************** If admin he don't have vendor this is a problem create for it a vendor or remove it )

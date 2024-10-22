@@ -158,9 +158,10 @@
 
 
 
-    <!-- Bootstrap date Piker JS -->
-    <script src="{{asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+  <!-- Bootstrap date Piker JS -->
+  <script src="{{asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 
+  <!--  Display error validation   -->
   <script>
 
     @if($errors->any())

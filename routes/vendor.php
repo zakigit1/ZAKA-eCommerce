@@ -122,5 +122,6 @@ Route::get('404',function(){
 
 // 404 Page : 
 Route::fallback(function(){
-    return view('Backend.404NotFound');// i need to add page 404  general for my website 
+    return redirect('/');
+    // return view('Backend.404NotFound');// i need to add page 404  general for my website 
 });

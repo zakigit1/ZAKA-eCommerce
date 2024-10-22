@@ -109,8 +109,7 @@ class FooterSocialController extends Controller
             $footerSocial = FooterSocial::find($id);
 
             if(!$footerSocial){
-                toastr()->error( 'Footer social is not found!');
-                return to_route('admin.footer-socials.index');
+                return response(['status'=>'error','message'=>'Footer Social is not found!']);
             }
 
 
@@ -129,8 +128,7 @@ class FooterSocialController extends Controller
         $footerSocial =FooterSocial::find($request->id);
 
         if(!$footerSocial){
-            toastr()->error( 'Footer Social is not found!');
-            return to_route('admin.footer-socials.index');
+            return response(['status'=>'error','message'=>'Footer Social is not found!']);
         }
 
        

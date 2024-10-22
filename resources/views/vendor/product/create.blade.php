@@ -142,19 +142,7 @@
                                     <textarea name="long_description" class="form-control summernote" id="" cols="30" rows>{{old('long_description')}}</textarea>
                                 </div>
     
-                                <div class="form-group wsus__input">
-                                    <label >Product Type</label>
-                                    <select class="form-control"  name="product_type" >
-                                    
-                                        <option selected disabled >-- Select --</option>
-                                        <option value="new_arrival">New Arrival</option>
-                                        <option value="featured_product">Featured</option>
-                                        <option value="top_product">Top</option>
-                                        <option value="best_product">Best</option>
-                                    
-                                    </select>
-                                </div>
-                                   
+
 
                                 <div class="form-group wsus__input">
                                     

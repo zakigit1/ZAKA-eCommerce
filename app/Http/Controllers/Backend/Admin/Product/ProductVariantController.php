@@ -120,7 +120,7 @@ class ProductVariantController extends Controller
         }catch(\Exception $e){
             // toastr()->error($e->getMessage());
             toastr('variant Has Not Been Updated Successfully','error');
-            return redirect()->route('admin.product-variant.index',['id'=>$product_variant->product_id]);
+            return redirect()->back();
         }
         
 
@@ -139,9 +139,7 @@ class ProductVariantController extends Controller
             if(!$product_variant){
                 // $product_id =$product_variant->product->id;
 
-                toastr()->error( 'Product Variant is not exsist!');
-                return to_route('admin.product-variant.index',['id'=> $product_variant->product_id]);
-                // return redirect()->back();
+                return response(['status'=>'error','message'=>'Product Variant is not exists!']);
             }
 
 
@@ -175,20 +173,9 @@ class ProductVariantController extends Controller
         $product_variant =ProductVariant::find($request->id);
 
         if(!$product_variant){
-            // $product_id =$product_variant->product->id;
-            toastr()->error( 'Product is not found!');
-            return to_route('admin.product.index',['id'=> $product_variant->product_id]);
+            return response(['status'=>'error','message'=>'Product variant is not found!']);
         }
 
-        $product_name =$product_variant->name;
-
-
-        ### to check if category have subcategories , we can't desactive the status 
-        // $subcategories =Subcategory::where('category_id',$category->id)->count();
-
-        // if($subcategories>0 && $request->status != 'true'){
-        //     return response(['status'=>'error','message'=>"$category_name contain a Sub categories ,if you want to deactive the  Main category you have to desactive the Sub categories first "]);
-        // }
 
         
         $product_variant->status = $request->status == 'true' ? 1 : 0;

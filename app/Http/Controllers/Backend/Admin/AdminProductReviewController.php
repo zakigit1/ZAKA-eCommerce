@@ -36,8 +36,7 @@ class AdminProductReviewController extends Controller
             $productReview = ProductReview::find($id);
 
             if(!$productReview){
-                toastr('Product Review Not Found','error','Error');
-                return redirect()->route('admin.product-review.index');
+                return response(['status'=>'error','message'=>'Product Review is not found!']);
             }
     
             if(isset($productReview->productReviewGalleries)  && count($productReview->productReviewGalleries) > 0){
@@ -89,8 +88,7 @@ class AdminProductReviewController extends Controller
         $productReview =ProductReview::find($request->id);
 
         if(!$productReview){
-            toastr()->error( 'Product Review is not found!');
-            return to_route('admin.product-review.index');
+            return response(['status'=>'error','message'=>'Product reviewis not found!']);
         }
 
 

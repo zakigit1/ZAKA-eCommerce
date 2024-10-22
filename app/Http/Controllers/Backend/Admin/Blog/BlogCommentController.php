@@ -23,8 +23,7 @@ class BlogCommentController extends Controller
             $comment = BlogComment::find($id);
 
             if(!$comment){
-                toastr()->error( 'Blog Comment is not found!');
-                return to_route('admin.blog-comment.index');
+                return response(['status'=>'error','message'=>'blog comment is not found!']);
             }
 
  

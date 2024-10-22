@@ -50,7 +50,9 @@ class Brand extends Model
 /*                                                  Begin Relation                                  */
 
 
-    
+    public function products(){
+        return $this->hasMany(Product::class,'brand_id','id');
+    }
 
 
 

@@ -1,6 +1,21 @@
 // tani ta3 ajax khas ttsagad ki tkon cart details empty tdik ll home bsah problem mt9dch dir add to ccart hata dir refresh ll page
-// image size need to fix it 
-/// khas tsagad problem ta3 images ta3 user ngl3a hadi role wndir hom ga3 folder user wahd 
-/// zid l3fsa tae session fl register wl login ki tkon example fl login wdir reload tg3ad fl login mtdigch ll register
-// chang main function to queue in 
+// khas tsagad problem ta3 images ta3 user ngl3a hadi role wndir hom ga3 folder user wahd 
+// chang main function to queue in subscriber controller .
 // fix icons in dashboards (is not a issue just choose icons)
+// khas nkhli ll admin & vendor a userDashboard 
+// dir session ll payment settings
+// when i visit admin/ is give me 404 page i need to fix the redirect route
+// increment & decrement from the stock 
+// try & catch in all the controller for better protection ..
+// issue of select the sub & child categy each time to use it in home page settigns 
+// add in the advertisement a banner for flash sale end time and also in flash sale more.
+// fix the redirect of login (guard) you can see from my previous project (My-Project_E-commerce)
+// send email verification
+
+############ issue search about it 
+//?? search about who is better make the validation in seprater folder from the controller or in the controller ? [ is better to do it in seperater folder]
+
+
+############ issue solve it 
+//++ image size need to fix it  [done] 
+//++ zid l3fsa tae session fl register wl login ki tkon example fl login wdir reload tg3ad fl login mtdigch ll register [done]

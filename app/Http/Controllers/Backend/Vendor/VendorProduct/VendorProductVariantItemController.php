@@ -209,7 +209,7 @@ class VendorProductVariantItemController extends Controller
             }catch(\Exception $e){
                 // toastr()->error($e->getMessage());
                 toastr('variant Has Not Been Updated Successfully','error');
-                return redirect()->route('vendor.product-variant-item.index',[$product_id,$variant_id]);
+                return redirect()->back();
             }
     }
 
@@ -224,8 +224,7 @@ class VendorProductVariantItemController extends Controller
 
             if(!$item){
                 
-                toastr()->error( 'Product Item is not exsist!');
-                return to_route('vendor.product-variant-item.index',[$product_id, $variant_id]);
+                return response(['status'=>'error','message'=>'Product variant item  is not found!']);
                 // return redirect()->back();
             }
             
@@ -271,23 +270,23 @@ class VendorProductVariantItemController extends Controller
 
         if(!$item){
            
-            toastr()->error( 'Item is not found!');
-            return to_route('vendor.product-variant-item.index',[$product_id, $variant_id]);
-            // return redirect()->back();
+                return response(['status'=>'error','message'=>'Product variant item is not found!']);
+            
         }
 
         
         /** 
            ** check if it's the owner of the product and also this variant   : */
-          if($item->variant->product->vendor_id != auth()->user()->vendor->id || $variant->product->vendor_id !=auth()->user()->vendor->id){
-            // return to_route('404');
+            if($item->variant->product->vendor_id != auth()->user()->vendor->id || $variant->product->vendor_id !=auth()->user()->vendor->id){
+                // return to_route('404');
 
-        //*-------------------------------------------
+                //*-------------------------------------------
 
-        //? this i can use it for me to know the error but when you host your website you should to redirect to the 404 page 
-            toastr()->error( 'You are not authorized to edit this product variant item !');
-            return redirect()->back();
-    }
+            //? this i can use it for me to know the error but when you host your website you should to redirect to the 404 page 
+        
+                return response(['status'=>'error','message'=>'You are not authorized to edit this product variant item !']);
+        
+            }   
         
         $item->status = $request->status == 'true' ? 1 : 0;
          

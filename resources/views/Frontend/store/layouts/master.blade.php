@@ -189,6 +189,10 @@
     
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     
+
+
+
+    <!--  Display error validation   -->
         <script>
 
             @if($errors->any())
