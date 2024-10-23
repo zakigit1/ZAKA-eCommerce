@@ -104,24 +104,15 @@ Route::group(['middleware'=>['auth:web','role:vendor'],'prefix'=>'vendor','as'=>
 
 
 
+
+
+
+
+
+    
 });
 
 
 
 
 
-
-
-
-
-
-// 404 Page : 
-Route::get('404',function(){
-    return view('Backend.404NotFound');
-})->name('404');
-
-// 404 Page : 
-Route::fallback(function(){
-    return redirect('/');
-    // return view('Backend.404NotFound');// i need to add page 404  general for my website 
-});

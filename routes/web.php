@@ -234,3 +234,28 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
 
 
 
+// 404 Page : 
+Route::fallback(function(){
+
+    return redirect('/');
+
+    /**id bghit ghlat fl route whowa machi auth ydih ll home ida kan auth ydih dashboard 3la hsab role ta3ah */
+    // if(!auth()->check()){
+    //     return redirect('/');
+    // }
+    // return redirect(auth()->user()->role.'/dashboard');
+
+    /**404 page custumizable */
+    // return view('Backend.404NotFound');// i need to add page 404  general for my website 
+});
+
+
+
+
+
+
+
+// 404 Page : 
+Route::get('404',function(){
+    return view('Backend.404NotFound');
+})->name('404');

@@ -78,7 +78,7 @@
                     
 
                   <div class="float-right">
-                    <a href="auth-forgot-password.html" class="text-small">
+                    <a href="{{route('password.request')}}" class="text-small">
                       Forgot Password?
                     </a>
                   </div>

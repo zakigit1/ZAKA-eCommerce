@@ -537,7 +537,7 @@
                             <li><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal2"><i
                                         class="far fa-eye"></i></a></li>
                             <li><a href="#"><i class="far fa-heart"></i></a></li>
-                            <li><a href="#"><i class="far fa-random"></i></a>
+                            
                         </ul>
                         <div class="wsus__product_details">
                             <a class="wsus__category" href="#">Electronics </a>
@@ -566,7 +566,7 @@
                             <li><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal2"><i
                                         class="far fa-eye"></i></a></li>
                             <li><a href="#"><i class="far fa-heart"></i></a></li>
-                            <li><a href="#"><i class="far fa-random"></i></a>
+                            
                         </ul>
                         <div class="wsus__product_details">
                             <a class="wsus__category" href="#">fashion </a>
@@ -595,7 +595,7 @@
                             <li><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal2"><i
                                         class="far fa-eye"></i></a></li>
                             <li><a href="#"><i class="far fa-heart"></i></a></li>
-                            <li><a href="#"><i class="far fa-random"></i></a>
+                            
                         </ul>
                         <div class="wsus__product_details">
                             <a class="wsus__category" href="#">fashion </a>
@@ -625,7 +625,7 @@
                             <li><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal2"><i
                                         class="far fa-eye"></i></a></li>
                             <li><a href="#"><i class="far fa-heart"></i></a></li>
-                            <li><a href="#"><i class="far fa-random"></i></a>
+                            
                         </ul>
                         <div class="wsus__product_details">
                             <a class="wsus__category" href="#">fashion </a>
@@ -654,7 +654,7 @@
                             <li><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal2"><i
                                         class="far fa-eye"></i></a></li>
                             <li><a href="#"><i class="far fa-heart"></i></a></li>
-                            <li><a href="#"><i class="far fa-random"></i></a>
+                            
                         </ul>
                         <div class="wsus__product_details">
                             <a class="wsus__category" href="#">fashion </a>

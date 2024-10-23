@@ -43,7 +43,7 @@
                                             class="far fa-eye"></i></a></li>
                                 <li><a href="" class="add_to_wishlist" data-id="{{ $product->id }}"><i
                                             class="far fa-heart"></i></a></li>
-                                <li><a href="#"><i class="far fa-random"></i></a>
+                                
                             </ul>
                             <div class="wsus__product_details">
                                 <a class="wsus__category" href="#">{{ $product->category->name }} </a>
@@ -283,11 +283,11 @@
                                             <ul class="wsus__button_area">
                                                 <li><button type="submit" class="add_cart" href="#">add to
                                                         cart</button></li>
-                                                <li><a class="buy_now" href="#">buy now</a></li>
-                                                <li><a href="" class="add_to_wishlist"
+                                                
+                                                <li><a href="javascript:;" class="buy_now add_to_wishlist"
                                                         data-id="{{ $product->id }}"><i
                                                             class="fal fa-heart"></i></a></li>
-                                                <li><a href="#"><i class="far fa-random"></i></a></li>
+                                                
                                             </ul>
                                         </form>
 

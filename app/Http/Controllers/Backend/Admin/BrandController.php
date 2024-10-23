@@ -40,26 +40,26 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $request->validate([
             'logo'=>'required|image|',
-            'name'=> 'required|string|max:200|unique:categories,name',
+            'name'=> 'required|string|max:200|unique:brands,name',
             'is_featured'=>'required|boolean',
             'status'=>'required|boolean'
         ]);
-        
+
         // dd($request->all());
 
         try{
 
-            /** Image Part START   */ 
+            /** Image Part START   */
 
             // ?this two raw are the same for using a const :
             // $imageName= $this->uploadImage_Trait($request,'logo',BrandController::FOLDER_PATH,BrandController::FOLDER_NAME);
             $imageName= $this->uploadImage_Trait($request,'logo',self::FOLDER_PATH,self::FOLDER_NAME);
-            /** Image Part END   */ 
-    
-    
+            /** Image Part END   */
+
+
             $brand=Brand::create([
                 'logo'=>$imageName,
                 'name'=>$request->name,
@@ -74,8 +74,8 @@ class BrandController extends Controller
             toastr()->error( 'حدث خطا ما برجاء المحاوله لاحقا');
             return redirect()->route('admin.brand.index');
         }
-        
- 
+
+
 
     }
 
@@ -101,10 +101,10 @@ class BrandController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
+
         $request->validate([
             'logo'=>'nullable|image',
-            'name'=> 'required|string|max:200|unique:categories,name,'.$id,
+            'name'=> 'required|string|max:200|unique:brands,name,'.$id,
             'is_featured'=>'required|boolean',
             'status'=>'required|boolean'
         ]);
@@ -122,9 +122,9 @@ class BrandController extends Controller
                 return redirect()->route('admin.brand.index');
             }
             if($request->hasFile('logo')){
-    
+
                 $old_logo =$brand->logo;
-    
+
                 $updateImage=$this->updateImage_Trait($request,'logo',BrandController::FOLDER_PATH,BrandController::FOLDER_NAME,$old_logo);
                 // $updateImage=$this->updateImage_Trait($request,'logo',self::FOLDER_PATH,self::FOLDER_NAME,$old_logo);
 
@@ -132,9 +132,9 @@ class BrandController extends Controller
                     'logo'=>$updateImage
                 ]);
             }
-    
-    
-    
+
+
+
             $update_brand = $brand->update([
                 'name'=>$request->name,
                 'slug'=>Str::slug($request->name),
@@ -145,13 +145,13 @@ class BrandController extends Controller
             DB::commit();
             toastr()->success("The Brand $request->name Is Updated Successfully !");
             return redirect()->route('admin.brand.index');
-    
+
         }catch(\Exception $ex){
             DB::rollback();
             toastr()->error( 'حدث خطا ما برجاء المحاوله لاحقا');
             return redirect()->route('admin.brand.index');
         }
-        
+
     }
 
     /**
@@ -159,7 +159,7 @@ class BrandController extends Controller
      */
     public function destroy(string $id){
 
-        try{ 
+        try{
 
             $brand = Brand::find($id);
 
@@ -173,7 +173,7 @@ class BrandController extends Controller
 
             # Check if the brand have product(s): [without using relation]
             if(Product::where('brand_id',$brand->id)->count() > 0){
-                
+
                 return response(['status'=>'error','message'=>"$brand_name Can't Deleted Because they have products communicated with it !"]);
             }
             # Check if the brand have product(s): [using relation]
@@ -185,7 +185,7 @@ class BrandController extends Controller
             $this->deleteImage_Trait($brand->logo);
             $brand->delete();
 
-            // we are using ajax : 
+            // we are using ajax :
             return response(['status'=>'success','message'=>"$brand_name Brand Deleted Successfully !"]);
         }catch(\Exception $e){
             return response(['status'=>'error','message'=>'حدث خطا ما برجاء المحاوله لاحقا']);
@@ -207,7 +207,7 @@ class BrandController extends Controller
 
         # Check if the brand have product(s): [without using relation]
         // if(Product::where('brand_id',$brand->id)->count() > 0){
-            
+
         //     return response(['status'=>'error','message'=>"$brand_name contain a product(s) ,if you want to deactive brand you have to desactive the product(s) first "]);
         // }
         # Check if the brand have product(s): [using relation]
@@ -219,15 +219,15 @@ class BrandController extends Controller
 
 
 
-        
+
         $brand->status = $request->status == 'true' ? 1 : 0;
-         
+
         $brand->save();
 
         $status =($brand->status == 1) ? 'activated' : 'deactivated';
 
         return response(['status'=>'success','message'=>"The Brand has been $status"]);
 
-       
+
     }
 }

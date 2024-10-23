@@ -11,6 +11,13 @@
 // add in the advertisement a banner for flash sale end time and also in flash sale more.
 // fix the redirect of login (guard) you can see from my previous project (My-Project_E-commerce)
 // send email verification
+// you need to modify password forgot logic because the user can reset password sevral time you need to allow him to reset pass just one time still he check email and click to reset pass after can do it again , you can make it more secure ask about his infomation
+// fix forgot password button in admin/login
+// also for reset password of admin role ask ai how i do it , simple like user or another method
+// error of mobile menu of categories dropdown fix it .
+// color of the heart of wishlisht when he add a product to wishlist let the color be red 
+
+
 
 ############ issue search about it 
 //?? search about who is better make the validation in seprater folder from the controller or in the controller ? [ is better to do it in seperater folder]
