@@ -22,6 +22,9 @@
 
 
       <li><a class="{{ setActive(['vendor.product-review.index'])}}" href="{{route('vendor.product-review.index')}}"><i class="far fa-user"></i>Product Reviews </a></li>
+      
+      {{-- Widthdraw request --}}
+      <li><a class="{{ setActive(['vendor.withdraw.*'])}}" href="{{route('vendor.withdraw.index')}}"><i class="far fa-user"></i>Withdraw Request </a></li>
 
       <li><a class="{{ setActive([
         'vendor.order.*',

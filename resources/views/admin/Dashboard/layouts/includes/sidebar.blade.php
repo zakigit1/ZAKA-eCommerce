@@ -127,7 +127,7 @@
             <li class="{{setActive(['admin.coupons.*'])}}" ><a class="nav-link" href="{{route('admin.coupons.index')}}">Coupon</a></li>
             <li class="{{setActive(['admin.shipping-rules.*'])}}" ><a class="nav-link" href="{{route('admin.shipping-rules.index')}}">Shipping Rule</a></li>
             <li class="{{setActive(['admin.vendor-profile.*'])}}" ><a class="nav-link" href="{{route('admin.vendor-profile.index')}}">Vendor Profile</a></li>
-          
+            <li class="{{setActive(['admin.payment.*'])}}"><a class="nav-link" href="{{route('admin.payment.index')}}"><i class="fas fa-cog"></i> <span>Payment Settings</span></a></li>
           </ul>
         </li>
 
@@ -168,7 +168,27 @@
           </ul>
         </li>
 
+        {{-- Withdraw Payment   --}}
+        <li class="dropdown  {{setActive([
+          'admin.withdraw-method.*',
 
+
+          ])}}">
+          <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Withdraw Payment</span></a>
+          <ul class="dropdown-menu">
+            <li class="{{setActive(['admin.withdraw-method.*'])}}"><a class="nav-link" href="{{route('admin.withdraw-method.index')}}">Withdraw Methods</a></li>
+            
+
+          </ul>
+        </li>
+
+
+
+
+
+
+
+        {{-- ######################################################################################################## --}}
         <li class="menu-header">Settings & More</li>
 
 
@@ -225,9 +245,6 @@
         <li class="{{setActive(['admin.settings.*'])}}"><a class="nav-link" href="{{route('admin.settings.index')}}"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
         
 
-        {{-- Payment --}}
-        <li class="{{setActive(['admin.payment.*'])}}"><a class="nav-link" href="{{route('admin.payment.index')}}"><i class="fas fa-cog"></i> <span>Payment Settings</span></a></li>
-       
         {{-- Subscriber --}}
         <li class="{{setActive(['admin.subscriber.*'])}}"><a class="nav-link" href="{{route('admin.subscriber.index')}}"><i class="fas fa-cog"></i> <span>Subscribers</span></a></li>
         

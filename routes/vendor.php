@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\Vendor\VendorProduct\VendorProductVariantContro
 use App\Http\Controllers\Backend\Vendor\VendorProduct\VendorProductVariantItemController;
 use App\Http\Controllers\Backend\Vendor\VendorProductReviewController;
 use App\Http\Controllers\Backend\Vendor\VendorShopProfileController;
+use App\Http\Controllers\Backend\Vendor\VendorWithdrawController;
 
 // Route::get('vendor/dashboard',[VendorController::class,'index'])->middleware(['auth:web','role:vendor'])->name('vendor.dashboard');
 
@@ -101,6 +102,12 @@ Route::group(['middleware'=>['auth:web','role:vendor'],'prefix'=>'vendor','as'=>
     ##############################  Review Start  ###################################
     route::get('/product-review',[VendorProductReviewController::class,'index'])->name(name: 'product-review.index');
     ##############################  Review End  ###################################
+
+
+    ##############################  Withdraw Start  ###################################
+    Route::get('withdraw/{id}/withdraw-method-details',[VendorWithdrawController::class,'withdrawMethodDetails'])->name('withdraw.withdraw-method-details');
+    Route::resource('withdraw',VendorWithdrawController::class);
+    ##############################  Withdraw End  ###################################
 
 
 

@@ -44,8 +44,7 @@ use App\Http\Controllers\Backend\Admin\TransactionController;
 use App\Http\Controllers\Backend\Admin\VendorConditionController;
 use App\Http\Controllers\Backend\Admin\VendorListController;
 use App\Http\Controllers\Backend\Admin\VendorRequestController;
-
-
+use App\Http\Controllers\Backend\Admin\WithdrawMethodController;
 
                 /** The Prefix admin is in App\Providers\RouteServiceProvider */
 
@@ -465,6 +464,11 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
 
 
     ##############################  Blog  End  ###################################
+
+
+    ##############################  withdraw method  Start  ###################################
+    Route::resource('withdraw-method',WithdrawMethodController::class);
+    ##############################  withdraw-method  End  ###################################
 
 
 

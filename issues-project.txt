@@ -16,6 +16,10 @@
 // also for reset password of admin role ask ai how i do it , simple like user or another method
 // error of mobile menu of categories dropdown fix it .
 // color of the heart of wishlisht when he add a product to wishlist let the color be red 
+// add try and catch for all controller file for better secure .
+// add admin logo or do just logo of site .
+// i add in helper folder a funtion get the currencyIcon so go in all datatable and add it instead of calling the model each time
+
 
 
 

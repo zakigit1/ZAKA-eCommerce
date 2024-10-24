@@ -2,8 +2,8 @@
 
 namespace App\DataTables;
 
-use App\Models\Vendor;
-
+use App\Models\GeneralSetting;
+use App\Models\WithdrawMethod;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -13,8 +13,14 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class VendorRequestDataTable extends DataTable
+class WithdrawMethodDataTable extends DataTable
 {
+
+
+    protected $currencyIcon;
+    public function __construct(){
+        $this->currencyIcon = GeneralSetting::first()->currency_icon;
+    }
     /**
      * Build the DataTable class.
      *
@@ -23,42 +29,29 @@ class VendorRequestDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
+            ->addColumn('action', function($query){
+                $user_role='admin';
+                $type='withdraw-method';
+                return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
+            })
+            ->addColumn('minimum_amount', function($query){
+                return  $this->currencyIcon . $query->minimum_amount;
+            })
+            ->addColumn('maximum_amount', function($query){
+                return  $this->currencyIcon . $query->maximum_amount;
+            })
+            ->addColumn('withdraw_charge', function($query){
+                return   $query->withdraw_charge . '%';
+            })
 
-            $action="
-                <a class='btn btn-primary' href='".route('admin.vendor-request.show',$query->id)."'><i class='fas fa-eye'></i></a>
-            ";
-
-            return $action;
-        })
-        ->addColumn('user_name', function($query){
-            return $query->user->name;
-        })
-        ->addColumn('shop_email', function($query){
-            return $query->email;
-        })
-        ->addColumn('status', function($query){
-            if($query->status == 1){
-                return '<i class="badge badge-success">Approved</i>';
-            }else{
-                return '<i class="badge badge-warning">Pending</i>';
-            }
-        })
-
-        ->filterColumn('user_name',function($query , $keyword){
-            $query->whereHas('user',function($query) use($keyword){
-                $query->where('name','like',"%$keyword%");
-            });
-        })
-
-        ->rawColumns(['status','status','action'])
-        ->setRowId('id');
+            // ->rawColumns([])
+            ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Vendor $model): QueryBuilder
+    public function query(WithdrawMethod $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -69,7 +62,7 @@ class VendorRequestDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('vendors-table')
+                    ->setTableId('withdrawmethod-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -92,15 +85,15 @@ class VendorRequestDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('user_name'),
-            Column::make('shop_name'),
-            Column::make('shop_email'),
-            Column::make('status'),
+            Column::make('name'),
+            Column::make('minimum_amount'),
+            Column::make('maximum_amount'),
+            Column::make('withdraw_charge'),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+            ->exportable(false)
+            ->printable(false)
+            ->width(200)
+            ->addClass('text-center'),
         ];
     }
 
@@ -109,6 +102,6 @@ class VendorRequestDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'VendorRequest_' . date('YmdHis');
+        return 'WithdrawMethod_' . date('YmdHis');
     }
 }
