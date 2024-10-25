@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\WithdrawRequest;
+
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +13,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class VendorWithdrawDataTable extends DataTable
+class WithdrawRequestListDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -31,6 +32,11 @@ class VendorWithdrawDataTable extends DataTable
             return $action;
         })
 
+        ->addColumn('vendor_name',function($query){
+
+            return $query->vendor->name;
+                
+        })
         ->addColumn('withdraw_mehtod',function($query){
 
             return $query->method['name'];
@@ -52,23 +58,27 @@ class VendorWithdrawDataTable extends DataTable
             return $query->withdraw_charge .'%';
                 
         })
+
         ->addColumn('status',function($query){
-            if($query->status == 'paid'){
-                return '<i class="badge bg-success">Paid</i>';
-            }elseif($query->status == 'pending'){
-                return '<i class="badge bg-warning">Pending</i>';
-            }elseif($query->status == 'decline'){
-                return '<i class="badge bg-danger">decline</i>';
-                // return '<i class="badge bg-danger">canceled</i>';
-                
-            }
+
+            return "<select class='form-control change_withrow_status' data-id= $query->id>
+                <option ".($query->status == 'pending' ? 'selected' : '')." value='pending'> Pending </option>
+                <option ".($query->status == 'paid' ? 'selected' : '')." value='paid'> Paid </option>
+                <option ".($query->status == 'decline' ? 'selected' : '')." value='decline'> Decline </option>
+            </select>";
+            
         })
 
-            ->filterColumn('withdraw_mehtod',function($query , $keyword){
-                $query->whereHas('method',function($query) use($keyword){
-                    $query->where('name','like',"%$keyword%");
-                });
-            })
+        ->filterColumn('withdraw_mehtod',function($query , $keyword){
+            $query->whereHas('method',function($query) use($keyword){
+                $query->where('name','like',"%$keyword%");
+            });
+        })
+        ->filterColumn('vendor',function($query , $keyword){
+            $query->whereHas('vendor',function($query) use($keyword){
+                $query->where('name','like',"%$keyword%");
+            });
+        })
 
 
 
@@ -82,7 +92,7 @@ class VendorWithdrawDataTable extends DataTable
      */
     public function query(WithdrawRequest $model): QueryBuilder
     {
-        return $model->where('vendor_id',auth()->user()->vendor->id)->newQuery();
+        return $model->newQuery();
     }
 
     /**
@@ -91,7 +101,7 @@ class VendorWithdrawDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('vendorwithdraw-table')
+                    ->setTableId('withdrawrequestlist-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -115,6 +125,7 @@ class VendorWithdrawDataTable extends DataTable
         return [
             Column::make('id'),
 
+            Column::make('vendor_name'),
             Column::make('withdraw_mehtod'),
             Column::make('total_amount'),
             Column::make('withdraw_amount'),
@@ -134,6 +145,6 @@ class VendorWithdrawDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'VendorWithdraw_' . date('YmdHis');
+        return 'WithdrawRequestList_' . date('YmdHis');
     }
 }

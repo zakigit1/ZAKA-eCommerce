@@ -21,10 +21,10 @@
 // i add in helper folder a funtion get the currencyIcon so go in all datatable and add it instead of calling the model each time
 
 
-
-
 ############ issue search about it 
 //?? search about who is better make the validation in seprater folder from the controller or in the controller ? [ is better to do it in seperater folder]
+//?? i need to fix product prices depend on currency they the users choose it
+//?? also about send money to vendor depend on his currency (search about it )
 
 
 ############ issue solve it 

@@ -20,22 +20,22 @@
                             <div class="col-md-4">
                                 <a class="wsus__dashboard_item green" href="javascript:;">
                                     <i class="far fa-money-bill-wave"></i>
-                                    <p>Today's Earning</p>
-                                    <h4 style="color: white">{{$settings->currency_icon}}</h4>
+                                    <p>Current balance {{--الرصيد الحالي--}}</p>
+                                    <h4 style="color: white">{{$settings->currency_icon.$currentBalance}}</h4>
                                 </a>
                             </div>
                             <div class="col-md-4">
                                 <a class="wsus__dashboard_item green" href="javascript:;">
                                     <i class="far fa-money-bill-wave"></i>
-                                    <p>Today's Earning</p>
-                                    <h4 style="color: white">{{$settings->currency_icon}}</h4>
+                                    <p>Pending Amount {{--المبلغ المعلق --}}</p>
+                                    <h4 style="color: white">{{$settings->currency_icon.$pendingWithdraw}}</h4>
                                 </a>
                             </div>
                             <div class="col-md-4">
                                 <a class="wsus__dashboard_item green" href="javascript:;">
                                     <i class="far fa-money-bill-wave"></i>
-                                    <p>Today's Earning</p>
-                                    <h4 style="color: white">{{$settings->currency_icon}}</h4>
+                                    <p>Total Withdraw {{--إجمالي السحب--}}</p>
+                                    <h4 style="color: white">{{$settings->currency_icon.$totalWithdraw}}</h4>
                                 </a>
                             </div>
                         </div>

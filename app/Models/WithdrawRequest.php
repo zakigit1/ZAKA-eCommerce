@@ -18,4 +18,8 @@ class WithdrawRequest extends Model
     public function method(){
         return $this->belongsTo(WithdrawMethod::class,'withdraw_method_id','id','id');
     }
+
+    public function vendor(){
+        return $this->belongsTo(Vendor::class,'vendor_id','id','id');
+    }
 }

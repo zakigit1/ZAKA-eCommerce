@@ -44,7 +44,8 @@ use App\Http\Controllers\Backend\Admin\TransactionController;
 use App\Http\Controllers\Backend\Admin\VendorConditionController;
 use App\Http\Controllers\Backend\Admin\VendorListController;
 use App\Http\Controllers\Backend\Admin\VendorRequestController;
-use App\Http\Controllers\Backend\Admin\WithdrawMethodController;
+use App\Http\Controllers\Backend\Admin\Withdraw\WithdrawRequestListController;
+use App\Http\Controllers\Backend\Admin\Withdraw\WithdrawMethodController;
 
                 /** The Prefix admin is in App\Providers\RouteServiceProvider */
 
@@ -468,6 +469,11 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
 
     ##############################  withdraw method  Start  ###################################
     Route::resource('withdraw-method',WithdrawMethodController::class);
+    ##############################  withdraw-method  End  ###################################
+
+    ##############################  withdraw method  Start  ###################################
+    Route::get('withdraw-request-list',[WithdrawRequestListController::class,'index'])->name('withdraw-request-list.index');
+    Route::post('withdraw-request-list/withdraw-request-change-status',[WithdrawRequestListController::class,'withdraw_request_change_status'])->name('withdraw-request-change-status');
     ##############################  withdraw-method  End  ###################################
 
 

@@ -93,7 +93,7 @@ class SellerProductDataTable extends DataTable
         ->addColumn('approve',function($query){
 
             return"<select class='form-control is_approve' data-id= $query->id >
-                <option value='0'> Pending </option>
+                <option  value='0'> Pending </option>
                 <option selected value='1'> Approve </option>
             </select>";
             

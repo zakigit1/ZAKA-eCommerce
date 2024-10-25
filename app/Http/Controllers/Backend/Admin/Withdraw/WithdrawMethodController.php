@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Backend\Admin;
+namespace App\Http\Controllers\Backend\Admin\Withdraw;
+
 
 use App\DataTables\WithdrawMethodDataTable;
 use App\Http\Controllers\Controller;
@@ -14,7 +15,7 @@ class WithdrawMethodController extends Controller
      */
     public function index(WithdrawMethodDataTable $dataTable)
     {
-        return $dataTable->render('admin.withdraw-method.index');
+        return $dataTable->render('admin.withdraw.withdraw-method.index');
     }
 
     /**
@@ -22,7 +23,7 @@ class WithdrawMethodController extends Controller
      */
     public function create()
     {
-        return view('admin.withdraw-method.create');
+        return view('admin.withdraw.withdraw-method.create');
     }
 
     /**
@@ -72,7 +73,7 @@ class WithdrawMethodController extends Controller
                 toastr('Withdraw Method Not Found ! ','error');
                 return redirect()->route('admin.withdraw-method.index');
             }
-            return view('admin.withdraw-method.edit',compact('withdrawMethod'));
+            return view('admin.withdraw.withdraw-method.edit',compact('withdrawMethod'));
         }catch(\Exception $e){
             toastr($e->getMessage(),'error','Error');
             // toastr('Something went wrong, please try again later.','error','Error');
