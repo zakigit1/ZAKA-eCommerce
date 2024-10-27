@@ -131,6 +131,21 @@
           </ul>
         </li>
 
+        {{-- Withdraw Payment   --}}
+        <li class="dropdown  {{setActive([
+          'admin.withdraw-method.*',
+          'admin.withdraw-request-list.*',
+
+          ])}}">
+          <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Withdraw Payment</span></a>
+          <ul class="dropdown-menu">
+            <li class="{{setActive(['admin.withdraw-method.*'])}}"><a class="nav-link" href="{{route('admin.withdraw-method.index')}}">Withdraw Methods</a></li>
+            <li class="{{setActive(['admin.withdraw-request-list.*'])}}"><a class="nav-link" href="{{route('admin.withdraw-request-list.index')}}">Withdraw Request List </a></li>
+            
+
+          </ul>
+        </li>
+
         {{-- Manage Website  --}}
         <li class="dropdown  {{setActive([
             'admin.slider.*',
@@ -168,20 +183,7 @@
           </ul>
         </li>
 
-        {{-- Withdraw Payment   --}}
-        <li class="dropdown  {{setActive([
-          'admin.withdraw-method.*',
-          'admin.withdraw-request-list.*',
 
-          ])}}">
-          <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Withdraw Payment</span></a>
-          <ul class="dropdown-menu">
-            <li class="{{setActive(['admin.withdraw-method.*'])}}"><a class="nav-link" href="{{route('admin.withdraw-method.index')}}">Withdraw Methods</a></li>
-            <li class="{{setActive(['admin.withdraw-request-list.*'])}}"><a class="nav-link" href="{{route('admin.withdraw-request-list.index')}}">Withdraw Request List </a></li>
-            
-
-          </ul>
-        </li>
 
 
 

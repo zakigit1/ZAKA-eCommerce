@@ -15,17 +15,39 @@ class WithdrawRequestListController extends Controller
     }
 
 
+    public function show(string $id){
+
+        $withdrawRequest = WithdrawRequest::with('vendor')->find($id);
+
+        if(!$withdrawRequest){
+            toastr()->error( 'Withdraw request is not found!');
+            return redirect()->back();
+        }
+
+      
+        return view('admin.withdraw.withdraw-request-list.show',compact('withdrawRequest'));
+    }
+
+
+
     public function withdraw_request_change_status(Request $request){
+
+        $request->validate([
+            'id' => 'required|exists:withdraw_requests,id',
+            'status' =>'required|in:pending,paid,decline',
+        ]);
+
+
+
         $withdrawRequest = WithdrawRequest::find($request->id);
  
          if(!$withdrawRequest){
-             toastr()->error( 'Withdraw request is not found!');
-             return redirect()->back();
+            return response(['status'=>'error','message'=>"Withdraw request is not found!"]);
          }
          
-        $withdrawRequest->status = $request->value;
+        $withdrawRequest->status = $request->status;
         $withdrawRequest->save();
  
         return response(['status'=>'success','message'=>"Update Withdraw Request Status"]);
-     }
+    }
 }

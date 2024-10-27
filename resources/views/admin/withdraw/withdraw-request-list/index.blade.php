@@ -62,14 +62,16 @@
 
                     data: {
                         _token: $('meta[name="csrf-token"]').attr('content'), // Include the CSRF token in the data
-                        value: value,
+                        status: value,
                         id: id
                     },
                     success: function(data){
                     // Note the change to toastr.success instead of toastr().success
                         if (data.status == 'success') {
                             toastr.success(data.message)
-                            window.location.reload();
+                            setTimeout(function(){
+                                window.location.reload();
+                            }, 3000);     
 
                         }else if(data.status == 'error'){ 
                             toastr.warning(data.message);

@@ -13,7 +13,11 @@ class BlogController extends Controller
 {
     public function blogDetails(string $slug){
 
-        $blog = Blog::with(['blogcategory','user','comments'])
+        $blog = Blog::with([
+                'blogcategory',
+                'user',
+                'comments'
+                ])
             ->where(['slug' => $slug , 'status' => 1])
             ->first();
 
@@ -24,7 +28,10 @@ class BlogController extends Controller
         $blogCategories = BlogCategory::where('status', 1)->get(['id','name','slug']);
 
         
-        $blogs = Blog::with('blogcategory')
+        $blogs = Blog::with([
+                'blogcategory',
+                'comments'
+                ])
             ->where('slug', '!=', $slug)
             ->where('status',1)
             ->orderBy('created_at','DESC')
@@ -40,13 +47,12 @@ class BlogController extends Controller
             ->get();
         
         
-        $comments = $blog->comments()->paginate(20);
+        $comments = $blog->comments()->with('user')->paginate(20);
 
         // dd($comments);
 
         return view('Frontend.store.pages.blog.blog-details',compact('blog','blogCategories','blogs','comments','related_blogs'));
     }
-
 
 
     public function blogComment(Request $request){

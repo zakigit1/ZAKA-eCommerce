@@ -102,6 +102,9 @@ class OrdersDataTable extends DataTable
                     $query->where('name','like',"%$keyword%");
                 });
             })
+            ->filterColumn('date',function($query , $keyword){
+                    $query->where('created_at','like',"%$keyword%");
+            })
 
 
 

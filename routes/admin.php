@@ -473,10 +473,11 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
 
     ##############################  withdraw method  Start  ###################################
     Route::get('withdraw-request-list',[WithdrawRequestListController::class,'index'])->name('withdraw-request-list.index');
+    Route::get('withdraw-request-list/{id}',[WithdrawRequestListController::class,'show'])->name('withdraw-request-list.show');
     Route::post('withdraw-request-list/withdraw-request-change-status',[WithdrawRequestListController::class,'withdraw_request_change_status'])->name('withdraw-request-change-status');
     ##############################  withdraw-method  End  ###################################
 
-
+    
 
 
 

@@ -19,7 +19,17 @@
 // add try and catch for all controller file for better secure .
 // add admin logo or do just logo of site .
 // i add in helper folder a funtion get the currencyIcon so go in all datatable and add it instead of calling the model each time
+// we need to add in all view isset & count & nullable signal for better safety 
+        @if(isset() && count()>0)
+// zid request->valdate win kayan ta3 request ta3 ajax fl controlller kima ta2 destroy
+// 3ndak fl pup up ta2 product model roh ll script.blade radi tl9a fl beforeSend : add this 
+ $('.product_model_content').html('<span class="loader"></span>');
+ but add this line before adding a public/frontend/css/style.css radi troh lthta ga3 tl9a class smoha .Loader diha ma project ta3ah whtha 3ndak .
 
+//fix the pop up model show the previous after show you the new one
+
+
+// fix the routes about BREADCRUMB to dynamique return functionalite
 
 ############ issue search about it 
 //?? search about who is better make the validation in seprater folder from the controller or in the controller ? [ is better to do it in seperater folder]

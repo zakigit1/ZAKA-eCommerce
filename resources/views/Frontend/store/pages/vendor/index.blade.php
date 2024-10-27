@@ -17,7 +17,7 @@
                     <div class="col-12">
                         <h4>vendors</h4>
                         <ul>
-                            <li><a href="#">home</a></li>
+                            <li><a href="{{url('/')}}">home</a></li>
                             <li><a href="#">vendors</a></li>
                         </ul>
                     </div>
@@ -47,13 +47,35 @@
                                     <div class="wsus__vendor_text">
                                         <div class="wsus__vendor_text_center">
                                             <h4>{{$vendor->shop_name}}</h4>
-                                            <p class="wsus__vendor_rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </p>
+
+
+                                                {{-- i not sure about it codeium give it to me  --}}
+                                                <p class="wsus__vendor_rating">
+                                                    @php
+                                                        $totalRating = 0;
+                                                        $totalReviews = 0;
+                                                        if(isset($vendor->products) && count($vendor->products)>0){
+                                                            foreach ($vendor->products as $product) {
+                                                                if(isset($product->reviews) && count( $product->reviews)>0){
+                                                                    $avgProductRating = $product->reviews()->avg('rating');
+                                                                    $totalRating += $avgProductRating * $product->reviews()->count();
+                                                                    $totalReviews += $product->reviews()->count();
+                                                                }
+                                                            }
+                                                        }
+                                                        $avgVendorRating = $totalReviews > 0 ? $totalRating / $totalReviews : 0;
+                                                        $fullRating = round($avgVendorRating); // we convert to integer num
+                                                    @endphp
+
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        @if ($i <= $fullRating)
+                                                            <i class="fas fa-star"></i>
+                                                        @else
+                                                            <i class="far fa-star"></i>
+                                                        @endif
+                                                    @endfor
+
+                                                </p>
                                             <a href="javascript:;"><i class="far fa-phone-alt"></i>
                                                 {{$vendor->phone}}</a>
                                             <a href="javascript:;"><i class="fal fa-envelope"></i>
@@ -79,16 +101,6 @@
                         </nav>
                     </section>
                 </div>
-
-
-
-
-
-
-
-
-
-
 
 
 

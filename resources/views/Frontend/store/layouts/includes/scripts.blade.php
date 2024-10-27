@@ -8,7 +8,7 @@
                 }
             });
 
-            $('.shopping-cart-form').on('submit', function(e) {
+            $(document).on('submit','.shopping-cart-form',function(e) {
                 e.preventDefault();
                 let formData = $(this).serialize();
 
@@ -191,7 +191,7 @@
         // })
             
         
-        $('.add_to_wishlist').on('click', function(e) {
+        $(document).on('click','.add_to_wishlist',function(e) {
             e.preventDefault();
             e.stopPropagation();
 
@@ -266,6 +266,35 @@
                     }
                 });
         })
+
+        
+        /** Show Product Model POP UP */
+        $('.show_product_model').on('click', function() {
+
+            let id = $(this).data('id')
+
+            $.ajax({
+                method: 'GET',
+                url: "{{ route('show-product-model',':id') }}".replace(':id', id),//if any error edit double cotation
+                
+                beforeSend: function() {
+                   
+                },
+                success: function(response) {
+                    if(response.status =='error'){
+                        toastr.error(response.message);
+                    }
+
+                    $('.product_model_content').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.log('error');
+                },
+                complete: function() {
+                    
+                }
+            });
+        });
 
     });
 </script>

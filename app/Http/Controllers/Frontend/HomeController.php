@@ -14,6 +14,7 @@ use App\Models\Product;
 use App\Models\Slider;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class HomeController extends Controller
 {
@@ -28,11 +29,14 @@ class HomeController extends Controller
 
         
         //we need to modify get with pagination
-        $data['sliders'] = Slider::orderBy('serial','asc')->active()->get();
+        $data['sliders'] = Slider::orderBy('serial','asc')->active()->take(3)->get();
 
+        $data['flashSaleItem'] = FlashSaleItem::where('show_at_home',1)->active()->take(12)->get();
+        // $data['flashSaleItem'] = FlashSaleItem::where('show_at_home',1)->active()->pluck('product_id');
+
+        
         $data['flashSale'] = FlashSale::first();
 
-        $data['flashSaleItem'] = FlashSaleItem::where('show_at_home',1)->active()->get();
 
         $data['popularCategories'] = HomePageSetting::where('key','popular_category_section')->first();
         $data['popularCategories'] = json_decode($data['popularCategories']->value,true);//true mean the data inside the array will be in array form not a object like when we use it first one in admin dashboard 
@@ -81,32 +85,132 @@ class HomeController extends Controller
         return view('frontend.store.home.home',$data);
     }
 
-
     /** Get the products depending on the type : */
     public function getTypeProducts(){
         $typeBaseProduct = [];
 
-        $typeBaseProduct['new_arrival'] = Product::where(['product_type' => 'new_arrival' , 'is_approved' => 1 , 'status' => 1])->orderBy('id','DESC')->take(8)->get();
-        $typeBaseProduct['featured_product'] = Product::where(['product_type' => 'featured_product' , 'is_approved' => 1 , 'status' => 1])->orderBy('id','DESC')->take(8)->get();
-        $typeBaseProduct['top_product'] = Product::where(['product_type' => 'top_product' , 'is_approved' => 1 , 'status' => 1])->orderBy('id','DESC')->take(8)->get();
-        $typeBaseProduct['best_product'] = Product::where(['product_type' => 'best_product' , 'is_approved' => 1 , 'status' => 1])->orderBy('id','DESC')->take(8)->get();
+        $typeBaseProduct['new_arrival'] = Product::
+            with([
+                'gallery',
+                'category',
+                'reviews'=>function($query){
+                    $query->where('status',1);
+                },
+                'variants'=>function($query){
+                    $query->with(['items' => function ($q) {
+                                $q->where('status', 1);
+                                },
+                        ])->where('status',1);
+                },
+                'brand'=>function($query){
+                    $query->where('status',1);
+                }])
+            ->where(['product_type' => 'new_arrival' , 'is_approved' => 1 , 'status' => 1])
+            ->orderBy('id','DESC')
+            ->take(8)
+            ->get();
+        
+        
+        $typeBaseProduct['featured_product'] = Product::
+            with([
+                'gallery',
+                'category',
+                'reviews'=>function($query){
+                    $query->where('status',1);
+                },
+                'variants'=>function($query){
+                    $query->with(['items' => function ($q) {
+                                $q->where('status', 1);
+                                },
+                        ])->where('status',1);
+                },
+                'brand'=>function($query){
+                    $query->where('status',1);
+                }])
+            ->where(['product_type' => 'featured_product' , 'is_approved' => 1 , 'status' => 1])
+            ->orderBy('id','DESC')
+            ->take(8)
+            ->get();
+        
+        
+        $typeBaseProduct['top_product'] = Product::
+            with([
+                'gallery',
+                'category',
+                'reviews'=>function($query){
+                    $query->where('status',1);
+                },
+                'variants'=>function($query){
+                    $query->with(['items' => function ($q) {
+                                $q->where('status', 1);
+                                },
+                        ])->where('status',1);
+                },
+                'brand'=>function($query){
+                    $query->where('status',1);
+                }])
+            ->where(['product_type' => 'top_product' , 'is_approved' => 1 , 'status' => 1])
+            ->orderBy('id','DESC')
+            ->take(8)
+            ->get();
+        
+        
+        $typeBaseProduct['best_product'] = Product::
+            with([
+                'gallery',
+                'category',
+                'reviews'=>function($query){
+                    $query->where('status',1);
+                },
+                'variants'=>function($query){
+                    $query->with(['items' => function ($q) {
+                                $q->where('status', 1);
+                                },
+                        ])->where('status',1);
+                },
+                'brand'=>function($query){
+                    $query->where('status',1);
+                }])
+            ->where(['product_type' => 'best_product' , 'is_approved' => 1 , 'status' => 1])
+            ->orderBy('id','DESC')
+            ->take(8)
+            ->get();
 
         return $typeBaseProduct ;
     }
 
     public function vednorIndex(){
 
-        $vendors = Vendor::where('status' , 1)->paginate(20);
+        $vendors = Vendor::with(['products'=>function($query){
+            $query->with([
+                'reviews'=>function($query){
+                    $query->where('status' , 1);
+                }]);
+        }])->where('status' , 1)->paginate(20);
 
         return view('Frontend.store.pages.vendor.index',compact('vendors'));
     }
+   
     public function vendorProducts(String $id){
 
-
-        $products = Product::with(['brand','category','reviews','variants','gallery'])->where(['status' => 1 ,'is_approved' => 1,'vendor_id' => $id])->orderBy('id','DESC')->paginate(12);
+        $products = Product::with([
+            'gallery',
+            'category',
+            'reviews'=>function($query){
+                $query->where('status',1);
+            },
+            'variants' => function ($query) {
+                $query->with([
+                        'items' => function ($q) {
+                            $q->where('status', 1);
+                        },
+                    ])
+                    ->where('status', 1);
+            },
+            'brand'
+            ])->where(['status' => 1 ,'is_approved' => 1,'vendor_id' => $id])->orderBy('id','DESC')->paginate(12);
         
-
-        $vendor = Vendor::find($id);
+        $vendor = Vendor::with('products')->find($id);
 
         if(!$vendor){
             return abort(404);
@@ -118,6 +222,38 @@ class HomeController extends Controller
         return view('Frontend.store.pages.vendor.vendor-products',compact('products','vendor'));
     }
 
+    public function showProductModel(string $id){
+       
+        // $product = Product::withAvg('reviews','rating')
+        //     ->withCount('reviews')
+        //     ->with([
+        //         'variants' => function ($query) {
+        //             $query->with([
+        //                     'items' => function ($q) {
+        //                         $q->where('status', 1);
+        //                     },
+        //                 ])
+        //                 ->where('status', 1);
+        //         },
+        //         'reviews' => function ($query) {
+        //             // get just reviews active
+        //             $query->where('status', 1);
+        //         },
+        //         'brand'])
+        // ->find($id);
+
+
+        $product = Product::find($id);
+        if(!$product){
+            return response(['status'=>'error','message'=>'product not found !']);
+        }
+
+        // radi n3rdo product model file with ajax
+        $content = view('Frontend.store.layouts.includes.model',compact('product'))->render();
+
+        return Response::make($content, 200,['Content-Type' => 'text/html']);
+
+    }
 
 
 

@@ -26,7 +26,7 @@ class WithdrawRequestListDataTable extends DataTable
         ->addColumn('action', function($query){
 
             $action="
-                <a class='btn btn-primary' href='".route('vendor.withdraw.show',$query->id)."'><i class='fas fa-eye'></i></a>
+                <a class='btn btn-primary' href='".route('admin.withdraw-request-list.show',$query->id)."'><i class='fas fa-eye'></i></a>
             ";
 
             return $action;
@@ -34,7 +34,7 @@ class WithdrawRequestListDataTable extends DataTable
 
         ->addColumn('vendor_name',function($query){
 
-            return $query->vendor->name;
+            return $query->vendor->shop_name;
                 
         })
         ->addColumn('withdraw_mehtod',function($query){
@@ -59,32 +59,52 @@ class WithdrawRequestListDataTable extends DataTable
                 
         })
 
-        ->addColumn('status',function($query){
+        // ->addColumn('status',function($query){
 
-            return "<select class='form-control change_withrow_status' data-id= $query->id>
-                <option ".($query->status == 'pending' ? 'selected' : '')." value='pending'> Pending </option>
-                <option ".($query->status == 'paid' ? 'selected' : '')." value='paid'> Paid </option>
-                <option ".($query->status == 'decline' ? 'selected' : '')." value='decline'> Decline </option>
-            </select>";
+        //     return "<select class='form-control change_withrow_status' data-id= $query->id>
+        //         <option ".($query->status == 'pending' ? 'selected' : '')." value='pending'> Pending </option>
+        //         <option ".($query->status == 'paid' ? 'selected' : '')." value='paid'> Paid </option>
+        //         <option ".($query->status == 'decline' ? 'selected' : '')." value='decline'> Decline </option>
+        //     </select>";
             
+        // })
+
+        ->addColumn('status',function($query){
+            if($query->status == 'paid'){
+                return '<i class="badge badge-success">Paid</i>';
+            }elseif($query->status == 'pending'){
+                return '<i class="badge badge-warning">Pending</i>';
+            }elseif($query->status == 'decline'){
+                return '<i class="badge badge-danger">decline</i>';
+                // return '<i class="badge bg-danger">canceled</i>';
+                
+            }
+        })
+        ->addColumn('withdrawal_request_date', function($query){
+            return  date('M d ,Y',strtotime($query->created_at));
         })
 
+
+        ########Filtring
         ->filterColumn('withdraw_mehtod',function($query , $keyword){
             $query->whereHas('method',function($query) use($keyword){
                 $query->where('name','like',"%$keyword%");
             });
         })
-        ->filterColumn('vendor',function($query , $keyword){
+        ->filterColumn('vendor_name',function($query , $keyword){
             $query->whereHas('vendor',function($query) use($keyword){
-                $query->where('name','like',"%$keyword%");
+                $query->where('shop_name','like',"%$keyword%");
             });
         })
 
 
+        ->filterColumn('withdrawal_request_date', function ($query, $keyword) {
+            $query->where('created_at','like',"%$keyword%");
+        })
 
 
-            ->rawColumns(['status','action'])
-            ->setRowId('id');
+        ->rawColumns(['status','action'])
+        ->setRowId('id');
     }
 
     /**
@@ -130,12 +150,13 @@ class WithdrawRequestListDataTable extends DataTable
             Column::make('total_amount'),
             Column::make('withdraw_amount'),
             Column::make('withdraw_charge'),
-            Column::make('status'),
+            Column::make('withdrawal_request_date'),
+            Column::make('status')->with(150),
 
             Column::computed('action')
             ->exportable(false)
             ->printable(false)
-            ->width(200)
+            ->width(150)
             ->addClass('text-center'),
         ];
     }

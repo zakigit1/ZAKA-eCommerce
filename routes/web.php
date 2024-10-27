@@ -148,12 +148,7 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     ##############################  Comment To Blog End  ###################################
 
 
-
-
 });
-
-
-
 
 
 
@@ -164,7 +159,9 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     Route::get('products',[FrontendProductController::class , 'productsIndex'])->name('products.index');
     Route::get('product-details/{slug}',[FrontendProductController::class , 'showProduct'])->name('product-details');
     Route::get('change-product-view-list',[FrontendProductController::class , 'changeViewList'])->name('change-product-view-list');
-
+    
+    //? Show Product Model (eye pop up)
+    Route::get('show-product-model/{id}',[HomeController::class,'showProductModel'])->name('show-product-model');
 
     
 
@@ -219,10 +216,11 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
 
 
     //Blog detail page :
-
+    
     Route::get('blog-details/{slug}',[BlogController::class,'blogDetails'])->name('blog-details');
     Route::get('blog',[BlogController::class,'blogIndex'])->name('blog');
-
+    
+    
 
 
 

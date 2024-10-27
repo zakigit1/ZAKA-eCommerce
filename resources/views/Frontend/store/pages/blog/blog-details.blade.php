@@ -111,7 +111,7 @@
                                             <h6>{{$comment->user->name}} <span>{{date('M d, Y',strtotime($comment->created_at))}}</span></h6>
                                             <p>{{$comment->comment}}.</p>
 
-                                            {{-- if you want to replay the comment (You can add it after) --}}
+                                            {{-- if you want to replay the comment (You can add it after) you need to add in comment table a parent_id column for replay--}}
 
                                             {{-- <a href="#" data-bs-toggle="collapse"
                                                 data-bs-target="#flush-collapsetwo3">replay</a>

@@ -4,8 +4,8 @@
 
 @section('content')
     <!--============================
-                        BREADCRUMB START
-                    ==============================-->
+                                BREADCRUMB START
+                            ==============================-->
     <section id="wsus__breadcrumb">
         <div class="wsus_breadcrumb_overlay">
             <div class="container">
@@ -22,13 +22,13 @@
         </div>
     </section>
     <!--============================
-                        BREADCRUMB END
-                    ==============================-->
+                                BREADCRUMB END
+                            ==============================-->
 
 
     <!--============================
-                        DAILY DEALS DETAILS START
-                    ==============================-->
+                                DAILY DEALS DETAILS START
+                            ==============================-->
     <section id="wsus__daily_deals">
         <div class="container">
             <div class="wsus__offer_details_area">
@@ -78,23 +78,21 @@
                             @php
                                 $product = \App\Models\Product::with([
                                     'gallery',
+                                    'category',
                                     'variants' => function ($query) {
-                                        return $query
+                                        $query
                                             ->with([
                                                 'items' => function ($q) {
                                                     //items = variant items
                                                     // get just variant items active
-                                                    return $q->where('status', 1);
+                                                    $q->where('status', 1);
                                                 },
                                             ])
                                             // get just variant active
                                             ->where('status', 1);
                                     },
-                                    'vendor' => function ($query) {
-                                        return $query->with('user');
-                                    },
-                                    'brand' => function ($query) {
-                                        // get just brand active
+                                    'reviews' => function ($query) {
+                                        // get just reviews active
                                         $query->where('status', 1);
                                     },
                                 ])->find($item->product_id);
@@ -128,7 +126,7 @@
                                                         class="far fa-eye"></i></a></li>
                                             <li><a href="" class="add_to_wishlist" data-id="{{ $product->id }}"><i
                                                         class="far fa-heart"></i></a></li>
-                                            
+
                                         </ul>
                                         <div class="wsus__product_details">
                                             <a class="wsus__category" href="#">{{ $product->category->name }} </a>
@@ -212,18 +210,40 @@
         </div>
     </section>
     <!--============================
-                        DAILY DEALS DETAILS END
-                    ==============================-->
+                                DAILY DEALS DETAILS END
+                            ==============================-->
 
 
 
     <!--==========================
-                    PRODUCT MODAL VIEW START
-                ===========================-->
+                            PRODUCT MODAL VIEW START
+                        ===========================-->
     @if (isset($flashSaleItem) && count($flashSaleItem) > 0)
         @foreach ($flashSaleItem as $item)
             @php
-                $product = \App\Models\Product::find($item->product_id);
+                $product = \App\Models\Product::with([
+                    'gallery',
+                    'variants' => function ($query) {
+                        $query
+                            ->with([
+                                'items' => function ($q) {
+                                    //items = variant items
+                                    // get just variant items active
+                                    $q->where('status', 1);
+                                },
+                            ])
+                            // get just variant active
+                            ->where('status', 1);
+                    },
+                    'brand' => function ($query) {
+                        // get just brand active
+                        $query->where('status', 1);
+                    },
+                    'reviews' => function ($query) {
+                        // get just reviews active
+                        $query->where('status', 1);
+                    },])
+                    ->find($item->product_id);
             @endphp
 
             <section class="product_popup_modal">
@@ -368,11 +388,11 @@
                                                 <ul class="wsus__button_area">
                                                     <li><button type="submit" class="add_cart" href="#">add to
                                                             cart</button></li>
-                                                    
+
                                                     <li><a href="" class="buy_now add_to_wishlist"
                                                             data-id="{{ $product->id }}"><i
                                                                 class="fal fa-heart"></i></a></li>
-                                                    
+
                                                 </ul>
                                             </form>
 
@@ -404,8 +424,8 @@
     @endif
 
     <!--==========================
-                PRODUCT MODAL VIEW END
-                ===========================-->
+                        PRODUCT MODAL VIEW END
+                        ===========================-->
 
 
 
