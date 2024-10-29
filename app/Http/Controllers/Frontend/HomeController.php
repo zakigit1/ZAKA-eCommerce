@@ -31,8 +31,9 @@ class HomeController extends Controller
         //we need to modify get with pagination
         $data['sliders'] = Slider::orderBy('serial','asc')->active()->take(3)->get();
 
-        $data['flashSaleItem'] = FlashSaleItem::where('show_at_home',1)->active()->take(12)->get();
-        // $data['flashSaleItem'] = FlashSaleItem::where('show_at_home',1)->active()->pluck('product_id');
+        // $data['flashSaleItem'] = FlashSaleItem::where('show_at_home',1)->active()->take(12)->get();
+        /** the new update of optimization 521 */
+        $data['flashSaleItemProductId'] = FlashSaleItem::where('show_at_home',1)->active()->pluck('product_id')->toArray();
 
         
         $data['flashSale'] = FlashSale::first();
@@ -224,26 +225,27 @@ class HomeController extends Controller
 
     public function showProductModel(string $id){
        
-        // $product = Product::withAvg('reviews','rating')
-        //     ->withCount('reviews')
-        //     ->with([
-        //         'variants' => function ($query) {
-        //             $query->with([
-        //                     'items' => function ($q) {
-        //                         $q->where('status', 1);
-        //                     },
-        //                 ])
-        //                 ->where('status', 1);
-        //         },
-        //         'reviews' => function ($query) {
-        //             // get just reviews active
-        //             $query->where('status', 1);
-        //         },
-        //         'brand'])
-        // ->find($id);
+        $product = Product::withAvg('reviews','rating')
+            ->withCount('reviews')
+            ->with([
+                'variants' => function ($query) {
+                    $query->with([
+                            'items' => function ($q) {
+                                $q->where('status', 1);
+                            },
+                        ])
+                        ->where('status', 1);
+                },
+                'reviews' => function ($query) {
+                    // get just reviews active
+                    $query->where('status', 1);
+                },
+                'brand'])
+        ->find($id);
 
 
-        $product = Product::find($id);
+        // $product = Product::find($id);
+
         if(!$product){
             return response(['status'=>'error','message'=>'product not found !']);
         }

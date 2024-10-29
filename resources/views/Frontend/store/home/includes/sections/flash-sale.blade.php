@@ -13,10 +13,9 @@
             </div>
         </div>
         <div class="row flash_sell_slider">
-            @if (isset($flashSaleItem) && count($flashSaleItem) > 0)
-                @foreach ($flashSaleItem as $item)
+
                     @php
-                        $product = \App\Models\Product::withAvg('reviews','rating')
+                        $products = \App\Models\Product::withAvg('reviews','rating')
                         ->withCount('reviews')
                         ->with([
                             'gallery',
@@ -33,8 +32,11 @@
                                 // get just reviews active
                                 $query->where('status', 1);
                             }])
-                        ->find($item->product_id);
+                        ->whereIn('id',$flashSaleItemProductId)->get();
                     @endphp
+
+            @if (isset($products) && count($products) > 0)
+                @foreach ($products as $product)
 
                     <div class="col-xl-3 col-sm-6 col-lg-4">
                         <div class="wsus__product_item">
@@ -135,41 +137,6 @@
 
 
 
-<!--==========================
-    PRODUCT MODAL VIEW START
-===========================-->
-    {{-- @if (isset($flashSaleItem) && count($flashSaleItem) > 0)
-        @foreach ($flashSaleItem as $item)
-            @php
-                $product = \App\Models\Product::with([
-                    'gallery',
-                    'variants' => function ($query) {
-                        $query->with([
-                                'items' => function ($q) {
-                                    //items = variant items
-                                    // get just variant items active
-                                    $q->where('status', 1);
-                                },
-                            ])
-                            // get just variant active
-                            ->where('status', 1);
-                    },
-                    'brand' => function ($query) {
-                        // get just brand active
-                        $query->where('status', 1);
-                    },
-                    'reviews' => function ($query) {
-                        // get just reviews active
-                        $query->where('status', 1);
-                    },
-                ])->find($item->product_id);
-            @endphp
-
-        @endforeach
-    @endif --}}
-<!--==========================
-    PRODUCT MODAL VIEW END
-===========================-->
 
 @push('scripts')
     <script>

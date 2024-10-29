@@ -278,7 +278,7 @@
                 url: "{{ route('show-product-model',':id') }}".replace(':id', id),//if any error edit double cotation
                 
                 beforeSend: function() {
-                   
+                    $('.product_model_content').html('<span class="loader"></span>');
                 },
                 success: function(response) {
                     if(response.status =='error'){
@@ -289,7 +289,7 @@
                 },
                 error: function(xhr, status, error) {
                     console.log('error');
-                },
+                }, 
                 complete: function() {
                     
                 }
