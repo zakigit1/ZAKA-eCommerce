@@ -27,7 +27,8 @@
  but add this line before adding a public/frontend/css/style.css radi troh lthta ga3 tl9a class smoha .Loader diha ma project ta3ah whtha 3ndak .
 
 //fix the pop up model show the previous after show you the new one
-
+// in section hot deals kayan zid fih products section lmzl mdrtahch
+// add in all views @ to avoid any kind of null errors .
 
 // fix the routes about BREADCRUMB to dynamique return functionalite
 

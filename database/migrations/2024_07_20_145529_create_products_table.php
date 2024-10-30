@@ -21,7 +21,7 @@ return new class extends Migration
             $table->bigInteger('sub_category_id',false,true)->nullable();
             $table->bigInteger('child_category_id',false,true)->nullable();
             $table->bigInteger('brand_id',false,true);
-            $table->integer('qty');
+            $table->integer('qty')->unsigned();//new update add unsigned();
             $table->text('short_description');
             $table->text('long_description');
             $table->text('video_link')->nullable();

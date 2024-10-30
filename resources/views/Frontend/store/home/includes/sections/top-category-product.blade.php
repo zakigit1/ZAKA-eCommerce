@@ -44,49 +44,63 @@
                     <h3>Top Categories Of The Month</h3>
                     <div class="monthly_top_filter">
                         {{-- <button class=" active" data-filter="*">ALL</button> --}}
+                        @if (isset($popularCategories) && count($popularCategories) > 0)
+                            @foreach ($popularCategories as $popularCategory)
+                            
+                                @php
 
-                        @foreach ($popularCategories as $popularCategory)
-                        
-                            @php
+                                    $lastkey = [];
+                                    foreach ($popularCategory as $categoryType => $value){ //category type mean : sub_category or child_category
 
-                                $lastkey = [];
-                                foreach ($popularCategory as $categoryType => $value){ //category type mean : sub_category or child_category
+                                        if($value === null){
+                                            break;
+                                        }
 
-                                    if($value === null){
-                                        break;
+                                        $lastkey = [$categoryType => $value];
                                     }
 
-                                    $lastkey = [$categoryType => $value];
-                                }
+                                    // dd($lastkey);
 
-                                // dd($lastkey);
+                                    if(array_keys($lastkey)[0] == 'category'){
+                                        $cat_type = \App\Models\Category::find($lastkey['category']);
+                                        $products [] =\App\Models\Product::withAvg('reviews','rating')
+                                                ->with(['reviews'=>function($query){
+                                                        $query->where('status',1);
+                                                    }])
+                                                ->where('category_id',$cat_type->id)
+                                                ->orderBy('id','DESC')
+                                                ->take(12)
+                                                ->get();
 
-                                if(array_keys($lastkey)[0] == 'category'){
-                                    $cat_type = \App\Models\Category::find($lastkey['category']);
-                                    $products [] =\App\Models\Product::with(['reviews'=>function($query){
-                                            $query->where('status',1);
-                                        }])
-                                        ->where('category_id',$cat_type->id)->orderBy('id','DESC')->take(12)->get();
-                                }elseif (array_keys($lastkey)[0] == 'sub_category') {
-                                    $cat_type = \App\Models\Subcategory::find($lastkey['sub_category']);
-                                    $products [] =\App\Models\Product::with(['reviews'=>function($query){
-                                            $query->where('status',1);
-                                        }])
-                                        ->where('sub_category_id',$cat_type->id)->orderBy('id','DESC')->take(12)->get();
-                                }elseif(array_keys($lastkey)[0] == 'child_category') {
-                                    $cat_type = \App\Models\Childcategory::find($lastkey['child_category']);
-                                    $products [] =\App\Models\Product::with(['reviews'=>function($query){
-                                            $query->where('status',1);
-                                        }])
-                                        ->where('child_category_id',$cat_type->id)->orderBy('id','DESC')->take(12)->get();
-                                }
-     
-                            @endphp
+                                    }elseif (array_keys($lastkey)[0] == 'sub_category') {
+                                        $cat_type = \App\Models\Subcategory::find($lastkey['sub_category']);
+                                        $products [] =\App\Models\Product::withAvg('reviews','rating')
+                                                ->with(['reviews'=>function($query){
+                                                        $query->where('status',1);
+                                                    }])
+                                                ->where('sub_category_id',$cat_type->id)
+                                                ->orderBy('id','DESC')
+                                                ->take(12)
+                                                ->get();
 
-                            <button class="{{$loop->index == 0 ? 'auto_click active' : '' }}" data-filter=".category-{{$loop->index}}">{{$cat_type->name}}</button>
+                                    }elseif(array_keys($lastkey)[0] == 'child_category') {
+                                        $cat_type = \App\Models\Childcategory::find($lastkey['child_category']);
+                                        $products [] =\App\Models\Product::withAvg('reviews','rating')
+                                                ->with(['reviews'=>function($query){
+                                                        $query->where('status',1);
+                                                    }])
+                                                ->where('child_category_id',$cat_type->id)
+                                                ->orderBy('id','DESC')
+                                                ->take(12)
+                                                ->get();
+                                    }
+        
+                                @endphp
 
-                        @endforeach
+                                <button class="{{$loop->index == 0 ? 'auto_click active' : '' }}" data-filter=".category-{{$loop->index}}">{{$cat_type->name}}</button>
 
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
@@ -100,21 +114,18 @@
 
                             {{-- {{dd($item);}} --}}
                             <div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3  category-{{$key}}">
-                                <a class="wsus__hot_deals__single" href="{{route('product-details',$item->slug)}}">
+                                
+                                <x-product-mini-card :item="$item" />
+
+                                {{-- <a class="wsus__hot_deals__single" href="{{route('product-details',$item->slug)}}">
                                     <div class="wsus__hot_deals__single_img">
                                         <img src="{{$item->thumb_image}}" alt="bag" class="img-fluid w-100">
                                     </div>
-                                    <div class="wsus__hot_deals__single_text">
+                                    <div class="wsus__hot_deals__single_text mt-2">
                                         <h5>{{limitText($item->name,53)}}</h5>
                                         <p class="wsus__rating">
-                                                @php
-
-                                                    $avgRating = $item->reviews()->avg('rating'); // calculate the avg reviews rating
-                                                    $fullRating = round($avgRating) ;// we convert to integer num
-                                                @endphp                       
-        
                                                 @for($i = 1 ; $i <= 5 ;$i++)
-                                                    @if( $i <= $fullRating)
+                                                    @if( $i <= $item->reviews_avg_rating)
                                                         <i class="fas fa-star"></i>
                                                     @else
                                                         <i class="far fa-star"></i>
@@ -131,7 +142,7 @@
                                         @endif
                                         <!-- End check if there is discount or not -->
                                     </div>
-                                </a>
+                                </a> --}}
                             </div>
                         @endforeach
                     @endforeach

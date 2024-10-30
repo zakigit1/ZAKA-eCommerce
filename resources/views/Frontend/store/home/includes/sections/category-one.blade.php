@@ -2,7 +2,7 @@
 
     $lastkey = [];
     // $cat_type = '';
-
+    
     foreach ($productSliderSectionOne as $categoryType => $value) {
         //category type mean : sub_category or child_category
 
@@ -18,7 +18,9 @@
 
     if (array_keys($lastkey)[0] == 'category') {
         $cat_type = \App\Models\Category::find($lastkey['category']);
-        $products = \App\Models\Product::with([        
+        $products = \App\Models\Product::withAvg('reviews','rating')
+            ->withCount('reviews')
+            ->with([        
                 'gallery',
                 'category',
                 'reviews'=>function($query){
@@ -33,9 +35,12 @@
             ->where('category_id', $cat_type->id)
             ->orderBy('id', 'DESC')
             ->get();
+
     } elseif (array_keys($lastkey)[0] == 'sub_category') {
         $cat_type = \App\Models\Subcategory::find($lastkey['sub_category']);
-        $products = \App\Models\Product::with([
+        $products = \App\Models\Product::withAvg('reviews','rating')
+            ->withCount('reviews')
+            ->with([
                 'gallery',
                 'category',
                 'reviews'=>function($query){
@@ -50,9 +55,12 @@
             ->where('sub_category_id', $cat_type->id)
             ->orderBy('id', 'DESC')
             ->get();
+
     } elseif (array_keys($lastkey)[0] == 'child_category') {
         $cat_type = \App\Models\Childcategory::find($lastkey['child_category']);
-        $products = \App\Models\Product::with([
+        $products = \App\Models\Product::withAvg('reviews','rating')
+            ->withCount('reviews')
+            ->with([
                 'gallery',
                 'category',
                 'reviews'=>function($query){
@@ -73,6 +81,9 @@
 
 @endphp
 
+{{-- <x-product-category-type :catdata="$productSliderSectionOne" /> --}}
+
+
 
 <section id="wsus__electronic">
     <div class="container">
@@ -85,102 +96,21 @@
             </div>
         </div>
         <div class="row flash_sell_slider">
-
-            @foreach ($products as $product)
-                <div class="col-xl-3 col-sm-6 col-lg-4">
-                    <div class="wsus__product_item">
-                        <span class="wsus__new">{{ productType($product->product_type) }}</span>
-
-                        @if (check_discount($product))
-                            <span
-                                class="wsus__minus">-{{ calculate_discount_percentage($product->price, $product->offer_price) }}%</span>
-                        @endif
-
-                        <a class="wsus__pro_link" href="{{ route('product-details', $product->slug) }}">
-                            <img src="{{ $product->thumb_image }}" alt="product" class="img-fluid w-100 img_1" />
-
-                            @if (isset($product->gallery) && count($product->gallery) > 0)
-                                <img src="{{ $product->gallery[0]->image }}" alt="product"
-                                    class="img-fluid w-100 img_2" />
-                            @endif
-
-                        </a>
-                        <ul class="wsus__single_pro_icon">
-                            <li><a href="#" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal-{{ $product->id }}"><i class="far fa-eye"></i></a>
-                            </li>
-                            <li><a href="" class="add_to_wishlist" data-id="{{ $product->id }}"><i
-                                        class="far fa-heart"></i></a></li>
-                            
-                        </ul>
-                        <div class="wsus__product_details">
-                            <a class="wsus__category" href="#">{{ $product->category->name }}</a>
-                            <p class="wsus__pro_rating">
-                                @php
-
-                                    $avgRating = $product->reviews()->avg('rating'); // calculate the avg reviews rating
-                                    $fullRating = round($avgRating); // we convert to integer num
-                                @endphp
-
-                                @for ($i = 1; $i <= 5; $i++)
-                                    @if ($i <= $fullRating)
-                                        <i class="fas fa-star"></i>
-                                    @else
-                                        <i class="far fa-star"></i>
-                                    @endif
-                                @endfor
-
-                                <span>({{ count($product->reviews) }} review)</span>
-                            </p>
-                            <a class="wsus__pro_name"
-                                href="{{ route('product-details', $product->slug) }}">{{ limitText($product->name, 53) }}</a>
-                            <!-- Start check if there is discount or not -->
-                            @if (check_discount($product))
-                                <p class="wsus__price">{{ $settings->currency_icon }} {{ $product->offer_price }}
-                                    <del>{{ $settings->currency_icon }} {{ $product->price }}</del>
-                                </p>
-                            @else
-                                <p class="wsus__price">{{ $settings->currency_icon }} {{ $product->price }}</p>
-                            @endif
-                            <!-- End check if there is discount or not -->
-
-                            <form class="shopping-cart-form">
-
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+            @if (isset($products) && count($products)>0)
+                @foreach ($products as $product)
 
 
-                                @foreach ($product->variants as $variant)
-                                    <select class="d-none" name="variant_items[]">
-                                        @foreach ($variant->items as $item)
-                                            <option {{ $item->is_default == 1 ? 'selected' : '' }}
-                                                value="{{ $item->id }}"> {{ $item->name }}
-                                                {{ $item->price > 0 ? '(' . $settings->currency_icon . ' ' . $item->price . ')' : '' }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                @endforeach
+                <x-product-card :product="$product" />
 
-
-
-                                <input type="hidden" min="1" max="100" value="1" name="qty" />
-
-
-                                <button type="submit" class="add_cart" href="#">
-                                    add to cart
-                                </button>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+                @endforeach
+            @endif
 
         </div>
     </div>
 </section>
 
 {{-- POPUP Model --}}
-    @foreach ($products as $product)
+    {{-- @foreach ($products as $product)
         <section class="product_popup_modal">
             <div class="modal fade" id="exampleModal-{{ $product->id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
@@ -353,4 +283,4 @@
                 </div>
             </div>
         </section>
-    @endforeach
+    @endforeach --}}

@@ -150,7 +150,9 @@
 
                 @foreach ($typeBaseProducts as $key => $products)
                     @foreach ($products as $product)
-                        <div class="col-xl-3 col-sm-6 col-md-4 col-lg-4 {{ $key }}">
+
+                        <x-product-card :product="$product" :key="$key" />
+                        {{-- <div class="col-xl-3 col-sm-6 col-md-4 col-lg-4 {{ $key }}">
                             <div class="wsus__product_item">
                                 <span class="wsus__new">{{ productType($product->product_type) }}</span>
 
@@ -171,7 +173,7 @@
                                 </a>
                                 <ul class="wsus__single_pro_icon">
                                     <li><a href="#" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal-{{ $product->id }}"><i
+                                            data-bs-target="#exampleModal" class="show_product_model" data-id="{{$product->id}}"><i
                                                 class="far fa-eye"></i></a></li>
                                     <li><a href="" class="add_to_wishlist" data-id="{{ $product->id }}"><i
                                                 class="far fa-heart"></i></a></li>
@@ -238,7 +240,7 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     @endforeach
                 @endforeach
 
@@ -512,8 +514,9 @@
     </div>
 </section>
 
-{{-- product_popup_modal --}}
-    @foreach ($typeBaseProducts as $key => $products)
+{{-- product_popup_modal were are now using ajax --}}
+
+    {{-- @foreach ($typeBaseProducts as $key => $products)
         @foreach ($products as $product)
             <section class="product_popup_modal">
                 <div class="modal fade" id="exampleModal-{{ $product->id }}" tabindex="-1" aria-hidden="true">
@@ -690,4 +693,4 @@
                 </div>
             </section>
         @endforeach
-    @endforeach
+    @endforeach --}}
