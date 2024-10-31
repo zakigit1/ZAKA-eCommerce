@@ -32,13 +32,15 @@
                                 // get just reviews active
                                 $query->where('status', 1);
                             }])
-                        ->whereIn('id',$flashSaleItemProductId)->get();
+                        ->whereIn('id',$flashSaleItemProductId)
+                        ->get();
                     @endphp
 
             @if (isset($products) && count($products) > 0)
                 @foreach ($products as $product)
-
-                    <x-product-card :product="$product" />
+                    <div class="col-xl-3 col-sm-6 col-lg-4">
+                        <x-product-card :product="$product" />
+                    </div>
 
                 @endforeach
             @endif

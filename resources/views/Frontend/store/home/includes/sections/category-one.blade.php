@@ -98,10 +98,9 @@
         <div class="row flash_sell_slider">
             @if (isset($products) && count($products)>0)
                 @foreach ($products as $product)
-
-
-                <x-product-card :product="$product" />
-
+                <div class="col-xl-3 col-sm-6 col-lg-4}">
+                    <x-product-card :product="$product" />
+                </div>
                 @endforeach
             @endif
 

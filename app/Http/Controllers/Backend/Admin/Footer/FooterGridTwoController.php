@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FooterGridTwo;
 use App\Models\FooterTitle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class FooterGridTwoController extends Controller
 {
@@ -16,7 +17,7 @@ class FooterGridTwoController extends Controller
     public function index(FooterGridTwoDataTable $dataTable)
     {
         $footerGridTwoTitle = FooterTitle::first()->footer_grid_two_title;
-        return $dataTable->render('admin.footer.footer-grid-two.index',compact('footerTitle'));
+        return $dataTable->render('admin.footer.footer-grid-two.index',compact('footerGridTwoTitle'));
     }
 
     /**
@@ -38,19 +39,26 @@ class FooterGridTwoController extends Controller
             'status'=> 'required|boolean',
         ]);
 
-        // dd($request->all());
-
-        $footerGridTwo = new FooterGridTwo();
-
-        
-        $footerGridTwo->name = $request->name ;
-        $footerGridTwo->url = $request->url ;
-        $footerGridTwo->status = $request->status ;
-
-        $footerGridTwo->save();
-
-        toastr('Footer Grid Two created Successfully !','success','Success');
-        return redirect()->route('admin.footer-grid-two.index');
+        try{
+            
+            $footerGridTwo = new FooterGridTwo();
+    
+            
+            $footerGridTwo->name = $request->name ;
+            $footerGridTwo->url = $request->url ;
+            $footerGridTwo->status = $request->status ;
+    
+            $footerGridTwo->save();
+    
+            Cache::forget('footer_grid_two_links');
+    
+            toastr('Footer Grid Two created Successfully !','success','Success');
+            return redirect()->route('admin.footer-grid-two.index');
+            
+        }catch(\Exception $ex){
+            toastr()->error('حدث خطا ما برجاء المحاوله لاحقا','Error Footer Social');
+            return redirect()->route('admin.footer-grid-two.index');
+        }
     }
 
     /**
@@ -58,6 +66,7 @@ class FooterGridTwoController extends Controller
      */
     public function edit(string $id)
     {
+
         $footerGridTwo = FooterGridTwo::find($id);
 
         if(!$footerGridTwo){
@@ -82,19 +91,26 @@ class FooterGridTwoController extends Controller
         ]);
 
         // dd($request->all());
+        try{
 
-        $footerGridTwo = FooterGridTwo::find($id);
-
-        if(!$footerGridTwo){
-            toastr('Footer Grid Two Not Found !','error','Error Footer Grid Two');
+            $footerGridTwo = FooterGridTwo::find($id);
+    
+            if(!$footerGridTwo){
+                toastr('Footer Grid Two Not Found !','error','Error Footer Grid Two');
+                return redirect()->route('admin.footer-grid-two.index');
+            }
+    
+            $updateFooterGridTwo = $footerGridTwo->update($request->except(['submit','_method','_token']));
+    
+            Cache::forget('footer_grid_two_links');
+            
+            toastr('Footer Grid Two Updated Successfully !','success','Success');
             return redirect()->route('admin.footer-grid-two.index');
+        }catch(\Exception $ex){
+            toastr()->error('حدث خطا ما برجاء المحاوله لاحقا','Error Footer Social');
+            return redirect()->route('admin.footer-grid-two.index');
+            
         }
-
-        $updateFooterGridTwo = $footerGridTwo->update($request->except(['submit','_method','_token']));
-
-
-        toastr('Footer Grid Two Updated Successfully !','success','Success');
-        return redirect()->route('admin.footer-grid-two.index');
     }
 
     /**
@@ -112,6 +128,8 @@ class FooterGridTwoController extends Controller
 
 
             $footerGridTwo->delete();
+            
+            Cache::forget('footer_grid_two_links');
 
             // we are using ajax : 
             return response(['status'=>'success','message'=>"Footer Grid Two Has Been Deleted Successfully !"]);
@@ -124,20 +142,32 @@ class FooterGridTwoController extends Controller
 
     public function change_status(Request $request)
     {
-        $footerGridTwo = FooterGridTwo::find($request->id);
+        $request->validate([
+            'id'=>'required|exists:footer_grid_twos,id',
+            'status' => 'required|in:true,false',
+        ]);
 
-        if(!$footerGridTwo){
-            return response(['status'=>'error','message'=>'Footer part two is not found!']);
+        try{
+
+            $footerGridTwo = FooterGridTwo::find($request->id);
+    
+            if(!$footerGridTwo){
+                return response(['status'=>'error','message'=>'Footer part two is not found!']);
+            }
+    
+           
+            $footerGridTwo->status = $request->status == 'true' ? 1 : 0;
+             
+            $footerGridTwo->save();
+    
+            $status =($footerGridTwo->status == 1) ? 'activated' : 'deactivated';
+    
+            Cache::forget('footer_grid_two_links');
+    
+            return response(['status'=>'success','message'=>"The Footer Grid Two  has been $status"]);
+        }catch(\Exception $ex){
+            return response(['status'=>'error','message'=>"The Footer Grid Two  has not been change it status"]);
         }
-
-       
-        $footerGridTwo->status = $request->status == 'true' ? 1 : 0;
-         
-        $footerGridTwo->save();
-
-        $status =($footerGridTwo->status == 1) ? 'activated' : 'deactivated';
-
-        return response(['status'=>'success','message'=>"The Footer Grid Two  has been $status"]);
 
        
     }
@@ -149,17 +179,28 @@ class FooterGridTwoController extends Controller
             'title' => 'required|max:200'
         ]);
 
-        // dd($request->all());
+    
 
-        FooterTitle::updateOrCreate(
-            ['id' => 1],
-            [
-                'footer_grid_two_title' => $request->title,
-            ]
-        );
+        try{
 
-        toastr('Footer Grid Two Title Has Been Updated Successfully !','success','Success');
-        return redirect()->back();
+            FooterTitle::updateOrCreate(
+                ['id' => 1],
+                [
+                    'footer_grid_two_title' => $request->title,
+                ]
+            );
+    
+            Cache::forget('footer_title');
+    
+            toastr('Footer Grid Two Title Has Been Updated Successfully !','success','Success');
+            return redirect()->back();
+        }catch(\Exception $ex){
+            toastr()->error('حدث خطا ما برجاء المحاوله لاحقا');
+            return redirect()->back();
+        }
+
+
+
     }
 
 

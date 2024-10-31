@@ -14,6 +14,7 @@ use App\Models\Product;
 use App\Models\Slider;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Response;
 
 class HomeController extends Controller
@@ -28,8 +29,17 @@ class HomeController extends Controller
         // }])->where('show_at_home',1)->active()->get();
 
         
-        //we need to modify get with pagination
-        $data['sliders'] = Slider::orderBy('serial','asc')->active()->take(3)->get();
+        
+        // $data['sliders'] = Slider::orderBy('serial','asc')->active()->take(3)->get();
+        /** we cache the sliders in caching */
+    
+        $data['sliders'] = Cache::rememberForever('sliders',function(){
+            return Slider::orderBy('serial','asc')->active()->take(3)->get();
+        });
+        
+
+
+
 
         // $data['flashSaleItem'] = FlashSaleItem::where('show_at_home',1)->active()->take(12)->get();
         /** the new update of optimization 521 */

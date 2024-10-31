@@ -32,7 +32,7 @@
     <section id="wsus__daily_deals">
         <div class="container">
             <div class="wsus__offer_details_area">
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-xl-6 col-md-6">
                         <div class="wsus__offer_details_banner">
                             <img src="{{ asset('frontend/assets/images/offer_banner_2.png') }}" alt="offrt img"
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="row">
                     <div class="col-xl-12">
@@ -71,41 +71,43 @@
                     </div>
                 </div>
 
-                <div class="row">
+                {{-- The previous method not optimized --}}
+                {{-- <div class="row">
 
                     @if (isset($flashSaleItem) && count($flashSaleItem) > 0)
                         @foreach ($flashSaleItem as $item)
                             @php
-                                $product = \App\Models\Product::with([
-                                    'gallery',
-                                    'category',
-                                    'variants' => function ($query) {
-                                        $query
-                                            ->with([
-                                                'items' => function ($q) {
-                                                    //items = variant items
-                                                    // get just variant items active
-                                                    $q->where('status', 1);
-                                                },
-                                            ])
-                                            // get just variant active
-                                            ->where('status', 1);
-                                    },
-                                    'reviews' => function ($query) {
-                                        // get just reviews active
-                                        $query->where('status', 1);
-                                    },
-                                ])->find($item->product_id);
+                                $product = \App\Models\Product::withAvg('reviews','rating')
+                                    ->withCount('reviews')
+                                    ->with([
+                                            'gallery',
+                                            'category',
+                                            'variants' => function ($query) {
+                                                $query
+                                                    ->with([
+                                                        'items' => function ($q) {
+                                                            $q->where('status', 1);
+                                                        },
+                                                    ])
+                                 
+                                                    ->where('status', 1);
+                                            },
+                                            'reviews' => function ($query) {
+                                          
+                                                $query->where('status', 1);
+                                            },
+                                            'brand' => function ($query) {
+                                          
+                                                $query->where('status', 1);
+                                            },
+                                    ])
+                                ->find($item->product_id);
                             @endphp
 
                             <div class="col-xl-3">
                                 <div class="wsus__offer_det_single">
                                     <div class="wsus__product_item">
                                         <span class="wsus__new">{{ productType($product->product_type) }}</span>
-
-                                        {{-- you can use relation is more efficace  --}}
-                                        {{-- <span class="wsus__new">{{ productType($item->product->product_type) }}</span> --}}
-
                                         @if (check_discount($product))
                                             <span
                                                 class="wsus__minus">-{{ calculate_discount_percentage($product->price, $product->offer_price) }}%</span>
@@ -133,8 +135,8 @@
                                             <p class="wsus__pro_rating">
                                                 @php
 
-                                                    $avgRating = $product->reviews()->avg('rating'); // calculate the avg reviews rating
-                                                    $fullRating = round($avgRating); // we convert to integer num
+                                                    $avgRating = $product->reviews()->avg('rating'); 
+                                                    $fullRating = round($avgRating); 
                                                 @endphp
 
                                                 @for ($i = 1; $i <= 5; $i++)
@@ -193,8 +195,6 @@
                     @endif
 
                 </div>
-
-                <!-- Pagination bar -->
                 <section id="pagination">
                     <nav aria-label="Page navigation example">
                         <div class="mt-5">
@@ -203,8 +203,47 @@
                             @endif
                         </div>
                     </nav>
-                </section>
+                </section> --}}
 
+
+                {{-- The new method optimized --}}
+                <div class="row">
+                    @php
+                        $products = \App\Models\Product::withAvg('reviews','rating')
+                            ->withCount('reviews')
+                            ->with([
+                                    'gallery',
+                                    'category',
+                                    'variants' => function ($query) {
+                                        $query
+                                            ->with([
+                                                'items' => function ($q) {
+                                                    //items = variant items
+                                                    // get just variant items active
+                                                    $q->where('status', 1);
+                                                },
+                                            ])
+                                            // get just variant active
+                                            ->where('status', 1);
+                                    },
+                                    'reviews' => function ($query) {
+                                        // get just reviews active
+                                        $query->where('status', 1);
+                                    },
+                                ])
+                            ->whereIn('id',$flashSaleItemProductId)
+                            ->get();
+                    @endphp
+
+                    @if (isset($products) && count($products) > 0)
+                        @foreach ($products as $product)
+                            <div class="col-xl-3">
+                                <x-product-card :product="$product" />
+                            </div>
+                        @endforeach
+                    @endif
+
+                </div>
 
             </div>
         </div>
@@ -218,7 +257,7 @@
     <!--==========================
                             PRODUCT MODAL VIEW START
                         ===========================-->
-    @if (isset($flashSaleItem) && count($flashSaleItem) > 0)
+    {{-- @if (isset($flashSaleItem) && count($flashSaleItem) > 0)
         @foreach ($flashSaleItem as $item)
             @php
                 $product = \App\Models\Product::with([
@@ -421,7 +460,7 @@
                 </div>
             </section>
         @endforeach
-    @endif
+    @endif --}}
 
     <!--==========================
                         PRODUCT MODAL VIEW END

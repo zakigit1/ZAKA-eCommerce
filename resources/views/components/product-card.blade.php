@@ -1,10 +1,11 @@
-<div class="col-xl-3 col-sm-6 col-lg-4 {{@$key}}">
-    <div class="wsus__product_item">
+{{-- <div class="col-xl-3 col-sm-6 col-lg-4 {{@$key}}"> --}}
+    <div class="wsus__product_item {{@$className}}">
         <span class="wsus__new">{{ productType($product->product_type) }}</span>
 
         @if (check_discount($product))
-            <span
-                class="wsus__minus">-{{ calculate_discount_percentage($product->price, $product->offer_price) }}%</span>
+            <span class="wsus__minus">
+                -{{ calculate_discount_percentage($product->price, $product->offer_price) }}%
+            </span>
         @endif
 
         <a class="wsus__pro_link" href="{{ route('product-details', $product->slug) }}">
@@ -16,18 +17,20 @@
             @endif
 
         </a>
-        <ul class="wsus__single_pro_icon">
-            <li>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="show_product_model" data-id="{{$product->id}}">
-                    <i class="far fa-eye"></i>
-                </a>
-            </li>
-            <li><a href="" class="add_to_wishlist" data-id="{{ $product->id }}">
-                <i class="far fa-heart"></i>
-                </a>
-            </li>
-            
-        </ul>
+        @if(!@$className)
+            <ul class="wsus__single_pro_icon">
+                <li>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="show_product_model" data-id="{{$product->id}}">
+                        <i class="far fa-eye"></i>
+                    </a>
+                </li>
+                <li><a href="" class="add_to_wishlist" data-id="{{ $product->id }}">
+                    <i class="far fa-heart"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        @endif
         <div class="wsus__product_details">
             <a class="wsus__category" href="#">{{ $product->category->name }} </a>
             <p class="wsus__pro_rating">
@@ -58,35 +61,56 @@
             @endif
             <!-- End check if there is discount or not -->
 
-            <form class="shopping-cart-form">
 
-                <input type="hidden" name="product_id" value="{{ $product->id }}">
+            @if(@$className)
+                <p class="list_description">{{ $product->short_description }}</p>
 
-                @if (isset($product->variants) && count($product->variants) > 0)
-                    @foreach ($product->variants as $variant)
-                        <select class="d-none" name="variant_items[]">
-                            @if (isset($variant->items) && count($variant->items) > 0)
-                                @foreach ($variant->items as $item)
-                                    <option {{ $item->is_default == 1 ? 'selected' : '' }}
-                                        value="{{ $item->id }}"> {{ $item->name }}
-                                        {{ $item->price > 0 ? '(' . $settings->currency_icon . ' ' . $item->price . ')' : '' }}
-                                    </option>
+                <ul class="wsus__single_pro_icon">
+
+                    <li style="margin-right: 10px">
+            @endif
+                        <form class="shopping-cart-form">
+
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+
+                            @if (isset($product->variants) && count($product->variants) > 0)
+                                @foreach ($product->variants as $variant)
+                                    <select class="d-none" name="variant_items[]">
+                                        @if (isset($variant->items) && count($variant->items) > 0)
+                                            @foreach ($variant->items as $item)
+                                                <option {{ $item->is_default == 1 ? 'selected' : '' }}
+                                                    value="{{ $item->id }}"> {{ $item->name }}
+                                                    {{ $item->price > 0 ? '(' . $settings->currency_icon . ' ' . $item->price . ')' : '' }}
+                                                </option>
+                                            @endforeach
+                                        @endif
+                                    </select>
                                 @endforeach
                             @endif
-                        </select>
-                    @endforeach
-                @endif
 
 
 
-                <input type="hidden" min="1" max="100" value="1" name="qty" />
+                            <input type="hidden" min="1" max="100" value="1" name="qty" />
 
 
-                <button type="submit" class="add_cart" href="#">
-                    add to cart
-                </button>
+                            <button type="submit" class="add_cart" href="#">
+                                add to cart
+                            </button>
 
-            </form>
+                        </form>
+            @if(@$className)
+                    </li>
+               
+                    <li><a href="" class="add_to_wishlist"
+                        data-id="{{ $product->id }}"><i
+                            class="far fa-heart"></i></a>
+                    </li>
+                
+                </ul>
+            @endif
         </div>
     </div>
-</div>
+{{-- </div> --}}
+
+
+

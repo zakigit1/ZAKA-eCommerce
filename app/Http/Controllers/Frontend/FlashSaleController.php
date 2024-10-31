@@ -16,8 +16,11 @@ class FlashSaleController extends Controller
 
         $flashSale = FlashSale::first();
 
-        $flashSaleItem = FlashSaleItem::active()->orderBy('id','asc')->paginate(20);
+        // $flashSaleItem = FlashSaleItem::active()->orderBy('id','asc')->paginate(20);// this is the previous method
 
-        return view('Frontend.store.pages.flash-sale-see-more',compact('flashSale','flashSaleItem'));
+        //? this is the optimize method
+        $flashSaleItemProductId = FlashSaleItem::active()->orderBy('id','asc')->pluck('product_id')->toArray();
+       
+        return view('Frontend.store.pages.flash-sale-see-more',compact('flashSale','flashSaleItemProductId'));
     }
 }

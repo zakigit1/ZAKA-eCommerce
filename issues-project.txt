@@ -21,7 +21,13 @@
 // i add in helper folder a funtion get the currencyIcon so go in all datatable and add it instead of calling the model each time
 // we need to add in all view isset & count & nullable signal for better safety 
         @if(isset() && count()>0)
-// zid request->valdate win kayan ta3 request ta3 ajax fl controlller kima ta2 destroy
+// zid request->validation win kayan ta3 request ta3 ajax fl controlller kima ta2 destroy ,change status example : 
+        of change status :
+        $request->validate([
+            'id'=>'required|exists:tableName,id',
+            'status' => 'required|in:true,false',
+        ]);
+
 // 3ndak fl pup up ta2 product model roh ll script.blade radi tl9a fl beforeSend : add this 
  $('.product_model_content').html('<span class="loader"></span>');
  but add this line before adding a public/frontend/css/style.css radi troh lthta ga3 tl9a class smoha .Loader diha ma project ta3ah whtha 3ndak .
@@ -29,7 +35,7 @@
 //fix the pop up model show the previous after show you the new one
 // in section hot deals kayan zid fih products section lmzl mdrtahch
 // add in all views @ to avoid any kind of null errors .
-
+// you need to add guard for admin 
 // fix the routes about BREADCRUMB to dynamique return functionalite
 
 ############ issue search about it 

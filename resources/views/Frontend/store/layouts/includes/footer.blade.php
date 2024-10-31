@@ -1,15 +1,34 @@
 
 @php
     // Footer DATA : 
-    $footerInfo = \App\Models\FooterInfo::first();
 
-    $footerSocials = \App\Models\FooterSocial::where('status', 1)->get();
+    // $footerInfo = \App\Models\FooterInfo::first();
 
-    $footerGridTwoLinks= \App\Models\FooterGridTwo::where('status', 1)->get();
+    // $footerSocials = \App\Models\FooterSocial::where('status', 1)->get();
+
+    // $footerGridTwoLinks= \App\Models\FooterGridTwo::where('status', 1)->get();
     
-    $footerTitle= \App\Models\FooterTitle::first();
+    // $footerTitle= \App\Models\FooterTitle::first();
     
-    $footerGridThreeLinks= \App\Models\FooterGridThree::where('status', 1)->get();
+    // $footerGridThreeLinks= \App\Models\FooterGridThree::where('status', 1)->get();
+
+    /** Caching Footer Data */
+
+    $footerInfo = Illuminate\Support\Facades\Cache::rememberForever('footer_info',function(){
+            return \App\Models\FooterInfo::first();
+    });
+    $footerSocials = Illuminate\Support\Facades\Cache::rememberForever('footer_socials',function(){
+            return \App\Models\FooterSocial::where('status', 1)->get();
+    });
+    $footerGridTwoLinks = Illuminate\Support\Facades\Cache::rememberForever('footer_grid_two_links',function(){
+            return \App\Models\FooterGridTwo::where('status', 1)->get();
+    });
+    $footerTitle = Illuminate\Support\Facades\Cache::rememberForever('footer_title',function(){
+            return \App\Models\FooterTitle::first();
+    });
+    $footerGridThreeLinks = Illuminate\Support\Facades\Cache::rememberForever('footer_grid_three_links',function(){
+            return \App\Models\FooterGridThree::where('status', 1)->get();
+    });
 
 
 @endphp

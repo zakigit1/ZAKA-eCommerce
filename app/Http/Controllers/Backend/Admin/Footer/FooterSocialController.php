@@ -6,6 +6,7 @@ use App\DataTables\FooterSocialsDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\FooterSocial;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class FooterSocialController extends Controller
 {
@@ -39,17 +40,27 @@ class FooterSocialController extends Controller
 
         // dd($request->all());
 
-        $footerSocial = new FooterSocial();
+        try{
 
-        $footerSocial->icon = $request->icon ;
-        $footerSocial->name = $request->name ;
-        $footerSocial->url = $request->url ;
-        $footerSocial->status = $request->status ;
+            $footerSocial = new FooterSocial();
+    
+            $footerSocial->icon = $request->icon ;
+            $footerSocial->name = $request->name ;
+            $footerSocial->url = $request->url ;
+            $footerSocial->status = $request->status ;
+    
+            $footerSocial->save();
+    
+            
+            Cache::forget('footer_socials');
 
-        $footerSocial->save();
-
-        toastr('Footer Social created Successfully !','success','Success');
-        return redirect()->route('admin.footer-socials.index');
+            toastr('Footer Social created Successfully !','success','Success');
+            return redirect()->route('admin.footer-socials.index');
+        }catch(\Exception $ex){
+            
+            toastr()->error('حدث خطا ما برجاء المحاوله لاحقا','Error Footer Social');
+            return redirect()->route('admin.footer-socials.index');
+        }
 
 
     }
@@ -85,18 +96,27 @@ class FooterSocialController extends Controller
 
         // dd($request->all());
 
-        $footerSocial = FooterSocial::find($id);
 
-        if(!$footerSocial){
-            toastr('Footer Social Not Found !','error','Error Footer Social');
+        try{
+
+            $footerSocial = FooterSocial::find($id);
+    
+            if(!$footerSocial){
+                toastr('Footer Social Not Found !','error','Error Footer Social');
+                return redirect()->route('admin.footer-socials.index');
+            }
+    
+            $updateFooterSocial = $footerSocial->update($request->except(['submit','_method','_token']));
+    
+            Cache::forget('footer_socials');
+    
+            toastr('Footer Social Updated Successfully !','success','Success');
+            return redirect()->route('admin.footer-socials.index');
+
+        }catch(\Exception $ex){
+            toastr()->error('حدث خطا ما برجاء المحاوله لاحقا','Error Footer Social');
             return redirect()->route('admin.footer-socials.index');
         }
-
-        $updateFooterSocial = $footerSocial->update($request->except(['submit','_method','_token']));
-
-
-        toastr('Footer Social Updated Successfully !','success','Success');
-        return redirect()->route('admin.footer-socials.index');
     }
 
     /**
@@ -115,6 +135,7 @@ class FooterSocialController extends Controller
 
             $footerSocial->delete();
 
+            Cache::forget('footer_socials');
             // we are using ajax : 
             return response(['status'=>'success','message'=>"Footer Social Has Been Deleted Successfully !"]);
         }catch(\Exception $e){
@@ -124,21 +145,34 @@ class FooterSocialController extends Controller
 
 
     public function change_status(Request $request)
-    {
-        $footerSocial =FooterSocial::find($request->id);
+    {   
+        $request->validate([
+            'id'=>'required|exists:footer_socials,id',
+            'status' => 'required|in:true,false',
+        ]);
 
-        if(!$footerSocial){
-            return response(['status'=>'error','message'=>'Footer Social is not found!']);
+        try{
+
+            $footerSocial =FooterSocial::find($request->id);
+    
+            if(!$footerSocial){
+                return response(['status'=>'error','message'=>'Footer Social is not found!']);
+            }
+    
+           
+            $footerSocial->status = $request->status == 'true' ? 1 : 0;
+             
+            $footerSocial->save();
+    
+            $status =($footerSocial->status == 1) ? 'activated' : 'deactivated';
+    
+            Cache::forget('footer_socials');
+    
+            return response(['status'=>'success','message'=>"The Footer Social  has been $status"]);
+            
+        }catch(\Exception $ex){
+            return response(['status'=>'error','message'=>'حدث خطا ما برجاء المحاوله لاحقا']);
         }
-
-       
-        $footerSocial->status = $request->status == 'true' ? 1 : 0;
-         
-        $footerSocial->save();
-
-        $status =($footerSocial->status == 1) ? 'activated' : 'deactivated';
-
-        return response(['status'=>'success','message'=>"The Footer Social  has been $status"]);
 
        
     }

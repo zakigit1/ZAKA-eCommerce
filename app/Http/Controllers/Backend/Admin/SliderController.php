@@ -7,6 +7,7 @@ use App\Models\Slider;
 use Illuminate\Http\Request;
 use App\Traits\imageUploadTrait;
 use App\DataTables\SlidersDataTable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class SliderController extends Controller
@@ -99,6 +100,8 @@ class SliderController extends Controller
                 'serial'=>$request->serial,
                 'status'=>$request->status,
             ]);
+
+            Cache::forget('sliders');
 
             toastr()->success('Slider Created Successfully !');
             return redirect()->route('admin.slider.index');
@@ -203,11 +206,10 @@ class SliderController extends Controller
             //     'status',
             // ]));
 
-
-            toastr()->success('Slider Updated Successfully !');
-
+            Cache::forget('sliders');
 
             DB::commit();
+            toastr()->success('Slider Updated Successfully !');
             return redirect()->route('admin.slider.index');
 
         }catch(\Exception $e){
@@ -216,12 +218,6 @@ class SliderController extends Controller
             toastr()->error( 'حدث خطا ما برجاء المحاوله لاحقا');
             return redirect()->route('admin.slider.index');
         }
-
-
-
-
-
-
 
     }
 
@@ -242,6 +238,8 @@ class SliderController extends Controller
             deleteImage($slider->banner);
 
             $slider->delete();
+
+            Cache::forget('sliders');
 
             // we are using ajax : 
             return response(['status'=>'success','message'=>'Slider Deleted Successfully !']);
