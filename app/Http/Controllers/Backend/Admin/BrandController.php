@@ -87,7 +87,7 @@ class BrandController extends Controller
 
         $brand=Brand::find($id);
 
-
+        
         if(!$brand){
             // toastr()->error('Brand Not Found !');
             toastr('Brand Not Found ! ','error');

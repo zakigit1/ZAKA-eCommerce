@@ -31,7 +31,7 @@
         ])}}" href="{{route('vendor.order.index')}}"><i class="far fa-user"></i>Order</a></li>
 
    
-
+<li><a class="{{ setActive(['vendor.messager.index'])}}" href="{{route('vendor.messager.index')}}"><i class="far fa-user"></i>Messanger </a></li>
 
 
 

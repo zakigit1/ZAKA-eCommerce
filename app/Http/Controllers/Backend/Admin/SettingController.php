@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\EmailConfiguration;
 use App\Models\GeneralSetting;
 use App\Models\LogoSetting;
+use App\Models\PusherConfiguration;
 use App\Traits\imageUploadTrait;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -26,10 +28,13 @@ class SettingController extends Controller
         $generalSetting = GeneralSetting::first();
         $emailConfig = EmailConfiguration::first();
         $logoSettings = LogoSetting::first();
-        return view('admin.setting.index',compact('generalSetting','emailConfig','logoSettings'));
+        $pusherConfig = PusherConfiguration::first();
+        return view('admin.setting.index',compact('generalSetting','emailConfig','logoSettings','pusherConfig'));
     }
 
-    public function UpdateSettingsGeneral(Request $request){
+    /**  General Setting */
+    public function UpdateSettingsGeneral(Request $request): RedirectResponse
+    {
 
         $request->validate([
             'site_name'=>'required|max:200',
@@ -75,8 +80,9 @@ class SettingController extends Controller
 
     }
 
-
-    public function UpdateEmailConfiguration(Request $request){
+    /** Email Configuration */
+    public function UpdateEmailConfiguration(Request $request): RedirectResponse
+    {
 
         $request->validate([
             'email'=>'required|email|max:200',
@@ -112,8 +118,9 @@ class SettingController extends Controller
 
     }
 
-
-    public function UpdateLogaAndFavicon(Request $request){
+    /** Logo & Favicon */
+    public function UpdateLogaAndFavicon(Request $request): RedirectResponse
+    {
 
         $request->validate([
             'logo'=>'image',
@@ -185,17 +192,41 @@ class SettingController extends Controller
             return redirect()->back();
         }
 
+    }
 
+    /** Pusher Configuration */
+    public function UpdatePusherConfiguration(Request $request): RedirectResponse
+    {    
+        $request->validate([
+            'pusher_app_id'=>'required|numeric|integer',
+            'pusher_key'=>'required|max:200',
+            'pusher_secret'=>'required|max:200',
+            'pusher_cluster'=>'required|max:200',
+        ]);
 
+        try{   
+            $pusherConfig = PusherConfiguration::updateOrCreate(
+                ['id'=> 1],
+                [
+                    'pusher_app_id' =>  $request->pusher_app_id,
+                    'pusher_key' => $request->pusher_key,
+                    'pusher_secret' =>  $request->pusher_secret,
+                    'pusher_cluster' => $request->pusher_cluster,
+                ]
+            );
+
+            toastr('Pusher Configuration Has Been Updated Successfully !','success','Success');
+            return redirect()->back();
+
+        }catch(\Exception $ex){
+            // toastr($ex->getMessage() ,'error','Error');
+            toastr('Pusher Configuration Has Not Been Updated Successfully !','error','Error');
+            return redirect()->back();
+        }
     }
 
 
-
-
-
-
-
-
+    /** View List Dynamique */
     public function changeViewList(Request $request){
         Session::put('settings_view_list',$request->style);
     }

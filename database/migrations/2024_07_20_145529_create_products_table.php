@@ -25,9 +25,9 @@ return new class extends Migration
             $table->text('short_description');
             $table->text('long_description');
             $table->text('video_link')->nullable();
-            $table->string('sku')->nullable();
-            $table->double('price');
-            $table->double('offer_price')->nullable();
+            $table->string('sku')->unique()->nullable();
+            $table->double('price')->unsigned();//new update
+            $table->double('offer_price')->unsigned()->nullable();//new update
             $table->date('offer_start_date')->nullable();
             $table->date('offer_end_date')->nullable();
             $table->string('product_type')->nullable();
@@ -36,7 +36,7 @@ return new class extends Migration
             $table->integer('is_approved')->default(0);
             $table->string('seo_title')->nullable();
             $table->string('seo_description')->nullable();
-            
+
             $table->timestamps();
 
 
@@ -46,7 +46,7 @@ return new class extends Migration
             $table->foreign('child_category_id')->references('id')->on('childcategories')->onDelete('cascade');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
 
-            
+
         });
     }
 

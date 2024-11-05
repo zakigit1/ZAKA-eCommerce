@@ -21,7 +21,8 @@
         <li><a class="{{ setActive(['user.vendor-request.index'])}}" href="{{route('user.vendor-request.index')}}"><i class="fas fa-user-plus"></i> Vendor Request</a></li>
       @endif
 
-
+      <li><a class="{{ setActive(['user.messager.index'])}}" href="{{route('user.messager.index')}}"><i class="far fa-star"></i>Messanger</a></li>
+      
       {{-- Post Method --}}
       {{-- <form method="POST" action="{{ route('logout') }}">
         @csrf

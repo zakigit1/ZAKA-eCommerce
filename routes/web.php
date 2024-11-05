@@ -14,6 +14,7 @@ use App\Http\Controllers\Frontend\ReviewController;
 use App\Http\Controllers\Frontend\TrackOrderController;
 use App\Http\Controllers\Frontend\User\UserAddressController;
 use App\Http\Controllers\Frontend\User\UserDashboard;
+use App\Http\Controllers\Frontend\User\UserMessageController;
 use App\Http\Controllers\Frontend\User\UserOrderController;
 use App\Http\Controllers\Frontend\User\UserProfileController;
 use App\Http\Controllers\Frontend\User\UserVendorRequestController;
@@ -146,6 +147,21 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
 
     Route::post('blog-comment',[BlogController::class,'blogComment'])->name('blog-comment');
     ##############################  Comment To Blog End  ###################################
+
+
+
+    ##############################  Messanger Start  ###################################
+
+    route::get('/messanger',[UserMessageController::class,'index'])->name('messager.index');
+    ##############################  Messanger End  ###################################
+
+
+
+
+
+
+
+
 
 
 });

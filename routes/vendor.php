@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Backend\Vendor\VendorMessageController;
 use App\Http\Controllers\Frontend\ReviewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Vendor\VendorController;
@@ -110,7 +111,10 @@ Route::group(['middleware'=>['auth:web','role:vendor'],'prefix'=>'vendor','as'=>
     ##############################  Withdraw End  ###################################
 
 
+       ##############################  Messanger Start  ###################################
 
+       route::get('/messanger',[VendorMessageController::class,'index'])->name('messager.index');
+       ##############################  Messanger End  ###################################     
 
 
 

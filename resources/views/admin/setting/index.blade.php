@@ -26,7 +26,7 @@
                         </div>
                         <div class="card-body">
                           <div class="row">
-                            <div class="col-2">
+                            <div class="col-2 mt-2">
                               <div class="list-group" id="list-tab" role="tablist">
                                 <a class="list-group-item list-group-item-action list-view {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'general-settings' ? 'active' : ''}} 
                                     {{!session()->has('settings_view_list') ? 'active' : '' }}" 
@@ -35,12 +35,11 @@
                                 <a class="list-group-item list-group-item-action list-view {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'email-configuration' ? 'active' : ''}}" 
                                     data-id="email-configuration" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab">Email Configuration</a>
                                 
+                                    <a class="list-group-item list-group-item-action list-view {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'pusher-configuration' ? 'active' : ''}}" 
+                                    data-id="pusher-configuration" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab">Pusher Configuration</a>
+                                    
                                  <a class="list-group-item list-group-item-action list-view {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'logo-settings' ? 'active' : ''}}" 
                                     data-id="logo-settings" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab">Logo & Favicon Settings</a>
-
-
-                                {{--<a class="list-group-item list-group-item-action list-view {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'pop' ? 'active' : ''}}" 
-                                    data-id="" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab">--</a> --}}
                               </div>
                             </div>
                             <div class="col-10">
@@ -64,9 +63,9 @@
                                   @include('admin.setting.includes.logo-and-favicon')
                                 </div>
 
-                                {{--<div class="tab-pane fade {{session()->has('settings_view_list') && session()->get('settings_view_list') == '' ? 'show active' : ''}}"
-                                id="list-settings" role="tabpanel" aria-labelledby="list-settings-list"> --}}
-                                 
+                                <div class="tab-pane fade {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'pusher-configuration' ? 'show active' : ''}}"
+                                id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+                                  @include('admin.setting.includes.pusher-configuration')
                                 </div>
 
                               </div>

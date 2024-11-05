@@ -50,9 +50,9 @@ use App\Http\Controllers\Backend\Admin\Withdraw\WithdrawMethodController;
                 /** The Prefix admin is in App\Providers\RouteServiceProvider */
 
 
-                
-/* new update i add middleware guess for admin/login , because in the browser you can connect with single profile if 
-    if i don't add it this middleware ,if i m user or vendor and i access to user or vendor dashboard i can also open admin/login route 
+
+/* new update i add middleware guess for admin/login , because in the browser you can connect with single profile if
+    if i don't add it this middleware ,if i m user or vendor and i access to user or vendor dashboard i can also open admin/login route
     and access it
 */
 
@@ -76,12 +76,12 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     ##############################  SLIDER END  ###################################
 
     ##############################  Category START  ###################################
-    
+
         // Route::POST('/category/change-status/{id}',[CategoryController::class,'change_status'])->name('category.change-status');
         Route::put('/category/change-status/',[CategoryController::class,'change_status'])->name('category.change-status');
         Route::resource('category',CategoryController::class);
     ##############################  Category END  ###################################
-    
+
 
     ##############################  Sub-Category START  ###################################
         // Route::POST('/sub-category/change-status/{id}',[CategoryController::class,'change_status'])->name('category.change-status');
@@ -99,7 +99,7 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     ##############################  Brand START  ###################################
 
         Route::group(['prefix'=>'brand'],function(){
-            
+
             Route::get('/',[BrandController::class,'index'])->name('brand.index');
             Route::get('create',[BrandController::class,'create'])->name('brand.create');
             Route::post('store',[BrandController::class,'store'])->name('brand.store');
@@ -113,7 +113,7 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     ############################## Admin  Vendor Profile Start  ###################################
 
         Route::group(['prefix'=>'vendor-profile','as'=>'vendor-profile.'],function(){
-            
+
             Route::get('/',[AdminVendroProfileController::class,'index'])->name('index');
             Route::post('/update',[AdminVendroProfileController::class,'update_admin_vendor_profile'])->name('update');
 
@@ -141,11 +141,9 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
             Route::get('/',[ProductImageGalleryController::class,'index'])->name('index');
 
             Route::post('store',[ProductImageGalleryController::class,'store'])->name('store');
-            Route::get('/{id}/edit',[ProductImageGalleryController::class,'edit'])->name('edit');
-            Route::post('{id}/update',[ProductImageGalleryController::class,'update'])->name('update');
             Route::DELETE('{id}/destroy',[ProductImageGalleryController::class,'destroy'])->name('destroy');
             Route::DELETE('{id}/destroyAll',[ProductImageGalleryController::class,'destroyAllImages'])->name('destroy-all-images');
-            
+
         });
 
         Route::group(['prefix'=>'product-variant','as'=>'product-variant.'],function(){
@@ -156,7 +154,7 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
             Route::post('{id}/update',[ProductVariantController::class,'update'])->name('update');
             Route::DELETE('{id}/destroy',[ProductVariantController::class,'destroy'])->name('destroy');
             Route::put('change-status',[ProductVariantController::class,'change_status'])->name('change-status');
-            
+
         });
         Route::group(['prefix'=>'product-variant-item','as'=>'product-variant-item.'],function(){
 
@@ -167,16 +165,16 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
             Route::post('{itemId}/update',[ProductVariantItemController::class,'update'])->name('update');
             Route::DELETE('{itemId}/destroy',[ProductVariantItemController::class,'destroy'])->name('destroy');
             Route::put('change-status',[ProductVariantItemController::class,'change_status'])->name('change-status');
-            
+
         });
 
     ##############################  Product End  ###################################
 
     ##############################  Seller or Vendor Product Start  ###################################
 
-        
+
         Route::get('/seller-product',[SellerProductController::class,'index'])->name('seller-product.index');
-        
+
         Route::get('/seller-pending-product',[SellerProductController::class,'pending_products'])->name('seller-pending-product.index');
 
         Route::post('/product-change-approve-status',[SellerProductController::class,'change_approve_status'])->name('product-change-approve-status');
@@ -190,33 +188,35 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
         Route::group(['prefix'=>'flash-sale','as'=>'flash-sale.'],function(){
             Route::get('/',[FlashSaleController::class,'index'])->name('index');
             Route::post('/end-date',[FlashSaleController::class,'end_date'])->name('end_date');
-            Route::post('/add-product',[FlashSaleController::class,'add_product'])->name('add_product');  
+            Route::post('/add-product',[FlashSaleController::class,'add_product'])->name('add_product');
             Route::DELETE('{id}/destroy',[FlashSaleController::class,'destroy'])->name('destroy');
             Route::put('change-status',[FlashSaleController::class,'change_status'])->name('change-status');
             Route::put('change-at-home-status',[FlashSaleController::class,'change_at_home_status'])->name('change-at-home-status');
-            
+
         });
     ############################## Flash Sale  End  ###################################
-    
+
     ############################## Settings  Start  ###################################
-    
+
         Route::group(['prefix'=>'settings','as'=>'settings.'],function(){
-            
+
             Route::get('',[SettingController::class , 'index'])->name('index');
 
             /** Update Or Create general Settings :( if general settings is not created yet we created else we update general settings)  */
             Route::put('/general-settings/update',[SettingController::class , 'UpdateSettingsGeneral'])->name('general-settings.update');
-            
+
             /** Update Or Create Email configuration Settings :( if general settings is not created yet we created else we update email configuration settings)  */
             Route::put('/email-settings/update',[SettingController::class , 'UpdateEmailConfiguration'])->name('email-settings.update');
             
             /** Update Or Create Logo & Favicon Settings :( if general settings is not created yet we created else we update logo & favicon settings)  */
             Route::put('/logo-settings/update',[SettingController::class , 'UpdateLogaAndFavicon'])->name('logo-settings.update');
-
+            
+            /** Update Or Create Pusher configuration Settings :( if general settings is not created yet we created else we update pusher configuration settings)  */
+            Route::put('/pusher-settings/update',[SettingController::class , 'UpdatePusherConfiguration'])->name('pusher-settings.update');
 
             Route::get('list-view',[SettingController::class , 'changeViewList'])->name('view-list');
         });
-    
+
     ############################## Settings  End  ###################################
 
 
@@ -234,32 +234,32 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
         Route::resource('shipping-rules',ShippingRuleController::class);
 
     ############################## Shipping Rule  End  ###################################
-    
-    
+
+
     ############################## Payment  Start  #################################
-    
-    
-    
+
+
+
     Route::group(['prefix'=>'payment','as'=>'payment.'],function(){
-        
+
         Route::get('/',[PaymentSettingController::class,'index'])->name('index');
 
-        
+
         ############################## Paypal Settings gateway  Start  #################################
-        
+
         /** Update Or Create Paypal Settings :( if Paypal settings is not created yet we created else we update paypal settings)  */
         Route::put('/paypal-settings',[PaypalSettingController::class,'UpdatePaypalSettings'])->name('paypal-setting');
-        
+
         ############################## Paypal Settings gateway  End  #################################
-        
+
         ############################## Stripe Settings gateway  Start  #################################
-        
+
         /** Update Or Create Stripe Settings :( if Stripe settings is not created yet we created else we update stripe settings)  */
         Route::put('/stripe-settings',[StripeSettingController::class,'UpdateStripeSettings'])->name('stripe-setting');
         ############################## Stripe Settings gateway  End  #################################
 
         ############################## Razorpay Settings gateway  Start  #################################
-        
+
         /** Update Or Create Razorpay Settings :( if Razorpay settings is not created yet we created else we update razorpay settings)  */
         Route::put('/razorpay-settings',[RazorpaySettingController::class,'UpdateRazorpaySettings'])->name('razorpay-setting');
         ############################## Razorpay Settings gateway  End  #################################
@@ -270,7 +270,7 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     });
 
     ############################## Payment  End  ###################################
-    
+
     ############################## Order  Start  ###################################
 
         ############################## Order Status  Start  #################################
@@ -298,9 +298,9 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     ############################## Transaction  Start  ###################################
     Route::get('/transactions',[TransactionController::class,'index'])->name('transaction.index');
     ############################## Transaction  End  ###################################
-    
-    
-    
+
+
+
     ############################## Home Page Settings  Start  ###################################
     Route::group(['prefix'=>'home-page-setting','as'=>'home-page-setting.'],function(){
 
@@ -309,18 +309,18 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
         Route::put('product-slider-section-one/update',[HomePageSettingController::class , 'UpdateProductSliderSectionOne'])->name('product-slider-section-one.update');
         Route::put('product-slider-section-two/update',[HomePageSettingController::class , 'UpdateProductSliderSectionTwo'])->name('product-slider-section-two.update');
         Route::put('weekly-best-products/update',[HomePageSettingController::class , 'UpdateWeeklyBestProducts'])->name('weekly-best-products.update');
-    
+
         Route::get('list-view',[HomePageSettingController::class , 'changeViewList'])->name('view-list');
 
         Route::get('/get-sub-categories',[HomePageSettingController::class,'get_subcategories'])->name('get-sub-categories');
         Route::get('/get-child-categories',[HomePageSettingController::class,'get_childcategories'])->name('get-child-categories');
-    
+
     });
     ############################## Home Page Settings  End  ###################################
-    
-    
-    
-    
+
+
+
+
 
     ############################## Footer  Start  ###################################
 
@@ -334,7 +334,7 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
             Route::put('footer-socials/change-status/',[FooterSocialController::class,'change_status'])->name('footer-socials.change-status');
             Route::resource('footer-socials',FooterSocialController::class);
         ############################## Footer Socials  End  ###################################
-            
+
         ############################## Footer Grid Two  Start  ###################################
             Route::put('footer-grid-two/change-status/',[FooterGridTwoController::class,'change_status'])->name('footer-grid-two.change-status');
             Route::put('footer-grid-two/change-title/',[FooterGridTwoController::class,'changeTitle'])->name('footer-grid-two.change-title');
@@ -362,8 +362,8 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     Route::group(['prefix'=>'advertisement','as'=>'advertisement.'],function(){
 
         Route::get('',[AdvertisementController::class ,'index'])->name('index');
-    
-        
+
+
         Route::put('/homepage-banner-section-one',[AdvertisementController::class ,'homepageBannerSectionOne'])->name('homepage-banner-section-one');
         Route::put('/homepage-banner-section-two',[AdvertisementController::class ,'homepageBannerSectionTwo'])->name('homepage-banner-section-two');
         Route::put('/homepage-banner-section-three',[AdvertisementController::class ,'homepageBannerSectionThree'])->name('homepage-banner-section-three');
@@ -371,8 +371,8 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
 
         Route::put('/productpage-banner',[AdvertisementController::class ,'productpageBanner'])->name('productpage-banner');
         Route::put('/cartpage-banner',[AdvertisementController::class ,'cartpageBanner'])->name('cartpage-banner');
-    
-    
+
+
         Route::get('/list-view',[AdvertisementController::class , 'changeViewList'])->name('view-list');
     });
 
@@ -386,9 +386,9 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     route::get('/product-review/{id}/Gallery',[AdminProductReviewController::class,'productReviewGallery'])->name('product-review-gallery');
     route::delete('/product-review/Gallery/{id}/destroy',[AdminProductReviewController::class,'productReviewGalleryDestroy'])->name('product-review-gallery.destroy');
     ##############################  Review End  ###################################
-    
-    
-    
+
+
+
     ##############################  Vendor Request Start  ###################################
     Route::get('vendor-request',[VendorRequestController::class ,'index'])->name('vendor-request.index');
     Route::get('vendor-request/{id}/show',[VendorRequestController::class ,'show'])->name('vendor-request.show');
@@ -402,13 +402,13 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     ##############################  Customer (client) List Start  ###################################
     Route::get('customer-list',[CustomerListController::class ,'index'])->name('customer-list.index');
     Route::put('customer-list/change-status',[CustomerListController::class,'change_status'])->name('customer-list.change-status');
-    
+
     ##############################  Customer (client) List End  ###################################
     ##############################  Vendor List Start  ###################################
-    
+
     Route::get('vendor-list',[VendorListController::class ,'index'])->name('vendor-list.index');
     Route::put('vendor-list/change-status',[VendorListController::class,'change_status'])->name('vendor-list.change-status');
-    
+
     ##############################  Vendor List End  ###################################
 
 
@@ -423,28 +423,28 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     Route::put('about/update',[AboutController::class , 'updateAbout'])->name('about.update');
 
     ##############################  Vendor Conditions End  ###################################
-    
+
     ##############################  Vendor Conditions Start  ###################################
     Route::get('terms-and-conditions',[TermAndConditionController::class , 'index'])->name('terms-and-conditions.index');
     Route::put('terms-and-conditions/update',[TermAndConditionController::class , 'updateTermsAndConditions'])->name('terms-and-conditions.update');
 
     ##############################  Vendor Conditions End  ###################################
-    
-    
+
+
     ##############################  Manage-user Start  ###################################
     Route::get('manage-user',[ManageUserController::class , 'index'])->name('manage-user.index');
     Route::post('manage-user/store',[ManageUserController::class , 'store'])->name('manage-user.store');
 
     ##############################  Manage-user End  ###################################
-    
+
 
 
     ##############################  Admin List Start  ###################################
-    
+
     Route::get('admin-list',[AdminListController::class ,'index'])->name('admin-list.index');
     Route::put('admin-list/change-status',[AdminListController::class,'change_status'])->name('admin-list.change-status');
     route::delete('admin-list/{id}/destroy',[AdminListController::class,'destroy'])->name('admin-list.destroy');
-    
+
     ##############################  Admin List End  ###################################
 
 
@@ -477,7 +477,7 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     Route::post('withdraw-request-list/withdraw-request-change-status',[WithdrawRequestListController::class,'withdraw_request_change_status'])->name('withdraw-request-change-status');
     ##############################  withdraw-method  End  ###################################
 
-    
+
 
 
 
