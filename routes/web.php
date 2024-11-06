@@ -153,6 +153,9 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     ##############################  Messanger Start  ###################################
 
     route::get('/messanger',[UserMessageController::class,'index'])->name('messager.index');
+
+    /**send message from store */
+    Route::post('send-message-to-vendor',[FrontendProductController::class,'clientMessage'])->name('send-message-to-vendor');
     ##############################  Messanger End  ###################################
 
 
@@ -175,7 +178,9 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     Route::get('products',[FrontendProductController::class , 'productsIndex'])->name('products.index');
     Route::get('product-details/{slug}',[FrontendProductController::class , 'showProduct'])->name('product-details');
     Route::get('change-product-view-list',[FrontendProductController::class , 'changeViewList'])->name('change-product-view-list');
+
     
+
     //? Show Product Model (eye pop up)
     Route::get('show-product-model/{id}',[HomeController::class,'showProductModel'])->name('show-product-model');
 

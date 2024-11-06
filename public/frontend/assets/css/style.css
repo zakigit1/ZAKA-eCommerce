@@ -3755,7 +3755,7 @@ PRODUCT DETAILS START
 .wsus__button_area li .buy_now,
 .wsus__ofer_det_footer_btn .buy_now {
   background: white;
-  padding: 10px 20px;
+  padding: 9px 15px;
   border-radius: 30px;
   text-transform: uppercase;
   font-size: 14px;
@@ -9728,4 +9728,22 @@ input.razorpay-payment-button{
   width: 100% !important;
   bottom: 0 !important;
   /* position: absolute !important; */
+}
+
+
+.wsus__button_area li .chat_now,
+.wsus__ofer_det_footer_btn .chat_now {
+  background: white;
+  padding: 9px 15px;
+  border-radius: 30px;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 600;
+  color: black;
+}
+
+.wsus__button_area li .chat_now:hover,
+.wsus__ofer_det_footer_btn .chat_now:hover {
+  background: #0c53ed;
+  color: #fff !important;
 }

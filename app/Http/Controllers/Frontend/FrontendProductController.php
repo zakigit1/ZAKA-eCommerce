@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Advertisement;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Chat;
 use App\Models\Childcategory;
 use App\Models\Product;
 use App\Models\ProductReview;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class FrontendProductController extends Controller
@@ -278,6 +280,32 @@ class FrontendProductController extends Controller
         return  view('Frontend.store.product.index' ,compact('products','categories','brands','productpageBanner'));
     }
 
+
+
+    public function clientMessage(request $request){
+       
+        dd($request->all());
+        $request->validate([
+            'vendor_id' => 'required|exists:vendors,id|gt:0',
+            'message' => 'required',
+        ]);
+
+        if(Auth::user()->id == $request->vendor_id){
+            toastr('You cannot send message to yourself','error','Error');
+            return redirect()->back();
+        }
+
+        
+
+        $chat = New Chat();
+        $chat->sender_id = Auth::user()->id;
+        $chat->receiver_id = $request->vendor_id;
+        $chat->message = $request->message;
+        $chat->save();
+
+        toastr('Message sent successfully','success','Success message');
+        return redirect()->back();
+    }
 
 
     public function changeViewList(Request $request){

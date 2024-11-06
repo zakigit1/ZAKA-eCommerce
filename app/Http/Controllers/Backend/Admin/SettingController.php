@@ -12,9 +12,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-use function PHPUnit\Framework\isEmpty;
-use function PHPUnit\Framework\isNull;
-
 class SettingController extends Controller
 {
 

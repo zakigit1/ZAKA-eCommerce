@@ -37,6 +37,9 @@
 // add in all views @ to avoid any kind of null errors .
 // you need to add guard for admin 
 // fix the routes about BREADCRUMB to dynamique return functionalite
+// zid ga3 fl controller ':response redirect' just example kol wahd 3la hsab return ta3ha
+
+// i need to change this package : Package yoeunes/toastr is abandoned, you should avoid using it. Use php-flasher/flasher-toastr-laravel instead.
 
 ############ issue search about it 
 //?? search about who is better make the validation in seprater folder from the controller or in the controller ? [ is better to do it in seperater folder]

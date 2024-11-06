@@ -159,6 +159,21 @@
                                             data-id="{{ $product->id }}">
                                             <i class="fal fa-heart"></i></a>
                                     </li>
+                                    @if (auth()->check())
+                                        <li>
+                                            <button type="button" class="chat_now" style="margin-left: 10px" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                <i class="fas fa-comment-medical"></i>
+                                                </button>
+                                        </li>
+
+                                    @else
+                                    
+                                        <li>
+                                            <button type="button" class="chat_now" style="margin-left: 10px" data-bs-toggle="modal" data-bs-target="false">
+                                                <i class="fas fa-comment-slash"></i>
+                                                </button>
+                                        </li>
+                                    @endif
 
                                 </ul>
                             </form>
@@ -521,6 +536,49 @@
     </section>
 
 
+    <!-- Modal -->
+    <div  div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Contact The {{$product->vendor->shop_name}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('user.send-message-to-vendor')}}" method="post">
+                    @csrf
+                    <input type="hidden" name="vendor_id" value="{{ $product->vendor->id }}">
+
+                    <div class="form-group">
+                        <label for=""><b>Message :</b></label><br>
+                        <textarea name="message" class="form-control mt-2" placeholder="Enter Your Message"></textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!--============================
                                 PRODUCT DETAILS END
                             ==============================-->
@@ -529,7 +587,6 @@
     <!--============================
                                 RELATED PRODUCT START
                             ==============================-->
-
 
     {{-- <section id="wsus__flash_sell">
         <div class="container">
@@ -693,7 +750,6 @@
             </div>
         </div>
     </section> --}}
-
 
     <!--============================
                                 RELATED PRODUCT END
