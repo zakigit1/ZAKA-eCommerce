@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('sender_id');
             $table->foreignId('receiver_id');
+            /** i want to make it like that  */
+            // $table->foreignId('sender_id')->constrained('users')->nullable()->onDelete('set null');
+            // $table->foreignId('receiver_id')->constrained('users')->nullable()->onDelete('set null');
             $table->text('message');
             $table->boolean('seen')->default(0);
             $table->timestamps();

@@ -155,7 +155,9 @@ Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as
     route::get('/messanger',[UserMessageController::class,'index'])->name('messager.index');
 
     /**send message from store */
-    Route::post('send-message-to-vendor',[FrontendProductController::class,'clientMessage'])->name('send-message-to-vendor');
+    Route::post('send-message-to-vendor',[UserMessageController::class,'clientMessage'])->name('send-message-to-vendor');
+
+    Route::get('get-conversions',[UserMessageController::class,'getConversion'])->name('get-conversions');
     ##############################  Messanger End  ###################################
 
 

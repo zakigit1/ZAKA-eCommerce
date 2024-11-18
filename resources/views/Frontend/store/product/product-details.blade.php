@@ -7,8 +7,8 @@
 
 
     <!--============================
-                                BREADCRUMB START
-                            ==============================-->
+                                    BREADCRUMB START
+                                ==============================-->
 
 
     <section id="wsus__breadcrumb">
@@ -30,13 +30,13 @@
 
 
     <!--============================
-                                BREADCRUMB END
-                            ==============================-->
+                                    BREADCRUMB END
+                                ==============================-->
 
 
     <!--============================
-                                PRODUCT DETAILS START
-                            ==============================-->
+                                    PRODUCT DETAILS START
+                                ==============================-->
 
 
     <section id="wsus__product_details">
@@ -161,17 +161,19 @@
                                     </li>
                                     @if (auth()->check())
                                         <li>
-                                            <button type="button" class="chat_now" style="margin-left: 10px" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            <button type="button" class="chat_now" style="margin-left: 10px"
+                                                data-bs-toggle="modal" data-bs-target="#exampleModal">
                                                 <i class="fas fa-comment-medical"></i>
-                                                </button>
+                                            </button>
                                         </li>
-
                                     @else
-                                    
+                                        {{-- after remove it make it just just when auth show the icon of messaging --}}
+
                                         <li>
-                                            <button type="button" class="chat_now" style="margin-left: 10px" data-bs-toggle="modal" data-bs-target="false">
+                                            <button type="button" class="chat_now" style="margin-left: 10px"
+                                                data-bs-toggle="modal" data-bs-target="false">
                                                 <i class="fas fa-comment-slash"></i>
-                                                </button>
+                                            </button>
                                         </li>
                                     @endif
 
@@ -432,10 +434,12 @@
                                                 @auth
                                                     @php
                                                         // ? After we check if the user has already order the product and delivered to him , after he can rate the product
-                                                        $orders = \App\Models\Order::with('orderProducts')->where([
-                                                            'user_id' => auth()->user()->id,
-                                                            'order_status' => 'delivered',
-                                                        ])->get();
+                                                        $orders = \App\Models\Order::with('orderProducts')
+                                                            ->where([
+                                                                'user_id' => auth()->user()->id,
+                                                                'order_status' => 'delivered',
+                                                            ])
+                                                            ->get();
 
                                                         // dd($orders);
                                                         $isBought = false;
@@ -537,56 +541,46 @@
 
 
     <!-- Modal -->
-    <div  div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Contact The {{$product->vendor->shop_name}}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{route('user.send-message-to-vendor')}}" method="post">
-                    @csrf
-                    <input type="hidden" name="vendor_id" value="{{ $product->vendor->id }}">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Contact The {{ $product->vendor->shop_name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form  method="post" class="message_model">
+                        @csrf
+                        <input type="hidden" name="receiver_id" value="{{ $product->vendor->user_id }}">
 
-                    <div class="form-group">
-                        <label for=""><b>Message :</b></label><br>
-                        <textarea name="message" class="form-control mt-2" placeholder="Enter Your Message"></textarea>
-                    </div>
+                        <div class="form-group">
+                            <label for=""><b>Message :</b></label><br>
+                            <textarea name="message" class="form-control mt-2 message-box" placeholder="Enter Your Message"></textarea>
+                        </div>
 
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary send-message-button">Send Message</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        </div>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
+    </div>
 
 
 
 
 
     <!--============================
-                                PRODUCT DETAILS END
-                            ==============================-->
+                                    PRODUCT DETAILS END
+                                ==============================-->
 
 
     <!--============================
-                                RELATED PRODUCT START
-                            ==============================-->
+                                    RELATED PRODUCT START
+                                ==============================-->
 
     {{-- <section id="wsus__flash_sell">
         <div class="container">
@@ -752,6 +746,54 @@
     </section> --}}
 
     <!--============================
-                                RELATED PRODUCT END
-                            ==============================-->
+                                    RELATED PRODUCT END
+                                ==============================-->
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+
+            $('.message_model').on('submit', function(e) {
+                e.preventDefault();
+
+                
+                let data = $(this).serialize();
+
+                $.ajax({
+                    method: 'POST',
+                    url: "{{ route('user.send-message-to-vendor') }}",
+                    data: data,
+                    beforeSend: function() {
+                      let  html = `<span class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true">
+                            </span> Sending...`
+                       $('.send-message-button').html(html);
+                       $('.send-message-button').prop('disabled', true);
+                    },
+                    success: function(response) {
+
+                        if (response.status == 'success') {
+                            $('.message-box').val('');
+                            toastr.success(response.message);
+                            // $('#exampleModal').modal('hide');// if you want to hide the model after sending the message ...
+                        }else if (response.status == 'error') {
+                            toastr.error(response.message);
+                        }
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr);
+                        toastr.error(xhr.responseJSON.message);  
+                        $('.send-message-button').html('send message');
+                        $('.send-message-button').prop('disabled', false);  
+                    },
+                    complete: function() {
+                        $('.send-message-button').html('send message');
+                        $('.send-message-button').prop('disabled', false);
+                        
+                    }
+                });
+            })
+        });
+    </script>
+@endpush

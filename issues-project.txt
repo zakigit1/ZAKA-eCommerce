@@ -38,6 +38,8 @@
 // you need to add guard for admin 
 // fix the routes about BREADCRUMB to dynamique return functionalite
 // zid ga3 fl controller ':response redirect' just example kol wahd 3la hsab return ta3ha
+// i need to fix issue of flash sale if the end date null of doesn't exist they give an error fix it i already do it in fa-shop project take look .
+// you need to fix table transaction.
 
 // i need to change this package : Package yoeunes/toastr is abandoned, you should avoid using it. Use php-flasher/flasher-toastr-laravel instead.
 
