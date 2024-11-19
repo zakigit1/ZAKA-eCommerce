@@ -34,6 +34,7 @@
   <link rel="stylesheet" href="{{asset('frontend/assets/css/style.css')}}">
   <link rel="stylesheet" href="{{asset('frontend/assets/css/responsive.css')}}">
   
+   <!-- direction RTL -->
   @if ($settings->layout == "rtl")
     <link rel="stylesheet" href="{{asset('frontend/assets/css/rtl.css')}}">
   @endif 
@@ -49,7 +50,13 @@
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 
-
+  <script>
+    const USER ={
+      id: "{{auth()->user()->id}}",
+      name: "{{auth()->user()->name}}",
+      image: "{{auth()->user()->image}}",
+    }
+  </script>
 
   
 </head>

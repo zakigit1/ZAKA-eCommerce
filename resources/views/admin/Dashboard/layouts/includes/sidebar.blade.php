@@ -183,8 +183,9 @@
           </ul>
         </li>
 
-
-
+        {{-- Messanger --}}
+        <li class="{{setActive(['admin.messager.index'])}}"><a class="nav-link" href="{{route('admin.messager.index')}}"><i class="fas fa-cog"></i> <span>Messanger</span></a></li>
+        
 
 
 

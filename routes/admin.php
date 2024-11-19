@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Backend\Admin\AboutController;
+use App\Http\Controllers\Backend\Admin\ChatMessageController;
 use App\Http\Controllers\Backend\Admin\CustomerListController;
 use App\Http\Controllers\Backend\Admin\Payment\Gateways\PaypalSettingController;
 use Illuminate\Support\Facades\Route;
@@ -478,7 +479,17 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     ##############################  withdraw-method  End  ###################################
 
 
+    ##############################  Messanger Start  ###################################
 
+    route::get('/messanger',[ChatMessageController::class,'index'])->name('messager.index');
+
+    /** Send message from store */
+    Route::post('send-message-to-vendor',[ChatMessageController::class,'clientMessage'])->name('send-message-to-vendor');
+
+    /** Get conversion */
+    Route::get('get-conversions',[ChatMessageController::class,'getConversion'])->name('get-conversions');
+
+    ##############################  Messanger End  ###################################
 
 
 });

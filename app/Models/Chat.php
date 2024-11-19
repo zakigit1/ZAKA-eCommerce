@@ -29,4 +29,15 @@ class Chat extends Model
                 ->select(['id','image','name']);
     }
 
+    /**
+     *  this relation to get sender informations
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function senderProfile():BelongsTo
+    {
+        return $this->belongsTo(User::class,'sender_id','id')
+                ->select(['id','image','name']);
+    }
+
 }
