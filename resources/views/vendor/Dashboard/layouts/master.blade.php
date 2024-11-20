@@ -56,6 +56,17 @@
     <!-- Bootstrap date Piker CSS -->
   <link rel="stylesheet" href="{{asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.css')}}">
 
+    {{-- Grap user (Vendor) information :  --}}
+    <script>
+      const USER ={
+        id: "{{auth()->user()->id}}",
+        name: "{{auth()->user()->name}}",
+        image: "{{auth()->user()->image}}",
+      }
+    </script>
+
+
+
 </head>
 
 <body>

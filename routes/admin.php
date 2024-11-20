@@ -484,7 +484,7 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     route::get('/messanger',[ChatMessageController::class,'index'])->name('messager.index');
 
     /** Send message from store */
-    Route::post('send-message-to-vendor',[ChatMessageController::class,'clientMessage'])->name('send-message-to-vendor');
+    Route::post('send-message-to-vendor',[ChatMessageController::class,'sellerMessage'])->name('send-message-to-vendor');
 
     /** Get conversion */
     Route::get('get-conversions',[ChatMessageController::class,'getConversion'])->name('get-conversions');

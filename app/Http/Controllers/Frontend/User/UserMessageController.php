@@ -14,7 +14,7 @@ class UserMessageController extends Controller
     {   
         $userId = Auth::user()->id;
 
-        /** Vendor or saller profile */
+        /** Vendor or seller profile */
         $sallersInfo = Chat::with('receiverProfile')->select('receiver_id')// this relation to get receiver informations
             ->where('sender_id', $userId)
             ->where('receiver_id', '!=', $userId)

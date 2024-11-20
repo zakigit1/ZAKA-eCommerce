@@ -111,10 +111,16 @@ Route::group(['middleware'=>['auth:web','role:vendor'],'prefix'=>'vendor','as'=>
     ##############################  Withdraw End  ###################################
 
 
-       ##############################  Messanger Start  ###################################
+    ##############################  Messanger Start  ###################################
 
-       route::get('/messanger',[VendorMessageController::class,'index'])->name('messager.index');
-       ##############################  Messanger End  ###################################     
+    route::get('/messanger',[VendorMessageController::class,'index'])->name('messager.index');
+
+    /** Send message from store */
+    Route::post('send-message-to-vendor',[VendorMessageController::class,'sellerMessage'])->name('send-message-to-vendor');
+
+    /** Get conversion */
+    Route::get('get-conversions',[VendorMessageController::class,'getConversion'])->name('get-conversions');
+    ##############################  Messanger End  ###################################     
 
 
 
