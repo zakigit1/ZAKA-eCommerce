@@ -18,7 +18,12 @@
                         <div class="wsus__dashboard_review">
                             <div class="row">
                                 <div class="col-xl-4 col-md-5">
-                                    <div class="wsus__chatlist d-flex align-items-start">
+                                    <div class="wsus__chatlist d-flex align-items-start" style="     
+                                        height: 83vh;
+                                        border-radius: 5px;
+                                        background: #fff;
+                                        box-shadow: rgba(0, 0, 0, 0.27) 0px 1px 4px;
+                                        overflow: hidden;">
                                         <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
                                             aria-orientation="vertical">
                                             <h2>Clients List</h2>
@@ -46,14 +51,19 @@
                                     </div>
                                 </div>
                                 <div class="col-xl-8 col-md-7">
-                                    <div class="wsus__chat_main_area">
+                                    <div class="wsus__chat_main_area" style="  
+                                        height: 83vh;
+                                        border-radius: 5px;
+                                        background: #fff;
+                                        box-shadow: rgba(0, 0, 0, 0.27) 0px 1px 4px;
+                                        overflow: hidden;">
                                         <div class="tab-content" id="v-pills-tabContent">
                                             <div class="tab-pane fade show" id="v-pills-home" role="tabpanel"
                                                 aria-labelledby="v-pills-home-tab">
                                                 <div id="chat_box">
                                                     <div class="wsus__chat_area"
                                                         style="position: relative;
-                                                                height: 78vh ;">
+                                                                height: 83vh;">
                                                         <div class="wsus__chat_area_header">
                                                             <h2 id="receiver-name">Chat with Daniel Paul</h2>
                                                         </div>
@@ -83,7 +93,6 @@
                                                         </div>
                                                         <div class="wsus__chat_area_footer"
                                                             style="margin-top: 50px;
-                                                                    
                                                                     position: absolute;
                                                                     width: 100%;
                                                                     bottom: 0;">

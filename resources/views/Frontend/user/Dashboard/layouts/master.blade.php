@@ -58,6 +58,9 @@
     }
   </script>
 
+    {{-- Pusher (realtime) --}}
+    @vite(['resources/js/app.js', 'resources/js/user.js'])
+
   
 </head>
 

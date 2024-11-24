@@ -9127,10 +9127,11 @@ DASHBOARD CHAT START
 ========================*/
 .wsus__chatlist,
 .wsus__chat_main_area {
+  height: 78vh;/* this is for user Dash*/
+  /* height: 83vh;/*this is for vendor Dash  */ 
   border-radius: 5px;
   background: #fff;
   box-shadow: rgba(0, 0, 0, 0.27) 0px 1px 4px;
-  height: 687px;
   overflow: hidden;
 }
 

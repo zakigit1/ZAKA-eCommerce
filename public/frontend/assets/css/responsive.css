@@ -3541,7 +3541,7 @@
   }
 
   .wsus__chat_main_area {
-    height: 580px;
+    height: 62vh !important;
     margin-bottom: 35px;
   }
 
@@ -5210,7 +5210,7 @@
   }
 
   .wsus__chat_main_area {
-    height: 580px;
+    /* height: 580px; */
     margin-bottom: 35px;
   }
 

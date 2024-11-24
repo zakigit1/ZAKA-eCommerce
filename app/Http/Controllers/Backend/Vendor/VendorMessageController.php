@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Vendor;
 
+use App\Events\MessageEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Chat;
 use Illuminate\Http\Request;
@@ -70,6 +71,14 @@ class VendorMessageController extends Controller
         $chat->receiver_id = $request->receiver_id;
         $chat->message = $request->message;
         $chat->save();
+
+        // send message in conversion (realtime)
+        broadcast(new MessageEvent(
+            $chat->message,
+            $chat->receiver_id,
+            $chat->created_at
+        ));
+        
 
         return response()->json(['status' => 'success','message' => 'Message sent successfully']);
         

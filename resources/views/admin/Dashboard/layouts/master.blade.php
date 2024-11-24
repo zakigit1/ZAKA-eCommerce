@@ -77,6 +77,9 @@
       image: "{{auth()->user()->image}}",
     }
   </script>
+
+    {{-- Pusher (realtime) --}}
+    @vite(['resources/js/app.js','resources/js/admin.js'])
 </head>
 
 <body>

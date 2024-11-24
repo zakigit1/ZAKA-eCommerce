@@ -81,9 +81,10 @@
                                                                 </div>
                                                             </div> --}}
                                                         </div>
+                                                        {{-- inside the style we are removing: margin-top: 50px; position: absolute;--}}
                                                         <div class="wsus__chat_area_footer"
-                                                            style="margin-top: 50px;
-                                                            
+                                                            style="
+                                                            margin-top: 50px; 
                                                             position: absolute;
                                                             width: 100%;
                                                             bottom: 0;">
