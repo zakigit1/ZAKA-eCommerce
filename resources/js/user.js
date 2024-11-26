@@ -25,19 +25,40 @@ window.Echo.private('message.'+ USER.id).listen(
     (e) => {
         console.log(e);
         let mainChatInbox = $('.wsus__chat_area_body');
-        let message = `                                              
-            <div class="wsus__chat_single">
-                <div class="wsus__chat_single_img">
-                    <img src="${e.sender_image}"
-                        alt="user" class="img-fluid">
-                </div>
-                <div class="wsus__chat_single_text">
-                    <p>${e.message}</p>
-                    <span>${formatDateTime(e.data_time)}</span>
-                </div>
-            </div>`
 
+        if(mainChatInbox.attr('data-inbox') == e.sender_id){
+            var message = `                                              
+                <div class="wsus__chat_single">
+                    <div class="wsus__chat_single_img">
+                        <img src="${e.sender_image}"
+                            alt="user" class="img-fluid">
+                    </div>
+                    <div class="wsus__chat_single_text">
+                        <p>${e.message}</p>
+                        <span>${formatDateTime(e.data_time)}</span>
+                    </div>
+                </div>`
+    
+            }
         mainChatInbox.append(message);
-        scrollToButton();
+        scrollToButton();  
+
+
+        // add notification circle in profile picture :
+        // M1 : 
+        // $.each($('.conversion-messages'),function(index,value){
+        // });
+
+        //M2 :
+
+        $('.conversion-messages').each(function(index,value){
+        
+            let profileUserId = $(this).data('id');
+            
+            if(profileUserId == e.sender_id){
+                $(this).find('.wsus_chat_list_img').addClass('msg-notification');
+            }
+        });
+
     }
 )

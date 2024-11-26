@@ -42,6 +42,7 @@ class ChatMessageController extends Controller
                 ->orderBy('created_at', 'asc')
                 ->get();
     
+            Chat::where(['sender_id' => $receiverId , 'receiver_id' => $senderId])->update(['seen' => 1]);
             return response()->json(['status' => 'success','conversion' => $messages]);
         }catch(\Exception $e){
             return response()->json(['status'=> 'error','message' => $e->getMessage()]);

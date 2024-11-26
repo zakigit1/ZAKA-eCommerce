@@ -9748,3 +9748,8 @@ input.razorpay-payment-button{
   background: #0c53ed;
   color: #fff !important;
 }
+
+
+.msg-notification {
+  border: 5px solid #08c !important;
+}

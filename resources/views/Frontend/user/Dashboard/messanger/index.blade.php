@@ -24,13 +24,21 @@
                                             <h2>Sellers List</h2>
                                             @if (isset($sallersInfo) && count($sallersInfo) > 0)
                                                 @foreach ($sallersInfo as $sellerInfo)
+                                                    @php
+                                                        $unseenMessage =App\Models\Chat::where([
+                                                                'sender_id' => $sellerInfo->receiverProfile->id ,
+                                                                'receiver_id' => auth()->user()->id ,
+                                                                'seen' => 0])
+                                                            ->exists();
+                                                    @endphp
+
                                                     <div class="wsus__chatlist_body">
                                                         <button class="nav-link seller conversion-messages"
                                                             data-id="{{ $sellerInfo->receiverProfile->id }}"
                                                             data-bs-toggle="pill" data-bs-target="#v-pills-home"
                                                             type="button" role="tab" aria-controls="v-pills-home"
                                                             aria-selected="true">
-                                                            <div class="wsus_chat_list_img">
+                                                            <div class="wsus_chat_list_img {{($unseenMessage) ? 'msg-notification' : ''}}">
                                                                 <img src="{{ $sellerInfo->receiverProfile->image }}"
                                                                     alt="user" class="img-fluid">
                                                                 <span class="pending d-none" id="pending-6">0</span>
@@ -55,9 +63,9 @@
                                                         style="position: relative;
                                                         height: 78vh ;">
                                                         <div class="wsus__chat_area_header">
-                                                            <h2 id="receiver-name">Chat with Daniel Paul</h2>
+                                                            <h2 id="receiver-name"></h2>
                                                         </div>
-                                                        <div class="wsus__chat_area_body">
+                                                        <div class="wsus__chat_area_body" data-inbox="">
 
                                                             {{-- <div class="wsus__chat_single single_chat_2">
                                                                 <div class="wsus__chat_single_img">
@@ -152,6 +160,10 @@
                 let receiverId = $(this).data('id');
                 let receiverName = $(this).find('h4').text();
                 let receiverImage = $(this).find('img').attr('src');//Vendor image
+                mainChatInbox.attr('data-inbox', receiverId);
+
+                //remove circul notification when click to chat 
+                $(this).find('.wsus_chat_list_img').removeClass('msg-notification');
                 // console.log(receiverName);
 
                 $('#receiver_id').val(receiverId);
@@ -239,20 +251,21 @@
                 }
 
                 // Send message in conversion 
-                // let message = `                                              
-                //     <div class="wsus__chat_single single_chat_2">
-                //         <div class="wsus__chat_single_img">
-                //             <img src="${USER.image}"
-                //                 alt="user" class="img-fluid">
-                //         </div>
-                //         <div class="wsus__chat_single_text">
-                //             <p>${messageData}</p>
-                //             <span>${formatDateTime(new Date().toISOString())}</span>
-                //         </div>
-                //     </div>`
+                let message = `                                              
+                    <div class="wsus__chat_single single_chat_2">
+                        <div class="wsus__chat_single_img">
+                            <img src="${USER.image}"
+                                alt="user" class="img-fluid">
+                        </div>
+                        <div class="wsus__chat_single_text">
+                            <p>${messageData}</p>
+                            <span>${formatDateTime(new Date().toISOString())}</span>
+                        </div>
+                    </div>`
 
-                // mainChatInbox.append(message);
-                // scrollToButton();
+                mainChatInbox.append(message);
+                $('.message-box').val('');  
+                scrollToButton();
 
 
 
@@ -267,8 +280,6 @@
                     success: function(response) {
 
                         if (response.status == 'success') {
-                            $('.message-box').val('');
-                            
                             
                         }else if (response.status == 'error') {
                             toastr.error(response.message);
@@ -285,20 +296,21 @@
                     complete: function() {
 
                         // Send message in conversion 
-                        let message = `                                              
-                            <div class="wsus__chat_single single_chat_2">
-                                <div class="wsus__chat_single_img">
-                                    <img src="${USER.image}"
-                                        alt="user" class="img-fluid">
-                                </div>
-                                <div class="wsus__chat_single_text">
-                                    <p>${messageData}</p>
-                                    <span>${formatDateTime(new Date().toISOString())}</span>
-                                </div>
-                            </div>`
+                        // let message = `                                              
+                        //     <div class="wsus__chat_single single_chat_2">
+                        //         <div class="wsus__chat_single_img">
+                        //             <img src="${USER.image}"
+                        //                 alt="user" class="img-fluid">
+                        //         </div>
+                        //         <div class="wsus__chat_single_text">
+                        //             <p>${messageData}</p>
+                        //             <span>${formatDateTime(new Date().toISOString())}</span>
+                        //         </div>
+                        //     </div>`
 
-                        mainChatInbox.append(message);
-                        scrollToButton();
+                        // mainChatInbox.append(message);
+                        // $('.message-box').val('');  
+                        // scrollToButton();
 
 
                         $('.send-message-button').prop('disabled', false);

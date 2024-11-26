@@ -49,6 +49,8 @@
 //?? also about send money to vendor depend on his currency (search about it )
 
 
+// kima drna ta3 messanger when we send a message we add class to circle profile when we click to profile we remove the class from the circle profile  
+
 ############ issue solve it 
 //++ image size need to fix it  [done] 
 //++ zid l3fsa tae session fl register wl login ki tkon example fl login wdir reload tg3ad fl login mtdigch ll register [done]

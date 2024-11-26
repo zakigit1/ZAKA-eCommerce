@@ -26,16 +26,27 @@ window.Echo.private('message.'+ USER.id).listen(
         console.log(e);
         let mainChatInbox = $('.chat-content');
 
-        let message = `                                              
-            <div class="chat-item chat-left" style="">
-                <img src="${e.sender_image}" style="height: 50px;object-fit: cover">
-                <div class="chat-details">
-                    <div class="chat-text">${e.message}</div>
-                    <div class="chat-time">${formatDateTime(e.data_time)}</div>
-                </div>
-            </div>`
-
+        if(mainChatInbox.attr('data-inbox') == e.sender_id){
+            var message = `                                              
+                <div class="chat-item chat-left" style="">
+                    <img src="${e.sender_image}" style="height: 50px;object-fit: cover">
+                    <div class="chat-details">
+                        <div class="chat-text">${e.message}</div>
+                        <div class="chat-time">${formatDateTime(e.data_time)}</div>
+                    </div>
+                </div>`
+        }
         mainChatInbox.append(message);
         scrollToButton();
+
+        // add notification circle in profile picture :
+        $('.conversion-messages').each(function(index,value){
+        
+            let profileUserId = $(this).data('id');
+            
+            if(profileUserId == e.sender_id){
+                $(this).find('img').addClass('msg-notification');
+            }
+        });
     }
 )

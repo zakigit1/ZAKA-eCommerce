@@ -122,6 +122,8 @@ class UserMessageController extends Controller
                 ->whereIn('sender_id', [$receiverId, $senderId])
                 ->orderBy('created_at', 'asc')
                 ->get();
+
+            Chat::where(['sender_id' => $receiverId , 'receiver_id' => $senderId])->update(['seen' => 1]);
     
             return response()->json(['status' => 'success','conversion' => $messages]);
         }catch(\Exception $e){

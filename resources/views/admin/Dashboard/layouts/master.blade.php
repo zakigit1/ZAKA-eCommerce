@@ -77,7 +77,7 @@
       image: "{{auth()->user()->image}}",
     }
   </script>
-
+    {{-- ! Note if  you get 500 server error comment @vite line because you need to run the 'npm run dev' command  --}}
     {{-- Pusher (realtime) --}}
     @vite(['resources/js/app.js','resources/js/admin.js'])
 </head>

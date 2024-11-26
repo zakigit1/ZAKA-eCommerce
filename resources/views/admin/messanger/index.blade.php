@@ -27,9 +27,17 @@
                             <ul class="list-unstyled list-unstyled-border">
                                 @if (isset($clientsInfo) && count($clientsInfo) > 0)
                                     @foreach ($clientsInfo as $clientInfo)
+                                        @php
+                                            $unseenMessage =App\Models\Chat::where([
+                                                    'sender_id' => $clientInfo->senderProfile->id ,
+                                                    'receiver_id' => auth()->user()->id ,
+                                                    'seen' => 0])
+                                                ->exists();
+                                        @endphp
+                                        
                                         <li class="media conversion-messages"
                                             data-id="{{ $clientInfo->senderProfile->id }}">
-                                            <img alt="image" class="mr-3 rounded-circle" width="50"
+                                            <img alt="image" class="mr-3 rounded-circle {{($unseenMessage) ? 'msg-notification' : ''}}" width="50"
                                                 src="{{ $clientInfo->senderProfile->image }}">
                                             <div class="media-body">
                                                 <div class="mt-0 mb-1 font-weight-bold chat-receiver-name">
@@ -48,10 +56,10 @@
                 <div class="col-md-9">
                     <div class="card chat-box" id="mychatbox" style="height: 70vh">
                         <div class="card-header">
-                            <h4 id="receiver-name">Chat with Rizal</h4>
+                            <h4 id="receiver-name"></h4>
                         </div>
 
-                        <div class="card-body chat-content">
+                        <div class="card-body chat-content" data-inbox="">
 
                             {{-- Vendor messages : --}}       
                             {{-- <div class="chat-item chat-left" style=""> 
@@ -72,7 +80,8 @@
                             </div> --}}
 
                         </div>
-
+                        
+                        
                         <div class="card-footer chat-form">
                             <form id="conversion-message-form">
                                 @csrf
@@ -126,7 +135,10 @@
                 let receiverId = $(this).data('id');
                 let receiverName = $(this).find('.chat-receiver-name').text();//Client Name
                 let receiverImage = $(this).find('img').attr('src');//Client image
+                mainChatInbox.attr('data-inbox', receiverId);
 
+                //remove circul notification when click to chat 
+                $(this).find('img').removeClass('msg-notification');
                 // console.log(receiverName);
 
                 // Set the receiver_id in the value of the input hidden field.
@@ -210,17 +222,18 @@
                 }
 
                 // send message in conversion 
-                // let message = `                                              
-                //     <div class="chat-item chat-right" style="">
-                //          <img src="${USER.image}" style="height: 50px;object-fit: cover">
-                //          <div class="chat-details">
-                //                 <div class="chat-text">${messageData}</div>
-                //                 <div class="chat-time">${formatDateTime(new Date().toISOString())}</div>
-                //         </div>
-                //     </div> `
+                let message = `                                              
+                    <div class="chat-item chat-right" style="">
+                         <img src="${USER.image}" style="height: 50px;object-fit: cover">
+                         <div class="chat-details">
+                                <div class="chat-text">${messageData}</div>
+                                <div class="chat-time">${formatDateTime(new Date().toISOString())}</div>
+                        </div>
+                    </div> `
                     
-                // mainChatInbox.append(message);
-                // scrollToButton();
+                mainChatInbox.append(message);
+                $('.message-box').val('');
+                scrollToButton();
                 
                 $.ajax({
                     method: 'POST',
@@ -233,9 +246,7 @@
                     success: function(response) {
 
                         if (response.status == 'success') {
-                            $('.message-box').val('');
-                            
-                            
+
                         }else if (response.status == 'error') {
                             toastr.error(response.message);
                         }
@@ -251,17 +262,18 @@
                     complete: function() {
 
                         // send message in conversion 
-                        let message = `                                              
-                            <div class="chat-item chat-right" style="">
-                                <img src="${USER.image}" style="height: 50px;object-fit: cover">
-                                <div class="chat-details">
-                                        <div class="chat-text">${messageData}</div>
-                                        <div class="chat-time">${formatDateTime(new Date().toISOString())}</div>
-                                </div>
-                            </div> `
+                        // let message = `                                              
+                        //     <div class="chat-item chat-right" style="">
+                        //         <img src="${USER.image}" style="height: 50px;object-fit: cover">
+                        //         <div class="chat-details">
+                        //                 <div class="chat-text">${messageData}</div>
+                        //                 <div class="chat-time">${formatDateTime(new Date().toISOString())}</div>
+                        //         </div>
+                        //     </div> `
                     
-                        mainChatInbox.append(message);
-                        scrollToButton();
+                        // mainChatInbox.append(message);
+                        // $('.message-box').val('');
+                        // scrollToButton();
 
                         $('.send-message-button').prop('disabled', false);
                         formSubmitting = false;
