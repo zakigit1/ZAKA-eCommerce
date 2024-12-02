@@ -2,6 +2,19 @@
 
 @section('title', "$settings->site_name || Product Details")
 
+@section('metas')
+    <meta name="title" content="{{$product->seo_title}}" />
+    <meta name="description" content="{{$product->seo_description}}" />
+
+    <meta property="og:title" content="{{$product->seo_title}}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="{{url()->current()}}"/>
+    <meta property="og:image" content="{{$product->thumb_image}}"/>
+@endsection
+
+
+
+
 @section('content')
 
 
@@ -774,6 +787,15 @@
 
                         if (response.status == 'success') {
                             $('.message-box').val('');
+
+                            $('.modal-body').append(`
+                                <div class="alert alert-success mt-2">
+                                    <a href="{{route('user.messager.index')}}" class="text-primary">
+                                        Click here
+                                    </a> 
+                                    fo go to messanger
+                                </div>`);
+
                             toastr.success(response.message);
                             // $('#exampleModal').modal('hide');// if you want to hide the model after sending the message ...
                         }else if (response.status == 'error') {

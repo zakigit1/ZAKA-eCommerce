@@ -82,6 +82,7 @@ class SettingController extends Controller
     {
 
         $request->validate([
+            'name'=>'required|string|max:100',
             'email'=>'required|email|max:200',
             'host'=>'required|max:200',
             'username'=>'required|max:200',
@@ -95,6 +96,7 @@ class SettingController extends Controller
             $emailConfig = EmailConfiguration::updateOrCreate(
                 ['id'=> 1],
                 [
+                    'name'=>$request->name,
                     'email'=>$request->email,
                     'host'=>$request->host,
                     'username'=>$request->username,

@@ -58,10 +58,16 @@
 
     {{-- Grap user (Vendor) information :  --}}
     <script>
+      // Vendor Information
       const USER ={
         id: "{{auth()->user()->id}}",
         name: "{{auth()->user()->name}}",
         image: "{{auth()->user()->image}}",
+      }
+      // Pusher Information
+      const PUSHER = {
+        key: "{{ $pusherConfig->pusher_key }}",
+        cluster : "{{ $pusherConfig->pusher_cluster }}"
       }
     </script>
 

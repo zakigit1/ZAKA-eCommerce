@@ -11,6 +11,7 @@ class EmailConfiguration extends Model
 
 
     protected $fillable = [
+        'name',
         'email',
         'host',
         'username',

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('email_configurations', function (Blueprint $table) {
             $table->id();
 
+            $table->string('name',100);
             $table->string('email');
             $table->string('host');
             $table->string('username');

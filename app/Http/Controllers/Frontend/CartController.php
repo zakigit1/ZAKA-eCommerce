@@ -287,7 +287,7 @@ class CartController extends Controller
                 $currency_icon = GeneralSetting::first()->currency_icon;
                 $discountType = $currency_icon.$coupon->discount;
                 $discount = $coupon->discount;
-                $total = $subTotal - $discount;
+                $total = max(0,$subTotal - $discount);// the max function for secure if the coupon is great than the price of the product .
 
                 return response()->json(['status'=>'success','discount'=>$discount ,'total'=>$total,'discountType'=>$discountType]);
 
@@ -296,7 +296,7 @@ class CartController extends Controller
                 $discountType = $coupon->discount.'%'; //this is from DB
                 // $discountType = $couponSession['discount_percentage'].'%'; // this is from the session
 
-                $discount = $subTotal - (($subTotal * $coupon->discount) / 100);
+                $discount = (($subTotal * $coupon->discount) / 100);
                 $total = round($subTotal - $discount , 2) ; // return two number after the cuma .
 
                 return response()->json(['status'=>'success','discount'=>$discount ,'total'=>$total,'discountType'=>$discountType]);

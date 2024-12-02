@@ -71,11 +71,20 @@
 
   {{-- Grap user (Admin) information :  --}}
   <script>
-    const USER ={
+
+    // Admin Information
+    const USER = {
       id: "{{auth()->user()->id}}",
       name: "{{auth()->user()->name}}",
       image: "{{auth()->user()->image}}",
     }
+
+    // Pusher Information
+    const PUSHER = {
+      key: "{{ $pusherConfig->pusher_key }}",
+      cluster : "{{ $pusherConfig->pusher_cluster }}"
+    }
+
   </script>
     {{-- ! Note if  you get 500 server error comment @vite line because you need to run the 'npm run dev' command  --}}
     {{-- Pusher (realtime) --}}

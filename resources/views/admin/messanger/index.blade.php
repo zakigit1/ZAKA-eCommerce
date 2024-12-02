@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="col-md-9">
-                    <div class="card chat-box" id="mychatbox" style="height: 70vh">
+                    <div class="card chat-box d-none" id="mychatbox" style="height: 70vh">
                         <div class="card-header">
                             <h4 id="receiver-name"></h4>
                         </div>
@@ -135,6 +135,7 @@
                 let receiverId = $(this).data('id');
                 let receiverName = $(this).find('.chat-receiver-name').text();//Client Name
                 let receiverImage = $(this).find('img').attr('src');//Client image
+                $('.chat-box').removeClass('d-none');
                 mainChatInbox.attr('data-inbox', receiverId);
 
                 //remove circul notification when click to chat 

@@ -11,6 +11,11 @@
             @method('PUT')
 
             <div class="form-group">
+                <label >Name</label>
+                <input type="text" name="name" class="form-control"  placeholder="Name" value="{{@$emailConfig->name}}">
+            </div>
+
+            <div class="form-group">
                 <label >Email</label>
                 <input type="text" name="email" class="form-control"  placeholder="Email" value="{{@$emailConfig->email}}">
             </div>

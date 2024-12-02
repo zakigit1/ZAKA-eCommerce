@@ -148,7 +148,7 @@ use Illuminate\Support\Str;
 
             }elseif($coupon->discount_type == 'percent'){
 
-                $discount = $subTotal - (($subTotal * $coupon->discount) / 100);
+                $discount =  (($subTotal * $coupon->discount) / 100);
                 $total = $subTotal - $discount;
 
                 return $total;
@@ -175,8 +175,7 @@ use Illuminate\Support\Str;
                     return $discount;
 
                 }elseif($coupon->discount_type == 'percent'){
-
-                    $discount = $subTotal - (($subTotal * $coupon->discount) / 100);
+                    $discount = (($subTotal * $coupon->discount) / 100);
                     return $discount;
                 }
             }else{

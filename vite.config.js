@@ -7,6 +7,10 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
+                'resources/js/admin.js',
+                // user.js & vendor.js are the same 
+                'resources/js/user.js',
+                'resources/js/vendor.js',
             ],
             refresh: true,
         }),
