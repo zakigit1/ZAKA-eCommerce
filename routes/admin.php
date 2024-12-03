@@ -57,8 +57,9 @@ use App\Http\Controllers\Backend\Admin\Withdraw\WithdrawMethodController;
     and access it
 */
 
+// Route::get('login',[AdminController::class,'login'])->middleware('guest:admin')->name('login.page');
 Route::get('login',[AdminController::class,'login'])->middleware('guest')->name('login.page');
-// Route::post('login',[AdminController::class,'loginCheck'])->name('login.check');
+Route::post('login',[AdminController::class,'loginCheck'])->name('login.check');
 
 
 Route::group(['middleware'=>['auth:web','role:admin'],],function(){

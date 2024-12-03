@@ -199,6 +199,8 @@
             
             let productId = $(this).data('id');
 
+       
+
             if (!isAuthenticated) {
                 toastr.warning("You need to login to add this product to your wishlist");
                 return;

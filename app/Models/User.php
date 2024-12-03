@@ -43,9 +43,6 @@ class User extends Authenticatable
 
 
 
-
-
-
     public function getImageAttribute($value){
 
         /* 
@@ -63,8 +60,10 @@ class User extends Authenticatable
             - in the blog comment when you enter with the admin role account the user image not display 
         */
         //! i need to modify this code  i can delete the role (nrad folder fi ga3 images users myhamech roles)
-        $role = auth()->user()->role ?? 'user';
-        return ($value !== NULL) ? asset( 'storage/Uploads/images/profiles/'.$role.'/'.$value) : " ";
+        // $role = auth()->user()->role ?? 'user';
+        // return ($value !== NULL) ? asset( 'storage/Uploads/images/profiles/'.$role.'/'.$value) : " ";
+        
+        return ($value !== NULL) ? asset( 'storage/Uploads/images/profiles/'.$value) : " ";
   
     }
 

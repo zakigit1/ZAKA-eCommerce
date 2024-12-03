@@ -1,8 +1,8 @@
 // tani ta3 ajax khas ttsagad ki tkon cart details empty tdik ll home bsah problem mt9dch dir add to ccart hata dir refresh ll page
-// khas tsagad problem ta3 images ta3 user ngl3a hadi role wndir hom ga3 folder user wahd 
-// chang main function to queue in subscriber controller .
+// khas tsagad problem ta3 images ta3 user ngl3a hadi role wndir hom ga3 folder user wahd  [done!]
+// chang mail function to queue in subscriber controller .
 // fix icons in dashboards (is not a issue just choose icons)
-// khas nkhli ll admin & vendor a userDashboard 
+// khas nkhli ll admin & vendor a userDashboard [ done!]
 // dir session ll payment settings
 // when i visit admin/ is give me 404 page i need to fix the redirect route
 // increment & decrement from the stock 
@@ -42,6 +42,10 @@
 // you need to fix table transaction.
 
 // i need to change this package : Package yoeunes/toastr is abandoned, you should avoid using it. Use php-flasher/flasher-toastr-laravel instead.
+
+// in the checkout when example didnt add shipping rule it give me error and after try to checkout it still loading i need to refresh the page and after work 
+
+
 
 ############ issue search about it 
 //?? search about who is better make the validation in seprater folder from the controller or in the controller ? [ is better to do it in seperater folder]

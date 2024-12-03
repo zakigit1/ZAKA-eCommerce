@@ -35,9 +35,11 @@
                                                 ->exists();
                                         @endphp
                                         
-                                        <li class="media conversion-messages"
+                                        
+                                        <li class="media conversion-messages" 
                                             data-id="{{ $clientInfo->senderProfile->id }}">
-                                            <img alt="image" class="mr-3 rounded-circle {{($unseenMessage) ? 'msg-notification' : ''}}" width="50"
+                                            <img alt="image" style="height: 40px;object-fit: cover " 
+                                            class="mr-3 rounded-circle {{($unseenMessage) ? 'msg-notification' : ''}}" width="50"
                                                 src="{{ $clientInfo->senderProfile->image }}">
                                             <div class="media-body">
                                                 <div class="mt-0 mb-1 font-weight-bold chat-receiver-name">

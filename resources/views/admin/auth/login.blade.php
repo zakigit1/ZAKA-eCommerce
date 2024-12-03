@@ -49,8 +49,8 @@
 
               <div class="card-body">
 
-                {{-- <form method="POST" action="{{route('login.check')}}" class="needs-validation" novalidate=""> --}}
-                <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate="">
+                <form method="POST" action="{{route('admin.login.check')}}" class="needs-validation" novalidate="">
+                {{-- <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate=""> --}}
                   @csrf
 
                   <!-- Email Address -->

@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
@@ -40,18 +41,21 @@ class AuthenticatedSessionController extends Controller
             return redirect('/');
         }
 
-        if($request->user()->role ==='admin'){
+        
 
-            ## The same methods
-            // return redirect()->route('admin.dashboard');
-            return redirect()->intended(RouteServiceProvider::HOME_ADMIN);
 
-        }elseif($request->user()->role ==='vendor'){
+        // if($request->user()->role ==='admin'){
 
-            // return redirect()->route('vendor.dashboard');
-            return redirect()->intended(RouteServiceProvider::HOME_VENDOR);
+        //     ## The same methods
+        //     // return redirect()->route('admin.dashboard');
+        //     return redirect()->intended(RouteServiceProvider::HOME_ADMIN);
 
-        }
+        // }elseif($request->user()->role ==='vendor'){
+
+        //     // return redirect()->route('vendor.dashboard');
+        //     return redirect()->intended(RouteServiceProvider::HOME_VENDOR);
+
+        // }
         
         ## For user
         return redirect()->intended(RouteServiceProvider::HOME);

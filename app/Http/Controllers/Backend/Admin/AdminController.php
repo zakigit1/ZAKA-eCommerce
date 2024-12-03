@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
+
 
 use App\Models\Brand;
 use App\Models\Blog;
@@ -19,10 +19,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\File;
+// use Illuminate\Support\Facades\File;
+use App\Http\Requests\Auth\LoginRequest;
 
 class AdminController extends Controller
 {
+
+    private const FOLDER_PATH ='/Uploads/images/';
+    private const FOLDER_NAME ='profiles';
+
+
+
     /**
      * Display a listing of the resource.
      */
@@ -101,6 +108,34 @@ class AdminController extends Controller
     }
 
 
+    public function loginCheck(LoginRequest $request){
+
+        $request->authenticate();
+
+        $request->session()->regenerate();
+
+        // if the user or vendor has been banned form the website (status is inactive)
+        if($request->user()->status == 'inactive'){
+
+            Auth::guard('web')->logout();
+            $request->session()->regenerateToken();
+
+            toastr('Account Has Been Banned From Website. Please Contact The Support !','error','Account Banned!');
+            return redirect('/');
+        }
+
+        if($request->user()->role ==='admin'){
+            ## The same methods
+            return redirect()->route('admin.dashboard');
+        }
+        
+        Auth::guard('web')->logout();
+        $request->session()->regenerateToken();
+        toastr('You are not authorized to access this page','error');
+        return redirect('/');
+    }
+
+
     public function profile(){
 
 
@@ -128,15 +163,16 @@ class AdminController extends Controller
             deleteImage($old_image);
             
             // store the new image in storage folder
-            // $imageName= uploadImageNew($request->image,'/Uploads/images/profiles');
-            $imageName= uploadImageNew($request->image,'/Uploads/images/profiles/',$role);
+            
+            // $imageName= uploadImageNew($request->image,'/Uploads/images/profiles/',$role);
+            $imageName= uploadImageNew($request->image,self::FOLDER_PATH,self::FOLDER_NAME);
 
             ## Save Image In To DataBase : 
-            $user->image=$imageName;
+            $user->image = $imageName;
         }
 
-        $user->name=$request->name;
-        $user->email=$request->email;
+        $user->name = $request->name;
+        $user->email = $request->email;
        
         $user->save();
 

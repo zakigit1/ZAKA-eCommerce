@@ -9,15 +9,25 @@
 
       <li><a class="bg-success"  href="{{route('user.dashboard')}}"><i class="fas fa-house-day"></i>Dashboard</a></li>
 
-      <li><a class="{{ setActive(['user.profile.*'])}}" href="{{route('user.profile.index')}}"><i class="fas fa-user-cog"></i> My Profile</a></li>
+      @if (auth()->user()->role === 'admin')
+        <li><a class="{{ setActive(['admin.dashboard']) }}" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer"></i>Go To Admin Dashboard</a></li>
+      @endif
+      @if (auth()->user()->role === 'vendor')
+        <li><a class="{{ setActive(['vendor.dashboard']) }}" href="{{ route('vendor.dashboard') }}"><i class="fas fa-tachometer"></i>Go To Vendor Dashboard</a></li>
+      @endif
+
+      @if(auth()->user()->role === 'user')
+        <li><a class="{{ setActive(['user.profile.*'])}}" href="{{route('user.profile.index')}}"><i class="fas fa-user-cog"></i> My Profile</a></li>
+      @endif
 
       <li><a class="{{ setActive(['user.address.*'])}}" href="{{route('user.address.index')}}"><i class="fas fa-map-marker-alt"></i> Addresses</a></li>
 
       <li><a class="{{ setActive(['user.order.*'])}}" href="{{route('user.order.index')}}"><i class="fas fa-mail-bulk"></i>Orders</a></li>
         
       <li><a class="{{ setActive(['user.product-review.index'])}}" href="{{route('user.product-review.index')}}"><i class="far fa-star"></i>Product Reviews</a></li>
-      
-      @if(auth()->user()->role != 'vendor') {{-- You can add new condition for check if this vendor have bought any product from our website --}}
+
+
+      @if(auth()->user()->role !== 'admin' && !auth()->user()->vendor) {{-- You can add new condition for check if this vendor have bought any product from our website --}}
         <li><a class="{{ setActive(['user.vendor-request.index'])}}" href="{{route('user.vendor-request.index')}}"><i class="fas fa-user-plus"></i> Vendor Request</a></li>
       @endif
 

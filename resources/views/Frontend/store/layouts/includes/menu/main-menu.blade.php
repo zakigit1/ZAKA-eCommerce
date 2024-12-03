@@ -162,7 +162,8 @@
                        
                             @auth
                                 {{-- it mean (admin.dashboard Or user.dashboard Or vendor.dashboard) --}}
-                                <li><a href="{{route(auth()->user()->role.'.dashboard')}}">My Account</a></li>
+                                {{-- <li><a href="{{route(auth()->user()->role.'.dashboard')}}">My Account</a></li> --}}
+                                <li><a href="{{route('user.dashboard')}}">My Account</a></li>
                                 
                             @else
                                 {{-- <li><a href="{{route('login')}}">Login</a></li> --}}

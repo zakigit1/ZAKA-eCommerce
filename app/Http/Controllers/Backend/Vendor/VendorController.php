@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Hash;
 
 class VendorController extends Controller
 {
+    private const FOLDER_PATH ='/Uploads/images/';
+    private const FOLDER_NAME ='profiles';
     /**
      * Display a listing of the resource.
      */
@@ -130,9 +132,9 @@ class VendorController extends Controller
             deleteImage($old_image);
             
             // store the new image in storage folder
-            // $imageName= uploadImageNew($request->image,'/Uploads/images/profiles');
-            $imageName= uploadImageNew($request->image,'/Uploads/images/profiles/',$role);
-
+            
+            // $imageName= uploadImageNew($request->image,'/Uploads/images/profiles/',$role);
+            $imageName= uploadImageNew($request->image,self::FOLDER_PATH,self::FOLDER_NAME);
             ## Save Image In To DataBase : 
             $user->image=$imageName;
         }

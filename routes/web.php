@@ -43,8 +43,7 @@ require __DIR__.'/auth.php';
 // Main Page Of Store : 
 Route::get('/', [HomeController::class,'index'])->name('home');
 
-
-Route::group(['middleware'=>['auth','verified','role:user'],'prefix'=>'user','as'=>'user.'],function(){
+Route::group(['middleware' =>['auth', 'verified'], 'prefix' => 'user', 'as' => 'user.'], function(){
     
     Route::get('/dashboard', [UserDashboard::class , 'index'])->name('dashboard');
     Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');

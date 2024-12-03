@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Hash;
 
 class UserProfileController extends Controller
 {
+
+    private const FOLDER_PATH ='/Uploads/images/';
+    private const FOLDER_NAME ='profiles';
+
+
     public function index(){
 
         return view('frontend.user.Dashboard.profile');
@@ -35,15 +40,17 @@ class UserProfileController extends Controller
             deleteImage($old_image);
             
             // store the new image in storage folder
-            // $imageName= uploadImageNew($request->image,'/Uploads/images/profiles');
-            $imageName= uploadImageNew($request->image,'/Uploads/images/profiles/',$role);
+
+            // $imageName= uploadImageNew($request->image,'/Uploads/images/profiles/',$role);
+
+            $imageName= uploadImageNew($request->image,self::FOLDER_PATH,self::FOLDER_NAME);
 
             ## Save Image In To DataBase : 
-            $user->image=$imageName;
+            $user->image = $imageName;
         }
 
-        $user->name=$request->name;
-        $user->email=$request->email;
+        $user->name = $request->name;
+        $user->email = $request->email;
     
         $user->save();
 
