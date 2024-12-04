@@ -269,6 +269,9 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
         /** Update Or Create cod Settings :( if Razorpay settings is not created yet we created else we update cod settings)  */
         Route::put('/cod-settings',[CODSettingController::class,'UpdateCODSettings'])->name('cod-setting');
         ############################## Razorpay Settings gateway  End  #################################
+
+        Route::get('list-view',[PaymentSettingController::class , 'changeViewList'])->name('view-list');
+        
     });
 
     ############################## Payment  End  ###################################

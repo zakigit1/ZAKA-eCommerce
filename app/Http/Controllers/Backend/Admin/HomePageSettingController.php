@@ -243,7 +243,8 @@ class HomePageSettingController extends Controller
 
     
 
-    public function changeViewList(Request $request){
+    public function changeViewList(Request $request): void
+    {
         Session::put('home_page_settings_view_list',$request->style);
     }
 

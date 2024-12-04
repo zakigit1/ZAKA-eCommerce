@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class BlogController extends Controller
 {
@@ -39,28 +40,43 @@ class BlogController extends Controller
         return view('admin.blog.create',compact('blogCategories'));
     }
 
+    // public function create()
+    // {   
+    //     $blogCategories = BlogCategory::where('status', 1)->get(['id', 'name']);
+
+    //     if ($blogCategories->isEmpty()) {
+    //         toastr()->warning('No active blog categories found. Please create a category first.', 'Warning');
+    //         return redirect()->route('admin.blog-category.index');
+    //     }
+
+    //     return view('admin.blog.create', compact('blogCategories'));
+    // }
+
+
+
+
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'image' => 'required|image|max:3000',
-            'title' => 'required|max:200|unique:blogs,title',
-            'blog_category' => 'required',
-            'description' => 'required',
-            'seo_title'=>'nullable|max:200',
-            'seo_description'=>'nullable|max:250',
-            'status' => 'required',
-        ]);
-
-        // dd($request->all());
-
         try{
+            $request->validate([
+                'image' => 'required|image|max:3000',
+                'title' => 'required|max:200|unique:blogs,title',
+                'blog_category' => 'required',
+                'description' => 'required',
+                'seo_title'=>'nullable|max:200',
+                'seo_description'=>'nullable|max:250',
+                'status' => 'required',
+            ]);
+    
+            // dd($request->all());
 
             $imageName = $this->uploadImage_Trait($request,'image',self::FOLDER_PATH,BlogController::FOLDER_NAME);
 
-            $blog= Blog::create([
+            $blog = Blog::create([
                 'image' => $imageName,
                 'title' => $request->title,
                 'slug' => Str::slug($request->title),
@@ -74,14 +90,14 @@ class BlogController extends Controller
                 'status' => $request->status,
             ]);
 
-            
             toastr('Blog has been created successfully','success');
-
             return to_route('admin.blog.index');
-        }catch(\Exception $ex){
 
-            // toastr($ex->getMessage(),'error');
-            toastr('Blog has not been created successfully','error');
+        } catch (ValidationException $e) {
+            toastr($e->getMessage(),'error','Error');
+            return redirect()->back();
+        } catch (\Exception $ex) {
+            toastr($ex->getMessage(),'error');
             return to_route('admin.blog.index');
         }
 
@@ -109,21 +125,19 @@ class BlogController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        $request->validate([
-            'image' => 'image|max:3000',
-            'title' => 'required|max:200|unique:blogs,title,'.$id,
-            'blog_category' => 'required',
-            'description' => 'required',
-            'seo_title'=>'nullable|max:200',
-            'seo_description'=>'nullable|max:250',
-            'status' => 'required',
-        ]);
-
-        // dd($request->all());
-
+    {   
         try{
-
+            $request->validate([
+                'image' => 'image|max:3000',
+                'title' => 'required|max:200|unique:blogs,title,'.$id,
+                'blog_category' => 'required',
+                'description' => 'required',
+                'seo_title'=>'nullable|max:200',
+                'seo_description'=>'nullable|max:250',
+                'status' => 'required',
+            ]);
+    
+        
             DB::beginTransaction();
 
             $blog = Blog::find($id);
@@ -167,13 +181,23 @@ class BlogController extends Controller
 
             return to_route('admin.blog.index');
             // return redirect()->back();
-        }catch(\Exception $ex){
+
+        } catch (ValidationException $e) {
 
             DB::rollback();
-            // toastr($ex->getMessage(),'error');
-            toastr('Blog has not been updated successfully','error');
+            toastr($e->getMessage(),'error','Error');
+            return to_route('admin.blog.index');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+            toastr($ex->getMessage(),'error');
+            // toastr('Blog has not been updated successfully','error');
             return to_route('admin.blog.index');
         }
+
+
+
     }
 
     /**
@@ -204,8 +228,8 @@ class BlogController extends Controller
             // we are using ajax : 
             return response(['status'=>'success','message'=>"$blog_title Blog Deleted Successfully !"]);
         }catch(\Exception $e){
-            // return response(['status'=>'error','message'=>$e->getMessage() ]);
-            return response(['status'=>'error','message'=>'حدث خطا ما برجاء المحاوله لاحقا']);
+            return response(['status'=>'error','message'=>$e->getMessage() ]);
+            // return response(['status'=>'error','message'=>'حدث خطا ما برجاء المحاوله لاحقا']);
         }
     }
 
@@ -214,22 +238,33 @@ class BlogController extends Controller
     */
     public function change_status(Request $request)
     {
-        $blog =Blog::find($request->id);
+        try{
+            $request->validate([
+                'id' => 'required|integer|exists:blogs,id',
+                'status' => 'required|in:true,false',
+            ]);
 
-        if(!$blog){
-            toastr()->error( 'Blog is not found!');
-            return to_route('admin.blog.index');
+            $blog =Blog::find($request->id);
+
+            if(!$blog){
+                return response(['status'=>'error','message'=>'Blog is not found!']);
+            }
+
+        
+            $blog->status = $request->status == 'true' ? 1 : 0;
+            
+            $blog->save();
+
+            $status =($blog->status == 1) ? 'activated' : 'deactivated';
+
+            return response(['status'=>'success','message'=>"The Blog has been $status"]);
+
+        } catch (ValidationException $e) {
+            return response(['status'=>'error','message'=>$e->getMessage()]);
+            
+        } catch (\Exception $ex) {
+            return response(['status'=>'error','message'=>$ex->getMessage()]);
         }
-
-       
-        $blog->status = $request->status == 'true' ? 1 : 0;
-         
-        $blog->save();
-
-        $status =($blog->status == 1) ? 'activated' : 'deactivated';
-
-        return response(['status'=>'success','message'=>"The Blog has been $status"]);
-
        
     }
 }

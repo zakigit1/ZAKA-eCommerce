@@ -30,16 +30,20 @@
                               <div class="list-group" id="list-tab" role="tablist">
                                 <a class="list-group-item list-group-item-action list-view {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'general-settings' ? 'active' : ''}} 
                                     {{!session()->has('settings_view_list') ? 'active' : '' }}" 
-                                    data-id="general-settings" id="list-home-list" data-toggle="list" href="#list-home" role="tab">General Settings</a>
+                                    data-id="general-settings" 
+                                    id="list-home-list" data-toggle="list" href="#list-home" role="tab">General Settings</a>
                                 
                                 <a class="list-group-item list-group-item-action list-view {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'email-configuration' ? 'active' : ''}}" 
-                                    data-id="email-configuration" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab">Email Configuration</a>
+                                    data-id="email-configuration" 
+                                    id="list-profile-list" data-toggle="list" href="#list-profile" role="tab">Email Configuration</a>
                                 
                                     <a class="list-group-item list-group-item-action list-view {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'pusher-configuration' ? 'active' : ''}}" 
-                                    data-id="pusher-configuration" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab">Pusher Configuration</a>
+                                    data-id="pusher-configuration" 
+                                    id="list-settings-list" data-toggle="list" href="#list-settings" role="tab">Pusher Configuration</a>
                                     
                                  <a class="list-group-item list-group-item-action list-view {{session()->has('settings_view_list') && session()->get('settings_view_list') == 'logo-settings' ? 'active' : ''}}" 
-                                    data-id="logo-settings" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab">Logo & Favicon Settings</a>
+                                    data-id="logo-settings" 
+                                    id="list-messages-list" data-toggle="list" href="#list-messages" role="tab">Logo & Favicon Settings</a>
                               </div>
                             </div>
                             <div class="col-10">

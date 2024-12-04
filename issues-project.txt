@@ -3,9 +3,10 @@
 // chang mail function to queue in subscriber controller .
 // fix icons in dashboards (is not a issue just choose icons)
 // khas nkhli ll admin & vendor a userDashboard [ done!]
-// dir session ll payment settings
-// when i visit admin/ is give me 404 page i need to fix the redirect route
-// increment & decrement from the stock 
+// dir session ll payment settings [done!]
+// when i visit admin/ is give me 404 page i need to fix the redirect route [done!]
+// add admin logo or do just logo of site .
+// increment & decrement from the stock [need just to check]
 // try & catch in all the controller for better protection ..
 // issue of select the sub & child categy each time to use it in home page settigns 
 // add in the advertisement a banner for flash sale end time and also in flash sale more.
@@ -17,7 +18,6 @@
 // error of mobile menu of categories dropdown fix it .
 // color of the heart of wishlisht when he add a product to wishlist let the color be red 
 // add try and catch for all controller file for better secure .
-// add admin logo or do just logo of site .
 // i add in helper folder a funtion get the currencyIcon so go in all datatable and add it instead of calling the model each time
 // we need to add in all view isset & count & nullable signal for better safety 
         @if(isset() && count()>0)
@@ -45,7 +45,14 @@
 
 // in the checkout when example didnt add shipping rule it give me error and after try to checkout it still loading i need to refresh the page and after work 
 
+// zid fi ga3 files securite like (:redirectResponse , :responseJson) ltji hda function name .
 
+// seo title seo description ta3 blog dir kima drna fl product detial 
+
+// fix all the validation for features .
+
+// change the error message and success message of all the features 
+// there is a function create in the blogcontrller it is more secure try it after if it is better do it for all other features then
 
 ############ issue search about it 
 //?? search about who is better make the validation in seprater folder from the controller or in the controller ? [ is better to do it in seperater folder]

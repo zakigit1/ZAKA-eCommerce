@@ -8,7 +8,6 @@ use App\Models\LogoSetting;
 use App\Models\PusherConfiguration;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\View ;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\QueryException;
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FooterSocial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Validation\ValidationException;
 
 class FooterSocialController extends Controller
 {
@@ -30,17 +31,14 @@ class FooterSocialController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $this->validate($request, [
-            'icon'=> ['required','not_in:empty'],
-            'name'=> 'required|string|max:200|unique:footer_socials,name',
-            'url'=> 'required|url',
-            'status'=> 'required|boolean',
-        ]);
-
-        // dd($request->all());
-
+    {        
         try{
+            $this->validate($request, [
+                'icon'=> ['required','not_in:empty'],
+                'name'=> 'required|string|max:200|unique:footer_socials,name',
+                'url'=> 'required|url',
+                'status'=> 'required|boolean',
+            ]);
 
             $footerSocial = new FooterSocial();
     
@@ -56,12 +54,16 @@ class FooterSocialController extends Controller
 
             toastr('Footer Social created Successfully !','success','Success');
             return redirect()->route('admin.footer-socials.index');
-        }catch(\Exception $ex){
-            
-            toastr()->error('حدث خطا ما برجاء المحاوله لاحقا','Error Footer Social');
-            return redirect()->route('admin.footer-socials.index');
-        }
 
+        } catch (ValidationException $e) {
+            toastr()->error($e->getMessage(),'Error Footer Social');
+           return redirect()->route('admin.footer-socials.index');
+            
+        } catch (\Exception $ex) {
+            
+            toastr()->error($ex->getMessage(),'Error Footer Social');
+           return redirect()->route('admin.footer-socials.index');
+        }
 
     }
 
@@ -86,18 +88,15 @@ class FooterSocialController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $this->validate($request, [
-            'icon'=> ['required','not_in:empty'],
-            'name' => 'required|string|max:200|unique:footer_socials,name,'.$id,
-            'url'=> 'required|url',
-            'status'=> 'required|boolean',
-
-        ]);
-
-        // dd($request->all());
-
 
         try{
+            $this->validate($request, [
+                'icon'=> ['required','not_in:empty'],
+                'name' => 'required|string|max:200|unique:footer_socials,name,'.$id,
+                'url'=> 'required|url',
+                'status'=> 'required|boolean',
+    
+            ]);
 
             $footerSocial = FooterSocial::find($id);
     
@@ -113,8 +112,14 @@ class FooterSocialController extends Controller
             toastr('Footer Social Updated Successfully !','success','Success');
             return redirect()->route('admin.footer-socials.index');
 
-        }catch(\Exception $ex){
-            toastr()->error('حدث خطا ما برجاء المحاوله لاحقا','Error Footer Social');
+        } catch (ValidationException $e) {
+
+            toastr()->error($e->getMessage(),'Error Footer Social');
+            return redirect()->route('admin.footer-socials.index');
+            
+        } catch (\Exception $ex) {
+            
+            toastr()->error($ex->getMessage(),'Error Footer Social');
             return redirect()->route('admin.footer-socials.index');
         }
     }
@@ -132,26 +137,25 @@ class FooterSocialController extends Controller
                 return response(['status'=>'error','message'=>'Footer Social is not found!']);
             }
 
-
             $footerSocial->delete();
 
             Cache::forget('footer_socials');
             // we are using ajax : 
             return response(['status'=>'success','message'=>"Footer Social Has Been Deleted Successfully !"]);
         }catch(\Exception $e){
-            return response(['status'=>'error','message'=>'حدث خطا ما برجاء المحاوله لاحقا']);
+            return response(['status'=>'error','message'=>$e->getMessage()]);
+            // return response(['status'=>'error','message'=>'حدث خطا ما برجاء المحاوله لاحقا']);
         }
     }
 
 
     public function change_status(Request $request)
     {   
-        $request->validate([
-            'id'=>'required|exists:footer_socials,id',
-            'status' => 'required|in:true,false',
-        ]);
-
         try{
+            $request->validate([
+                'id'=>'required|exists:footer_socials,id',
+                'status' => 'required|in:true,false',
+            ]);
 
             $footerSocial =FooterSocial::find($request->id);
     
@@ -170,10 +174,11 @@ class FooterSocialController extends Controller
     
             return response(['status'=>'success','message'=>"The Footer Social  has been $status"]);
             
-        }catch(\Exception $ex){
-            return response(['status'=>'error','message'=>'حدث خطا ما برجاء المحاوله لاحقا']);
+        } catch (ValidationException $e) {
+            return response(['status'=>'error','message'=>$e->getMessage()]);
+            
+        } catch (\Exception $ex) {
+            return response(['status'=>'error','message'=>$ex->getMessage()]);
         }
-
-       
     }
 }

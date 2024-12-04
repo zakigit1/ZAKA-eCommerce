@@ -33,7 +33,8 @@ class BlogCommentController extends Controller
             return response(['status'=>'success','message'=>"Comment Has Been Deleted Successfully !"]);
 
         }catch(\Exception $e){
-            return response(['status'=>'error','message'=>'حدث خطا ما برجاء المحاوله لاحقا']);
+            return response(['status'=>'error','message'=>$e->getMessage()]);
+            // return response(['status'=>'error','message'=>'حدث خطا ما برجاء المحاوله لاحقا']);
         }
 
     }
