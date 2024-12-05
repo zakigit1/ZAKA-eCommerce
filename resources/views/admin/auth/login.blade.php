@@ -38,8 +38,8 @@
         <div class="row">
           <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
             <div class="login-brand">
-              <img src="{{asset('backend/assets/img/stisla-fill.svg')}}" alt="logo" width="100" class="shadow-light rounded-circle">
-                <h3>Admin Login</h3>
+              <img src="{{asset('static_images/stisla-fill.svg')}}" alt="logo" width="100" class="shadow-light rounded-circle">
+                <h3 class="mt-2">Admin Login</h3>
             </div>
 
             <div class="card card-primary">
@@ -85,7 +85,7 @@
 
 
                   <div class="form-group">
-                    <div class="custom-control custom-checkbox">
+                    <div class="custom-checkbox ml-4">
                       <input type="checkbox" name="remember" class="custom-control-input" tabindex="3" id="remember-me">
                       <label class="custom-control-label" for="remember-me">Remember Me</label>
                     </div>

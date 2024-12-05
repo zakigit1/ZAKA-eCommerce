@@ -27,18 +27,20 @@ class NewsletterController extends Controller
 
             if($subscriberExists->is_verified == 0){
                 // send verification link here
-
-                    $subscriberExists->verified_token = Str::random(25);
-                    $subscriberExists->save() ;
+                    
+                    // $subscriberExists->verified_token = Str::random(25);
+                    // $subscriberExists->save() ;
 
                 //mail configuration 
                     MailHelper::setMailConfig();
 
                 //send mail :
 
-                    Mail::to($subscriberExists->email)->send(new SubscriptionVerification($subscriberExists));
+                    // Mail::to($subscriberExists->email)->send(new SubscriptionVerification($subscriberExists));
+                // return response(['status' => 'success' , 'message' => 'We have resent the verification link to your email, please check it']);
 
-                return response(['status' => 'success' , 'message' => 'We have resent the verification link to your email, please check it']);
+                
+                return response(['status' => 'success' , 'message' => 'Please check your email, We are already sending a verification link']);
 
             }elseif($subscriberExists->is_verified == 1){
                 return response(['status'=>'error' ,'message'=>'You Already Subscriber With This Email !']);
