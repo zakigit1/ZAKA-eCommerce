@@ -10,7 +10,8 @@ use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Nette\Schema\Helpers;
+use Illuminate\Support\Str;
+
 
 class ManageUserController extends Controller
 {
@@ -28,13 +29,7 @@ class ManageUserController extends Controller
             'role' => 'required'
         ]);
 
-
-        // dd($request->all());
-
-
         try{   
-
-
             DB::beginTransaction();
 
             $user = User::create([
@@ -42,10 +37,11 @@ class ManageUserController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
                 'role' => $request->role,
-                'status' => 'active'
+                'status' => 'active',
+                'email_verified_at' => now(),
+                'remember_token' => Str::random(10),
             ]);
 
-            // dd($user);
             if($user->role == "vendor" || $user->role == "admin" ){
 
                 Vendor::create([

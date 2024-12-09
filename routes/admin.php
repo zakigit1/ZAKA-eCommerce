@@ -376,7 +376,9 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
 
         Route::put('/productpage-banner',[AdvertisementController::class ,'productpageBanner'])->name('productpage-banner');
         Route::put('/cartpage-banner',[AdvertisementController::class ,'cartpageBanner'])->name('cartpage-banner');
-
+        
+        Route::put('/homepage-banner-flash-sale-end-date',[AdvertisementController::class ,'homepageBannerFlashSaleEndDate'])->name('homepage-banner-flash-sale-end-date');
+        Route::put('/flash-sale-see-more-banner',[AdvertisementController::class ,'flashSaleSeeMoreBanner'])->name('flash-sale-see-more-banner');
 
         Route::get('/list-view',[AdvertisementController::class , 'changeViewList'])->name('view-list');
     });

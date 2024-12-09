@@ -16,10 +16,6 @@ class AdminListController extends Controller
         
     }
 
-
-
-    
-
     public function change_status(Request $request)
     {
 

@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Advertisement;
 use App\Models\FlashSale;
 use App\Models\FlashSaleItem;
-use App\Models\ProductReview;
-use Illuminate\Http\Request;
 
 class FlashSaleController extends Controller
 {
@@ -20,7 +19,10 @@ class FlashSaleController extends Controller
 
         //? this is the optimize method
         $flashSaleItemProductId = FlashSaleItem::active()->orderBy('id','asc')->pluck('product_id')->toArray();
+
+        $flashsaleseemoreBanner = Advertisement::where('key','flash_sale_see_more_banner')->first();
+        $flashsaleseemoreBanner = json_decode($flashsaleseemoreBanner?->value);
        
-        return view('Frontend.store.pages.flash-sale-see-more',compact('flashSale','flashSaleItemProductId'));
+        return view('Frontend.store.pages.flash-sale-see-more',compact('flashSale','flashSaleItemProductId','flashsaleseemoreBanner'));
     }
 }

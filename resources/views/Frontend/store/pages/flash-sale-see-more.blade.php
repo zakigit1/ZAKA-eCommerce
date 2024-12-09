@@ -32,6 +32,18 @@
     <section id="wsus__daily_deals">
         <div class="container">
             <div class="wsus__offer_details_area">
+                <div class="row">
+                    <div class="col-xl-6 col-md-6">
+                        <div class="wsus__offer_details_banner">
+                            <img src="{{asset($flashsaleseemoreBanner[0]->banner_1->banner_image_1)}}" alt="offre-img-banner1" class="img-fluid w-100">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6">
+                        <div class="wsus__offer_details_banner">
+                            <img src="{{asset($flashsaleseemoreBanner[1]->banner_2->banner_image_2)}}" alt="offre-img-banner2" class="img-fluid w-100">
+                        </div>
+                    </div>
+                </div>
                 {{-- <div class="row">
                     <div class="col-xl-6 col-md-6">
                         <div class="wsus__offer_details_banner">

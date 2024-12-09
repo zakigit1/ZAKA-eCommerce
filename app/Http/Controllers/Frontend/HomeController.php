@@ -85,6 +85,14 @@ class HomeController extends Controller
         $data['homepageBannerSectionFour'] = Advertisement::where('key','homepage_banner_section_four')->first();
         $data['homepageBannerSectionFour'] = json_decode($data['homepageBannerSectionFour']?->value);
 
+        /** Flash Sale End Date Banner */
+        $data['homepageBannerFlashSaleEndDate'] = Advertisement::where('key','homepage_banner_flash_sale_end_date')->first();
+        $data['homepageBannerFlashSaleEndDate'] = json_decode($data['homepageBannerFlashSaleEndDate']?->value);
+
+
+
+
+
         /** Blogs */
         $data['blogs'] = Blog::with('blogcategory')->where('status',1)->orderBy('id','DESC')->take(8)->get();
         

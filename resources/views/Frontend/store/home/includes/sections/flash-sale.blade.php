@@ -2,7 +2,11 @@
     <div class=" container">
         <div class="row">
             <div class="col-xl-12">
-                <div class="offer_time" style="background: url({{ asset('frontend/assets/images/flash_sell_bg.jpg') }})">
+                <div class="offer_time" style="background: url({{ 
+                    ($homepageBannerFlashSaleEndDate->status == 1) ? 
+                        asset($homepageBannerFlashSaleEndDate->banner_image) : 
+                        '' 
+                    }})">
                     <div class="wsus__flash_coundown">
                         <span class=" end_text">flash sale</span>
                         <div class="simply-countdown simply-countdown-one"></div>

@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Schema;
 
 
 class UserSeeder extends Seeder
@@ -13,11 +15,10 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        
-        if (DB::table('users')->count() === 0) {
-
-            DB::table('users')->insert($this->users());
-
+        if(Schema::hasTable('users')){
+            if (DB::table('users')->count() === 0) {
+                DB::table('users')->insert($this->users());
+            }
         }
     }
 
@@ -31,6 +32,9 @@ class UserSeeder extends Seeder
                 'email'=>'admin@gmail.com',
                 'role'=>'admin',
                 'password'=>bcrypt('password'),
+                // 'status' => 'active',// it have default value 'active'
+                'email_verified_at' => now(),
+                'remember_token' => Str::random(10),
             ],
             [
                 'name'=>'vendor',
@@ -38,6 +42,9 @@ class UserSeeder extends Seeder
                 'email'=>'vendor@gmail.com',
                 'role'=>'vendor',
                 'password'=>bcrypt('password'),
+                // 'status' => 'active',// it have default value 'active'
+                'email_verified_at' => now(),
+                'remember_token' => Str::random(10),
             ],
             [
                 'name'=>'user',
@@ -45,6 +52,9 @@ class UserSeeder extends Seeder
                 'email'=>'user@gmail.com',
                 'role'=>'user',
                 'password'=>bcrypt('password'),
+                // 'status' => 'active',// it have default value 'active'
+                'email_verified_at' => now(),
+                'remember_token' => Str::random(10),
             ]
         ];
     }
