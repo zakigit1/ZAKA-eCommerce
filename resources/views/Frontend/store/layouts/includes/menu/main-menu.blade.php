@@ -60,103 +60,21 @@
                     @endif
                     {{-- End Main Category --}}
 
+
                     <ul class="wsus__menu_item">
-                        <li><a class="active" href="{{route('home')}}">home</a></li>
-                        <li><a href="{{route('vendor.index')}}">Vendor</a></li>
-                        <li><a href="{{route('blog')}}">Blog</a></li>
-                        {{-- <li><a href="product_grid_view.html">shop <i class="fas fa-caret-down"></i></a>
-                            <div class="wsus__mega_menu">
-                                <div class="row">
-                                    <div class="col-xl-3 col-lg-3">
-                                        <div class="wsus__mega_menu_colum">
-                                            <h4>women</h4>
-                                            <ul class="wsis__mega_menu_item">
-                                                <li><a href="#">New Arrivals</a></li>
-                                                <li><a href="#">Best Sellers</a></li>
-                                                <li><a href="#">Trending</a></li>
-                                                <li><a href="#">Clothing</a></li>
-                                                <li><a href="#">Shoes</a></li>
-                                                <li><a href="#">Bags</a></li>
-                                                <li><a href="#">Accessories</a></li>
-                                                <li><a href="#">Jewlery & Watches</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-3 col-lg-3">
-                                        <div class="wsus__mega_menu_colum">
-                                            <h4>men</h4>
-                                            <ul class="wsis__mega_menu_item">
-                                                <li><a href="#">New Arrivals</a></li>
-                                                <li><a href="#">Best Sellers</a></li>
-                                                <li><a href="#">Trending</a></li>
-                                                <li><a href="#">Clothing</a></li>
-                                                <li><a href="#">Shoes</a></li>
-                                                <li><a href="#">Bags</a></li>
-                                                <li><a href="#">Accessories</a></li>
-                                                <li><a href="#">Jewlery & Watches</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-3 col-lg-3">
-                                        <div class="wsus__mega_menu_colum">
-                                            <h4>category</h4>
-                                            <ul class="wsis__mega_menu_item">
-                                                <li><a href="#"> Healthy & Beauty</a></li>
-                                                <li><a href="#">Gift Ideas</a></li>
-                                                <li><a href="#">Toy & Games</a></li>
-                                                <li><a href="#">Cooking</a></li>
-                                                <li><a href="#">Smart Phones</a></li>
-                                                <li><a href="#">Cameras & Photo</a></li>
-                                                <li><a href="#">Accessories</a></li>
-                                                <li><a href="#">View All Categories</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-3 col-lg-3">
-                                        <div class="wsus__mega_menu_colum">
-                                            <h4>women</h4>
-                                            <ul class="wsis__mega_menu_item">
-                                                <li><a href="#">New Arrivals</a></li>
-                                                <li><a href="#">Best Sellers</a></li>
-                                                <li><a href="#">Trending</a></li>
-                                                <li><a href="#">Clothing</a></li>
-                                                <li><a href="#">Shoes</a></li>
-                                                <li><a href="#">Bags</a></li>
-                                                <li><a href="#">Accessories</a></li>
-                                                <li><a href="#">Jewlery & Watches</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li> --}}
-                        {{-- <li><a href="daily_deals.html">campain</a></li> --}}
-                        {{-- <li class="wsus__relative_li"><a href="#">pages <i class="fas fa-caret-down"></i></a>
-                            <ul class="wsus__menu_droapdown">
-                                <li><a href="404.html">404</a></li>
-                                <li><a href="faqs.html">faq</a></li>
-                                <li><a href="invoice.html">invoice</a></li>
-                                <li><a href="about_us.html">about</a></li>
-                                <li><a href="product_grid_view.html">product</a></li>
-                                <li><a href="check_out.html">check out</a></li>
-                                <li><a href="team.html">team</a></li>
-                                <li><a href="change_password.html">change password</a></li>
-                                <li><a href="custom_page.html">custom page</a></li>
-                                <li><a href="forget_password.html">forget password</a></li>
-                                <li><a href="privacy_policy.html">privacy policy</a></li>
-                                <li><a href="product_category.html">product category</a></li>
-                                <li><a href="brands.html">brands</a></li>
-                            </ul>
-                        </li> --}}
+                        <li><a class="{{ setActive(['home']) }}" href="{{route('home')}}">home</a></li>
+                        <li><a class="{{ setActive(['vendor.index']) }}" href="{{route('vendor.index')}}">Vendor</a></li>
+                        <li><a class="{{ setActive(['blog']) }}" href="{{route('blog')}}">Blog</a></li>
                         @auth
-                            <li><a href="{{route('user.track-order.index')}}">Track Order</a></li>
+                            <li><a class="{{ setActive(['user.track-order.index']) }}" href="{{route('user.track-order.index')}}">Track Order</a></li>
                         @endauth
-                        <li><a href="{{route('flash-sale.index')}}">Flash Sale</a></li>
+                        <li><a class="{{ setActive(['flash-sale.index']) }}" href="{{route('flash-sale.index')}}">Flash Sale</a></li>
+
                         {{-- <li><a href="daily_deals.html">daily deals</a></li> --}}
                     </ul>
 
                     <ul class="wsus__menu_item wsus__menu_item_right">
-                        <li><a href="{{route('contact.index')}}">Contact</a></li>
+                        <li><a class="{{ setActive(['contact.index']) }}" href="{{route('contact.index')}}">Contact</a></li>
 
                         {{-- @if (Route::has('login')) --}}
                        

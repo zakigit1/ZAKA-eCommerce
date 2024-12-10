@@ -180,7 +180,7 @@
                                             <i class="fas fa-key"></i>
                                             <input type="text" name="password_confirmation" placeholder="Confirm Password" autocomplete="new-password">
                                         </div>
-                                        <div>
+                                        <div class="mt-2 text-right">
                                             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
                                                 Already registered?
                                             </a>

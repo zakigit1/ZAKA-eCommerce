@@ -284,6 +284,8 @@ a {
   color: #2a9cf5 !important;
 }
 
+
+
 .wsus__mobile_menu_main_menu {
   margin: 15px 0px;
 }
@@ -386,4 +388,12 @@ a {
   -moz-transform: scale(1);
   -ms-transform: scale(1);
   -o-transform: scale(1);
+}
+
+
+
+
+.wsus__mobile_menu_main_menu>li:hover>a,
+.wsus__mobile_menu_main_menu li a.active {
+  color: #08C;
 }

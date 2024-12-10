@@ -111,7 +111,7 @@
                     </form>
                     <div class="footer_payment">
                         <p>We're using safe payment for :</p>
-                        <img src="{{asset('frontend/assets/images/credit2.png')}}" alt="card" class="img-fluid">
+                        <img src="{{asset('static_images/credit2.png')}}" alt="card" class="img-fluid">
                     </div>
                 </div>
             </div>
