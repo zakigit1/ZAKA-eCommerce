@@ -59,6 +59,14 @@
 // change the error message and success message of all the features 
 // there is a function create in the blogcontrller it is more secure try it after if it is better do it for all other features then
 
+
+// coupon modification : 
+        - add column named vendor_id in table coupons 
+        - add a usercoupons table (coupon_id , user_id , max_use) for max use 
+        - add column minimum_purchase_amount in table coupons
+        - add feature to apply coupon in for a specific product of specific vendor
+
+
 ############ issue search about it 
 //?? search about who is better make the validation in seprater folder from the controller or in the controller ? [ is better to do it in seperater folder]
 //?? i need to fix product prices depend on currency they the users choose it

@@ -10,12 +10,14 @@
       <li><a class="bg-success"  href="{{route('user.dashboard')}}"><i class="fas fa-house-day"></i>Dashboard</a></li>
 
       @if (auth()->user()->role === 'admin')
-        <li><a class="{{ setActive(['admin.dashboard']) }}" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer"></i>Go To Admin Dashboard</a></li>
+        <li><a href="{{ route('admin.dashboard') }}"><i class="fas fa-arrow-right"></i> Go To Admin Dashboard </a></li>
       @endif
       @if (auth()->user()->role === 'vendor')
-        <li><a class="{{ setActive(['vendor.dashboard']) }}" href="{{ route('vendor.dashboard') }}"><i class="fas fa-tachometer"></i>Go To Vendor Dashboard</a></li>
-      @endif
+        <li><a href="{{ route('vendor.dashboard')}}" ><i class="fas fa-arrow-right"></i> Go To Vendor Dashboard </a></li>
+        @endif
 
+        <li><a href="{{route('home')}}"><i class="fas fa-arrow-left"></i> Go To Store </a></li>
+        
       @if(auth()->user()->role === 'user')
         <li><a class="{{ setActive(['user.profile.*'])}}" href="{{route('user.profile.index')}}"><i class="fas fa-user-cog"></i> My Profile</a></li>
       @endif
@@ -31,7 +33,7 @@
         <li><a class="{{ setActive(['user.vendor-request.index'])}}" href="{{route('user.vendor-request.index')}}"><i class="fas fa-user-plus"></i> Vendor Request</a></li>
       @endif
 
-      <li><a class="{{ setActive(['user.messager.index'])}}" href="{{route('user.messager.index')}}"><i class="far fa-star"></i>Messanger</a></li>
+      <li><a class="{{ setActive(['user.messager.index'])}}" href="{{route('user.messager.index')}}"><i class="fas fa-comment-dots"></i>Messanger</a></li>
       
       {{-- Post Method --}}
       {{-- <form method="POST" action="{{ route('logout') }}">

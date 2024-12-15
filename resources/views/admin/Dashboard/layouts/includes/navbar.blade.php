@@ -150,7 +150,7 @@
 
         <div class="dropdown-menu dropdown-menu-right">
           <a href="{{route('admin.profile')}}" class="dropdown-item has-icon">
-            <i class="far fa-user"></i> Profile
+            <i class="fas fa-user-cog"></i> Profile
           </a>
           <a href="{{route('admin.settings.index')}}" class="dropdown-item has-icon">
             <i class="fas fa-cog"></i> Settings
