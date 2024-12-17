@@ -236,11 +236,11 @@ Route::group(['middleware' =>['auth', 'verified'], 'prefix' => 'user', 'as' => '
 
 
     //Blog detail page :
-    
     Route::get('blog-details/{slug}',[BlogController::class,'blogDetails'])->name('blog-details');
     Route::get('blog',[BlogController::class,'blogIndex'])->name('blog');
     
-    
+    // View list of mobile menu 
+    Route::get('list-view',[HomeController::class , 'changeViewList'])->name('mobile-menu.view-list');
 
 
 

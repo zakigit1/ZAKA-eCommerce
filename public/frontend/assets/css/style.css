@@ -5405,10 +5405,17 @@ WISHLIST PAGE START
   align-items: center;
   justify-content: space-between;
   margin: 25px 0px;
+  /* margin-top: 1rem; Adjust as necessary */
 }
 
 .wsus__login_save .form-check {
   margin-bottom: 0;
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center items vertically */
+}
+
+.form-check-label {
+  margin-left: 0.5rem; /* Adjust as necessary */
 }
 
 .wsus__login_save .form-check input {

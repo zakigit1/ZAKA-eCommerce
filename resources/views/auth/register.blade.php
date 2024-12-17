@@ -177,11 +177,12 @@
                                             <i class="fas fa-key"></i>
                                             <input type="password" name="password_confirmation" placeholder="Confirm Password" autocomplete="new-password">
                                         </div>
-                                        <div>
-                                            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-3" href="{{ route('login') }}">
+                                        <div class="text-end">
+                                            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-3" href="{{route('login')}}">
                                                 Already registered?
                                             </a>
                                         </div>
+                                        
 
                                         <button class="common_btn mt-4" type="submit">signup</button>
                                     </form>
@@ -212,19 +213,14 @@
                                         </div>
 
 
-
-                                        <div class="wsus__login_save">
-                                            
-
-                                            
+                                        <div class="wsus__login_save d-flex justify-content-between align-items-center">
                                             <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox"  id="flexSwitchCheckDefault">
-                                                  
+                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
                                                 <label class="form-check-label" for="flexSwitchCheckDefault">Remember me</label>
                                             </div>
                                         
                                             @if (Route::has('password.request'))
-                                            <a class="forget_p" href="{{route('password.request')}}">Forget Password ?</a>
+                                                <a class="forget_p" href="{{ route('password.request') }}">Forget Password?</a>
                                             @endif
                                         </div>
 

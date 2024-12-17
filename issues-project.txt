@@ -1,80 +1,89 @@
-// tani ta3 ajax khas ttsagad ki tkon cart details empty tdik ll home bsah problem mt9dch dir add to ccart hata dir refresh ll page
-// khas tsagad problem ta3 images ta3 user ngl3a hadi role wndir hom ga3 folder user wahd  [done!]
 // chang mail function to queue in subscriber controller .[i need to fix some issue but the logic is done!]
-// fix icons in dashboards (is not a issue just choose icons)
-// khas nkhli ll admin & vendor a userDashboard [ done!]
-// dir session ll payment settings [done!]
-// when i visit admin/ is give me 404 page i need to fix the redirect route [done!]
-// add admin logo or do just logo of site .[done!]
 // increment & decrement from the stock [need just to check]
-// try & catch in all the controller for better protection ..
-// issue of select the sub & child categy each time to use it in home page settigns 
-// add in the advertisement a banner for flash sale end time and also in flash sale more. [done!]
-// fix the redirect of login (guard) you can see from my previous project (My-Project_E-commerce)[done!]
-// send email verification
-// you need to modify password forgot logic because the user can reset password sevral time you need to allow him to reset pass just one time still he check email and click to reset pass after can do it again , you can make it more secure ask about his infomation
-// fix forgot password button in admin/login
-// also for reset password of admin role ask ai how i do it , simple like user or another method
-// error of mobile menu of categories dropdown fix it .
-// color of the heart of wishlisht when he add a product to wishlist let the color be red 
-// add try and catch for all controller file for better secure .
-// i add in helper folder a funtion get the currencyIcon so go in all datatable and add it instead of calling the model each time
-// we need to add in all view isset & count & nullable signal for better safety 
-        @if(isset() && count()>0)
+// fix forgot password button in admin/login[check?]
+
+
+/** Easy to handle : */
+// zid ga3 fl controller ':response redirect' just example kol wahd 3la hsab return ta3ha
+// fix the routes about BREADCRUMB to dynamique return functionalite
+// add in all views @ to avoid any kind of null errors .
+// login /register issue ta3 design redirect
+// try & catch in all the controller for better protection and error handling ...
 // zid request->validation win kayan ta3 request ta3 ajax fl controlller kima ta2 destroy ,change status example : 
         of change status :
         $request->validate([
             'id'=>'required|exists:tableName,id',
             'status' => 'required|in:true,false',
         ]);
+// seo title seo description ta3 blog dir kima drna fl product detial 
+// remove all paths you don't need it .
 
-// 3ndak fl pup up ta2 product model roh ll script.blade radi tl9a fl beforeSend : add this 
- $('.product_model_content').html('<span class="loader"></span>');
- but add this line before adding a public/frontend/css/style.css radi troh lthta ga3 tl9a class smoha .Loader diha ma project ta3ah whtha 3ndak .
 
-//fix the pop up model show the previous after show you the new one
+/** Medium to handle : */
+// fix all the validation for features .
+// tani ta3 ajax khas ttsagad ki tkon cart details empty tdik ll home bsah problem mt9dch dir add to ccart hata dir refresh ll page
+// issue of select the sub & child categy each time to use it in home page settigns 
+// you need to modify password forgot logic because the user can reset password sevral time you need to allow him to reset pass just one time still he check email and click to reset pass after can do it again , you can make it more secure ask about his infomation
+// also for reset password of admin role ask ai how i do it , simple like user or another method
+// color of the heart of wishlisht when he add a product to wishlist let the color be red 
+// i add in helper folder a funtion get the currencyIcon so go in all datatable and add it instead of calling the model each time
 // in section hot deals kayan zid fih products section lmzl mdrtahch
-// add in all views @ to avoid any kind of null errors .
-// you need to add guard for admin 
-// fix the routes about BREADCRUMB to dynamique return functionalite
-// zid ga3 fl controller ':response redirect' just example kol wahd 3la hsab return ta3ha
 // i need to fix issue of flash sale if the end date null of doesn't exist they give an error fix it i already do it in fa-shop project take look .
 // you need to fix table transaction.
-
 // i need to change this package : Package yoeunes/toastr is abandoned, you should avoid using it. Use php-flasher/flasher-toastr-laravel instead.
-
 // in the checkout when example didnt add shipping rule it give me error and after try to checkout it still loading i need to refresh the page and after work 
-
-// zid fi ga3 files securite like (:redirectResponse , :responseJson) ltji hda function name .
-
-// seo title seo description ta3 blog dir kima drna fl product detial 
-
-// fix all the validation for features .
-
-// khas trad header button like home, vendor ... 3la hasb win troh twli active .
-// remove all paths you don't need it .
-// search about automatic runing seeder after creating table or migration
 // i have section in home page i need to fix it 
-
 // change the error message and success message of all the features 
 // there is a function create in the blogcontrller it is more secure try it after if it is better do it for all other features then
-
-
 // coupon modification : 
         - add column named vendor_id in table coupons 
         - add a usercoupons table (coupon_id , user_id , max_use) for max use 
         - add column minimum_purchase_amount in table coupons
         - add feature to apply coupon in for a specific product of specific vendor
+// kima drna ta3 messanger when we send a message we add class to circle profile when we click to profile we remove the class from the circle profile 
+// home services section i need to do it or remove it .
 
 
-############ issue search about it 
+
+
+
+
+############ --Start--  issue search about it 
 //?? search about who is better make the validation in seprater folder from the controller or in the controller ? [ is better to do it in seperater folder]
 //?? i need to fix product prices depend on currency they the users choose it
 //?? also about send money to vendor depend on his currency (search about it )
+//?? search about automatic runing seeder after creating table or migration
 
 
-// kima drna ta3 messanger when we send a message we add class to circle profile when we click to profile we remove the class from the circle profile  
+ 
 
-############ issue solve it 
-//++ image size need to fix it  [done] 
-//++ zid l3fsa tae session fl register wl login ki tkon example fl login wdir reload tg3ad fl login mtdigch ll register [done]
+############ issues solve it 
+//++ image size need to fix it  [done!] 
+//++ zid l3fsa tae session fl register wl login ki tkon example fl login wdir reload tg3ad fl login mtdigch ll register [done!]
+//++ khas tsagad problem ta3 images ta3 user ngl3a hadi role wndir hom ga3 folder user wahd  [done!]
+//++ khas nkhli ll admin & vendor a userDashboard [ done!]
+//++ dir session ll payment settings [done!]
+//++ when i visit admin/ is give me 404 page i need to fix the redirect route [done!]
+//++ add admin logo or do just logo of site .[done!]
+//++ add in the advertisement a banner for flash sale end time and also in flash sale more. [done!]
+//++ fix the redirect of login (guard) you can see from my previous project (My-Project_E-commerce)[done!]
+//++ send email verification [done!]
+//++ fix icons in dashboards (is not a issue just choose icons) [done!]
+//++ you need to add guard for admin [done!]
+//++ khas trad header button like home, vendor ... 3la hasb win troh twli active .[done!]
+//++ 3ndak fl pup up ta2 product model roh ll script.blade radi tl9a fl beforeSend : add this 
+        $('.product_model_content').html('<span class="loader"></span>');
+        but add this line before adding a public/frontend/css/style.css radi troh lthta ga3 tl9a class 
+        smoha .Loader diha ma project ta3ah whtha 3ndak . [done!]
+//++ fix the pop up model show the previous after show you the new one [done!]
+
+Dec 17, 2024
+//++ error of mobile menu of categories dropdown fix it .[done!]
+//++ add mt for back botton [done !]
+//++ mobile menue add session for categories and main menue [done!]
+//++ we need to add in all view isset & count & nullable signal for better safety @if(isset() && count()>0) [done!]
+
+
+
+
+

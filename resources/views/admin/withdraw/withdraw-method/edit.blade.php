@@ -17,19 +17,20 @@
         </div>
 
         <div class="section-body">
-
+            <a href="{{route('admin.withdraw-method.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
+                
+            <br><br>
 
         <div class="row">
             <div class="col-12 ">
                 <div class="card">
                     <div class="card-header">
+                        <h4>Edit Withdraw Method</h4>
                         <div class="card-header-action">
-                            <a href="{{route('admin.withdraw-method.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
                         </div>  
                     </div>
 
                     <div class="card-body">
-                        <h4> Edit Withdraw Method </h4>
                         <form action="{{route('admin.withdraw-method.update',$withdrawMethod->id)}}" method="post">
                             @csrf
                             @method('PUT')

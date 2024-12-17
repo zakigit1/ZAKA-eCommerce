@@ -23,13 +23,11 @@
 
         <div class="row">
             <div class="col-12 ">
-                <a href="{{route('admin.brand.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a><br>
+                <a href="{{route('admin.brand.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
+                <br><br>
                 <div class="card">
                     <div class="card-header">
                         <h4>Edit Brand</h4>
-                        <div class="card-header-action">
-                            <a href="{{route('admin.brand.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
-                        </div>
                     </div>
 
                     <div class="card-body">

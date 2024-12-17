@@ -19,6 +19,7 @@
         <div class="row">
             <div class="col-12 ">
                 <a href="{{route('admin.product-variant-item.index',[$product->id,$variant->id])}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
+                <br><br>
                 <div class="card">
                     <div class="card-header">
                         <h4> Create New Variant Item</h4>

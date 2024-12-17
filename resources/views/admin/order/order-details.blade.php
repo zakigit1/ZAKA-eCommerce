@@ -19,6 +19,8 @@
         </div>
 
         <div class="section-body">
+            <a href="{{route('admin.order.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
+            <br><br>
 
             <div class="invoice">
                 <div class="invoice-print">

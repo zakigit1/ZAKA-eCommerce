@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{"$settings->site_name ||Create Admin Slider  "}}
+    {{"$settings->site_name || Create Admin Slider  "}}
 @endsection
 
 @section('content')
@@ -19,12 +19,12 @@
 
         <div class="row">
             <div class="col-12 ">
+                <a href="{{route('admin.slider.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
+                
+                <br><br>
                 <div class="card">
                     <div class="card-header">
                         <h4>Create New Slider</h4>
-                        <div class="card-header-action">
-                            <a href="{{route('admin.slider.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
-                        </div>
                     </div>
 
                     <div class="card-body">

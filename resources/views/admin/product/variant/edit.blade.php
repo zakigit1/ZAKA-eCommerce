@@ -21,6 +21,7 @@
                 <!-- request()->id (it is the id of we pass it in the route {id}) -->
                 {{-- <a href="{{route('admin.product-variant.index',['id'=>request()->id])}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a> --}}
                 <a href="{{route('admin.product-variant.index',['id'=>$variant->product_id])}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
+                <br><br>
                
                 <br>
                 <div class="card">

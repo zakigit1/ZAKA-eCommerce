@@ -42,29 +42,31 @@
                                     new address</a></h5>
 
                             <div class="row">
-                                @foreach ($userAdresses as $address)
-                                    <div class="col-xl-6">
-                                        <div class="wsus__checkout_single_address">
-                                            <div class="form-check">
-                                                <input class="form-check-input shipping_address" type="radio" name="flexRadioDefault"
-                                                    id="flexRadioDefault1" data-id="{{$address->id}}">
-                                                <label class="form-check-label" for="flexRadioDefault1">
-                                                    Select Address
-                                                </label>
+                                @if(isset($userAdresses) && count($userAdresses)>0)
+                                    @foreach ($userAdresses as $address)
+                                        <div class="col-xl-6">
+                                            <div class="wsus__checkout_single_address">
+                                                <div class="form-check">
+                                                    <input class="form-check-input shipping_address" type="radio" name="flexRadioDefault"
+                                                        id="flexRadioDefault1" data-id="{{$address->id}}">
+                                                    <label class="form-check-label" for="flexRadioDefault1">
+                                                        Select Address
+                                                    </label>
+                                                </div>
+                                                <ul>
+                                                    <li><span>Name :</span> {{$address->name}}</li>
+                                                    <li><span>Phone :</span> {{$address->phone}}</li>
+                                                    <li><span>Email :</span> {{$address->email}}</li>
+                                                    <li><span>Country :</span> {{$address->country}}</li>
+                                                    <li><span>State :</span> {{$address->state}}</li>
+                                                    <li><span>City :</span> {{$address->city}}</li>
+                                                    <li><span>Zip Code :</span> {{$address->zip}}</li>
+                                                    <li><span>Address :</span> {{$address->address}}</li>
+                                                </ul>
                                             </div>
-                                            <ul>
-                                                <li><span>Name :</span> {{$address->name}}</li>
-                                                <li><span>Phone :</span> {{$address->phone}}</li>
-                                                <li><span>Email :</span> {{$address->email}}</li>
-                                                <li><span>Country :</span> {{$address->country}}</li>
-                                                <li><span>State :</span> {{$address->state}}</li>
-                                                <li><span>City :</span> {{$address->city}}</li>
-                                                <li><span>Zip Code :</span> {{$address->zip}}</li>
-                                                <li><span>Address :</span> {{$address->address}}</li>
-                                            </ul>
                                         </div>
-                                    </div>
-                                @endforeach
+                                    @endforeach
+                                @endif
 
                             </div>
                         </div>
@@ -72,33 +74,34 @@
                     <div class="col-xl-4 col-lg-5">
                         <div class="wsus__order_details" id="sticky_sidebar">
                             <p class="wsus__product">shipping Methods</p>
+                            @if(isset($shippingMethods) && count($shippingMethods)>0)
+                                @foreach ($shippingMethods as $shippingMethod)
 
-                            @foreach ($shippingMethods as $shippingMethod)
-
-                                @if($shippingMethod->type == 'min_cost' && getCartSubtotal() >= $shippingMethod->min_cost)
-                                    <div class="form-check">
-                                        <input class="form-check-input shipping-method" type="radio" name="exampleRadios" id="exampleRadios1"
-                                        value="{{$shippingMethod->id}}" data-id="{{$shippingMethod->cost}}">
-                                        
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            {{$shippingMethod->name}}
-                                            <span>cost : {{$settings->currency_icon}}{{$shippingMethod->cost}}
-                                            (10 - 12 days)</span>
-                                        </label>
-                                    </div>
-                                @elseif($shippingMethod->type == 'flat_cost')
-                                    <div class="form-check">
-                                        <input class="form-check-input shipping-method" type="radio" name="exampleRadios" id="exampleRadios1"
+                                    @if($shippingMethod->type == 'min_cost' && getCartSubtotal() >= $shippingMethod->min_cost)
+                                        <div class="form-check">
+                                            <input class="form-check-input shipping-method" type="radio" name="exampleRadios" id="exampleRadios1"
                                             value="{{$shippingMethod->id}}" data-id="{{$shippingMethod->cost}}">
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            {{$shippingMethod->name}}
-                                            <span>cost : {{$settings->currency_icon}}{{$shippingMethod->cost}}
-                                            (10 - 12 days)</span>
-                                        </label>
-                                    </div>
-                                @endif
-                                   
-                            @endforeach
+                                            
+                                            <label class="form-check-label" for="exampleRadios1">
+                                                {{$shippingMethod->name}}
+                                                <span>cost : {{$settings->currency_icon}}{{$shippingMethod->cost}}
+                                                (10 - 12 days)</span>
+                                            </label>
+                                        </div>
+                                    @elseif($shippingMethod->type == 'flat_cost')
+                                        <div class="form-check">
+                                            <input class="form-check-input shipping-method" type="radio" name="exampleRadios" id="exampleRadios1"
+                                                value="{{$shippingMethod->id}}" data-id="{{$shippingMethod->cost}}">
+                                            <label class="form-check-label" for="exampleRadios1">
+                                                {{$shippingMethod->name}}
+                                                <span>cost : {{$settings->currency_icon}}{{$shippingMethod->cost}}
+                                                (10 - 12 days)</span>
+                                            </label>
+                                        </div>
+                                    @endif
+                                    
+                                @endforeach
+                            @endif
 
 
                             <div class="wsus__order_details_summery">

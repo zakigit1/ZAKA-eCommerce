@@ -9,12 +9,13 @@
     <div class="row">
         <div class="col-xl-9 col-xxl-10 col-lg-9 ms-auto">
             <div class="dashboard_content mt-2 mt-md-0">
-                <h3><i class="far fa-user"></i>Create New Variant Item</h3>
-                
-
                 <div class="back_button">
                     <a href="{{route('vendor.product-variant-item.index',[$product->id,$variant->id])}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
                 </div>
+                <br>
+                <h3><i class="far fa-user"></i>Create New Variant Item</h3>
+                
+
                 <div class="wsus__dashboard_profile">
                     <div class="wsus__dash_pro_area">
                         <h4> Create New Variant Item</h4>

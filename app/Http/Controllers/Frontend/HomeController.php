@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Advertisement;
 use App\Models\Blog;
 use App\Models\Brand;
-use App\Models\Category;
 use App\Models\FlashSale;
 use App\Models\FlashSaleItem;
 use App\Models\HomePageSetting;
@@ -15,11 +14,14 @@ use App\Models\Slider;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Session;
+use Illuminate\View\View;
+use Illuminate\Http\Response;
 
 class HomeController extends Controller
 {
-    public function index(){
+    public function index():View
+    {
 
 
         // $sliders = Slider::where('status',1)->orderBy('serial','asc')->get();
@@ -105,7 +107,8 @@ class HomeController extends Controller
     }
 
     /** Get the products depending on the type : */
-    public function getTypeProducts(){
+    public function getTypeProducts(): array
+    {
         $typeBaseProduct = [];
 
         $typeBaseProduct['new_arrival'] = Product::
@@ -198,7 +201,8 @@ class HomeController extends Controller
         return $typeBaseProduct ;
     }
 
-    public function vednorIndex(){
+    public function vednorIndex():View
+    {
 
         $vendors = Vendor::with(['products'=>function($query){
             $query->with([
@@ -210,7 +214,8 @@ class HomeController extends Controller
         return view('Frontend.store.pages.vendor.index',compact('vendors'));
     }
    
-    public function vendorProducts(String $id){
+    public function vendorProducts(String $id):View
+    {
 
         $products = Product::with([
             'gallery',
@@ -241,7 +246,8 @@ class HomeController extends Controller
         return view('Frontend.store.pages.vendor.vendor-products',compact('products','vendor'));
     }
 
-    public function showProductModel(string $id){
+    public function showProductModel(string $id):Response
+    {
        
         $product = Product::withAvg('reviews','rating')
             ->withCount('reviews')
@@ -276,6 +282,11 @@ class HomeController extends Controller
     }
 
 
+    /** View List Dynamique Of Mobile Menu (categories , main menu) */
+    public function changeViewList(Request $request):void
+    {
+        Session::put('mobile_menu_view_list',$request->style);
+    }
 
 }
 

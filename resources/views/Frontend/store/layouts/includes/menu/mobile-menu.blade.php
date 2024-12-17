@@ -19,7 +19,7 @@
             
             @auth
                 {{-- it mean (admin.dashboard Or user.dashboard Or vendor.dashboard) --}}
-                <li><a href="{{route(auth()->user()->role.'.dashboard')}}"><i class="fas fa-user"></i></a></li>
+                <li><a href="{{route('user.dashboard')}}"><i class="fas fa-user"></i></a></li>
                 
             @else
                 {{-- <li><a href="{{route('login')}}">Login</a></li> --}}
@@ -49,20 +49,62 @@
         <button type="submit"><i class="far fa-search"></i></button>
     </form>
 
+
+
     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
-                role="tab" aria-controls="pills-home" aria-selected="true">Categories</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+            <button class="nav-link list-view {{session()->has('mobile_menu_view_list') && session()->get('mobile_menu_view_list') == 'main-menu' ? 'active' : ''}} 
+                {{!session()->has('mobile_menu_view_list') ? 'active' : '' }}"
+                data-id="main-menu" 
+                data-bs-toggle="pill" data-bs-target="#pills-profile" id="pills-profile-tab" 
                 role="tab" aria-controls="pills-profile" aria-selected="false">main menu</button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <button class="nav-link list-view {{session()->has('mobile_menu_view_list') && session()->get('mobile_menu_view_list') == 'categories-drop-down' ? 'active' : ''}}"  
+                data-id="categories-drop-down" 
+                id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+                role="tab" aria-controls="pills-home" aria-selected="true">Categories</button>
         </li>
     </ul>
 
     <div class="tab-content" id="pills-tabContent">
 
-        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div class="tab-pane fade {{session()->has('mobile_menu_view_list') && session()->get('mobile_menu_view_list') == 'main-menu' ? 'show active' : ''}} 
+            {{!session()->has('mobile_menu_view_list') ? 'show active' : '' }}"  
+            id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+            <div class="wsus__mobile_menu_main_menu">
+                <div class="accordion accordion-flush" id="accordionFlushExample2">
+
+                    <ul class="wsus__mobile_menu_main_menu">
+                    
+                        <ul>
+                            <li><a class="{{ setActive(['home']) }}" href="{{route('home')}}">home</a></li>
+
+                            <li><a class="{{ setActive(['vendor.index']) }}" href="{{route('vendor.index')}}">Vendor</a></li>
+
+                            <li><a class="{{ setActive(['blog']) }}" href="{{route('blog')}}">Blog</a></li>
+
+                            @auth
+                                <li><a class="{{ setActive(['user.track-order.index']) }}" href="{{route('user.track-order.index')}}">Track Order</a></li>
+                            @endauth
+
+                            <li><a class="{{ setActive(['flash-sale.index']) }}" href="{{route('flash-sale.index')}}">Flash Sale</a></li>
+                            
+                            <li><a class="{{ setActive(['contact.index']) }}" href="{{route('contact.index')}}">Contact</a></li>
+                            {{-- <li><a href="daily_deals.html">daily deals</a></li> --}}
+                        </ul>
+    
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="tab-pane fade {{session()->has('mobile_menu_view_list') && session()->get('mobile_menu_view_list') == 'categories-drop-down' ? 'show active' : ''}}"
+             id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+
             <div class="wsus__mobile_menu_main_menu">
                 <div class="accordion accordion-flush" id="accordionFlushExample">
                     <ul class="wsus_mobile_menu_category">
@@ -206,36 +248,36 @@
                     </ul>
                 </div> --}}
             </div>
+
         </div>
 
 
-        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-            <div class="wsus__mobile_menu_main_menu">
-                <div class="accordion accordion-flush" id="accordionFlushExample2">
 
-                    <ul class="wsus__mobile_menu_main_menu">
-                    
-                        <ul>
-                            <li><a class="{{ setActive(['home']) }}" href="{{route('home')}}">home</a></li>
-
-                            <li><a class="{{ setActive(['vendor.index']) }}" href="{{route('vendor.index')}}">Vendor</a></li>
-
-                            <li><a class="{{ setActive(['blog']) }}" href="{{route('blog')}}">Blog</a></li>
-
-                            @auth
-                                <li><a class="{{ setActive(['user.track-order.index']) }}" href="{{route('user.track-order.index')}}">Track Order</a></li>
-                            @endauth
-
-                            <li><a class="{{ setActive(['flash-sale.index']) }}" href="{{route('flash-sale.index')}}">Flash Sale</a></li>
-                            
-                            <li><a class="{{ setActive(['contact.index']) }}" href="{{route('contact.index')}}">Contact</a></li>
-                            {{-- <li><a href="daily_deals.html">daily deals</a></li> --}}
-                        </ul>
-    
-                    </ul>
-                </div>
-            </div>
-        </div>
 
     </div>
 </section>
+
+
+@push('scripts')
+    <script>
+          $(document).ready(function(){
+
+              $('.list-view').on('click', function(){
+
+                  let style = $(this).data('id');
+                  
+                  $.ajax({
+                      method: 'GET',
+                      url: '{{route("mobile-menu.view-list")}}',
+                      data: {
+                          style: style,
+                      },
+                      success: function(data){
+
+                      }
+                  });
+              });
+
+          });
+    </script> 
+@endpush

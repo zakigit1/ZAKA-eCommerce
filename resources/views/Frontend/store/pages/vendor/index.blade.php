@@ -39,53 +39,54 @@
    
                 <div class="">
                     <div class="row">
+                        @if(isset($vendors) && count($vendors)>0)
+                            @foreach ($vendors as $vendor)   
+                                <div class="col-xl-6 col-md-6">{{-- if you want to modify the size of the squares xl-* --}}
+                                    <div class="wsus__vendor_single">
+                                        <img src="{{$vendor->banner}}" alt="vendor" class="img-fluid w-100">
+                                        <div class="wsus__vendor_text">
+                                            <div class="wsus__vendor_text_center">
+                                                <h4>{{$vendor->shop_name}}</h4>
 
-                        @foreach ($vendors as $vendor)   
-                            <div class="col-xl-6 col-md-6">{{-- if you want to modify the size of the squares xl-* --}}
-                                <div class="wsus__vendor_single">
-                                    <img src="{{$vendor->banner}}" alt="vendor" class="img-fluid w-100">
-                                    <div class="wsus__vendor_text">
-                                        <div class="wsus__vendor_text_center">
-                                            <h4>{{$vendor->shop_name}}</h4>
 
-
-                                                {{-- i not sure about it codeium give it to me  --}}
-                                                <p class="wsus__vendor_rating">
-                                                    @php
-                                                        $totalRating = 0;
-                                                        $totalReviews = 0;
-                                                        if(isset($vendor->products) && count($vendor->products)>0){
-                                                            foreach ($vendor->products as $product) {
-                                                                if(isset($product->reviews) && count( $product->reviews)>0){
-                                                                    $avgProductRating = $product->reviews()->avg('rating');
-                                                                    $totalRating += $avgProductRating * $product->reviews()->count();
-                                                                    $totalReviews += $product->reviews()->count();
+                                                    {{-- i not sure about it codeium give it to me  --}}
+                                                    <p class="wsus__vendor_rating">
+                                                        @php
+                                                            $totalRating = 0;
+                                                            $totalReviews = 0;
+                                                            if(isset($vendor->products) && count($vendor->products)>0){
+                                                                foreach ($vendor->products as $product) {
+                                                                    if(isset($product->reviews) && count( $product->reviews)>0){
+                                                                        $avgProductRating = $product->reviews()->avg('rating');
+                                                                        $totalRating += $avgProductRating * $product->reviews()->count();
+                                                                        $totalReviews += $product->reviews()->count();
+                                                                    }
                                                                 }
                                                             }
-                                                        }
-                                                        $avgVendorRating = $totalReviews > 0 ? $totalRating / $totalReviews : 0;
-                                                        $fullRating = round($avgVendorRating); // we convert to integer num
-                                                    @endphp
+                                                            $avgVendorRating = $totalReviews > 0 ? $totalRating / $totalReviews : 0;
+                                                            $fullRating = round($avgVendorRating); // we convert to integer num
+                                                        @endphp
 
-                                                    @for ($i = 1; $i <= 5; $i++)
-                                                        @if ($i <= $fullRating)
-                                                            <i class="fas fa-star"></i>
-                                                        @else
-                                                            <i class="far fa-star"></i>
-                                                        @endif
-                                                    @endfor
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                            @if ($i <= $fullRating)
+                                                                <i class="fas fa-star"></i>
+                                                            @else
+                                                                <i class="far fa-star"></i>
+                                                            @endif
+                                                        @endfor
 
-                                                </p>
-                                            <a href="javascript:;"><i class="far fa-phone-alt"></i>
-                                                {{$vendor->phone}}</a>
-                                            <a href="javascript:;"><i class="fal fa-envelope"></i>
-                                                {{$vendor->email}}</a>
-                                            <a href="{{route('vendor.products',$vendor->id)}}" class="common_btn">visit store</a>
+                                                    </p>
+                                                <a href="javascript:;"><i class="far fa-phone-alt"></i>
+                                                    {{$vendor->phone}}</a>
+                                                <a href="javascript:;"><i class="fal fa-envelope"></i>
+                                                    {{$vendor->email}}</a>
+                                                <a href="{{route('vendor.products',$vendor->id)}}" class="common_btn">visit store</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        @endif
                     </div>
                 </div>
 

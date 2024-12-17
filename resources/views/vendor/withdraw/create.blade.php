@@ -9,6 +9,12 @@
     <div class="row">
         <div class="col-xl-9 col-xxl-10 col-lg-9 ms-auto">
             <div class="dashboard_content mt-2 mt-md-0">
+                <div class="back_button">
+                    <a href="{{route('vendor.withdraw.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
+                </div>
+                <br>
+
+
                 <h3><i class="far fa-user"></i> Vendor Create Withdraw Request </h3>
                 <div class="wsus__dashboard_profile">
                     <div class="row">

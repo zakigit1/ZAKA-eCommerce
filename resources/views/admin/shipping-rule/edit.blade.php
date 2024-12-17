@@ -18,6 +18,7 @@
             <div class="row">
                 <div class="col-12">
                     <a href="{{route('admin.shipping-rules.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
+                    <br><br>
                     <div class="card">
                         <div class="card-header">
                             <h4> Edit Shipping Rule</h4>

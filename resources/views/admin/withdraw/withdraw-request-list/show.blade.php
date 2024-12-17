@@ -18,6 +18,10 @@
         </div>
 
         <div class="section-body">
+            <a href="{{route('admin.withdraw-request-list.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
+            <br><br>
+
+
             <div class="row">
                 <div class="col-12 ">
                 {{-- <div class="container"> --}}
@@ -25,7 +29,6 @@
                         <div class="card-header">
                             <h4>Withdraw Request List</h4>
                             <div class="card-header-action">
-                                <a href="{{route('admin.withdraw-request-list.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
                             </div>
                         </div>
 

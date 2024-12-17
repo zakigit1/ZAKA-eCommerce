@@ -8,6 +8,12 @@
     <div class="row">
         <div class="col-xl-9 col-xxl-10 col-lg-9 ms-auto">
             <div class="dashboard_content mt-2 mt-md-0">
+
+
+                <div class="back_button">
+                    <a href="{{route('user.address.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
+                </div>
+                <br>
                 <h3><i class="fal fa-gift-card"></i>create address</h3>
                 <div class="wsus__dashboard_add wsus__add_address">
                     <form action="{{route('user.address.update',$address->id)}}" method="POST">
