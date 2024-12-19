@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{"$settings->site_name || Admin Vendors Request Pending "}}
+    {{"$settings->site_name ||  Vendors Requests Pending "}}
 @endsection
 
 
@@ -11,10 +11,16 @@
 
     <section class="section">
         <div class="section-header">
-            <h1>Manage Vendors Request</h1>
+            <div class="section-header-back">
+                <a href="{{ route('admin.vendor-request.index') }}" class="btn btn-icon"><i class="fas fa-arrow-left"
+                        style="font-size:25px"></i></a>
+            </div>
+            <h1>Manage Vendors Requests Pending</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{route('admin.dashboard')}}">Dashboard</a></div>
-                <div class="breadcrumb-item">Vendor Request Pending</div>
+                <div class="breadcrumb-item active"><a href="{{ route('admin.vendor-request.index') }}">Vendors Requests</a>
+                </div>
+                <div class="breadcrumb-item">Vendors Requests Pending</div>
             </div>
         </div>
 

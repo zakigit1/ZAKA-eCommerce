@@ -5,10 +5,14 @@
 @section('content')
     <section class="section">
         <div class="section-header">
+            <div class="section-header-back">
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-icon"><i class="fas fa-arrow-left"
+                        style="font-size:25px"></i></a>
+            </div>
             <h1>Add New User/Vendor/Admin</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item">Create</div>
+                <div class="breadcrumb-item">Create User/Vendor/Admin</div>
             </div>
         </div>
 
@@ -42,13 +46,12 @@
                                 <div class="row">
                                     <div class="form-group col-6">
                                         <label for="type">Password</label>
-                                        <input type="password" name="password" class="form-control" placeholder="Password"
-                                            >
+                                        <input type="password" name="password" class="form-control" placeholder="Password">
                                     </div>
                                     <div class="form-group col-6">
                                         <label for="type">Password Confirmation</label>
                                         <input type="password" name="password_confirmation" class="form-control"
-                                            placeholder="Password Confirmation" >
+                                            placeholder="Password Confirmation">
                                     </div>
                                 </div>
 
@@ -58,9 +61,9 @@
                                 <div class="form-group ">
                                     <label>Role</label>
                                     <select class="form-control" name="role">
-                                            <option selected disabled>-- Select --</option>
-                                        @foreach (config('user-role.roles') as $key =>$role)
-                                            <option value="{{$key}}" >{{$role}}</option>
+                                        <option selected disabled>-- Select --</option>
+                                        @foreach (config('user-role.roles') as $key => $role)
+                                            <option value="{{ $key }}">{{ $role }}</option>
                                         @endforeach
 
 

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->boolean('payment_status');
 
             // this three fields(order_address,shipping_method,coupon) we want to enter a json data 
+            
             $table->text('order_address');
             $table->text('shipping_method');
             $table->text('coupon');

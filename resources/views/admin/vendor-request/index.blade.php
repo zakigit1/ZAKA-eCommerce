@@ -1,20 +1,22 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{"$settings->site_name || Admin Vendors Request "}}
+    {{ "$settings->site_name || Vendors Requests " }}
 @endsection
 
 
 
 @section('content')
-
-
     <section class="section">
         <div class="section-header">
-            <h1>Manage Vendors Request</h1>
+            <div class="section-header-back">
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-icon"><i class="fas fa-arrow-left"
+                        style="font-size:25px"></i></a>
+            </div>
+            <h1>Manage Vendors Requests</h1>
             <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item active"><a href="{{route('admin.dashboard')}}">Dashboard</a></div>
-                <div class="breadcrumb-item">Vendor Request</div>
+                <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
+                <div class="breadcrumb-item">Vendors Requests</div>
             </div>
         </div>
 
@@ -23,13 +25,13 @@
                 <div class="col-12 ">
                     <div class="card">
                         <div class="card-header">
-                            <h4>All Vendors Request</h4>
+                            <h4>All Vendors Requests</h4>
                         </div>
- 
+
                         <div class="card-body">
                             {{ $dataTable->table() }}
                         </div>
-                
+
                     </div>
                 </div>
 

@@ -4,9 +4,9 @@
 
 
 /** Easy to handle : */
-// zid ga3 fl controller ':response redirect' just example kol wahd 3la hsab return ta3ha
 // fix the routes about BREADCRUMB to dynamique return functionalite
 // add in all views @ to avoid any kind of null errors .
+// zid ga3 fl controller ':response redirect' just example kol wahd 3la hsab return ta3ha
 // login /register issue ta3 design redirect
 // try & catch in all the controller for better protection and error handling ...
 // zid request->validation win kayan ta3 request ta3 ajax fl controlller kima ta2 destroy ,change status example : 
@@ -17,6 +17,10 @@
         ]);
 // seo title seo description ta3 blog dir kima drna fl product detial 
 // remove all paths you don't need it .
+//profile 3nd field ta3 new password kyna show botton fix it 
+//Manage Order Transactions check the table if it is correct or not .
+// check also to add condition if vendor status 0 he cant add products or do anything in vendor dashboard
+
 
 
 /** Medium to handle : */
@@ -42,9 +46,8 @@
         - add feature to apply coupon in for a specific product of specific vendor
 // kima drna ta3 messanger when we send a message we add class to circle profile when we click to profile we remove the class from the circle profile 
 // home services section i need to do it or remove it .
-
-
-
+//fix the date time make it readable
+// for flash sale khas nkri view table for flash sale products
 
 
 
@@ -75,10 +78,10 @@
         $('.product_model_content').html('<span class="loader"></span>');
         but add this line before adding a public/frontend/css/style.css radi troh lthta ga3 tl9a class 
         smoha .Loader diha ma project ta3ah whtha 3ndak . [done!]
+//++ error of mobile menu of categories dropdown fix it .[done!]
 //++ fix the pop up model show the previous after show you the new one [done!]
 
 Dec 17, 2024
-//++ error of mobile menu of categories dropdown fix it .[done!]
 //++ add mt for back botton [done !]
 //++ mobile menue add session for categories and main menue [done!]
 //++ we need to add in all view isset & count & nullable signal for better safety @if(isset() && count()>0) [done!]

@@ -7,7 +7,13 @@
 @section('content')
     <section class="section">
         <div class="section-header">
+            <div class="section-header-back">
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-icon"><i class="fas fa-arrow-left"
+                        style="font-size:25px"></i></a>
+            </div>
+
             <h1>Manage Advertisements</h1>
+
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
                 <div class="breadcrumb-item">Advertisement</div>
@@ -53,12 +59,12 @@
                                             role="tab">Cartpage Banner </a>
 
                                         <a class="list-group-item list-group-item-action list-view {{ session()->has('banners_view_list') && session()->get('banners_view_list') == 'flash-sale-end-date-banner' ? 'active' : '' }}"
-                                            data-id="flash-sale-end-date-banner" id="list-FSED-list" data-toggle="list" href="#list-FSED"
-                                            role="tab">Homepage Banner Flash Sale End Date </a>
+                                            data-id="flash-sale-end-date-banner" id="list-FSED-list" data-toggle="list"
+                                            href="#list-FSED" role="tab">Homepage Banner Flash Sale End Date </a>
 
                                         <a class="list-group-item list-group-item-action list-view {{ session()->has('banners_view_list') && session()->get('banners_view_list') == 'flash-sale-see-more-banner' ? 'active' : '' }}"
-                                            data-id="flash-sale-see-more-banner" id="list-FSSM-list" data-toggle="list" href="#list-FSSM"
-                                            role="tab">Flash Sale See More Banner </a>
+                                            data-id="flash-sale-see-more-banner" id="list-FSSM-list" data-toggle="list"
+                                            href="#list-FSSM" role="tab">Flash Sale See More Banner </a>
                                     </div>
                                 </div>
                                 <div class="col-10">
