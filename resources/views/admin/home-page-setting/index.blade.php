@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Admin Settings  " }}
+    {{ "$settings->site_name || Home Page Settings  " }}
 @endsection
 
 @section('content')

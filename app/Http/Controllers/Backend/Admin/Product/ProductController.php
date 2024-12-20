@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Admin\Product;
 
+use App\DataTables\AllProductsDataTable;
 use App\DataTables\ProductsDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
@@ -9,8 +10,6 @@ use App\Models\Category;
 use App\Models\Childcategory;
 use App\Models\OrderProduct;
 use App\Models\Product;
-use App\Models\ProductImageGallery;
-use App\Models\ProductVariant;
 use App\Models\Subcategory;
 use App\Models\Vendor;
 use App\Traits\imageUploadTrait;
@@ -23,8 +22,13 @@ class ProductController extends Controller
 {
     use imageUploadTrait;
 
-    const FOLDER_PATH = '/Uploads/images/products/';
-    const FOLDER_NAME = 'thumb-images';
+    private const FOLDER_PATH = '/Uploads/images/products/';
+    private const FOLDER_NAME = 'thumb-images';
+
+
+    public function getAllProducts(AllProductsDataTable $dataTable){
+        return $dataTable->render('admin.product.all-product.index');
+    }
 
 
     /**
@@ -32,8 +36,7 @@ class ProductController extends Controller
      */
     public function index(ProductsDataTable $dataTable)
     {
-        return $dataTable->render('admin.product.index');
-        
+        return $dataTable->render('admin.product.index');   
     }
 
     /**

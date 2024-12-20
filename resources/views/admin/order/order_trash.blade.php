@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Admin Order Trashed " }}
+    {{ "$settings->site_name || Trashed Orders" }}
 @endsection
 
 

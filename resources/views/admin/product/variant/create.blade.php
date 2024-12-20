@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ "$settings->site_name || Create Admin Product Variant  " }}
+    {{ "$settings->site_name || Create Product Variant" }}
 @endsection
 @section('content')
     <section class="section">

@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ "$settings->site_name || Coupons " }}
+    {{ "$settings->site_name || Users Coupon" }}
 @endsection
 @section('content')
     <section class="section">
@@ -9,10 +9,11 @@
                 <a href="{{ route('admin.dashboard') }}" class="btn btn-icon"><i class="fas fa-arrow-left"
                         style="font-size:25px"></i></a>
             </div>
-            <h1>Manage Coupons</h1>
+            <h1>Manage Users Coupon </h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item">Coupons</div>
+                <div class="breadcrumb-item active"><a href="{{ route('admin.coupons.index') }}">Coupons</a></div>
+                <div class="breadcrumb-item">Users Coupon </div>
             </div>
         </div>
 
@@ -22,11 +23,7 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h4>All Coupons</h4>
-                            <div class="card-header-action">
-                                <a href="{{ route('admin.coupons.create') }}" class="btn btn-primary"> <i
-                                        class="fas fa-plus"></i> Create New</a>
-                            </div>
+                            <h4>All Users Coupon </h4>
                         </div>
 
 

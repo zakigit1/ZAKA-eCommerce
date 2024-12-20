@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Create Admin Blog Category " }}
+    {{ "$settings->site_name || Create Blog Category " }}
 @endsection
 
 @section('content')

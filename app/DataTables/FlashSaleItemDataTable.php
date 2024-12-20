@@ -3,14 +3,11 @@
 namespace App\DataTables;
 
 use App\Models\FlashSaleItem;
-use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class FlashSaleItemDataTable extends DataTable
@@ -23,74 +20,84 @@ class FlashSaleItemDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
-                        
-            $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("admin.flash-sale.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
-            return $delete_btn;
-        })
-        ->addColumn('show_at_home',function($query){
+            ->addColumn('action', function($query){
+                            
+                $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("admin.flash-sale.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
+                return $delete_btn;
+            })
+
+            ->addColumn('show_at_home',function($query){
+                
+                $checked = ($query->show_at_home) ? 'checked' : '';
+
+                $Show_at_home_button ='
+                    <label  class="custom-switch mt-2" >
+                            <input type="checkbox" name="custom-switch-checkbox" 
+                            class="custom-switch-input  change-at-home-status"
+                            data-id="'.$query->id.'"
+                            '.$checked.'>
+                        <span class="custom-switch-indicator" ></span>
+                    </label>';
+
+                return $Show_at_home_button;          
+            })
+
+            ->addColumn('status',function($query){
+                
+                $checked = ($query->status) ? 'checked' : '';
+
+                $Status_button ='
+                    <label  class="custom-switch mt-2" >
+                            <input type="checkbox" name="custom-switch-checkbox" 
+                            class="custom-switch-input  change-status"
+                            data-id="'.$query->id.'"
+                            '.$checked.'>
+                        <span class="custom-switch-indicator" ></span>
+                    </label>';
+
+                return $Status_button;          
+            })
+
+            ->addColumn('product',function($query){
+            //   $product=Product::find($query->product_id)  ;
+            //     return $product->name;
             
-            $checked = ($query->show_at_home) ? 'checked' : '';
+            //   return $query->product->name;
+            return '<a href="'.route('admin.product.edit',$query->product->id).'">'.$query->product->name.'</a>';
+            })
 
-            $Show_at_home_button ='
-                <label  class="custom-switch mt-2" >
-                        <input type="checkbox" name="custom-switch-checkbox" 
-                        class="custom-switch-input  change-at-home-status"
-                        data-id="'.$query->id.'"
-                        '.$checked.'>
-                    <span class="custom-switch-indicator" ></span>
-                </label>';
+            ->addColumn('End Date',function($query){
+            return $query->flashSale->end_date;
+            })
 
-            return $Show_at_home_button;          
-        })
-        ->addColumn('status',function($query){
             
-            $checked = ($query->status) ? 'checked' : '';
+            /** Start Filtring : */
+            ->filterColumn('product',function($query , $keyword){
+                $query->whereHas('product',function($query) use($keyword){
+                    $query->where('name','like',"%$keyword%");
+                });
+            })
+ 
+            ->filterColumn('End Date',function($query , $keyword){
+                $query->whereHas('flashSale',function($query) use($keyword){
+                    $query->whereDate('end_date','like',"%$keyword%");
+                });
+            })
 
-            $Status_button ='
-                <label  class="custom-switch mt-2" >
-                        <input type="checkbox" name="custom-switch-checkbox" 
-                        class="custom-switch-input  change-status"
-                        data-id="'.$query->id.'"
-                        '.$checked.'>
-                    <span class="custom-switch-indicator" ></span>
-                </label>';
+            ->filterColumn('show_at_home',function($query , $keyword){
+                $query->where('show_at_home','like',"%$keyword%");
+            })
 
-            return $Status_button;          
-        })
-        ->addColumn('product',function($query){
-        //   $product=Product::find($query->product_id)  ;
-        //     return $product->name;
-        
-        //   return $query->product->name;
-          return '<a href="'.route('admin.product.edit',$query->product->id).'">'.$query->product->name.'</a>';
-        })
-        ->addColumn('End Date',function($query){
-          return $query->flashSale->end_date;
-        })
-
-
-        
-        ->filterColumn('product',function($query , $keyword){
-            $query->whereHas('product',function($query) use($keyword){
-                $query->where('name','like',"%$keyword%");
-            });
-        })
-
-        //  try this if it work
-        
-        ->filterColumn('End Date',function($query , $keyword){
-            $query->whereHas('flashSale',function($query) use($keyword){
-                $query->where('end_date','like',"%$keyword%");
-            });
-        })
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
+            /** End Filtring : */
 
 
 
 
-
-        ->rawColumns(['status','action','show_at_home','product'])
-        ->setRowId('id');
+            ->rawColumns(['status','action','show_at_home','product'])
+            ->setRowId('id');
     }
 
     /**

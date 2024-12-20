@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class FooterGridTwoDataTable extends DataTable
@@ -22,32 +20,41 @@ class FooterGridTwoDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
+            ->addColumn('action', function($query){
+                    
+                $user_role='admin';
+                $type='footer-grid-two';
+                return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
+            })
+
+            ->addColumn('status',function($query){
+
+                $checked = ($query->status) ? 'checked' : '';
+
+                $Status_button ='
+                    <label  class="custom-switch mt-2" >
+                            <input type="checkbox" name="custom-switch-checkbox" 
+                            class="custom-switch-input  change-status"
+                            data-id="'.$query->id.'"
+                            '.$checked.'>
+                        <span class="custom-switch-indicator" ></span>
+                    </label>';
+
+                return $Status_button;
+
+
                 
-            $user_role='admin';
-            $type='footer-grid-two';
-            return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
-        })
-        ->addColumn('status',function($query){
+            })
 
-            $checked = ($query->status) ? 'checked' : '';
-
-            $Status_button ='
-                <label  class="custom-switch mt-2" >
-                        <input type="checkbox" name="custom-switch-checkbox" 
-                        class="custom-switch-input  change-status"
-                        data-id="'.$query->id.'"
-                        '.$checked.'>
-                    <span class="custom-switch-indicator" ></span>
-                </label>';
-
-            return $Status_button;
-
+            /** Start Filtring : */
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
+            /** End Filtring : */
 
             
-        })
-        ->rawColumns(['status'])
-        ->setRowId('id');
+            ->rawColumns(['status'])
+            ->setRowId('id');
     }
 
     /**

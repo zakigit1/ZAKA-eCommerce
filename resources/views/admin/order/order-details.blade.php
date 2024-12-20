@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Admin Order Details" }}
+    {{ "$settings->site_name || Order Details" }}
 @endsection
 
 

@@ -4,15 +4,12 @@ namespace App\DataTables;
 
 use App\Models\GeneralSetting;
 use App\Models\Order;
-use App\Models\VendorOrder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class VendorOrdersDataTable extends DataTable
@@ -25,6 +22,7 @@ class VendorOrdersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
             ->addColumn('action', function($query){
 
                 $actions="
@@ -34,20 +32,25 @@ class VendorOrdersDataTable extends DataTable
 
                 return $actions;
             })
+
             ->addColumn('invoice_id',function($query){
                 return '#'.$query->invoice_id;
             })
+
             ->addColumn('customer', function($query){
                 
                 return $query->user->name;
             })
+
             ->addColumn('amount', function($query){
                 $currencyIcon = GeneralSetting::first()->currency_icon;
                 return  $currencyIcon . $query->amount;
             })
+
             ->addColumn('date', function($query){
                 return  date('Y-m-d',strtotime($query->created_at));
             })
+
             ->addColumn('payment_status', function($query){
                
                 if($query->payment_status == 1){
@@ -56,6 +59,7 @@ class VendorOrdersDataTable extends DataTable
                     return '<i class="badge bg-warning">Pending</i>';
                 }    
             })
+
             ->addColumn('order_status',function($query){
 
                 switch ($query->order_status) {
@@ -91,17 +95,64 @@ class VendorOrdersDataTable extends DataTable
                 }
             })
             
-            //this filter use it when we use data of relation in the search bar of datatable 
-
-            ->filterColumn('invoice_id',function($query , $keyword){
-                $query->where('invoice_id','like',"%$keyword%");
-            })
-
+            
+            /** Start Filtring : */
             ->filterColumn('customer',function($query , $keyword){
                 $query->whereHas('user',function($query) use($keyword){
                     $query->where('name','like',"%$keyword%");
                 });
             })
+
+            ->filterColumn('payment_status',function($query , $keyword){
+                if(strtolower($keyword) == 'complete'){
+                    $query->where('payment_status',1);
+                }elseif(strtolower($keyword) == 'pending'){
+                    $query->where('payment_status',0);
+                }else{
+                    $query->where('payment_status','like',"%$keyword%");
+                }
+            })
+
+            ->filterColumn('order_status',function($query , $keyword){
+                switch (strtolower($keyword)) {
+                    case 'pending':
+                        $query->where('order_status','pending');
+                        break;
+                    case 'processing':
+                        $query->where('order_status','processed_and_ready_to_ship');
+                        break;
+                    case 'shipped':
+                        $query->where('order_status','shipped');
+                        break;
+                    case 'out_for_delivery':
+                        $query->where('order_status','out_for_delivery');
+                        break;
+                    case 'delivered':
+                        $query->where('order_status','delivered');
+                        break;
+                    case 'canceled':
+                        $query->where('order_status','canceled');
+                        break;
+                    default:
+                        $query->where('order_status','like',"%$keyword%");
+                        break;
+                }
+            })
+
+            ->filterColumn('amount',function($query , $keyword){
+                $keyword = str_replace(currencyIcon(), '', $keyword);
+                $query->where('amount','like',"%$keyword%");
+            })
+
+            ->filterColumn('date',function($query , $keyword){
+                $query->whereDate('created_at','like',"%$keyword%");
+            })
+
+            ->filterColumn('invoice_id',function($query , $keyword){
+                $keyword = str_replace('#', '', $keyword);
+                 $query->where('invoice_id','like',"%$keyword%");
+            })
+            /** End Filtring : */
 
 
 

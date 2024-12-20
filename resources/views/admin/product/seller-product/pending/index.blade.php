@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ "$settings->site_name || Admin Seller Product Pending " }}
+    {{ "$settings->site_name || Seller Products Pending " }}
 @endsection
 @section('content')
     <section class="section">

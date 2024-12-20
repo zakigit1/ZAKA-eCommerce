@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Admin Advertisements  " }}
+    {{ "$settings->site_name || Advertisements" }}
 @endsection
 
 @section('content')
@@ -16,7 +16,7 @@
 
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item">Advertisement</div>
+                <div class="breadcrumb-item">Advertisements</div>
             </div>
         </div>
 

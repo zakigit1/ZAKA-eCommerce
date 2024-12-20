@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class NewsletterSubscribersDataTable extends DataTable
@@ -22,20 +20,33 @@ class NewsletterSubscribersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
+            ->addColumn('action', function($query){
 
-            $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("admin.subscriber.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
-            return $delete_btn;
-        })
-        ->addColumn('is_verified',function($query){
+                $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("admin.subscriber.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
+                return $delete_btn;
+            })
+            ->addColumn('is_verified',function($query){
 
-            $Yes='<i class="badge badge-success">Yes</i>';
-            $No='<i class="badge badge-danger">No</i>';
-            return ($query->is_verified) ? $Yes : $No ;
-            
-        })
-        ->rawColumns(['action','is_verified'])
-        ->setRowId('id');
+                $Yes='<i class="badge badge-success">Yes</i>';
+                $No='<i class="badge badge-danger">No</i>';
+                return ($query->is_verified) ? $Yes : $No ;
+                
+            })
+
+            /** Start Filtring : */
+            ->filterColumn('is_verified',function($query , $keyword){
+                if (strtolower($keyword) == 'yes') {
+                    $query->where('is_verified',1);
+                } elseif (strtolower($keyword) == 'no') {
+                    $query->where('is_verified',0);
+                } else {
+                    $query->where('is_verified','like',"%$keyword%");
+                }
+            })
+
+            /** End Filtring : */
+            ->rawColumns(['action','is_verified'])
+            ->setRowId('id');
     }
 
     /**

@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class BrandsDataTable extends DataTable
@@ -22,50 +20,73 @@ class BrandsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
-            $user_role='admin';
-            $type='brand';
-            return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
-        })
-        ->addColumn('is_featured',function($query){
+            ->addColumn('action', function($query){
+                $user_role='admin';
+                $type='brand';
+                return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
+            })
 
-            $Yes='<i class="badge badge-success">Yes</i>';
-            $No='<i class="badge badge-danger">No</i>';
-            return ($query->is_featured) ? $Yes : $No ;
-            
-        })
-        ->addColumn('status',function($query){
+            ->addColumn('is_featured',function($query){
 
-            // $active='<i class="badge badge-success">Active</i>';
-            // $inactive='<i class="badge badge-danger">Inactive</i>';
-            // return ($query->status) ? $active : $inactive ;
-            
-            $checked = ($query->status) ? 'checked' : '';
+                $Yes='<i class="badge badge-success">Yes</i>';
+                $No='<i class="badge badge-danger">No</i>';
+                return ($query->is_featured) ? $Yes : $No ;
+                
+            })
 
-            $Status_button ='
-                <label  class="custom-switch mt-2" >
-                        <input type="checkbox" name="custom-switch-checkbox" 
-                        class="custom-switch-input  change-status"
-                        data-id="'.$query->id.'"
-                        '.$checked.'>
-                    <span class="custom-switch-indicator" ></span>
-                </label>';
+            ->addColumn('status',function($query){
 
-            return $Status_button;
+                // $active='<i class="badge badge-success">Active</i>';
+                // $inactive='<i class="badge badge-danger">Inactive</i>';
+                // return ($query->status) ? $active : $inactive ;
+                
+                $checked = ($query->status) ? 'checked' : '';
+
+                $Status_button ='
+                    <label  class="custom-switch mt-2" >
+                            <input type="checkbox" name="custom-switch-checkbox" 
+                            class="custom-switch-input  change-status"
+                            data-id="'.$query->id.'"
+                            '.$checked.'>
+                        <span class="custom-switch-indicator" ></span>
+                    </label>';
+
+                return $Status_button;
 
 
+                
+            })
+
+            ->addColumn('logo',function($query){
+                $user_role='admin';
+                $columnName="logo";
+                
+                return view('Backend.DataTable.yajra_datatable_columns.image',['query'=>$query,'columnName'=>$columnName,'role'=>$user_role]);
+                
+                
+            })
+
+            /** Start Filtring : */
+
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
             
-        })
-        ->addColumn('logo',function($query){
-            $user_role='admin';
-            $columnName="logo";
-            
-            return view('Backend.DataTable.yajra_datatable_columns.image',['query'=>$query,'columnName'=>$columnName,'role'=>$user_role]);
-            
-            
-        })
-        ->rawColumns(['status','is_featured'])//if you add in this file html code you need to insert the column name inside (rawColumns)
-        ->setRowId('id');
+            ->filterColumn('is_featured',function($query , $keyword){
+                if (strtolower($keyword) == 'yes') {
+                    $query->where('is_featured',1);
+                } elseif (strtolower($keyword) == 'no') {
+                    $query->where('is_featured',0);
+                } else {
+                    $query->where('is_featured','like',"%$keyword%");
+                }
+            })
+
+            /** End Filtring : */
+
+
+            ->rawColumns(['status','is_featured'])//if you add in this file html code you need to insert the column name inside (rawColumns)
+            ->setRowId('id');
     }
 
     /**

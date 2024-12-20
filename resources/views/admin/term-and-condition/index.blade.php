@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ "$settings->site_name || Admin Create Terms & Conditions " }}
+    {{ "$settings->site_name || Create Terms & Conditions " }}
 @endsection
 @section('content')
     <section class="section">

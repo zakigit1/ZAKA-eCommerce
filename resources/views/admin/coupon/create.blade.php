@@ -2,7 +2,7 @@
 
 
 @section('title')
-    {{ "$settings->site_name || Create Admin Coupon " }}
+    {{ "$settings->site_name || Create Coupon " }}
 @endsection
 @section('content')
     <section class="section">

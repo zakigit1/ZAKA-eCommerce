@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class BlogDataTable extends DataTable
@@ -22,70 +20,75 @@ class BlogDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
-            $user_role='admin';
-            $type='blog';
-            return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
-        })
+            ->addColumn('action', function($query){
+                $user_role='admin';
+                $type='blog';
+                return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
+            })
 
-        ->addColumn('status',function($query){
+            ->addColumn('status',function($query){
 
-            $checked = ($query->status) ? 'checked' : '';
+                $checked = ($query->status) ? 'checked' : '';
 
-            $Status_button ='
-                <label  class="custom-switch mt-2" >
-                        <input type="checkbox" name="custom-switch-checkbox" 
-                        class="custom-switch-input  change-status"
-                        data-id="'.$query->id.'"
-                        '.$checked.'>
-                    <span class="custom-switch-indicator" ></span>
-                </label>';
+                $Status_button ='
+                    <label  class="custom-switch mt-2" >
+                            <input type="checkbox" name="custom-switch-checkbox" 
+                            class="custom-switch-input  change-status"
+                            data-id="'.$query->id.'"
+                            '.$checked.'>
+                        <span class="custom-switch-indicator" ></span>
+                    </label>';
 
-            return $Status_button;
+                return $Status_button;
+                
+            })
+
+            ->addColumn('image',function($query){
+                
+                $columnName="image";
+                return view('Backend.DataTable.yajra_datatable_columns.image',['query'=>$query,'columnName'=>$columnName]);
+                
+                
+            })
+
+            ->addColumn('user_name',function($query){
+                return $query->user->name;
+            })
+
+            ->addColumn('publish_date',function($query){
+                return date('d M Y',strtotime($query->created_at));
+            })
+
+            ->addColumn('category',function($query){
+                return $query->blogcategory->name;
+            })
+
+            /** Start Filtring : */
+
+            ->filterColumn('user_name',function($query , $keyword){
+                $query->whereHas('user',function($query) use($keyword){
+                    $query->where('name','like',"%$keyword%");
+                });
+            })
+
+            ->filterColumn('category',function($query , $keyword){
+                $query->whereHas('blogcategory',function($query) use($keyword){
+                    $query->where('name','like',"%$keyword%");
+                });
+            })
             
-        })
+            ->filterColumn('publish_date', function ($query, $keyword) {
+                $query->where('created_at','like',"%$keyword%");
+            })
 
-        ->addColumn('image',function($query){
-            
-            $columnName="image";
-            return view('Backend.DataTable.yajra_datatable_columns.image',['query'=>$query,'columnName'=>$columnName]);
-            
-            
-        })
-
-        ->addColumn('user_name',function($query){
-            return $query->user->name;
-        })
-
-        ->addColumn('publish_date',function($query){
-            return date('d M Y',strtotime($query->created_at));
-        })
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
+            /** End Filtring : */
 
 
-        ->addColumn('category',function($query){
-            return $query->blogcategory->name;
-        })
-
-        // Filtring : 
-
-        ->filterColumn('user_name',function($query , $keyword){
-            $query->whereHas('user',function($query) use($keyword){
-                $query->where('name','like',"%$keyword%");
-            });
-        })
-
-        ->filterColumn('category',function($query , $keyword){
-            $query->whereHas('blogcategory',function($query) use($keyword){
-                $query->where('name','like',"%$keyword%");
-            });
-        })
-        
-        ->filterColumn('publish_date', function ($query, $keyword) {
-            $query->where('created_at','like',"%$keyword%");
-        })
- 
-        ->rawColumns(['status','action'])//if you add in this file html code you need to insert the column name inside (rawColumns)
-        ->setRowId('id',);
+            ->rawColumns(['status','action'])//if you add in this file html code you need to insert the column name inside (rawColumns)
+            ->setRowId('id');
     }
 
     /**

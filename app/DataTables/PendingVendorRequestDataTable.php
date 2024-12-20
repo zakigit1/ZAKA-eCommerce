@@ -9,8 +9,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class PendingVendorRequestDataTable extends DataTable
@@ -23,36 +21,51 @@ class PendingVendorRequestDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
+            ->addColumn('action', function($query){
 
-            $action="
-            <a class='btn btn-primary' href='".route('admin.vendor-request.show',$query->id)."'><i class='fas fa-eye'></i></a>
-            ";
+                $action="
+                <a class='btn btn-primary' href='".route('admin.vendor-request.show',$query->id)."'><i class='fas fa-eye'></i></a>
+                ";
 
-            return $action;
-        })
-        ->addColumn('user_name', function($query){
-            return $query->user->name;
-        })
-        ->addColumn('shop_email', function($query){
-            return $query->email;
-        })
-        ->addColumn('status', function($query){
-            if($query->status == 1){
-                return '<i class="badge badge-success">Approved</i>';
-            }else{
-                return '<i class="badge badge-warning">Pending</i>';
-            }
-        })
+                return $action;
+            })
 
-        ->filterColumn('user_name',function($query , $keyword){
-            $query->whereHas('user',function($query) use($keyword){
-                $query->where('name','like',"%$keyword%");
-            });
-        })
+            ->addColumn('user_name', function($query){
+                return $query->user->name;
+            })
 
-       ->rawColumns(['status','status','action'])
-        ->setRowId('id');
+            ->addColumn('shop_email', function($query){
+                return $query->email;
+            })
+
+            ->addColumn('status', function($query){
+                if($query->status == 1){
+                    return '<i class="badge badge-success">Approved</i>';
+                }else{
+                    return '<i class="badge badge-warning">Pending</i>';
+                }
+            })
+
+            
+            /** Start Filtring : */
+            ->filterColumn('user_name',function($query , $keyword){
+                $query->whereHas('user',function($query) use($keyword){
+                    $query->where('name','like',"%$keyword%");
+                });
+            })
+
+            ->filterColumn('shop_email',function($query , $keyword){
+                $query->where('email','like',"%$keyword%");
+            })
+
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
+            /** End Filtring : */
+
+            
+            ->rawColumns(['status','action'])
+            ->setRowId('id');
     }
 
     /**

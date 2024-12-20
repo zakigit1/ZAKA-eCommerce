@@ -2,15 +2,13 @@
 
 namespace App\DataTables;
 
-use App\Models\AdminProductReview;
+
 use App\Models\ProductReview;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class AdminProductReviewDataTable extends DataTable
@@ -23,94 +21,117 @@ class AdminProductReviewDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
+            ->addColumn('action', function($query){
 
-            $actions="
-            <a class='btn btn-success' href='".route('admin.product-review-gallery',$query->id)."'><i class='fas fa-eye'></i></a>
-            <a class='btn btn-danger ml-2  delete-item-with-ajax'  href='".route('admin.product-review.destory',$query->id)."'><i class='fas fa-trash-alt'></i></a>
-            ";
+                $actions="
+                <a class='btn btn-success' href='".route('admin.product-review-gallery',$query->id)."'><i class='fas fa-eye'></i></a>
+                <a class='btn btn-danger ml-2  delete-item-with-ajax'  href='".route('admin.product-review.destory',$query->id)."'><i class='fas fa-trash-alt'></i></a>
+                ";
 
-            return $actions;
-        })
-        ->addColumn('status',function($query){   
-                $checked = ($query->status) ? 'checked' : '';
+                return $actions;
+            })
+
+            ->addColumn('status',function($query){   
+                    $checked = ($query->status) ? 'checked' : '';
+        
+                    $Status_button ='
+                        <label  class="custom-switch mt-2" >
+                                <input type="checkbox" name="custom-switch-checkbox" 
+                                class="custom-switch-input  change-status"
+                                data-id="'.$query->id.'"
+                                '.$checked.'>
+                            <span class="custom-switch-indicator" ></span>
+                        </label>';
+        
+                    return $Status_button;
     
-                $Status_button ='
-                    <label  class="custom-switch mt-2" >
-                            <input type="checkbox" name="custom-switch-checkbox" 
-                            class="custom-switch-input  change-status"
-                            data-id="'.$query->id.'"
-                            '.$checked.'>
-                        <span class="custom-switch-indicator" ></span>
-                    </label>';
-    
-                return $Status_button;
-   
-        })
-        ->addColumn('product',function($query){
+            })
+
+            ->addColumn('product',function($query){
+                
+                return '<a href ="'.route('product-details', $query->product->slug).'">'.$query->product->name.'</a>';
+            })
+
+            ->addColumn('review',function($query){
+                return $query->review != null ? $query->review : '<b>\\No-Review\\</b>';
+            })
+
+            ->addColumn('rating',function($query){
+                switch ($query->rating) {
+                    case 1:
+                        return '<i class="fas fa-star"></i>';
+                        break;
+
+                    case 2:
+                        for($i = 0 ; $i<=1 ;$i++){
+                            $stars [] = '<i class="fas fa-star"></i>' ;
+                        };
+                        return str_replace(',','',implode(',',$stars));
+                        break;
+                    case 3:
+                        
+                        for($i = 0 ;$i <= 2 ;$i++){
+                            $stars [] = '<i class="fas fa-star"></i>' ;
+                        };
+                        return str_replace(',','',implode(',',$stars));
+                        break;
+
+                        // return '<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i>';
+                        // break;
+                        
+                    case 4:
+                        for($i = 0 ;$i <= 3 ;$i++){
+                            $stars [] = '<i class="fas fa-star"></i>' ;
+                        };
+                        return str_replace(',','',implode(',',$stars));
+                        break;
+
+                    case 5:
+                        for($i = 0 ;$i <=4 ;$i++){
+                            $stars [] = '<i class="fas fa-star"></i>' ;
+                        };
+                        return str_replace(',','',implode(',',$stars));
+                        break;
+
+                    default:
+                        return'<i class="far fa-star"></i>';
+                        break;
+                }
+            })
+
+            ->addColumn('client',function($query){
+                return $query->user->name;
+            })
+
+            /** Start Filtring : */
+            ->filterColumn('product',function($query , $keyword){
+                $query->whereHas('product',function($query) use($keyword){
+                    $query->where('name','like',"%$keyword%");
+                });
+            })
+
+            ->filterColumn('client',function($query , $keyword){
+                $query->whereHas('user',function($query) use($keyword){
+                    $query->where('name','like',"%$keyword%");
+                });
+            })
+
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
+
+            ->filterColumn('review',function($query , $keyword){
+                $query->where('review','like',"%$keyword%");
+            })
+
+            ->filterColumn('rating',function($query , $keyword){
+                $query->where('rating','like',"%$keyword%");
+            })
+            /** End Filtring : */
+
             
-            return '<a href ="'.route('product-details', $query->product->slug).'">'.$query->product->name.'</a>';
-        })
-        ->addColumn('review',function($query){
-            return $query->review != null ? $query->review : '<b>\\No-Review\\</b>';
-        })
-        ->addColumn('rating',function($query){
-            switch ($query->rating) {
-                case 1:
-                    return '<i class="fas fa-star"></i>';
-                     break;
-
-                case 2:
-                    for($i = 0 ; $i<=1 ;$i++){
-                        $stars [] = '<i class="fas fa-star"></i>' ;
-                       };
-                    return str_replace(',','',implode(',',$stars));
-                    break;
-                case 3:
-                    
-                    for($i = 0 ;$i <= 2 ;$i++){
-                        $stars [] = '<i class="fas fa-star"></i>' ;
-                       };
-                    return str_replace(',','',implode(',',$stars));
-                    break;
-
-                    // return '<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i>';
-                    // break;
-                    
-                case 4:
-                    for($i = 0 ;$i <= 3 ;$i++){
-                        $stars [] = '<i class="fas fa-star"></i>' ;
-                       };
-                    return str_replace(',','',implode(',',$stars));
-                    break;
-
-                case 5:
-                    for($i = 0 ;$i <=4 ;$i++){
-                        $stars [] = '<i class="fas fa-star"></i>' ;
-                       };
-                    return str_replace(',','',implode(',',$stars));
-                    break;
-
-                default:
-                    return'<i class="far fa-star"></i>';
-                    break;
-            }
-        })
-        ->addColumn('client',function($query){
-            return $query->user->name;
-        })
-        ->filterColumn('product',function($query , $keyword){
-            $query->whereHas('product',function($query) use($keyword){
-                $query->where('name','like',"%$keyword%");
-            });
-        })
-        ->filterColumn('client',function($query , $keyword){
-            $query->whereHas('user',function($query) use($keyword){
-                $query->where('name','like',"%$keyword%");
-            });
-        })
-        ->rawColumns(['status','rating','product','action','review'])
-        ->setRowId('id');
+            ->rawColumns(['status','rating','product','action','review'])
+            ->setRowId('id');
     }
 
     /**

@@ -2,15 +2,13 @@
 
 namespace App\DataTables;
 
-use App\Models\AdminList;
+
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class AdminListDataTable extends DataTable
@@ -23,32 +21,41 @@ class AdminListDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
+            ->addColumn('action', function($query){
 
-            $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("admin.admin-list.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
-            if($query->id != 21 || $query->id != 1){ // change it to id = 1 
-                return $delete_btn;   
-            }
+                $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("admin.admin-list.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
+                if($query->id != 21 || $query->id != 1){ // change it to id = 1 
+                    return $delete_btn;   
+                }
 
-        })
-        ->addColumn('status', function($query){
-                
-            $checked = ($query->status == 'active') ? 'checked' : '';
+            })
 
-            $Status_button ='
-                <label  class="custom-switch mt-2" >
-                        <input type="checkbox" name="custom-switch-checkbox" 
-                        class="custom-switch-input  change-status"
-                        data-id="'.$query->id.'"
-                        '.$checked.'>
-                    <span class="custom-switch-indicator" ></span>
-                </label>';
-            if($query->id != 21 || $query->id != 1){ // change it to id = 1 
-                return $Status_button;
-            }
-        })
-        ->rawColumns(['status','action'])
-        ->setRowId('id');
+            ->addColumn('status', function($query){
+                    
+                $checked = ($query->status == 'active') ? 'checked' : '';
+
+                $Status_button ='
+                    <label  class="custom-switch mt-2" >
+                            <input type="checkbox" name="custom-switch-checkbox" 
+                            class="custom-switch-input  change-status"
+                            data-id="'.$query->id.'"
+                            '.$checked.'>
+                        <span class="custom-switch-indicator" ></span>
+                    </label>';
+                if($query->id != 21 || $query->id != 1){ // change it to id = 1 
+                    return $Status_button;
+                }
+            })
+
+            /** Start Filtring : */
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
+            /** End Filtring : */
+            
+            
+            ->rawColumns(['status','action'])
+            ->setRowId('id');
     }
 
     /**

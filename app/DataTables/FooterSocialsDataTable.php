@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class FooterSocialsDataTable extends DataTable
@@ -22,39 +20,48 @@ class FooterSocialsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
+            ->addColumn('action', function($query){
+                    
+                $user_role='admin';
+                $type='footer-socials';
+                return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
+            })
+
+            ->addColumn('status',function($query){
+
+                $checked = ($query->status) ? 'checked' : '';
+
+                $Status_button ='
+                    <label  class="custom-switch mt-2" >
+                            <input type="checkbox" name="custom-switch-checkbox" 
+                            class="custom-switch-input  change-status"
+                            data-id="'.$query->id.'"
+                            '.$checked.'>
+                        <span class="custom-switch-indicator" ></span>
+                    </label>';
+
+                return $Status_button;
+
+
                 
-            $user_role='admin';
-            $type='footer-socials';
-            return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
-        })
-        ->addColumn('status',function($query){
+            })
 
-            $checked = ($query->status) ? 'checked' : '';
+            ->addColumn('icon',function($query){
 
-            $Status_button ='
-                <label  class="custom-switch mt-2" >
-                        <input type="checkbox" name="custom-switch-checkbox" 
-                        class="custom-switch-input  change-status"
-                        data-id="'.$query->id.'"
-                        '.$checked.'>
-                    <span class="custom-switch-indicator" ></span>
-                </label>';
+                $icon ='<i style ="font-size:30px"class="'.$query->icon.'"></i>';
+                
+                return $icon ;
+                
+            })
 
-            return $Status_button;
+            /** Start Filtring : */
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
+            /** End Filtring : */
 
-
-            
-        })
-        ->addColumn('icon',function($query){
-
-            $icon ='<i style ="font-size:30px"class="'.$query->icon.'"></i>';
-            
-            return $icon ;
-            
-        })
-        ->rawColumns(['status','icon'])
-        ->setRowId('id');
+            ->rawColumns(['status','icon'])
+            ->setRowId('id');
     }
 
     /**

@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class ChildcategoriesDataTable extends DataTable
@@ -29,6 +27,7 @@ class ChildcategoriesDataTable extends DataTable
                 $type='child-category';
                 return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
             })
+
             ->addColumn('status',function($query){
 
                 $checked = ($query->status) ? 'checked' : '';
@@ -45,15 +44,19 @@ class ChildcategoriesDataTable extends DataTable
                 return $Status_button;
                 
             })
+
             ->addColumn('category',function($query){
                 $categoryName =$query->category->name;
                 return $categoryName;
             })
+
             ->addColumn('sub_category',function($query){
                 $subcategoryName =$query->subcategory->name;
                 return $subcategoryName;
             })
 
+
+            /** Start Filtring : */
             ->filterColumn('category',function($query , $keyword){
                 $query->whereHas('category',function($query) use($keyword){
                     $query->where('name','like',"%$keyword%");
@@ -65,6 +68,13 @@ class ChildcategoriesDataTable extends DataTable
                     $query->where('name','like',"%$keyword%");
                 });
             })
+
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
+
+            /** End Filtring : */
+
 
             ->rawColumns(['status',])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');

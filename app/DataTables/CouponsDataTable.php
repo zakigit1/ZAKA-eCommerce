@@ -3,14 +3,11 @@
 namespace App\DataTables;
 
 use App\Models\Coupon;
-use App\Models\GeneralSetting;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class CouponsDataTable extends DataTable
@@ -23,47 +20,82 @@ class CouponsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
+            ->addColumn('action', function($query){
+                    
+                $user_role='admin';
+                $type='coupons';
+                return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
+            })
+
+            ->addColumn('status',function($query){
+        
+                $checked = ($query->status) ? 'checked' : '';
+
+                $Status_button ='
+                    <label  class="custom-switch mt-2" >
+                            <input type="checkbox" name="custom-switch-checkbox" 
+                            class="custom-switch-input  change-status"
+                            data-id="'.$query->id.'"
+                            '.$checked.'>
+                        <span class="custom-switch-indicator" ></span>
+                    </label>';
+
+                return $Status_button;
+
+
                 
-            $user_role='admin';
-            $type='coupons';
-            return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
-        })
-        ->addColumn('status',function($query){
-     
-            $checked = ($query->status) ? 'checked' : '';
+            })
 
-            $Status_button ='
-                <label  class="custom-switch mt-2" >
-                        <input type="checkbox" name="custom-switch-checkbox" 
-                        class="custom-switch-input  change-status"
-                        data-id="'.$query->id.'"
-                        '.$checked.'>
-                    <span class="custom-switch-indicator" ></span>
-                </label>';
+            ->addColumn('discount_type',function($query){
 
-            return $Status_button;
+                $percent='<i class="badge badge-success">Percentage (%)</i>';
+                $amount='<i class="badge badge-warning">Amount('.currencyIcon().')</i>';
+                return ($query->discount_type == 'percent') ? $percent : $amount ;  
+            })
+
+            ->addColumn('discount',function($query){
+
+                return ($query->discount_type == 'percent') ? ($query->discount.'%') : (currencyIcon().$query->discount)  ;  
+            })
+
+            ->addColumn('coupon_code',function($query){
+                return $query->code;
+            })
 
 
-            
-        })
-        ->addColumn('discount_type',function($query){
+            /** Start Filtring : */
+                        
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
 
-            $generalSetting = GeneralSetting::first();
-            $percent='<i class="badge badge-success">Percentage (%)</i>';
-            $amount='<i class="badge badge-warning">Amount('.$generalSetting->currency_icon.')</i>';
-            return ($query->discount_type == 'percent') ? $percent : $amount ;  
-        })
-        ->addColumn('discount',function($query){
+            ->filterColumn('coupon_code',function($query , $keyword){
+                $query->where('code','like',"%$keyword%");
+            })
 
-            $generalSetting = GeneralSetting::first();
-            return ($query->discount_type == 'percent') ? ($query->discount.'%') : ($generalSetting->currency_icon.$query->discount)  ;  
-        })
-        ->addColumn('coupon_code',function($query){
-            return $query->code;
-        })
-        ->rawColumns(['status','discount_type'])//if you add in this file html code you need to insert the column name inside (rawColumns)
-        ->setRowId('id');
+            ->filterColumn('discount_type',function($query , $keyword){
+                if (strtolower($keyword) == 'percentage')
+                    $query->where('discount_type','percent');
+                elseif (strtolower($keyword) == 'amount')
+                    $query->where('discount_type','amount');
+            })
+
+            ->filterColumn('discount',function($query , $keyword){
+                $keyword = str_replace(currencyIcon(), '', $keyword);
+                $query->where('discount','like',"%$keyword%");
+            })
+
+            ->filterColumn('coupon_code',function($query , $keyword){
+                $query->where('code','like',"%$keyword%");
+            })
+
+        
+                        
+            /** End Filtring : */
+
+
+            ->rawColumns(['status','discount_type'])//if you add in this file html code you need to insert the column name inside (rawColumns)
+            ->setRowId('id');
     }
 
     /**

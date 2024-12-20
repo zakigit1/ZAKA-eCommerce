@@ -2,15 +2,12 @@
 
 namespace App\DataTables;
 
-use App\Models\GeneralSetting;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class ProductsDataTable extends DataTable
@@ -91,6 +88,11 @@ class ProductsDataTable extends DataTable
 
         })
  
+
+
+
+
+        
         ->rawColumns(['status','action','type'])//if you add in this file html code you need to insert the column name inside (rawColumns)
         ->setRowId('id',);
     }

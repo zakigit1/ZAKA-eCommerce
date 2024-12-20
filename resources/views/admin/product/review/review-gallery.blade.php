@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Admin Product Reviews Gallery" }}
+    {{ "$settings->site_name || Product Review Gallery" }}
 @endsection
 
 @section('content')

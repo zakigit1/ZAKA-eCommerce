@@ -2,7 +2,7 @@
 
 
 @section('title')
-    {{ "$settings->site_name || Admin Product Review" }}
+    {{ "$settings->site_name || Products Reviews" }}
 @endsection
 @section('content')
     <section class="section">

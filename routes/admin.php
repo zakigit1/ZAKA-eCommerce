@@ -172,6 +172,10 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
 
     ##############################  Product End  ###################################
 
+    ##############################  Admin Product Start  ###################################
+    Route::get('/all-product',[ProductController::class,'getAllProducts'])->name('all-product.index');
+    ##############################  Admin Product Start  ###################################
+
     ##############################  Seller or Vendor Product Start  ###################################
 
 

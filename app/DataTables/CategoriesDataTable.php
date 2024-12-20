@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class CategoriesDataTable extends DataTable
@@ -29,6 +27,7 @@ class CategoriesDataTable extends DataTable
                 $type='category';
                 return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
             })
+
             ->addColumn('status',function($query){
 
                 // $active='<i class="badge badge-success">Active</i>';
@@ -51,6 +50,7 @@ class CategoriesDataTable extends DataTable
 
                 
             })
+
             ->addColumn('icon',function($query){
 
                 $icon ='<i style ="font-size:40px"class="'.$query->icon.'"></i>';
@@ -58,6 +58,13 @@ class CategoriesDataTable extends DataTable
                 return $icon ;
                 
             })
+
+            /** Start Filtring : */
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
+            /** End Filtring : */
+
             ->rawColumns(['status','icon'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
     }

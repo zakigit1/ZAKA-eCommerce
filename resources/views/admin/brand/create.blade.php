@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Create Admin Brand  " }}
+    {{ "$settings->site_name || Create Brand " }}
 @endsection
 
 

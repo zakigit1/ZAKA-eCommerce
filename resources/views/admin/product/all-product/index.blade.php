@@ -1,6 +1,8 @@
 @extends('Admin.Dashboard.layouts.master')
+
+
 @section('title')
-    {{ "$settings->site_name || Coupons " }}
+    {{ "$settings->site_name || Products" }}
 @endsection
 @section('content')
     <section class="section">
@@ -9,10 +11,10 @@
                 <a href="{{ route('admin.dashboard') }}" class="btn btn-icon"><i class="fas fa-arrow-left"
                         style="font-size:25px"></i></a>
             </div>
-            <h1>Manage Coupons</h1>
+            <h1>Products</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item">Coupons</div>
+                <div class="breadcrumb-item"> Products</div>
             </div>
         </div>
 
@@ -22,11 +24,7 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h4>All Coupons</h4>
-                            <div class="card-header-action">
-                                <a href="{{ route('admin.coupons.create') }}" class="btn btn-primary"> <i
-                                        class="fas fa-plus"></i> Create New</a>
-                            </div>
+                            <h4>All Products</h4>
                         </div>
 
 
@@ -55,14 +53,14 @@
                 let id = $(this).data('id');
 
                 $.ajax({
-                    url: '{{ route('admin.coupons.change-status') }}',
+                    url: '{{ route('admin.product.change-status') }}',
                     method: 'PUT',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     data: {
                         _token: $('meta[name="csrf-token"]').attr(
-                            'content'), // Include the CSRF token in the data
+                        'content'), // Include the CSRF token in the data
                         status: isChecked,
                         id: id
                     },

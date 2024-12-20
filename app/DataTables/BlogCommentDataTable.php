@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class BlogCommentDataTable extends DataTable
@@ -22,39 +20,44 @@ class BlogCommentDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
-            $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("admin.blog-comment.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
-            return $delete_btn;
-        })
+            ->addColumn('action', function($query){
+                $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("admin.blog-comment.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
+                return $delete_btn;
+            })
+
+            ->addColumn('post',function($query){
+                return "<a href='".route('blog-details',$query->blog->slug)."'>".$query->blog->title."</a>";
+            })
+
+            ->addColumn('user_name',function($query){
+                return $query->user->name;
+            })
 
 
 
-        ->addColumn('post',function($query){
-            return "<a href='".route('blog-details',$query->blog->slug)."'>".$query->blog->title."</a>";
-        })
+            /** Start Filtring : */
 
-        ->addColumn('user_name',function($query){
-            return $query->user->name;
-        })
+            ->filterColumn('post',function($query , $keyword){
+                $query->whereHas('blog',function($query) use($keyword){
+                    $query->where('title','like',"%$keyword%");
+                });
+            })
 
+            ->filterColumn('user_name',function($query , $keyword){
+                $query->whereHas('user',function($query) use($keyword){
+                    $query->where('name','like',"%$keyword%");
+                });
+            })
 
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
 
-        // Filtring : 
-
-        ->filterColumn('post',function($query , $keyword){
-            $query->whereHas('blog',function($query) use($keyword){
-                $query->where('title','like',"%$keyword%");
-            });
-        })
-        ->filterColumn('user_name',function($query , $keyword){
-            $query->whereHas('user',function($query) use($keyword){
-                $query->where('name','like',"%$keyword%");
-            });
-        })
-
+            /** End Filtring : */
         
-        ->rawColumns(['post','action'])//if you add in this file html code you need to insert the column name inside (rawColumns)
-        ->setRowId('id',);
+            
+            ->rawColumns(['post','action'])//if you add in this file html code you need to insert the column name inside (rawColumns)
+            ->setRowId('id',);
     }
 
     /**

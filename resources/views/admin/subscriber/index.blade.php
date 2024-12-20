@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ "$settings->site_name || Admin Newsletter Subscribers " }}
+    {{ "$settings->site_name || Newsletter Subscribers " }}
 @endsection
 @section('content')
     <section class="section">

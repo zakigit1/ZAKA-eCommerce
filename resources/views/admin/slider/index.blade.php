@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ "$settings->site_name || Admin Slider  " }}
+    {{ "$settings->site_name || Sliders  " }}
 @endsection
 
 @section('content')

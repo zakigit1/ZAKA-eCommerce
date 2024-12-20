@@ -51,6 +51,7 @@
           'admin.seller-pending-product.*',
           'admin.product-review.*',
           'admin.product-review-gallery',
+          'admin.all-product.*',
 
           ])}}">
           <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-box"></i> <span>Manage Products</span></a>
@@ -63,7 +64,10 @@
               'admin.product-image-gallery.*',
               'admin.product-variant.*',
               'admin.product-variant-item.*',
-            ])}}" ><a class="nav-link" href="{{route('admin.product.index')}}">Product</a></li>
+            ])}}" ><a class="nav-link" href="{{route('admin.product.index')}}">Admin Product</a></li>
+
+            <li class="{{setActive(['admin.all-product.*'])}}" ><a class="nav-link" href="{{route('admin.all-product.index')}}">Product</a></li>
+            
 
             <li class="{{setActive(['admin.seller-product.*'])}}" ><a class="nav-link" href="{{route('admin.seller-product.index')}}">Seller Product</a></li>
             <li class="{{setActive(['admin.seller-pending-product.*'])}}" ><a class="nav-link" href="{{route('admin.seller-pending-product.index')}}">Seller Pending Product</a></li>
