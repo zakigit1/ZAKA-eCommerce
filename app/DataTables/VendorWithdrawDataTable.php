@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class VendorWithdrawDataTable extends DataTable
@@ -22,47 +20,50 @@ class VendorWithdrawDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
+            ->addColumn('action', function($query){
 
-            $action="
-                <a class='btn btn-primary' href='".route('vendor.withdraw.show',$query->id)."'><i class='fas fa-eye'></i></a>
-            ";
+                $action="
+                    <a class='btn btn-primary' href='".route('vendor.withdraw.show',$query->id)."'><i class='fas fa-eye'></i></a>
+                ";
 
-            return $action;
-        })
+                return $action;
+            })
 
-        ->addColumn('withdraw_mehtod',function($query){
+            ->addColumn('withdraw_mehtod',function($query){
 
-            return $query->method['name'];
-                
-        })
+                return $query->method['name'];
+                    
+            })
 
-        ->addColumn('total_amount',function($query){
+            ->addColumn('total_amount',function($query){
 
-            return currencyIcon().$query->total_amount;
-                
-        })
-        ->addColumn('withdraw_amount',function($query){
+                return currencyIcon().$query->total_amount;
+                    
+            })
 
-            return currencyIcon().$query->withdraw_amount;
-                
-        })
-        ->addColumn('withdraw_charge',function($query){
+            ->addColumn('withdraw_amount',function($query){
 
-            return $query->withdraw_charge .'%';
-                
-        })
-        ->addColumn('status',function($query){
-            if($query->status == 'paid'){
-                return '<i class="badge bg-success">Paid</i>';
-            }elseif($query->status == 'pending'){
-                return '<i class="badge bg-warning">Pending</i>';
-            }elseif($query->status == 'decline'){
-                return '<i class="badge bg-danger">decline</i>';
-                // return '<i class="badge bg-danger">canceled</i>';
-                
-            }
-        })
+                return currencyIcon().$query->withdraw_amount;
+                    
+            })
+
+            ->addColumn('withdraw_charge',function($query){
+
+                return $query->withdraw_charge .'%';
+                    
+            })
+            
+            ->addColumn('status',function($query){
+                if($query->status == 'paid'){
+                    return '<i class="badge bg-success">Paid</i>';
+                }elseif($query->status == 'pending'){
+                    return '<i class="badge bg-warning">Pending</i>';
+                }elseif($query->status == 'decline'){
+                    return '<i class="badge bg-danger">decline</i>';
+                    // return '<i class="badge bg-danger">canceled</i>';
+                    
+                }
+            })
 
             ->filterColumn('withdraw_mehtod',function($query , $keyword){
                 $query->whereHas('method',function($query) use($keyword){
@@ -71,7 +72,8 @@ class VendorWithdrawDataTable extends DataTable
             })
 
 
-
+            /** Start Filtring : */
+            /** End Filtring : */
 
             ->rawColumns(['status','action'])
             ->setRowId('id');

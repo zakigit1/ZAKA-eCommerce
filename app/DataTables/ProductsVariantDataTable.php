@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class ProductsVariantDataTable extends DataTable
@@ -22,32 +20,41 @@ class ProductsVariantDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
-            $user_role='admin';
-            $type='product-variant';
+            ->addColumn('action', function($query){
+                $user_role='admin';
+                $type='product-variant';
 
-            $variant_items_buttom ='<a class="btn btn-info ml-4" href="'.route("$user_role.product-variant-item.index",['productId'=>request()->id,'variantId'=>$query->id]).'"><i class="fas fa-sitemap"></i> '.$query->name.' Items </a>';
+                $variant_items_buttom ='<a class="btn btn-info ml-4" href="'.route("$user_role.product-variant-item.index",['productId'=>request()->id,'variantId'=>$query->id]).'"><i class="fas fa-sitemap"></i> '.$query->name.' Items </a>';
 
-            return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]).$variant_items_buttom;
-        })
-        ->addColumn('status',function($query){
+                return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]).$variant_items_buttom;
+            })
 
-            $checked = ($query->status) ? 'checked' : '';
+            ->addColumn('status',function($query){
 
-            $Status_button ='
-                <label  class="custom-switch mt-2" >
-                        <input type="checkbox" name="custom-switch-checkbox" 
-                        class="custom-switch-input  change-status"
-                        data-id="'.$query->id.'"
-                        '.$checked.'>
-                    <span class="custom-switch-indicator" ></span>
-                </label>';
+                $checked = ($query->status) ? 'checked' : '';
 
-            return $Status_button;
-            
-        })
-        ->rawColumns(['status','action'])//if you add in this file html code you need to insert the column name inside (rawColumns)
-        ->setRowId('id');
+                $Status_button ='
+                    <label  class="custom-switch mt-2" >
+                            <input type="checkbox" name="custom-switch-checkbox" 
+                            class="custom-switch-input  change-status"
+                            data-id="'.$query->id.'"
+                            '.$checked.'>
+                        <span class="custom-switch-indicator" ></span>
+                    </label>';
+
+                return $Status_button;
+                
+            })
+
+            /** Start Filtring : */
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
+
+            /** End Filtring : */
+
+            ->rawColumns(['status','action'])//if you add in this file html code you need to insert the column name inside (rawColumns)
+            ->setRowId('id');
     }
 
     /**

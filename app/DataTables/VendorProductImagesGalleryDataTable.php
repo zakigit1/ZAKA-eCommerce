@@ -3,14 +3,12 @@
 namespace App\DataTables;
 
 use App\Models\ProductImageGallery;
-use App\Models\VendorProductImagesGallery;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
+
 use Yajra\DataTables\Services\DataTable;
 
 class VendorProductImagesGalleryDataTable extends DataTable
@@ -23,21 +21,22 @@ class VendorProductImagesGalleryDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
-            
-            $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("vendor.product-image-gallery.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
-            return $delete_btn;
-        })
-        ->addColumn('image',function($query){
-            
-            $columnName="image";
-            
-            $image = '<img   width="200px"  src="'.$query->$columnName.'" alt="'.$columnName.'-img">';
+            ->addColumn('action', function($query){
+                
+                $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("vendor.product-image-gallery.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
+                return $delete_btn;
+            })
+            ->addColumn('image',function($query){
+                
+                $columnName="image";
+                
+                $image = '<img   width="200px"  src="'.$query->$columnName.'" alt="'.$columnName.'-img">';
 
-            return $image;
-        })
-        ->rawColumns(['action','image'])
-        ->setRowId('id');
+                return $image;
+            })
+            
+            ->rawColumns(['action','image'])
+            ->setRowId('id');
     }
 
     /**

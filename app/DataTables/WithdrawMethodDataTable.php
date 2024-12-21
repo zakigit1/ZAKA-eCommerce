@@ -2,25 +2,19 @@
 
 namespace App\DataTables;
 
-use App\Models\GeneralSetting;
+
 use App\Models\WithdrawMethod;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class WithdrawMethodDataTable extends DataTable
 {
 
 
-    protected $currencyIcon;
-    public function __construct(){
-        $this->currencyIcon = GeneralSetting::first()->currency_icon;
-    }
     /**
      * Build the DataTable class.
      *
@@ -34,16 +28,24 @@ class WithdrawMethodDataTable extends DataTable
                 $type='withdraw-method';
                 return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
             })
+
             ->addColumn('minimum_amount', function($query){
-                return  $this->currencyIcon . $query->minimum_amount;
+                return currencyIcon() . $query->minimum_amount;
             })
+
             ->addColumn('maximum_amount', function($query){
-                return  $this->currencyIcon . $query->maximum_amount;
+                return currencyIcon() . $query->maximum_amount;
             })
+
             ->addColumn('withdraw_charge', function($query){
                 return   $query->withdraw_charge . '%';
             })
 
+            /** Start Filtring : */
+            /** End Filtring : */
+
+
+            
             // ->rawColumns([])
             ->setRowId('id');
     }

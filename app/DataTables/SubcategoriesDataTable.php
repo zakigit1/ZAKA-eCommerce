@@ -2,15 +2,12 @@
 
 namespace App\DataTables;
 
-// use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class SubcategoriesDataTable extends DataTable
@@ -47,6 +44,7 @@ class SubcategoriesDataTable extends DataTable
                 return $Status_button;
                 
             })
+
             ->addColumn('category',function($query){
 
                 // $categoryName= Category::where('id',$query->category_id)->select('name')->first();
@@ -56,13 +54,19 @@ class SubcategoriesDataTable extends DataTable
                 return $categoryName;
             })
 
+            /** Start Filtring : */
+            
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
+
+
             ->filterColumn('category',function($query , $keyword){
                 $query->whereHas('category',function($query) use($keyword){
                     $query->where('name','like',"%$keyword%");
                 });
             })
-
-
+            /** End Filtring : */
 
             ->rawColumns(['status',])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');

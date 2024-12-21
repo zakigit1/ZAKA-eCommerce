@@ -9,8 +9,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class WithdrawRequestListDataTable extends DataTable
@@ -23,88 +21,91 @@ class WithdrawRequestListDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
+            ->addColumn('action', function($query){
 
-            $action="
-                <a class='btn btn-primary' href='".route('admin.withdraw-request-list.show',$query->id)."'><i class='fas fa-eye'></i></a>
-            ";
+                $action="
+                    <a class='btn btn-primary' href='".route('admin.withdraw-request-list.show',$query->id)."'><i class='fas fa-eye'></i></a>
+                ";
 
-            return $action;
-        })
+                return $action;
+            })
 
-        ->addColumn('vendor_name',function($query){
+            ->addColumn('vendor_name',function($query){
 
-            return $query->vendor->shop_name;
+                return $query->vendor->shop_name;
+                    
+            })
+            ->addColumn('withdraw_mehtod',function($query){
+
+                return $query->method['name'];
+                    
+            })
+
+            ->addColumn('total_amount',function($query){
+
+                return currencyIcon().$query->total_amount;
+                    
+            })
+            ->addColumn('withdraw_amount',function($query){
+
+                return currencyIcon().$query->withdraw_amount;
+                    
+            })
+            ->addColumn('withdraw_charge',function($query){
+
+                return $query->withdraw_charge .'%';
+                    
+            })
+
+            // ->addColumn('status',function($query){
+
+            //     return "<select class='form-control change_withrow_status' data-id= $query->id>
+            //         <option ".($query->status == 'pending' ? 'selected' : '')." value='pending'> Pending </option>
+            //         <option ".($query->status == 'paid' ? 'selected' : '')." value='paid'> Paid </option>
+            //         <option ".($query->status == 'decline' ? 'selected' : '')." value='decline'> Decline </option>
+            //     </select>";
                 
-        })
-        ->addColumn('withdraw_mehtod',function($query){
+            // })
 
-            return $query->method['name'];
-                
-        })
-
-        ->addColumn('total_amount',function($query){
-
-            return currencyIcon().$query->total_amount;
-                
-        })
-        ->addColumn('withdraw_amount',function($query){
-
-            return currencyIcon().$query->withdraw_amount;
-                
-        })
-        ->addColumn('withdraw_charge',function($query){
-
-            return $query->withdraw_charge .'%';
-                
-        })
-
-        // ->addColumn('status',function($query){
-
-        //     return "<select class='form-control change_withrow_status' data-id= $query->id>
-        //         <option ".($query->status == 'pending' ? 'selected' : '')." value='pending'> Pending </option>
-        //         <option ".($query->status == 'paid' ? 'selected' : '')." value='paid'> Paid </option>
-        //         <option ".($query->status == 'decline' ? 'selected' : '')." value='decline'> Decline </option>
-        //     </select>";
-            
-        // })
-
-        ->addColumn('status',function($query){
-            if($query->status == 'paid'){
-                return '<i class="badge badge-success">Paid</i>';
-            }elseif($query->status == 'pending'){
-                return '<i class="badge badge-warning">Pending</i>';
-            }elseif($query->status == 'decline'){
-                return '<i class="badge badge-danger">decline</i>';
-                // return '<i class="badge bg-danger">canceled</i>';
-                
-            }
-        })
-        ->addColumn('withdrawal_request_date', function($query){
-            return  date('M d ,Y',strtotime($query->created_at));
-        })
+            ->addColumn('status',function($query){
+                if($query->status == 'paid'){
+                    return '<i class="badge badge-success">Paid</i>';
+                }elseif($query->status == 'pending'){
+                    return '<i class="badge badge-warning">Pending</i>';
+                }elseif($query->status == 'decline'){
+                    return '<i class="badge badge-danger">decline</i>';
+                    // return '<i class="badge bg-danger">canceled</i>';
+                    
+                }
+            })
+            ->addColumn('withdrawal_request_date', function($query){
+                return  date('M d ,Y',strtotime($query->created_at));
+            })
 
 
-        ########Filtring
-        ->filterColumn('withdraw_mehtod',function($query , $keyword){
-            $query->whereHas('method',function($query) use($keyword){
-                $query->where('name','like',"%$keyword%");
-            });
-        })
-        ->filterColumn('vendor_name',function($query , $keyword){
-            $query->whereHas('vendor',function($query) use($keyword){
-                $query->where('shop_name','like',"%$keyword%");
-            });
-        })
+            ########Filtring
+            ->filterColumn('withdraw_mehtod',function($query , $keyword){
+                $query->whereHas('method',function($query) use($keyword){
+                    $query->where('name','like',"%$keyword%");
+                });
+            })
+            ->filterColumn('vendor_name',function($query , $keyword){
+                $query->whereHas('vendor',function($query) use($keyword){
+                    $query->where('shop_name','like',"%$keyword%");
+                });
+            })
 
 
-        ->filterColumn('withdrawal_request_date', function ($query, $keyword) {
-            $query->where('created_at','like',"%$keyword%");
-        })
+            ->filterColumn('withdrawal_request_date', function ($query, $keyword) {
+                $query->where('created_at','like',"%$keyword%");
+            })
+
+            /** Start Filtring : */
+            /** End Filtring : */
 
 
-        ->rawColumns(['status','action'])
-        ->setRowId('id');
+            ->rawColumns(['status','action'])
+            ->setRowId('id');
     }
 
     /**

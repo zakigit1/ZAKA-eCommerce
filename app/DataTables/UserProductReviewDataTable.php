@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class UserProductReviewDataTable extends DataTable
@@ -22,66 +20,86 @@ class UserProductReviewDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('status',function($query){
+            ->addColumn('status',function($query){
 
-            $active='<i class="badge bg-success">Approved</i>';
-            
-            $inactive='<i class="badge bg-warning">Pending</i>';
-            return ($query->status) ? $active : $inactive ;
-        })
-        ->addColumn('product',function($query){
-            
-            return '<a href ="'.route('product-details', $query->product->slug).'">'.$query->product->name.'</a>';
-        })
-        ->addColumn('rating',function($query){
-            switch ($query->rating) {
-                case 1:
-                    return '<i class="fas fa-star"></i>';
-                     break;
+                $active='<i class="badge bg-success">Approved</i>';
+                
+                $inactive='<i class="badge bg-warning">Pending</i>';
+                return ($query->status) ? $active : $inactive ;
+            })
 
-                case 2:
-                    for($i = 0 ; $i<=1 ;$i++){
-                        $stars [] = '<i class="fas fa-star"></i>' ;
-                       };
-                    return str_replace(',','',implode(',',$stars));
-                    break;
-                case 3:
-                    
-                    for($i = 0 ;$i <= 2 ;$i++){
-                        $stars [] = '<i class="fas fa-star"></i>' ;
-                       };
-                    return str_replace(',','',implode(',',$stars));
-                    break;
+            ->addColumn('product',function($query){
+                
+                return '<a href ="'.route('product-details', $query->product->slug).'">'.$query->product->name.'</a>';
+            })
 
-                    // return '<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i>';
-                    // break;
-                    
-                case 4:
-                    for($i = 0 ;$i <= 3 ;$i++){
-                        $stars [] = '<i class="fas fa-star"></i>' ;
-                       };
-                    return str_replace(',','',implode(',',$stars));
-                    break;
+            ->addColumn('rating',function($query){
+                switch ($query->rating) {
+                    case 1:
+                        return '<i class="fas fa-star"></i>';
+                        break;
 
-                case 5:
-                    for($i = 0 ;$i <=4 ;$i++){
-                        $stars [] = '<i class="fas fa-star"></i>' ;
-                       };
-                    return str_replace(',','',implode(',',$stars));
-                    break;
+                    case 2:
+                        for($i = 0 ; $i<=1 ;$i++){
+                            $stars [] = '<i class="fas fa-star"></i>' ;
+                        };
+                        return str_replace(',','',implode(',',$stars));
+                        break;
+                    case 3:
+                        
+                        for($i = 0 ;$i <= 2 ;$i++){
+                            $stars [] = '<i class="fas fa-star"></i>' ;
+                        };
+                        return str_replace(',','',implode(',',$stars));
+                        break;
 
-                default:
-                    return'<i class="far fa-star"></i>';
-                    break;
-            }
-        })
-        ->filterColumn('product',function($query , $keyword){
-            $query->whereHas('product',function($query) use($keyword){
-                $query->where('name','like',"%$keyword%");
-            });
-        })
-        ->rawColumns(['status','rating','product'])
-        ->setRowId('id');
+                        // return '<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i>';
+                        // break;
+                        
+                    case 4:
+                        for($i = 0 ;$i <= 3 ;$i++){
+                            $stars [] = '<i class="fas fa-star"></i>' ;
+                        };
+                        return str_replace(',','',implode(',',$stars));
+                        break;
+
+                    case 5:
+                        for($i = 0 ;$i <=4 ;$i++){
+                            $stars [] = '<i class="fas fa-star"></i>' ;
+                        };
+                        return str_replace(',','',implode(',',$stars));
+                        break;
+
+                    default:
+                        return'<i class="far fa-star"></i>';
+                        break;
+                }
+            })
+
+            /** Start Filtring : */
+            ->filterColumn('product',function($query , $keyword){
+                $query->whereHas('product',function($query) use($keyword){
+                    $query->where('name','like',"%$keyword%");
+                });
+            })
+
+            ->filterColumn('rating',function($query , $keyword){
+                $query->where('rating','like',"%$keyword%");
+            })
+
+            ->filterColumn('status',function($query , $keyword){
+                if (strtolower($keyword) == 'approved') {
+                    $query->where('status',1);
+                } elseif (strtolower($keyword) == 'pending') {
+                    $query->where('status',0);
+                } 
+            })
+
+
+            /** End Filtring : */
+
+            ->rawColumns(['status','rating','product'])
+            ->setRowId('id');
     }
 
     /**

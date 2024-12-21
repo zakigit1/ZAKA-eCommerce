@@ -2,15 +2,12 @@
 
 namespace App\DataTables;
 
-use App\Models\GeneralSetting;
 use App\Models\ProductVariantItem;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class ProductVariantItemDataTable extends DataTable
@@ -23,42 +20,69 @@ class ProductVariantItemDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
-            $user_role='admin';
-            $type='product-variant-item';//name route
+            ->addColumn('action', function($query){
+                $user_role='admin';
+                $type='product-variant-item';//name route
 
-            return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
-            // return '<a class="btn btn-primary" href="'.route("admin.$type.edit",[$query->id,'productId'=,'productId'=>]).'"><i class="fas fa-edit"></i></a>
-            // <a class="btn btn-danger ml-2  delete-item-with-ajax"  href="'.route("admin.$type.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
-        })
-        ->addColumn('status',function($query){
-
-            $checked = ($query->status) ? 'checked' : '';
-
-            $Status_button ='
-                <label  class="custom-switch mt-2" >
-                        <input type="checkbox" name="custom-switch-checkbox" 
-                        class="custom-switch-input  change-status"
-                        data-id="'.$query->id.'"
-                        '.$checked.'>
-                    <span class="custom-switch-indicator" ></span>
-                </label>';
-
-            return $Status_button;
+                return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
+                // return '<a class="btn btn-primary" href="'.route("admin.$type.edit",[$query->id,'productId'=,'productId'=>]).'"><i class="fas fa-edit"></i></a>
+                // <a class="btn btn-danger ml-2  delete-item-with-ajax"  href="'.route("admin.$type.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
+            })
             
-        })
-        ->addColumn('is_default',function($query){
+            ->addColumn('status',function($query){
 
-            $Yes='<i class="badge badge-success">default</i>';
-            $No='<i class="badge badge-danger">No</i>';
-            return ($query->is_default) ? $Yes : $No ;
+                $checked = ($query->status) ? 'checked' : '';
+
+                $Status_button ='
+                    <label  class="custom-switch mt-2" >
+                            <input type="checkbox" name="custom-switch-checkbox" 
+                            class="custom-switch-input  change-status"
+                            data-id="'.$query->id.'"
+                            '.$checked.'>
+                        <span class="custom-switch-indicator" ></span>
+                    </label>';
+
+                return $Status_button;
+                
+            })
+
+            ->addColumn('is_default',function($query){
+
+                $Yes='<i class="badge badge-success">default</i>';
+                $No='<i class="badge badge-danger">No</i>';
+                return ($query->is_default) ? $Yes : $No ;
+                
+            })
+
+            ->addColumn('price',function($query){
+                return currencyIcon().$query->price;
+            })
+
+            /** Start Filtring : */
+
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
             
-        })
-        ->addColumn('price',function($query){
-            return currencyIcon().$query->price;
-        })
-        ->rawColumns(['status','is_default'])
-        ->setRowId('id');
+            ->filterColumn('is_default',function($query , $keyword){
+                if (strtolower($keyword) == 'default') {
+                    $query->where('is_default',1);
+                } elseif (strtolower($keyword) == 'no') {
+                    $query->where('is_default',0);
+                } else {
+                    $query->where('is_default','like',"%$keyword%");
+                }
+            })
+
+            ->filterColumn('price',function($query , $keyword){
+                $keyword = str_replace(currencyIcon(), '', $keyword);
+                $query->where('price','like',"%$keyword%");
+            })
+
+            /** End Filtring : */
+
+            ->rawColumns(['status','is_default'])
+            ->setRowId('id');
     }
 
     /**

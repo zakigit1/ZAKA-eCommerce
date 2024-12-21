@@ -33,23 +33,27 @@ class AdminListDataTable extends DataTable
             ->addColumn('status', function($query){
                     
                 $checked = ($query->status == 'active') ? 'checked' : '';
-
+                // make id just 1 for admin and change this code to button be hidden for admin id 1
                 $Status_button ='
-                    <label  class="custom-switch mt-2" >
+                    <label  class="custom-switch mt-2" style="display: '.($query->id == 1 || $query->id == 21 ? 'none' : '').';" >
                             <input type="checkbox" name="custom-switch-checkbox" 
                             class="custom-switch-input  change-status"
                             data-id="'.$query->id.'"
-                            '.$checked.'>
+                            '.$checked.'> 
                         <span class="custom-switch-indicator" ></span>
                     </label>';
-                if($query->id != 21 || $query->id != 1){ // change it to id = 1 
-                    return $Status_button;
-                }
+                return $Status_button;
             })
 
             /** Start Filtring : */
             ->filterColumn('status',function($query , $keyword){
-                $query->where('status','like',"%$keyword%");
+                if($keyword == '1' || strtolower($keyword) == 'active'){
+                    $query->where('status','active');
+                }elseif($keyword == '0' || strtolower($keyword) == 'inactive'){
+                    $query->where('status','inactive');
+                }else{
+                    $query->where('status','like',"%$keyword%");
+                }
             })
             /** End Filtring : */
             

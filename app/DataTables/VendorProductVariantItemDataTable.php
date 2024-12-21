@@ -3,14 +3,11 @@
 namespace App\DataTables;
 
 use App\Models\ProductVariantItem;
-use App\Models\VendorProductVariantItem;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class VendorProductVariantItemDataTable extends DataTable
@@ -23,41 +20,48 @@ class VendorProductVariantItemDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
-            $user_role='vendor';
-            $type='product-variant-item';//name route
+            ->addColumn('action', function($query){
+                $user_role='vendor';
+                $type='product-variant-item';//name route
 
-            return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
-            
-        })
-        ->addColumn('status',function($query){
+                return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
+                
+            })
+            ->addColumn('status',function($query){
 
-            $checked = ($query->status) ? 'checked' : '';
+                $checked = ($query->status) ? 'checked' : '';
 
-            $Status_button ='<div class="form-check form-switch">
-                                <input type="checkbox" 
-                                    class="form-check-input change-status" 
-                                    data-id="'.$query->id.'" 
-                                    role="switch" 
-                                    id="flexSwitchCheckDefault"
-                                    '.$checked.'
-                                >
-                            </div>';
-            return $Status_button;  
-            
-        })
-        ->addColumn('is_default',function($query){
+                $Status_button ='<div class="form-check form-switch">
+                                    <input type="checkbox" 
+                                        class="form-check-input change-status" 
+                                        data-id="'.$query->id.'" 
+                                        role="switch" 
+                                        id="flexSwitchCheckDefault"
+                                        '.$checked.'
+                                    >
+                                </div>';
+                return $Status_button;  
+                
+            })
+            ->addColumn('is_default',function($query){
 
-            $Yes='<i class="badge bg-success">default</i>';
-            $No='<i class="badge bg-danger">No</i>';
-            return ($query->is_default) ? $Yes : $No ;
-            
-        })
-        ->addColumn('price',function($query){
-            return currencyIcon().$query->price;
-        })
-        ->rawColumns(['status','is_default'])
-        ->setRowId('id');
+                $Yes='<i class="badge bg-success">default</i>';
+                $No='<i class="badge bg-danger">No</i>';
+                return ($query->is_default) ? $Yes : $No ;
+                
+            })
+            ->addColumn('price',function($query){
+                return currencyIcon().$query->price;
+            })
+
+
+            /** Start Filtring : */
+            /** End Filtring : */
+
+
+
+            ->rawColumns(['status','is_default'])
+            ->setRowId('id');
     }
 
     /**

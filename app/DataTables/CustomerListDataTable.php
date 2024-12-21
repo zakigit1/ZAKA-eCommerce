@@ -39,7 +39,13 @@ class CustomerListDataTable extends DataTable
 
             /** Start Filtring : */
             ->filterColumn('status',function($query , $keyword){
-                $query->where('status','like',"%$keyword%");
+                if($keyword == '1' || strtolower($keyword) == 'active'){
+                    $query->where('status','active');
+                }elseif($keyword == '0' || strtolower($keyword) == 'inactive'){
+                    $query->where('status','inactive');
+                }else{
+                    $query->where('status','like',"%$keyword%");
+                }
             })
             /** End Filtring : */
 

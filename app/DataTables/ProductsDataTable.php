@@ -20,81 +20,116 @@ class ProductsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
-            $user_role='admin';
-            $type='product';
-            $moreFeature='
-                    <div class="dropdown dropleft d-inline ">
-                      <button class="btn btn-primary dropdown-toggle ml-2" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-cog"></i>
-                      </button>
+            ->addColumn('action', function($query){
+                $user_role='admin';
+                $type='product';
+                $moreFeature='
+                        <div class="dropdown dropleft d-inline ">
+                        <button class="btn btn-primary dropdown-toggle ml-2" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-cog"></i>
+                        </button>
 
-                      <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-                        <a class="dropdown-item has-icon" href="'.route('admin.product-image-gallery.index',['id'=>$query->id]).'"><i class="fas fa-images"></i>  Image Gallery</a>
-                        <a class="dropdown-item has-icon" href="'.route('admin.product-variant.index',['id'=>$query->id]).'"><i class="fas fa-list-ul"></i> Product Variant</a>
-                      </div>
-                    </div>';
+                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
+                            <a class="dropdown-item has-icon" href="'.route('admin.product-image-gallery.index',['id'=>$query->id]).'"><i class="fas fa-images"></i>  Image Gallery</a>
+                            <a class="dropdown-item has-icon" href="'.route('admin.product-variant.index',['id'=>$query->id]).'"><i class="fas fa-list-ul"></i> Product Variant</a>
+                        </div>
+                        </div>';
 
-            return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]).$moreFeature;
-        })
-        ->addColumn('status',function($query){
+                return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]).$moreFeature;
+            })
 
-            $checked = ($query->status) ? 'checked' : '';
+            ->addColumn('status',function($query){
 
-            $Status_button ='
-                <label  class="custom-switch mt-2" >
-                        <input type="checkbox" name="custom-switch-checkbox" 
-                        class="custom-switch-input  change-status"
-                        data-id="'.$query->id.'"
-                        '.$checked.'>
-                    <span class="custom-switch-indicator" ></span>
-                </label>';
+                $checked = ($query->status) ? 'checked' : '';
 
-            return $Status_button;
-            
-        })
-        ->addColumn('price',function($query){
-            //currencyIcon() function in helper file : 
-            return currencyIcon().$query->price;
-              
-        })
-        ->addColumn('image',function($query){
-            
-            $columnName="thumb_image";
-            return view('Backend.DataTable.yajra_datatable_columns.image',['query'=>$query,'columnName'=>$columnName]);
-            
-            
-        })
-        ->addColumn('type',function($query){
+                $Status_button ='
+                    <label  class="custom-switch mt-2" >
+                            <input type="checkbox" name="custom-switch-checkbox" 
+                            class="custom-switch-input  change-status"
+                            data-id="'.$query->id.'"
+                            '.$checked.'>
+                        <span class="custom-switch-indicator" ></span>
+                    </label>';
 
-            switch ($query->product_type) {
-                case 'new_arrival':
-                   return '<i class="badge badge-success">New Arrival</i>';
-                    break ;
-                case 'featured_product':
-                   return '<i class="badge badge-warning">Featured</i>';
-                    break;
-                case 'top_product':
-                   return '<i class="badge badge-info">Top</i>';
-                    break;
-                case 'best_product':
-                    return'<i class="badge badge-danger">Best</i>';
-                    break;
+                return $Status_button;
                 
-                default:
-                    return'<i class="badge badge-dark">None</i>';
-                    break;
-            }
+            })
 
-        })
- 
+            ->addColumn('price',function($query){
+                //currencyIcon() function in helper file : 
+                return currencyIcon().$query->price;
+                
+            })
+
+            ->addColumn('image',function($query){
+                
+                $columnName="thumb_image";
+                return view('Backend.DataTable.yajra_datatable_columns.image',['query'=>$query,'columnName'=>$columnName]);
+                
+                
+            })
+            
+            ->addColumn('type',function($query){
+
+                switch ($query->product_type) {
+                    case 'new_arrival':
+                    return '<i class="badge badge-success">New Arrival</i>';
+                        break ;
+                    case 'featured_product':
+                    return '<i class="badge badge-warning">Featured</i>';
+                        break;
+                    case 'top_product':
+                    return '<i class="badge badge-info">Top</i>';
+                        break;
+                    case 'best_product':
+                        return'<i class="badge badge-danger">Best</i>';
+                        break;
+                    
+                    default:
+                        return'<i class="badge badge-dark">None</i>';
+                        break;
+                }
+
+            })
+    
+
+            /** Start Filtring : */
+            ->filterColumn('price',function($query , $keyword){
+                $keyword = str_replace(currencyIcon(), '', $keyword);
+                $query->where('price','like',"%$keyword%");
+            })
+
+            ->filterColumn('type',function($query , $keyword){
+                switch (strtolower($keyword)) {
+                    case 'new_arrival':
+                        $query->where('product_type','new_arrival');
+                        break;
+                    case 'featured_product':
+                        $query->where('product_type','featured_product');
+                        break;
+                    case 'top_product':
+                        $query->where('product_type','top_product');
+                        break;
+                    case 'best_product':
+                        $query->where('product_type','best_product');
+                        break;
+                    default:
+                        $query->where('product_type','like',"%$keyword%");
+                        break;
+                }
+
+            })
+
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
+
+            /** End Filtring : */
 
 
-
-
-        
-        ->rawColumns(['status','action','type'])//if you add in this file html code you need to insert the column name inside (rawColumns)
-        ->setRowId('id',);
+            
+            ->rawColumns(['status','action','type'])//if you add in this file html code you need to insert the column name inside (rawColumns)
+            ->setRowId('id',);
     }
 
     /**

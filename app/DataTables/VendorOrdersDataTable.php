@@ -2,7 +2,6 @@
 
 namespace App\DataTables;
 
-use App\Models\GeneralSetting;
 use App\Models\Order;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Auth;
@@ -43,8 +42,7 @@ class VendorOrdersDataTable extends DataTable
             })
 
             ->addColumn('amount', function($query){
-                $currencyIcon = GeneralSetting::first()->currency_icon;
-                return  $currencyIcon . $query->amount;
+                return  currencyIcon() . $query->amount;
             })
 
             ->addColumn('date', function($query){

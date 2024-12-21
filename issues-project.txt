@@ -4,6 +4,7 @@
 
 
 /** Easy to handle : */
+// icon for vendor dashboard need to do it 
 // fix the routes about BREADCRUMB to dynamique return functionalite
 // add in all views @ to avoid any kind of null errors .
 // zid ga3 fl controller ':response redirect' just example kol wahd 3la hsab return ta3ha

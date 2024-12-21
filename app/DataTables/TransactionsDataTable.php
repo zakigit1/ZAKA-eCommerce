@@ -2,26 +2,17 @@
 
 namespace App\DataTables;
 
-use App\Models\GeneralSetting;
 use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class TransactionsDataTable extends DataTable
 {
 
-
-    protected $currencyIcon;
-
-    public function __construct(){
-        $this->currencyIcon = GeneralSetting::first()->currency_icon;
-    }
 
     /**
      * Build the DataTable class.
@@ -35,30 +26,43 @@ class TransactionsDataTable extends DataTable
             ->addColumn('invoice_id', function($query){   
                 return '#'.$query->order->invoice_id;
             })
+
             ->addColumn('amount_in_base_currency', function($query){// your currency 
 
-                return  $this->currencyIcon . $query->amount.''.$query->order->currency_name;
+                return  $query->amount.' '.$query->order->currency_name;
             })
+
             ->addColumn('amount_in_real_currency', function($query){// the currency you paid with it 
 
-                return  $this->currencyIcon . $query->amount_real_currency.''.$query->amount_real_currency_name;
+                return  $query->amount_real_currency.' '.$query->amount_real_currency_name;
             })
 
-            //this filter use it when we use data of relation in the search bar of datatable 
+            /** Start Filtring : */
             ->filterColumn('invoice_id',function($query , $keyword){
                 $query->whereHas('order',function($query) use($keyword){
+                    $keyword = str_replace('#', '', $keyword);
                     $query->where('invoice_id','like',"%$keyword%");
                 });
             })
 
-
-            //! I dont sure about this line
             ->filterColumn('amount_in_base_currency',function($query , $keyword){
-                $query->whereHas('order',function($query) use($keyword){
-                    $query->where('currency_name','like',"%$keyword%");
+                $query->where(function($query) use($keyword){
+                    $query->where('amount','like',"%$keyword%")
+                    ->orWhereHas('order',function($query) use($keyword){
+                        $query->where('currency_name','like',"%$keyword%");
+                    });
                 });
             })
 
+            ->filterColumn('amount_in_real_currency',function($query , $keyword){
+                $query->where(function($query) use($keyword){
+                    $query->where('amount_real_currency','like',"%$keyword%")
+                    ->orWhereHas('order',function($query) use($keyword){
+                        $query->where('amount_real_currency_name','like',"%$keyword%");
+                    });
+                });
+            })
+            /** End Filtring : */
 
 
             ->setRowId('id');
@@ -105,7 +109,7 @@ class TransactionsDataTable extends DataTable
             Column::make('transaction_id'),
             Column::make('payment_method'),
             Column::make('amount_in_base_currency'),
-            Column::make('amount_real_currency'),
+            Column::make('amount_in_real_currency'),
 
         ];
     }

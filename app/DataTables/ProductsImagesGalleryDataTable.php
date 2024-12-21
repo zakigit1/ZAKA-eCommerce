@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class ProductsImagesGalleryDataTable extends DataTable
@@ -22,20 +20,22 @@ class ProductsImagesGalleryDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
+            ->addColumn('action', function($query){
+                
+                $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("admin.product-image-gallery.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
+                return $delete_btn;
+            })
             
-            $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("admin.product-image-gallery.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
-            return $delete_btn;
-        })
-        ->addColumn('image',function($query){
-            
-            $columnName="image";
-            $image = '<img   width="200px"  src="'.$query->$columnName.'" alt="'.$columnName.'-img">';
-            return $image;
+            ->addColumn('image',function($query){
+                
+                $columnName="image";
+                $image = '<img   width="200px"  src="'.$query->$columnName.'" alt="'.$columnName.'-img">';
+                return $image;
 
-        })
-        ->rawColumns(['action','image'])
-        ->setRowId('id');
+            })
+
+            ->rawColumns(['action','image'])
+            ->setRowId('id');
     }
 
     /**

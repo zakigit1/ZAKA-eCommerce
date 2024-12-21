@@ -3,14 +3,13 @@
 namespace App\DataTables;
 
 use App\Models\ProductVariant;
-use App\Models\VendorProductVariant;
+
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
+
 use Yajra\DataTables\Services\DataTable;
 
 class VendorProductVariantDataTable extends DataTable
@@ -23,32 +22,38 @@ class VendorProductVariantDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
-            $user_role='vendor';
-            $type='product-variant';
+            ->addColumn('action', function($query){
+                $user_role='vendor';
+                $type='product-variant';
 
-            $variant_items_buttom ='<a class="btn btn-info  variant-item"  href="'.route("$user_role.product-variant-item.index",['productId'=>request()->id,'variantId'=>$query->id]).'"><i class="fas fa-sitemap"></i> '.$query->name.' Items </a>';
+                $variant_items_buttom ='<a class="btn btn-info  variant-item"  href="'.route("$user_role.product-variant-item.index",['productId'=>request()->id,'variantId'=>$query->id]).'"><i class="fas fa-sitemap"></i> '.$query->name.' Items </a>';
 
-            return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]).$variant_items_buttom;
-        })
-        ->addColumn('status',function($query){
+                return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]).$variant_items_buttom;
+            })
 
-            $checked = ($query->status) ? 'checked' : '';
+            ->addColumn('status',function($query){
 
-            $Status_button ='<div class="form-check form-switch">
-                                <input type="checkbox" 
-                                    class="form-check-input change-status" 
-                                    data-id="'.$query->id.'" 
-                                    role="switch" 
-                                    id="flexSwitchCheckDefault"
-                                    '.$checked.'
-                                >
-                            </div>';
-            return $Status_button;  
-            
-        })
-        ->rawColumns(['status','action'])//if you add in this file html code you need to insert the column name inside (rawColumns)
-        ->setRowId('id');
+                $checked = ($query->status) ? 'checked' : '';
+
+                $Status_button ='<div class="form-check form-switch">
+                                    <input type="checkbox" 
+                                        class="form-check-input change-status" 
+                                        data-id="'.$query->id.'" 
+                                        role="switch" 
+                                        id="flexSwitchCheckDefault"
+                                        '.$checked.'
+                                    >
+                                </div>';
+                return $Status_button;  
+                
+            })
+
+            /** Start Filtring : */
+            /** Start Filtring : */
+
+
+            ->rawColumns(['status','action'])//if you add in this file html code you need to insert the column name inside (rawColumns)
+            ->setRowId('id');
     }
 
     /**

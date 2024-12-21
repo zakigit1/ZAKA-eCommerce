@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class VendorListDataTable extends DataTable
@@ -22,35 +20,48 @@ class VendorListDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('status', function($query){
+            ->addColumn('status', function($query){
+                    
+                $checked = ($query->status == 'active') ? 'checked' : '';
+
+                $Status_button ='
+                    <label  class="custom-switch mt-2" >
+                            <input type="checkbox" name="custom-switch-checkbox" 
+                            class="custom-switch-input  change-status"
+                            data-id="'.$query->id.'"
+                            '.$checked.'>
+                        <span class="custom-switch-indicator" ></span>
+                    </label>';
+
+                return $Status_button;
+            })
+
+            ->addColumn('shop_name',function($query){
                 
-            $checked = ($query->status == 'active') ? 'checked' : '';
+                    return $query->vendor->shop_name ;
+                
+            })
 
-            $Status_button ='
-                <label  class="custom-switch mt-2" >
-                        <input type="checkbox" name="custom-switch-checkbox" 
-                        class="custom-switch-input  change-status"
-                        data-id="'.$query->id.'"
-                        '.$checked.'>
-                    <span class="custom-switch-indicator" ></span>
-                </label>';
+            /** Start Filtring : */
+            ->filterColumn('shop_name',function($query , $keyword){
+                $query->whereHas('vendor',function($query) use($keyword){
+                    $query->where('shop_name','like',"%$keyword%");
+                });
+            })
 
-            return $Status_button;
-        })
-        ->addColumn('shop_name',function($query){
-            
-                return $query->vendor->shop_name ;
-            
-        })
+            ->filterColumn('status',function($query , $keyword){
+                if($keyword == '1' || strtolower($keyword) == 'active'){
+                    $query->where('status','active');
+                }elseif($keyword == '0' || strtolower($keyword) == 'inactive'){
+                    $query->where('status','inactive');
+                }else{
+                    $query->where('status','like',"%$keyword%");
+                }
+            })
 
-        ->filterColumn('shop_name',function($query , $keyword){
-            $query->whereHas('vendor',function($query) use($keyword){
-                $query->where('shop_name','like',"%$keyword%");
-            });
-        })
-
-        ->rawColumns(['status'])
-        ->setRowId('id');
+            /** End Filtring : */
+            ->rawColumns(['status'])
+            ->setRowId('id');
     }
 
     /**

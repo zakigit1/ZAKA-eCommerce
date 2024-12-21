@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class SlidersDataTable extends DataTable
@@ -29,11 +27,13 @@ class SlidersDataTable extends DataTable
                 $type='slider';
                 return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
             })
+
             ->addColumn('banner', function($query){
                 
                 $columnName='banner';
                 return view('Backend.DataTable.yajra_datatable_columns.image',['query'=>$query,'columnName'=>$columnName]);
             })
+
             ->addColumn('status',function($query){
 
                 $active='<i class="badge badge-success">Active</i>';
@@ -42,9 +42,27 @@ class SlidersDataTable extends DataTable
                 return ($query->status) ? $active : $inactive ;
                 
             })
+
             ->addColumn('price',function($query){
                 return currencyIcon().$query->starting_price;
             })
+
+
+            /** Start Filtring : */
+            
+            ->filterColumn('price',function($query , $keyword){
+                $keyword = str_replace(currencyIcon(), '', $keyword);
+                $query->where('starting_price','like',"%$keyword%");
+            })
+
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
+
+            /** End Filtring : */
+
+
+
             ->rawColumns(['status'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
     }
