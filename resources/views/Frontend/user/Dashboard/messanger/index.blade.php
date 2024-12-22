@@ -1,19 +1,24 @@
 @extends('Frontend.user.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || User Messanger " }}
+    {{ "$settings->site_name || Messanger " }}
 @endsection
 
 
 @section('content')
     <!--=============================
-                DASHBOARD START
-            ==============================-->
+                    DASHBOARD START
+                ==============================-->
     <section>
         <div>
             <div class="row">
                 <div class="col-xl-9 col-xxl-10 col-lg-9 ms-auto">
                     <div class="dashboard_content mt-2 mt-md-0">
+                        <div class="back_button">
+                            <a href="{{ route('user.dashboard') }}" class="btn btn-primary"> <i
+                                    class="fas fa-chevron-circle-left"></i> back</a>
+                        </div>
+                        <br>
                         <h3><i class="far fa-star" aria-hidden="true"></i> Message</h3>
                         <div class="wsus__dashboard_review">
                             <div class="row">
@@ -25,11 +30,11 @@
                                             @if (isset($sallersInfo) && count($sallersInfo) > 0)
                                                 @foreach ($sallersInfo as $sellerInfo)
                                                     @php
-                                                        $unseenMessage =App\Models\Chat::where([
-                                                                'sender_id' => $sellerInfo->receiverProfile->id ,
-                                                                'receiver_id' => auth()->user()->id ,
-                                                                'seen' => 0])
-                                                            ->exists();
+                                                        $unseenMessage = App\Models\Chat::where([
+                                                            'sender_id' => $sellerInfo->receiverProfile->id,
+                                                            'receiver_id' => auth()->user()->id,
+                                                            'seen' => 0,
+                                                        ])->exists();
                                                     @endphp
 
                                                     <div class="wsus__chatlist_body">
@@ -38,7 +43,8 @@
                                                             data-bs-toggle="pill" data-bs-target="#v-pills-home"
                                                             type="button" role="tab" aria-controls="v-pills-home"
                                                             aria-selected="true">
-                                                            <div class="wsus_chat_list_img {{($unseenMessage) ? 'msg-notification' : ''}}">
+                                                            <div
+                                                                class="wsus_chat_list_img {{ $unseenMessage ? 'msg-notification' : '' }}">
                                                                 <img src="{{ $sellerInfo->receiverProfile->image }}"
                                                                     alt="user" class="img-fluid">
                                                                 <span class="pending d-none" id="pending-6">0</span>
@@ -89,7 +95,7 @@
                                                                 </div>
                                                             </div> --}}
                                                         </div>
-                                                        {{-- inside the style we are removing: margin-top: 50px; position: absolute;--}}
+                                                        {{-- inside the style we are removing: margin-top: 50px; position: absolute; --}}
                                                         <div class="wsus__chat_area_footer"
                                                             style="
                                                             margin-top: 50px; 
@@ -102,10 +108,12 @@
                                                                 <input type="hidden" name="receiver_id" id="receiver_id"
                                                                     value="">
 
-                                                                <input type="text" name="message" placeholder="Type Message" 
-                                                                    class="message-box" autocomplete="off">
+                                                                <input type="text" name="message"
+                                                                    placeholder="Type Message" class="message-box"
+                                                                    autocomplete="off">
 
-                                                                <button type="submit"><i class="fas fa-paper-plane send-message-button"
+                                                                <button type="submit"><i
+                                                                        class="fas fa-paper-plane send-message-button"
                                                                         aria-hidden="true"></i></button>
                                                             </form>
                                                         </div>
@@ -124,8 +132,8 @@
         </div>
     </section>
     <!--=============================
-                DASHBOARD START
-            ==============================-->
+                    DASHBOARD START
+                ==============================-->
 @endsection
 
 @push('scripts')
@@ -136,12 +144,12 @@
         function formatDateTime(dateTimeString) {
             const options = {
                 year: 'numeric',
-                month: 'short',// like : November = Nov
+                month: 'short', // like : November = Nov
                 day: '2-digit',
                 hour: '2-digit',
                 minute: '2-digit',
                 // hour12: false 
-                };
+            };
 
             const formatedDateTime = new Intl.DateTimeFormat('en-US', options).format(new Date(dateTimeString));
 
@@ -159,7 +167,7 @@
             $('.conversion-messages').on('click', function() {
                 let receiverId = $(this).data('id');
                 let receiverName = $(this).find('h4').text();
-                let receiverImage = $(this).find('img').attr('src');//Vendor image
+                let receiverImage = $(this).find('img').attr('src'); //Vendor image
                 mainChatInbox.attr('data-inbox', receiverId);
 
                 //remove circul notification when click to chat 
@@ -184,7 +192,7 @@
 
                             $.each(response.conversion, function(index, value) {
 
-                                if(value.sender_id == USER.id){
+                                if (value.sender_id == USER.id) {
                                     var message = `                                              
                                         <div class="wsus__chat_single single_chat_2">
                                             <div class="wsus__chat_single_img">
@@ -199,7 +207,7 @@
 
                                     mainChatInbox.append(message);
                                 } else {
-                                        var message = `                                              
+                                    var message = `                                              
                                             <div class="wsus__chat_single">
                                                 <div class="wsus__chat_single_img">
                                                     <img src="${receiverImage}"
@@ -210,9 +218,9 @@
                                                     <span>${formatDateTime(value.created_at)}</span>
                                                 </div>
                                             </div>`
-    
-                                        mainChatInbox.append(message);
-                                        
+
+                                    mainChatInbox.append(message);
+
                                 }
                             });
                             // scrolling the conversion to button automatically when you click to the bull
@@ -246,8 +254,8 @@
 
                 var formSubmitting = false; // this will be true when the user write a message in the box 
 
-                if(formSubmitting || messageData === "") {
-                    return ;
+                if (formSubmitting || messageData === "") {
+                    return;
                 }
 
                 // Send message in conversion 
@@ -264,7 +272,7 @@
                     </div>`
 
                 mainChatInbox.append(message);
-                $('.message-box').val('');  
+                $('.message-box').val('');
                 scrollToButton();
 
 
@@ -274,39 +282,39 @@
                     url: "{{ route('user.send-message-to-vendor') }}",
                     data: data,
                     beforeSend: function() {
-                       $('.send-message-button').prop('disabled', true);
-                       formSubmitting = true;
+                        $('.send-message-button').prop('disabled', true);
+                        formSubmitting = true;
                     },
                     success: function(response) {
 
                         if (response.status == 'success') {
-                            
-                        }else if (response.status == 'error') {
+
+                        } else if (response.status == 'error') {
                             toastr.error(response.message);
                         }
 
                     },
                     error: function(xhr, status, error) {
                         console.log(xhr);
-                        toastr.error(xhr.responseJSON.message);  
-                        
-                        $('.send-message-button').prop('disabled', false);  
+                        toastr.error(xhr.responseJSON.message);
+
+                        $('.send-message-button').prop('disabled', false);
                         formSubmitting = false;
                     },
                     complete: function() {
 
                         // Send message in conversion 
                         // let message = `                                              
-                        //     <div class="wsus__chat_single single_chat_2">
-                        //         <div class="wsus__chat_single_img">
-                        //             <img src="${USER.image}"
-                        //                 alt="user" class="img-fluid">
-                        //         </div>
-                        //         <div class="wsus__chat_single_text">
-                        //             <p>${messageData}</p>
-                        //             <span>${formatDateTime(new Date().toISOString())}</span>
-                        //         </div>
-                        //     </div>`
+                    //     <div class="wsus__chat_single single_chat_2">
+                    //         <div class="wsus__chat_single_img">
+                    //             <img src="${USER.image}"
+                    //                 alt="user" class="img-fluid">
+                    //         </div>
+                    //         <div class="wsus__chat_single_text">
+                    //             <p>${messageData}</p>
+                    //             <span>${formatDateTime(new Date().toISOString())}</span>
+                    //         </div>
+                    //     </div>`
 
                         // mainChatInbox.append(message);
                         // $('.message-box').val('');  

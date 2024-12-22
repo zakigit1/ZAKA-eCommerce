@@ -20,6 +20,9 @@ class CanceledOrderDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
+            
             ->addColumn('action', function($query){
 
                 $actions="
@@ -91,6 +94,8 @@ class CanceledOrderDataTable extends DataTable
             ->addColumn('invoice_id',function($query){
                 return '#'.$query->invoice_id;
             })
+            /** End Custom Columns : */
+
 
             /** Start Filtring : */
             ->filterColumn('customer',function($query , $keyword){

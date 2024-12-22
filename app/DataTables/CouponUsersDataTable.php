@@ -20,7 +20,14 @@ class CouponUsersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            /** Start Custom Columns : */
             ->addColumn('action', 'couponusers.action')
+            /** End Custom Columns : */
+
+            /** Start Filtring : */
+            /** End Filtring : */
+
+            
             ->setRowId('id');
     }
 

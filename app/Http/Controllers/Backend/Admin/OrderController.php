@@ -12,8 +12,6 @@ use App\DataTables\ProcessedOrderDataTable;
 use App\DataTables\ShippedOrderDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Models\User;
-use App\Models\UserAddress;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller

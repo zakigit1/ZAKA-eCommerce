@@ -21,6 +21,8 @@ class UserOrdersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
 
                 $action="
@@ -85,9 +87,10 @@ class UserOrdersDataTable extends DataTable
                         break;
                 }
             })
+            /** End Custom Columns : */
+
 
             /** Start Filtring : */
-
             ->filterColumn('payment_status',function($query , $keyword){
                 if(strtolower($keyword) == 'complete'){
                     $query->where('payment_status',1);

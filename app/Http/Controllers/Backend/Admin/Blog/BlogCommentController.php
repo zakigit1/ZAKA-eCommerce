@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend\Admin\Blog;
 use App\DataTables\BlogCommentDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\BlogComment;
-use Illuminate\Http\Request;
 
 class BlogCommentController extends Controller
 {

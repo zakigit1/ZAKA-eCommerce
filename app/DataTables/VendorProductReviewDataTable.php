@@ -21,6 +21,8 @@ class VendorProductReviewDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
             ->addColumn('status',function($query){
 
                 $active='<i class="badge bg-success">Approved</i>';
@@ -77,6 +79,8 @@ class VendorProductReviewDataTable extends DataTable
             ->addColumn('client',function($query){
                 return $query->user->name;
             })
+            /** End Custom Columns : */
+
 
             /** Start Filtring : */
             ->filterColumn('product',function($query , $keyword){
@@ -84,8 +88,7 @@ class VendorProductReviewDataTable extends DataTable
                     $query->where('name','like',"%$keyword%");
                 });
             })
-
-            
+ 
             ->filterColumn('client',function($query , $keyword){
                 $query->whereHas('user',function($query) use($keyword){
                     $query->where('name','like',"%$keyword%");
@@ -96,6 +99,8 @@ class VendorProductReviewDataTable extends DataTable
                 $query->where('rating','like',"%$keyword%");
             })
             /** End Filtring : */
+
+
             ->rawColumns(['status','rating','product'])
             ->setRowId('id');
     }

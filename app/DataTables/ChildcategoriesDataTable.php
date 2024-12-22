@@ -20,6 +20,9 @@ class ChildcategoriesDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
+            
             ->addColumn('action', function($query){
 
                 
@@ -54,6 +57,7 @@ class ChildcategoriesDataTable extends DataTable
                 $subcategoryName =$query->subcategory->name;
                 return $subcategoryName;
             })
+            /** End Custom Columns : */
 
 
             /** Start Filtring : */

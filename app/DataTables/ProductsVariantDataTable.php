@@ -20,6 +20,8 @@ class ProductsVariantDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
                 $user_role='admin';
                 $type='product-variant';
@@ -45,14 +47,16 @@ class ProductsVariantDataTable extends DataTable
                 return $Status_button;
                 
             })
+            /** End Custom Columns : */
+
 
             /** Start Filtring : */
             ->filterColumn('status',function($query , $keyword){
                 $query->where('status','like',"%$keyword%");
             })
-
             /** End Filtring : */
 
+            
             ->rawColumns(['status','action'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
     }

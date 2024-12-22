@@ -7,31 +7,31 @@
     {{-- <a href="{{route('home')}}" class="dash_logo"><img src="{{asset('frontend/assets/images/logo.png')}}" alt="logo" class="img-fluid"></a> --}}
     <ul class="dashboard_link">
       <li><a class="bg-success"  href="{{route('vendor.dashboard')}}"><i class="fas fa-tachometer"></i>Dashboard</a></li>
-      <li><a class="bg-warning"  href="{{route('home')}}"><i class="fas fa-tachometer"></i>Go To Store</a></li>
+      <li><a class="bg-warning"  href="{{route('home')}}"><i class="fas fa-arrow-left"></i>Go To Store</a></li>
 
-      <li><a class="{{ setActive(['vendor.shop-profile.*'])}}" href="{{route('vendor.shop-profile.index')}}"><i class="far fa-heart"></i> Shop Profile</a></li>
+      <li><a class="{{ setActive(['vendor.shop-profile.*'])}}" href="{{route('vendor.shop-profile.index')}}"><i class="fas fa-store-alt"></i>Shop Profile</a></li>
       
-      <li><a class="{{ setActive(['vendor.profile'])}}" href="{{route('vendor.profile')}}"><i class="far fa-user"></i> My Profile</a></li>
+      <li><a class="{{ setActive(['vendor.profile'])}}" href="{{route('vendor.profile')}}"><i class="fas fa-user-cog"></i> Profile </a></li>
       
       <li><a class="{{ setActive([
           'vendor.product.*',
           'vendor.product-image-gallery.*',
           'vendor.product-variant.*',
           'vendor.product-variant-item.*',
-          ])}}" href="{{route('vendor.product.index')}}"><i class="far fa-user"></i> Product</a></li>
+          ])}}" href="{{route('vendor.product.index')}}"><i class="fab fa-product-hunt"></i>Product</a></li>
 
 
-      <li><a class="{{ setActive(['vendor.product-review.index'])}}" href="{{route('vendor.product-review.index')}}"><i class="far fa-user"></i>Product Reviews </a></li>
+      <li><a class="{{ setActive(['vendor.product-review.index'])}}" href="{{route('vendor.product-review.index')}}"><i class="far fa-star"></i>Product Reviews </a></li>
       
       {{-- Widthdraw request --}}
-      <li><a class="{{ setActive(['vendor.withdraw.*'])}}" href="{{route('vendor.withdraw.index')}}"><i class="far fa-user"></i>Withdraw Request </a></li>
+      <li><a class="{{ setActive(['vendor.withdraw.*'])}}" href="{{route('vendor.withdraw.index')}}"><i class="fas fa-money-check-edit-alt"></i>Withdraw Request </a></li>
 
       <li><a class="{{ setActive([
         'vendor.order.*',
-        ])}}" href="{{route('vendor.order.index')}}"><i class="far fa-user"></i>Order</a></li>
+        ])}}" href="{{route('vendor.order.index')}}"><i class="fas fa-mail-bulk"></i>Order</a></li>
 
    
-<li><a class="{{ setActive(['vendor.messager.index'])}}" href="{{route('vendor.messager.index')}}"><i class="far fa-user"></i>Messanger </a></li>
+<li><a class="{{ setActive(['vendor.messager.index'])}}" href="{{route('vendor.messager.index')}}"><i class="fas fa-comment-dots"></i>Messanger </a></li>
 
 
 

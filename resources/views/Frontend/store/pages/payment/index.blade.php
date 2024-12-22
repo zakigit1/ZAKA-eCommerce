@@ -4,18 +4,18 @@
 
 @section('content')
 
-        <!--============================
-        BREADCRUMB START
-    ==============================-->
+    <!--============================
+            BREADCRUMB START
+        ==============================-->
     <section id="wsus__breadcrumb">
         <div class="wsus_breadcrumb_overlay">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h4>payment</h4>
+                        <h4>Payment</h4>
                         <ul>
-                            <li><a href="{{route('home')}}">home</a></li>
-                            <li><a href="javascript:;">payment</a></li>
+                            <li><a href="{{ route('home') }}">Home</a></li>
+                            <li><a href="javascript:;">Payment</a></li>
                         </ul>
                     </div>
                 </div>
@@ -23,13 +23,13 @@
         </div>
     </section>
     <!--============================
-        BREADCRUMB END
-    ==============================-->
+            BREADCRUMB END
+        ==============================-->
 
 
     <!--============================
-        PAYMENT PAGE START
-    ==============================-->
+            PAYMENT PAGE START
+        ==============================-->
     <section id="wsus__cart_view">
         <div class="container">
             <div class="wsus__pay_info_area">
@@ -40,8 +40,8 @@
                                 aria-orientation="vertical">
 
                                 <button class="nav-link common_btn active" id="v-pills-paypal-tab" data-bs-toggle="pill"
-                                    data-bs-target="#v-pills-paypal" type="button" role="tab" aria-controls="v-pills-paypal"
-                                    aria-selected="true">Paypal </button>
+                                    data-bs-target="#v-pills-paypal" type="button" role="tab"
+                                    aria-controls="v-pills-paypal" aria-selected="true">Paypal </button>
 
                                 <button class="nav-link common_btn" id="v-pills-stripe-tab" data-bs-toggle="pill"
                                     data-bs-target="#v-pills-stripe" type="button" role="tab"
@@ -50,10 +50,10 @@
                                 <button class="nav-link common_btn" id="v-pills-razorpay-tab" data-bs-toggle="pill"
                                     data-bs-target="#v-pills-razorpay" type="button" role="tab"
                                     aria-controls="v-pills-razorpay" aria-selected="false">Razorpay </button>
-                                
+
                                 <button class="nav-link common_btn" id="v-pills-cod-tab" data-bs-toggle="pill"
-                                    data-bs-target="#v-pills-cod" type="button" role="tab"
-                                    aria-controls="v-pills-cod" aria-selected="false">COD </button>
+                                    data-bs-target="#v-pills-cod" type="button" role="tab" aria-controls="v-pills-cod"
+                                    aria-selected="false">COD </button>
 
                             </div>
                         </div>
@@ -128,8 +128,7 @@
                                 </div>
                             </div>
 
-                            <div class="tab-pane fade" id="v-pills-cod" role="tabpanel"
-                                aria-labelledby="v-pills-cod-tab">
+                            <div class="tab-pane fade" id="v-pills-cod" role="tabpanel" aria-labelledby="v-pills-cod-tab">
 
                                 <div class="wsus__payment_area">
                                     @include('Frontend.store.pages.payment.includes.cod')
@@ -144,10 +143,10 @@
                     <div class="col-xl-4 col-lg-4">
                         <div class="wsus__pay_booking_summary" id="sticky_sidebar2">
                             <h5>Order Summary</h5>
-                            <p>subtotal : <span>{{$settings->currency_icon}}{{getCartSubtotal()}}</span></p>
-                            <p>shipping fee (+) : <span>{{$settings->currency_icon}}{{shippingFee()}} </span></p>
-                            <p>coupon (-) : <span>{{$settings->currency_icon}}{{cartDiscount()}}</span></p>
-                            <h6>total :<span>{{$settings->currency_icon}}{{finalAmount()}}</span></h6>
+                            <p>subtotal : <span>{{ $settings->currency_icon }}{{ getCartSubtotal() }}</span></p>
+                            <p>shipping fee (+) : <span>{{ $settings->currency_icon }}{{ shippingFee() }} </span></p>
+                            <p>coupon (-) : <span>{{ $settings->currency_icon }}{{ cartDiscount() }}</span></p>
+                            <h6>total :<span>{{ $settings->currency_icon }}{{ finalAmount() }}</span></h6>
                         </div>
                     </div>
                 </div>
@@ -155,8 +154,7 @@
         </div>
     </section>
     <!--============================
-        PAYMENT PAGE END
-    ==============================-->
+            PAYMENT PAGE END
+        ==============================-->
 
 @endsection
-

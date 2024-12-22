@@ -21,6 +21,9 @@ class WithdrawRequestListDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
+            /** End Custom Columns : */
             ->addColumn('action', function($query){
 
                 $action="
@@ -35,6 +38,7 @@ class WithdrawRequestListDataTable extends DataTable
                 return $query->vendor->shop_name;
                     
             })
+
             ->addColumn('withdraw_mehtod',function($query){
 
                 return $query->method['name'];
@@ -46,11 +50,13 @@ class WithdrawRequestListDataTable extends DataTable
                 return currencyIcon().$query->total_amount;
                     
             })
+
             ->addColumn('withdraw_amount',function($query){
 
                 return currencyIcon().$query->withdraw_amount;
                     
             })
+
             ->addColumn('withdraw_charge',function($query){
 
                 return $query->withdraw_charge .'%';
@@ -78,29 +84,56 @@ class WithdrawRequestListDataTable extends DataTable
                     
                 }
             })
+
             ->addColumn('withdrawal_request_date', function($query){
                 return  date('M d ,Y',strtotime($query->created_at));
             })
+             /** End Custom Columns : */
 
+            
+            /** Start Filtring : */
+            ->filterColumn('withdraw_charge',function($query , $keyword){
+                $keyword = str_replace('%', '', $keyword);
+                $query->where('withdraw_charge','like',"%$keyword%");
+            })
 
-            ########Filtring
             ->filterColumn('withdraw_mehtod',function($query , $keyword){
                 $query->whereHas('method',function($query) use($keyword){
                     $query->where('name','like',"%$keyword%");
                 });
             })
+
             ->filterColumn('vendor_name',function($query , $keyword){
                 $query->whereHas('vendor',function($query) use($keyword){
                     $query->where('shop_name','like',"%$keyword%");
                 });
             })
 
-
             ->filterColumn('withdrawal_request_date', function ($query, $keyword) {
-                $query->where('created_at','like',"%$keyword%");
+                $query->whereDate('created_at','like',"%$keyword%");
             })
 
-            /** Start Filtring : */
+            ->filterColumn('withdraw_amount',function($query , $keyword){
+                $keyword = str_replace(currencyIcon(), '', $keyword);
+                $query->where('withdraw_amount','like',"%$keyword%");
+            })
+
+            ->filterColumn('total_amount',function($query , $keyword){
+                $keyword = str_replace(currencyIcon(), '', $keyword);
+                $query->where('total_amount','like',"%$keyword%");
+            })
+
+            ->filterColumn('status',function($query , $keyword){
+                if (strtolower($keyword) == 'paid') {
+                    $query->where('status','paid');
+                } elseif (strtolower($keyword) == 'pending') {
+                    $query->where('status','pending');
+                } elseif (strtolower($keyword) == 'decline') {
+                    $query->where('status','decline');
+                } else {
+                    $query->where('status','like',"%$keyword%");
+                }
+            })
             /** End Filtring : */
 
 
@@ -145,7 +178,6 @@ class WithdrawRequestListDataTable extends DataTable
     {
         return [
             Column::make('id'),
-
             Column::make('vendor_name'),
             Column::make('withdraw_mehtod'),
             Column::make('total_amount'),

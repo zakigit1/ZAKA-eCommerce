@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\ProductVariantItem;
-use App\Models\Vendor;
 use Illuminate\Http\Request;
 
 class VendorProductVariantController extends Controller

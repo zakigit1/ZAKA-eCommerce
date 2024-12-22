@@ -21,6 +21,8 @@ class VendorRequestDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
 
                 $action="
@@ -42,15 +44,31 @@ class VendorRequestDataTable extends DataTable
                     return '<i class="badge badge-warning">Pending</i>';
                 }
             })
-
+            /** End Custom Columns : */
+            
+            /** Start Filtring : */
             ->filterColumn('user_name',function($query , $keyword){
                 $query->whereHas('user',function($query) use($keyword){
                     $query->where('name','like',"%$keyword%");
                 });
             })
 
-            /** Start Filtring : */
+            ->filterColumn('shop_email',function($query , $keyword){
+                $query->where('email','like',"%$keyword%");
+            })
+
+            ->filterColumn('status',function($query , $keyword){
+                if (strtolower($keyword) == 'approved') {
+                    $query->where('status',1);
+                } elseif (strtolower($keyword) == 'pending') {
+                    $query->where('status',0);
+                } else {
+                    $query->where('status','like',"%$keyword%");
+                }
+            })
             /** End Filtring : */
+
+
             ->rawColumns(['status','action'])
             ->setRowId('id');
     }

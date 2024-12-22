@@ -23,6 +23,7 @@ class TransactionsDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             
+            /** Start Custom Columns : */
             ->addColumn('invoice_id', function($query){   
                 return '#'.$query->order->invoice_id;
             })
@@ -36,6 +37,8 @@ class TransactionsDataTable extends DataTable
 
                 return  $query->amount_real_currency.' '.$query->amount_real_currency_name;
             })
+            /** End Custom Columns : */
+
 
             /** Start Filtring : */
             ->filterColumn('invoice_id',function($query , $keyword){

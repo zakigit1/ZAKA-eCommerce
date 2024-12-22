@@ -1,6 +1,6 @@
 @extends('vendor.Dashboard.layouts.master')
 @section('title')
-    {{"$settings->site_name || Create Vendor Product Variant Item  "}}
+    {{"$settings->site_name || Create Product Variant Item  "}}
 @endsection
 
 

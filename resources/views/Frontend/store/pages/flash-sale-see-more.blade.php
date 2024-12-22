@@ -1,6 +1,6 @@
 @extends('Frontend.store.layouts.master')
 
-@section('title', "$settings->site_name || Flash Sale")
+@section('title', "$settings->site_name || Flash Sale Products")
 
 @section('content')
     <!--============================
@@ -14,7 +14,7 @@
                         <h4>Flash Sale Products</h4>
                         <ul>
                             <li><a href="{{ route('home') }}">Home</a></li>
-                            <li><a href="javascript:;">flash sale products</a></li>
+                            <li><a href="javascript:;">Flash Sale Products</a></li>
                         </ul>
                     </div>
                 </div>

@@ -2,7 +2,6 @@
 
 namespace App\View\Components;
 
-use App\Models\Product;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -18,7 +17,7 @@ class ProductCard extends Component
     public function __construct($product , $key=null ,$className=null)
     {
         $this->product = $product;
-        $this->key = $key;
+        $this->key = $key ;
         $this->className = $className;
     }
 

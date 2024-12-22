@@ -20,6 +20,8 @@ class VendorListDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
             ->addColumn('status', function($query){
                     
                 $checked = ($query->status == 'active') ? 'checked' : '';
@@ -41,6 +43,7 @@ class VendorListDataTable extends DataTable
                     return $query->vendor->shop_name ;
                 
             })
+            /** End Custom Columns : */
 
             /** Start Filtring : */
             ->filterColumn('shop_name',function($query , $keyword){
@@ -58,8 +61,9 @@ class VendorListDataTable extends DataTable
                     $query->where('status','like',"%$keyword%");
                 }
             })
-
             /** End Filtring : */
+
+            
             ->rawColumns(['status'])
             ->setRowId('id');
     }

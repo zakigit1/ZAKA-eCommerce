@@ -11,6 +11,7 @@ use App\Models\ProductVariantItem;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\ValidationException;
 
 class CartController extends Controller
 {
@@ -114,29 +115,72 @@ class CartController extends Controller
     /** Quantity Increment : */
     public function quantityUpdate(Request $request){
 
-        // dd($request->all());
-        $product_id = Cart::get($request->rowId)->id;
+        try{
+            // dd($request->all());
+            $productCart = Cart::get($request->rowId);
+            // $product_id = Cart::get($request->rowId)->id;
+    
+            $product = Product::find($productCart->id);
+            // $product = Product::findOrFail($product_id);
+    
+    
+            if(!$product){
+                return response()->json(['status' => 'warning','message' => "Product Not Found"]);
+            }
+    
 
-        $product = Product::findOrFail($product_id);
+            //check the quantity : 
+            if($product->qty == 0 && $request->quantity != $productCart->qty){
+                if($request->quantity > $productCart->qty){
+                    return response()->json([
+                        'status' => 'warning',
+                        'qty_max' => $productCart->qty,
+                        'message' => "Sorry ! You Can't Add More $product->name Product Because It's Out Of Stock !"]);
+                }
 
-        //check the quantity : 
-        if($product->qty == 0){
-            return response()->json(['status' => 'warning','message' => "Sorry ! $product->name Product Is Out Of Stock !"]);
-        }elseif($product->qty < $request->quantity){
-            return response()->json(['status'=> 'warning','message' =>" Sorry ! This $product->name Product quantity is not available in the stock !"]);
+                // if($request->quantity > $product->qty && $product->qty ==0){
+                //     return response()->json([
+                //         'status' => 'warning',
+                //         'message' => "Sorry ! the $product->name Product is out of stock !"]);
+                // }
+            }
+
+            // Product Qty Verfied :
+            if($productCart->qty > $request->quantity){
+                $qtyNew = $productCart->qty - $request->quantity;
+                
+                $updateQty = ($product->qty + $qtyNew );
+                $product->qty = $updateQty ;
+                $product->save();
+            }elseif($productCart->qty < $request->quantity){
+                $qtyNew = $request->quantity - $productCart->qty ;
+                
+                $updateQty = ($product->qty - $qtyNew);
+                $product->qty = $updateQty ;
+                $product->save();
+            }else{
+                
+                $updateQty = ($product->qty - 1);
+                $product->qty = $updateQty ;
+                $product->save();
+
+            }
+    
+    
+            Cart::update($request->rowId,$request->quantity);
+            $product_total_amount = $this->getProductTotal($request->rowId);
+    
+    
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Product Quantity Updated Successfully !',
+                'product_total_amount' => $product_total_amount 
+    
+            ],200);
+
+        }catch(\Exception $ex){
+            return response()->json(['status' => 'warning','message' => $ex->getMessage()]);
         }
-
-
-        Cart::update($request->rowId,$request->quantity);
-        $product_total_amount = $this->getProductTotal($request->rowId);
-
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Product Quantity Updated Successfully !',
-            'product_total_amount' => $product_total_amount 
-
-        ],200);
     }
 
     /** Calculate the total price of product :  (this function we are use it in the quantityUpdate function */
@@ -184,28 +228,41 @@ class CartController extends Controller
 
     /** Remove Product From Cart Sidebar : */
     public function removeSidebarProduct(Request $request){
-        // dd($request->all());
-        $cartItem = Cart::get($request->rowId);
-        $product = Product::find($cartItem->id);
-        $product->qty = ($product->qty + $cartItem->qty);
 
-        $product->save();
-        
-        Cart::remove($request->rowId);
-        return  response(['status'=>'success','message'=>"Product Has Been Removed Successfully From The Cart Sidebar !"]);
+        try{
+            $request->validate([
+                'rowId' =>'required',
+            ]);
+            // dd($request->all());
+            $cartItem = Cart::get($request->rowId);
+            $product = Product::find($cartItem->id);
+            $product->qty = ($product->qty + $cartItem->qty);
+    
+            $product->save();
+            
+            Cart::remove($request->rowId);
+            return  response([
+                    'status'=>'success',
+                    'message'=>"Product Has Been Removed Successfully From The Cart Sidebar !"
+                ]);
+
+        } catch (ValidationException $e) {
+            return response()->json(['status'=>'error','message'=>$e->getMessage()]);
+        }catch(\Exception $ex){
+        return response()->json(['status'=>'error','message'=>$ex->getMessage()]);
+        }
+
     }
-
-
-
-
-
 
 
     /** Clear all Product Frome The Cart  ( Cart Details page) : */
     public function clearCart(){
         
         Cart::destroy();
-        return response(['status'=>'success','message'=>"Cart Is Empty Now !"]);
+        return response([
+                'status'=>'success',
+                'message'=>"Cart Is Empty Now !"
+            ]);
     }
 
     /** Counter Cart :   */
@@ -221,91 +278,106 @@ class CartController extends Controller
     }
 
 
+    /** Check & Apply Coupon  : */
 
-
-    /** Check Coupon  : */
-
-    public function apply_coupon(Request $request){
-
-        // dd($request->all());
-
-        if($request->coupon_code === null){
-            return response(["status"=> "error","message"=> "Coupon field is required !"]);
-        }
-
-        $coupon = Coupon::where(['code' => $request->coupon_code ,'status' => 1])->first();
-
-        if(!$coupon){
-            return response(["status"=> "error","message"=> "Coupon is not exist !"]);
-        }elseif($coupon->start_date  > date('Y-m-d') ){ //" < " ->mean befor
-            // return response(["status"=> "error","message"=> "Coupon is not exist !"]);
-            return response(["status"=> "error","message"=> "Coupon is not start yet !"]);
-        }elseif($coupon->end_date < date('Y-m-d')){
-            return response(["status"=> "error","message"=> "Coupon is expired !"]);
-        }elseif($coupon->total_used >= $coupon->quantity){
-            return response(["status"=> "error","message"=> "You can't apply this coupon !"]);
-        }
-
-
-        if($coupon->discount_type == 'amount'){
-            Session::put('coupon',[
-                'coupon_name'=>$coupon->name,
-                'coupon_code'=>$coupon->code,
-                'discount_type'=>$coupon->discount_type,
-                'discount'=>$coupon->discount
+    public function apply_coupon(Request $request)
+    {
+        try{
+            $request->validate([
+                'coupon_code' => 'required|exists:coupons,code',
+            ],[
+                'coupon_code.exists'=> 'This coupon code is not valid !',
             ]);
-        }elseif($coupon->discount_type == 'percent'){
+            // dd($request->all());
+    
+            if($request->coupon_code === null){
+                return response(["status"=> "error","message"=> "Coupon field is required !"]);
+            }
+    
+            $coupon = Coupon::where(['code' => $request->coupon_code ,'status' => 1])->first();
+    
+            if(!$coupon){
+                return response(["status"=> "error","message"=> "Coupon is not exist !"]);
+            }elseif($coupon->start_date  > date('Y-m-d') ){ //" < " ->mean befor
+                // return response(["status"=> "error","message"=> "Coupon is not exist !"]);
+                return response(["status"=> "error","message"=> "Coupon is not start yet !"]);
+            }elseif($coupon->end_date < date('Y-m-d')){
+                return response(["status"=> "error","message"=> "Coupon is expired !"]);
+            }elseif($coupon->total_used >= $coupon->quantity){
+                return response(["status"=> "error","message"=> "You can't apply this coupon !"]);
+            }
+    
+    
+            if($coupon->discount_type == 'amount'){
+                Session::put('coupon',[
+                    'coupon_name'=>$coupon->name,
+                    'coupon_code'=>$coupon->code,
+                    'discount_type'=>$coupon->discount_type,
+                    'discount'=>$coupon->discount
+                ]);
+            }elseif($coupon->discount_type == 'percent'){
+    
+                $discount = getCartSubtotal() - ((getCartSubtotal() * $coupon->discount) / 100);
+    
+                Session::put('coupon',[
+                    'coupon_name'=> $coupon->name,
+                    'coupon_code' => $coupon->code,
+                    'discount_type' => $coupon->discount_type,
+                    'discount_percentage' => $coupon->discount,
+                    'discount'=> $discount
+                ]);
+    
+            }
+    
+            return response(["status"=> "success","message"=> "Coupon Applied Successfully !"]);
 
-            $discount = getCartSubtotal() - ((getCartSubtotal() * $coupon->discount) / 100);
-
-            Session::put('coupon',[
-                'coupon_name'=> $coupon->name,
-                'coupon_code' => $coupon->code,
-                'discount_type' => $coupon->discount_type,
-                'discount_percentage' => $coupon->discount,
-                'discount'=> $discount
-            ]);
-
+        } catch (ValidationException $e) {
+            return response()->json(['status'=>'error','message'=>$e->getMessage()]);
+        }catch(\Exception $ex){
+            return response()->json(['status'=>'error','message'=>$ex->getMessage()]);
         }
-
-        return response(["status"=> "success","message"=> "Coupon Applied Successfully !"]);
+        
 
 
     }
 
     /** Calculate coupon discount */
-    public function couponCalculation(){
-
-        if(Session::has('coupon')){
-            $couponSession = Session::get('coupon');// i can use directely couponsession : 
-            $coupon = Coupon::where('name',$couponSession['coupon_name'])->first();
-
-            $subTotal = getCartSubtotal(); // this function you found it in the general file
-
-            if($coupon->discount_type == 'amount'){
-
-                $currency_icon = GeneralSetting::first()->currency_icon;
-                $discountType = $currency_icon.$coupon->discount;
-                $discount = $coupon->discount;
-                $total = max(0,$subTotal - $discount);// the max function for secure if the coupon is great than the price of the product .
-
-                return response()->json(['status'=>'success','discount'=>$discount ,'total'=>$total,'discountType'=>$discountType]);
-
-            }elseif($coupon->discount_type == 'percent'){
-
-                $discountType = $coupon->discount.'%'; //this is from DB
-                // $discountType = $couponSession['discount_percentage'].'%'; // this is from the session
-
-                $discount = (($subTotal * $coupon->discount) / 100);
-                $total = round($subTotal - $discount , 2) ; // return two number after the cuma .
-
+    public function couponCalculation()
+    {
+        try{
+            if(Session::has('coupon')){
+                $couponSession = Session::get('coupon');// i can use directely couponsession : 
+                $coupon = Coupon::where('name',$couponSession['coupon_name'])->first();
+    
+                $subTotal = getCartSubtotal(); // this function you found it in the general file
+    
+                if($coupon->discount_type == 'amount'){
+    
+                    $currency_icon = GeneralSetting::first()->currency_icon;
+                    $discountType = $currency_icon.$coupon->discount;
+                    $discount = $coupon->discount;
+                    $total = max(0,$subTotal - $discount);// the max function for secure if the coupon is great than the price of the product .
+    
+                    return response()->json(['status'=>'success','discount'=>$discount ,'total'=>$total,'discountType'=>$discountType]);
+    
+                }elseif($coupon->discount_type == 'percent'){
+    
+                    $discountType = $coupon->discount.'%'; //this is from DB
+                    // $discountType = $couponSession['discount_percentage'].'%'; // this is from the session
+    
+                    $discount = (($subTotal * $coupon->discount) / 100);
+                    $total = round($subTotal - $discount , 2) ; // return two number after the cuma .
+    
+                    return response()->json(['status'=>'success','discount'=>$discount ,'total'=>$total,'discountType'=>$discountType]);
+                }
+            }else{
+                $total = getCartSubtotal();
+                $discount = 0.00 ;
+                $discountType = '';
                 return response()->json(['status'=>'success','discount'=>$discount ,'total'=>$total,'discountType'=>$discountType]);
             }
-        }else{
-            $total = getCartSubtotal();
-            $discount = 0.00 ;
-            $discountType = '';
-            return response()->json(['status'=>'success','discount'=>$discount ,'total'=>$total,'discountType'=>$discountType]);
+        }catch(\Exception $ex){
+            return response()->json(['status'=>'error','message'=>$ex->getMessage()]);
         }
     }
 

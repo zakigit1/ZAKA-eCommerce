@@ -20,11 +20,14 @@ class NewsletterSubscribersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
 
                 $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("admin.subscriber.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
                 return $delete_btn;
             })
+            
             ->addColumn('is_verified',function($query){
 
                 $Yes='<i class="badge badge-success">Yes</i>';
@@ -32,6 +35,7 @@ class NewsletterSubscribersDataTable extends DataTable
                 return ($query->is_verified) ? $Yes : $No ;
                 
             })
+            /** End Custom Columns : */
 
             /** Start Filtring : */
             ->filterColumn('is_verified',function($query , $keyword){
@@ -43,8 +47,9 @@ class NewsletterSubscribersDataTable extends DataTable
                     $query->where('is_verified','like',"%$keyword%");
                 }
             })
-
             /** End Filtring : */
+
+
             ->rawColumns(['action','is_verified'])
             ->setRowId('id');
     }

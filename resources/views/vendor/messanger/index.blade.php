@@ -1,24 +1,30 @@
 @extends('vendor.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Vendor Messanger " }}
+    {{ "$settings->site_name || Messanger " }}
 @endsection
 
 @section('content')
 
     <!--=============================
-                    DASHBOARD START
-                ==============================-->
+                        DASHBOARD START
+                    ==============================-->
     <section>
         <div>
             <div class="row">
                 <div class="col-xl-9 col-xxl-10 col-lg-9 ms-auto">
                     <div class="dashboard_content mt-2 mt-md-0">
+                        <div class="back_button">
+                            <a href="{{ route('vendor.dashboard') }}" class="btn btn-primary"> <i
+                                    class="fas fa-chevron-circle-left"></i> back</a>
+                        </div>
+                        <br>
                         <h3><i class="far fa-star" aria-hidden="true"></i> Message</h3>
                         <div class="wsus__dashboard_review">
                             <div class="row">
                                 <div class="col-xl-4 col-md-5">
-                                    <div class="wsus__chatlist d-flex align-items-start" style="     
+                                    <div class="wsus__chatlist d-flex align-items-start"
+                                        style="     
                                         height: 83vh;
                                         border-radius: 5px;
                                         background: #fff;
@@ -30,11 +36,11 @@
                                             @if (isset($clientsInfo) && count($clientsInfo) > 0)
                                                 @foreach ($clientsInfo as $clientInfo)
                                                     @php
-                                                        $unseenMessage =App\Models\Chat::where([
-                                                                'sender_id' => $clientInfo->senderProfile->id ,
-                                                                'receiver_id' => auth()->user()->id ,
-                                                                'seen' => 0])
-                                                            ->exists();
+                                                        $unseenMessage = App\Models\Chat::where([
+                                                            'sender_id' => $clientInfo->senderProfile->id,
+                                                            'receiver_id' => auth()->user()->id,
+                                                            'seen' => 0,
+                                                        ])->exists();
                                                     @endphp
                                                     <div class="wsus__chatlist_body">
                                                         <button class="nav-link seller conversion-messages"
@@ -42,7 +48,8 @@
                                                             data-bs-toggle="pill" data-bs-target="#v-pills-home"
                                                             type="button" role="tab" aria-controls="v-pills-home"
                                                             aria-selected="true">
-                                                            <div class="wsus_chat_list_img {{($unseenMessage) ? 'msg-notification' : ''}}">
+                                                            <div
+                                                                class="wsus_chat_list_img {{ $unseenMessage ? 'msg-notification' : '' }}">
                                                                 <img src="{{ $clientInfo->senderProfile->image }}"
                                                                     alt="user" class="img-fluid">
                                                                 <span class="pending d-none" id="pending-6">0</span>
@@ -58,7 +65,8 @@
                                     </div>
                                 </div>
                                 <div class="col-xl-8 col-md-7">
-                                    <div class="wsus__chat_main_area" style="  
+                                    <div class="wsus__chat_main_area"
+                                        style="  
                                         height: 83vh;
                                         border-radius: 5px;
                                         background: #fff;
@@ -135,8 +143,8 @@
         </div>
     </section>
     <!--=============================
-                            DASHBOARD START
-                        ==============================-->
+                                DASHBOARD START
+                            ==============================-->
 
 @endsection
 
@@ -309,16 +317,16 @@
                     complete: function() {
                         // Send message in conversion 
                         // let message = `                                              
-                        //     <div class="wsus__chat_single single_chat_2">
-                        //         <div class="wsus__chat_single_img">
-                        //             <img src="${USER.image}"
-                        //                 alt="user" class="img-fluid">
-                        //         </div>
-                        //         <div class="wsus__chat_single_text">
-                        //             <p>${messageData}</p>
-                        //             <span>${formatDateTime(new Date().toISOString())}</span>
-                        //         </div>
-                        //     </div>`
+                    //     <div class="wsus__chat_single single_chat_2">
+                    //         <div class="wsus__chat_single_img">
+                    //             <img src="${USER.image}"
+                    //                 alt="user" class="img-fluid">
+                    //         </div>
+                    //         <div class="wsus__chat_single_text">
+                    //             <p>${messageData}</p>
+                    //             <span>${formatDateTime(new Date().toISOString())}</span>
+                    //         </div>
+                    //     </div>`
 
                         // mainChatInbox.append(message);
                         // $('.message-box').val('');

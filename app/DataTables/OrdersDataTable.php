@@ -27,6 +27,9 @@ class OrdersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
+            
             ->addColumn('action', function($query){
 
                 $actions="
@@ -96,9 +99,10 @@ class OrdersDataTable extends DataTable
                         break;
                 }
             })
+            /** End Custom Columns : */
 
-            //this filter use it when we use data of relation in the search bar of datatable 
-
+    
+            /** Start Filtring : */
             ->filterColumn('invoice_id',function($query , $keyword){
                 $keyword = str_replace('#', '', $keyword);
                  $query->where('invoice_id','like',"%$keyword%");
@@ -154,9 +158,9 @@ class OrdersDataTable extends DataTable
             ->filterColumn('date',function($query , $keyword){
                 $query->whereDate('created_at','like',"%$keyword%");
             })
+            /** End Filtring : */
 
-
-
+            
             ->rawColumns(['status','order_status','action','payment_status'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
     }

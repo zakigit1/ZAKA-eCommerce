@@ -21,6 +21,8 @@ class VendorProductImagesGalleryDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
                 
                 $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("vendor.product-image-gallery.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
@@ -34,6 +36,7 @@ class VendorProductImagesGalleryDataTable extends DataTable
 
                 return $image;
             })
+            /** End Custom Columns : */
             
             ->rawColumns(['action','image'])
             ->setRowId('id');

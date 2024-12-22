@@ -20,6 +20,9 @@ class ApprovedVendorRequestDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
+            
             ->addColumn('action', function($query){
 
                 $action="
@@ -44,6 +47,8 @@ class ApprovedVendorRequestDataTable extends DataTable
                     return '<i class="badge badge-warning">Pending</i>';
                 }
             })
+            /** End Custom Columns : */
+
 
             /** Start Filtring : */
             ->filterColumn('user_name',function($query , $keyword){
@@ -51,7 +56,6 @@ class ApprovedVendorRequestDataTable extends DataTable
                     $query->where('name','like',"%$keyword%");
                 });
             })
-
 
             ->filterColumn('status',function($query , $keyword){
                 if (strtolower($keyword) == 'approved') {
@@ -68,6 +72,7 @@ class ApprovedVendorRequestDataTable extends DataTable
             })
             /** End Filtring : */
 
+            
             ->rawColumns(['status','action'])
             ->setRowId('id');
     }

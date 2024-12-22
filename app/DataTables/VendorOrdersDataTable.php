@@ -22,6 +22,7 @@ class VendorOrdersDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
 
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
 
                 $actions="
@@ -92,6 +93,7 @@ class VendorOrdersDataTable extends DataTable
                         break;
                 }
             })
+            /** End Custom Columns : */
             
             
             /** Start Filtring : */

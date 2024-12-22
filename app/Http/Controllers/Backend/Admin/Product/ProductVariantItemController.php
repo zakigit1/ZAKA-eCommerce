@@ -8,7 +8,6 @@ use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\ProductVariantItem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ProductVariantItemController extends Controller
 {

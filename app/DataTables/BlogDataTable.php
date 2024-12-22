@@ -20,6 +20,9 @@ class BlogDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
+            
             ->addColumn('action', function($query){
                 $user_role='admin';
                 $type='blog';
@@ -62,7 +65,9 @@ class BlogDataTable extends DataTable
             ->addColumn('category',function($query){
                 return $query->blogcategory->name;
             })
+            /** End Custom Columns : */
 
+            
             /** Start Filtring : */
 
             ->filterColumn('user_name',function($query , $keyword){

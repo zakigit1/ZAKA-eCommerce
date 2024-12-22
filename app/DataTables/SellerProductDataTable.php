@@ -21,6 +21,8 @@ class SellerProductDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
                 $user_role='admin';
                 $type='product';
@@ -106,9 +108,10 @@ class SellerProductDataTable extends DataTable
 
                 return $query->vendor->shop_name;
             })
+            /** End Custom Columns : */
 
-            /** Start Filtring : */
-                        
+
+            /** Start Filtring : */        
             ->filterColumn('approve',function($query , $keyword){
                 if (strtolower($keyword) == 'approve') {
                     $query->where('is_approved',1);
@@ -156,6 +159,7 @@ class SellerProductDataTable extends DataTable
             })
             /** End Filtring : */
  
+            
             ->rawColumns(['status','action','type','approve'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
     }

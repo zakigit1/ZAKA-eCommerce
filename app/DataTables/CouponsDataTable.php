@@ -20,6 +20,9 @@ class CouponsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
+           
             ->addColumn('action', function($query){
                     
                 $user_role='admin';
@@ -61,6 +64,7 @@ class CouponsDataTable extends DataTable
             ->addColumn('coupon_code',function($query){
                 return $query->code;
             })
+            /** End Custom Columns : */
 
 
             /** Start Filtring : */

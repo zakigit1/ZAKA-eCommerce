@@ -21,6 +21,7 @@ class SubcategoriesDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
 
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
                
                 $user_role='admin';
@@ -53,13 +54,13 @@ class SubcategoriesDataTable extends DataTable
                 $categoryName = $query->category->name;
                 return $categoryName;
             })
+            /** End Custom Columns : */
 
-            /** Start Filtring : */
-            
+
+            /** Start Filtring : */ 
             ->filterColumn('status',function($query , $keyword){
                 $query->where('status','like',"%$keyword%");
             })
-
 
             ->filterColumn('category',function($query , $keyword){
                 $query->whereHas('category',function($query) use($keyword){
@@ -68,7 +69,8 @@ class SubcategoriesDataTable extends DataTable
             })
             /** End Filtring : */
 
-            ->rawColumns(['status',])//if you add in this file html code you need to insert the column name inside (rawColumns)
+            
+            ->rawColumns(['status'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
     }
 

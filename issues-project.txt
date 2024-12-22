@@ -4,8 +4,8 @@
 
 
 /** Easy to handle : */
-// icon for vendor dashboard need to do it 
-// fix the routes about BREADCRUMB to dynamique return functionalite
+// icon for vendor dashboard need to do it [done!]
+// fix the routes about BREADCRUMB to dynamique return functionalite [done!]
 // add in all views @ to avoid any kind of null errors .
 // zid ga3 fl controller ':response redirect' just example kol wahd 3la hsab return ta3ha
 // login /register issue ta3 design redirect
@@ -49,7 +49,7 @@
 // home services section i need to do it or remove it .
 //fix the date time make it readable
 // for flash sale khas nkri view table for flash sale products
-
+// when you remove the product from wishlist after reload i cant add to cart product .
 
 
 ############ --Start--  issue search about it 

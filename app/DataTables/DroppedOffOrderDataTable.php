@@ -20,6 +20,9 @@ class DroppedOffOrderDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
+            
             ->addColumn('action', function($query){
 
                 $actions="
@@ -91,7 +94,9 @@ class DroppedOffOrderDataTable extends DataTable
                 
                 return $query->user->name;
             })
+            /** End Custom Columns : */
 
+            
             /** Start Filtring : */
             ->filterColumn('customer',function($query , $keyword){
                 $query->whereHas('user',function($query) use($keyword){

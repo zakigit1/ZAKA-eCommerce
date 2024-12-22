@@ -1,7 +1,7 @@
 @extends('vendor.Dashboard.layouts.master')
 
 @section('title')
-    {{"$settings->site_name || Create Vendor Product "}}
+    {{"$settings->site_name || Create Product "}}
 @endsection
 @section('content')
 
@@ -12,7 +12,7 @@
                     <a href="{{route('vendor.product.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> back</a>
                 </div>
                 <br>
-                <h3><i class="far fa-user"></i>Add Vendor Product</h3>
+                <h3><i class="far fa-user"></i>Add Product</h3>
                 
 
                 <div class="wsus__dashboard_profile">

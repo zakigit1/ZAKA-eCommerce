@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Advertisement;
 use App\Traits\imageUploadTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 
 class AdvertisementController extends Controller

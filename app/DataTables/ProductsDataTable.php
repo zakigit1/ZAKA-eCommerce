@@ -20,6 +20,8 @@ class ProductsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
                 $user_role='admin';
                 $type='product';
@@ -91,6 +93,7 @@ class ProductsDataTable extends DataTable
                 }
 
             })
+            /** End Custom Columns : */
     
 
             /** Start Filtring : */
@@ -123,11 +126,9 @@ class ProductsDataTable extends DataTable
             ->filterColumn('status',function($query , $keyword){
                 $query->where('status','like',"%$keyword%");
             })
-
             /** End Filtring : */
 
 
-            
             ->rawColumns(['status','action','type'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id',);
     }

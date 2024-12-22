@@ -22,6 +22,8 @@ class VendorProductVariantDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+        
+            /** Start Custom Columns : */   
             ->addColumn('action', function($query){
                 $user_role='vendor';
                 $type='product-variant';
@@ -47,8 +49,13 @@ class VendorProductVariantDataTable extends DataTable
                 return $Status_button;  
                 
             })
+            /** End Custom Columns : */
+
 
             /** Start Filtring : */
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
             /** Start Filtring : */
 
 
@@ -101,7 +108,7 @@ class VendorProductVariantDataTable extends DataTable
             Column::computed('action')
             ->exportable(false)
             ->printable(false)
-            ->width(300)
+            ->width(500)
             ->addClass('text-center'),
         ];
     }

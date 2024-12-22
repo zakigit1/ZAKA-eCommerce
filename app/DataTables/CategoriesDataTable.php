@@ -20,7 +20,9 @@ class CategoriesDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            // here we custom our columns : 
+            
+            /** Start Custom Columns : */
+            
             ->addColumn('action', function($query){
                 
                 $user_role='admin';
@@ -58,6 +60,7 @@ class CategoriesDataTable extends DataTable
                 return $icon ;
                 
             })
+            /** End Custom Columns : */ 
 
             /** Start Filtring : */
             ->filterColumn('status',function($query , $keyword){
@@ -65,6 +68,7 @@ class CategoriesDataTable extends DataTable
             })
             /** End Filtring : */
 
+            
             ->rawColumns(['status','icon'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
     }

@@ -23,6 +23,8 @@ class WithdrawMethodDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
                 $user_role='admin';
                 $type='withdraw-method';
@@ -40,12 +42,27 @@ class WithdrawMethodDataTable extends DataTable
             ->addColumn('withdraw_charge', function($query){
                 return   $query->withdraw_charge . '%';
             })
+            /** End Custom Columns : */
+
 
             /** Start Filtring : */
+            ->filterColumn('minimum_amount',function($query , $keyword){
+                $keyword = str_replace(currencyIcon(), '', $keyword);
+                $query->where('minimum_amount','like',"%$keyword%");
+            })
+
+            ->filterColumn('maximum_amount',function($query , $keyword){
+                $keyword = str_replace(currencyIcon(), '', $keyword);
+                $query->where('maximum_amount','like',"%$keyword%");
+            })
+
+            ->filterColumn('withdraw_charge',function($query , $keyword){
+                $keyword = str_replace('%', '', $keyword);
+                $query->where('withdraw_charge','like',"%$keyword%");
+            })
             /** End Filtring : */
 
 
-            
             // ->rawColumns([])
             ->setRowId('id');
     }

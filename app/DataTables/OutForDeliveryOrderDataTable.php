@@ -21,6 +21,8 @@ class OutForDeliveryOrderDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
 
+            /** Start Custom Columns : */
+            
             ->addColumn('action', function($query){
 
                 $actions="
@@ -87,6 +89,7 @@ class OutForDeliveryOrderDataTable extends DataTable
             ->addColumn('invoice_id',function($query){
                 return '#'.$query->invoice_id;
             })
+            /** End Custom Columns : */
 
             /** Start Filtring : */
             ->filterColumn('customer',function($query , $keyword){
@@ -145,10 +148,6 @@ class OutForDeliveryOrderDataTable extends DataTable
                     $query->where('invoice_id','like',"%$keyword%");
             })
             /** End Filtring : */
-
-
-
-
 
 
             ->rawColumns(['order_status','action','payment_status'])//if you add in this file html code you need to insert the column name inside (rawColumns)

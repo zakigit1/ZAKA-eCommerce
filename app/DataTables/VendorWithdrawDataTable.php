@@ -20,6 +20,8 @@ class VendorWithdrawDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+        
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
 
                 $action="
@@ -64,6 +66,13 @@ class VendorWithdrawDataTable extends DataTable
                     
                 }
             })
+            /** End Custom Columns : */
+
+            /** Start Filtring : */
+            ->filterColumn('withdraw_charge',function($query , $keyword){
+                $query->where('withdraw_charge','like',"%$keyword%");
+            })
+
 
             ->filterColumn('withdraw_mehtod',function($query , $keyword){
                 $query->whereHas('method',function($query) use($keyword){
@@ -71,9 +80,29 @@ class VendorWithdrawDataTable extends DataTable
                 });
             })
 
+            ->filterColumn('status',function($query , $keyword){
+                if (strtolower($keyword) == 'paid') {
+                    $query->where('status','paid');
+                } elseif (strtolower($keyword) == 'pending') {
+                    $query->where('status','pending');
+                } elseif (strtolower($keyword) == 'decline') {
+                    $query->where('status','decline');
+                } else {
+                    $query->where('status','like',"%$keyword%");
+                }
+            })
 
-            /** Start Filtring : */
+            ->filterColumn('total_amount',function($query , $keyword){
+                $keyword = str_replace(currencyIcon(), '', $keyword);
+                $query->where('total_amount','like',"%$keyword%");
+            })
+
+            ->filterColumn('withdraw_amount',function($query , $keyword){
+                $keyword = str_replace(currencyIcon(), '', $keyword);
+                $query->where('withdraw_amount','like',"%$keyword%");
+            })
             /** End Filtring : */
+
 
             ->rawColumns(['status','action'])
             ->setRowId('id');

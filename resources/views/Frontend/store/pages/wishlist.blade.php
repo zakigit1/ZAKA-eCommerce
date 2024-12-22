@@ -12,10 +12,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h4>wishlist</h4>
+                        <h4>Wishlist</h4>
                         <ul>
-                            <li><a href="{{ route('home') }}">home</a></li>
-                            <li><a href="javascript:;">wishlist</a></li>
+                            <li><a href="{{ route('home') }}">Home</a></li>
+                            <li><a href="javascript:;">Wishlist</a></li>
                         </ul>
                     </div>
                 </div>

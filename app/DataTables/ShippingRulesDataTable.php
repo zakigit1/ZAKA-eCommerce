@@ -21,91 +21,91 @@ class ShippingRulesDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($query){
+
+            /** Start Custom Columns : */
+            ->addColumn('action', function($query){
+                    
+                $user_role='admin';
+                $type='shipping-rules';
+                return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
+            })
+
+            ->addColumn('status',function($query){
+        
+                $checked = ($query->status) ? 'checked' : '';
+
+                $Status_button ='
+                    <label  class="custom-switch mt-2" >
+                            <input type="checkbox" name="custom-switch-checkbox" 
+                            class="custom-switch-input  change-status"
+                            data-id="'.$query->id.'"
+                            '.$checked.'>
+                        <span class="custom-switch-indicator" ></span>
+                    </label>';
+
+                return $Status_button;
+
+
                 
-            $user_role='admin';
-            $type='shipping-rules';
-            return view('Backend.DataTable.yajra_datatable_columns.action_button',['query'=>$query,'type'=>$type,'role'=>$user_role]);
-        })
+            })
 
-        ->addColumn('status',function($query){
-     
-            $checked = ($query->status) ? 'checked' : '';
+            ->addColumn('min_cost',function ($query){
 
-            $Status_button ='
-                <label  class="custom-switch mt-2" >
-                        <input type="checkbox" name="custom-switch-checkbox" 
-                        class="custom-switch-input  change-status"
-                        data-id="'.$query->id.'"
-                        '.$checked.'>
-                    <span class="custom-switch-indicator" ></span>
-                </label>';
+                if($query->min_cost == null){
+                    return currencyIcon() . '0'  ;
+                }else{
+                    return currencyIcon()  . $query->min_cost;
+                }
+            })
 
-            return $Status_button;
-
-
+            ->addColumn('cost',function ($query){
             
-        })
+                return currencyIcon()  . $query->cost ;
 
-        ->addColumn('min_cost',function ($query){
+            })
 
-            if($query->min_cost == null){
-                return currencyIcon() . '0'  ;
-            }else{
-                return currencyIcon()  . $query->min_cost;
-            }
-        })
+            ->addColumn('type',function($query){
+                $flat_cost='<i class="badge badge-success">Flat Cost</i>';
+                $min_cost='<i class="badge badge-warning">Minimum Order Amount </i>';
+                return ($query->type == 'flat_cost') ? $flat_cost : $min_cost ;  
+            })
+            /** End Custom Columns : */
 
-        ->addColumn('cost',function ($query){
-          
-            return currencyIcon()  . $query->cost ;
+            /** Start Filtring : */            
+            ->filterColumn('type',function($query , $keyword){
+                $types = [
+                    'flat_cost' => 'flat cost',
+                    'min_cost' => 'minimum order amount',
+                ];
 
-        })
+                $keyword = strtolower($keyword);
+                if (array_key_exists($keyword, $types)) {
+                    $query->where('type', $keyword);
+                } else {
+                    $keyword = str_replace(' ', '', $keyword);
+                    $query->where('type','like',"%$keyword%")->orWhere('type','like',"%$keyword%");
+                }
+            })
 
-        ->addColumn('type',function($query){
-            $flat_cost='<i class="badge badge-success">Flat Cost</i>';
-            $min_cost='<i class="badge badge-warning">Minimum Order Amount </i>';
-            return ($query->type == 'flat_cost') ? $flat_cost : $min_cost ;  
-        })
+            ->filterColumn('cost',function($query , $keyword){
+                $keyword = str_replace(currencyIcon(), '', $keyword);
+                $query->where('cost','like',"%$keyword%");
+            })
 
+            ->filterColumn('min_cost',function($query , $keyword){
+                $keyword = str_replace(currencyIcon(), '', $keyword);
+                $query->where('min_cost','like',"%$keyword%");
+            })
 
-        /** Start Filtring : */
-                        
-        ->filterColumn('type',function($query , $keyword){
-            $types = [
-                'flat_cost' => 'Flat Cost',
-                'min_cost' => 'Minimum Order Amount',
-            ];
-
-            $keyword = strtolower($keyword);
-            if (array_key_exists($keyword, $types)) {
-                $query->where('type', $keyword);
-            } else {
-                $keyword = str_replace(' ', '', $keyword);
-                $query->where('type','like',"%$keyword%")->orWhere('type','like',"%$keyword%");
-            }
-        })
-
-        ->filterColumn('cost',function($query , $keyword){
-            $keyword = str_replace(currencyIcon(), '', $keyword);
-            $query->where('cost','like',"%$keyword%");
-        })
-
-        ->filterColumn('min_cost',function($query , $keyword){
-            $keyword = str_replace(currencyIcon(), '', $keyword);
-            $query->where('min_cost','like',"%$keyword%");
-        })
-
-        ->filterColumn('status',function($query , $keyword){
-            $query->where('status','like',"%$keyword%");
-        })
-
-        /** End Filtring : */
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
+            /** End Filtring : */
 
 
 
-        ->rawColumns(['status','min_cost','type'])//if you add in this file html code you need to insert the column name inside (rawColumns)
-        ->setRowId('id');
+            ->rawColumns(['status','min_cost','type'])//if you add in this file html code you need to insert the column name inside (rawColumns)
+            ->setRowId('id');
     }
 
     /**

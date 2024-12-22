@@ -20,6 +20,9 @@ class BlogCategoryDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
+            
             ->addColumn('action', function ($query) {
                 $user_role = 'admin';
                 $type = 'blog-category';
@@ -44,7 +47,9 @@ class BlogCategoryDataTable extends DataTable
 
 
             })
+            /** End Custom Columns : */
 
+            
             /** Start Filtring : */
             ->filterColumn('status',function($query , $keyword){
                 $query->where('status','like',"%$keyword%");

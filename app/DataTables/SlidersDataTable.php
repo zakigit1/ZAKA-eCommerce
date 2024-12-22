@@ -21,7 +21,7 @@ class SlidersDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
         
-        // here we custom our columns : 
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
                 $user_role='admin';
                 $type='slider';
@@ -46,10 +46,10 @@ class SlidersDataTable extends DataTable
             ->addColumn('price',function($query){
                 return currencyIcon().$query->starting_price;
             })
+            /** End Custom Columns : */
 
 
             /** Start Filtring : */
-            
             ->filterColumn('price',function($query , $keyword){
                 $keyword = str_replace(currencyIcon(), '', $keyword);
                 $query->where('starting_price','like',"%$keyword%");
@@ -58,9 +58,7 @@ class SlidersDataTable extends DataTable
             ->filterColumn('status',function($query , $keyword){
                 $query->where('status','like',"%$keyword%");
             })
-
             /** End Filtring : */
-
 
 
             ->rawColumns(['status'])//if you add in this file html code you need to insert the column name inside (rawColumns)

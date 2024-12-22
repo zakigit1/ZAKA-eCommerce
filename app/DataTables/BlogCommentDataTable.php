@@ -20,6 +20,9 @@ class BlogCommentDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
+            
             ->addColumn('action', function($query){
                 $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("admin.blog-comment.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
                 return $delete_btn;
@@ -32,6 +35,7 @@ class BlogCommentDataTable extends DataTable
             ->addColumn('user_name',function($query){
                 return $query->user->name;
             })
+            /** End Custom Columns : */
 
 
 

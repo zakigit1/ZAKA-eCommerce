@@ -21,6 +21,9 @@ class AdminProductReviewDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
+            
             ->addColumn('action', function($query){
 
                 $actions="
@@ -102,7 +105,9 @@ class AdminProductReviewDataTable extends DataTable
             ->addColumn('client',function($query){
                 return $query->user->name;
             })
+            /** End Custom Columns : */
 
+            
             /** Start Filtring : */
             ->filterColumn('product',function($query , $keyword){
                 $query->whereHas('product',function($query) use($keyword){

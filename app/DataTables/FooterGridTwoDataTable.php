@@ -20,6 +20,8 @@ class FooterGridTwoDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
                     
                 $user_role='admin';
@@ -45,6 +47,8 @@ class FooterGridTwoDataTable extends DataTable
 
                 
             })
+            /** End Custom Columns : */
+
 
             /** Start Filtring : */
             ->filterColumn('status',function($query , $keyword){

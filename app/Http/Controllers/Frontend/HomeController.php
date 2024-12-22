@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Response;
 
 class HomeController extends Controller
 {
@@ -39,7 +39,6 @@ class HomeController extends Controller
             return Slider::orderBy('serial','asc')->active()->take(3)->get();
         });
         
-
 
 
 
@@ -232,7 +231,10 @@ class HomeController extends Controller
                     ->where('status', 1);
             },
             'brand'
-            ])->where(['status' => 1 ,'is_approved' => 1,'vendor_id' => $id])->orderBy('id','DESC')->paginate(12);
+            ])
+            ->where(['status' => 1 ,'is_approved' => 1,'vendor_id' => $id])
+            ->orderBy('id','DESC')
+            ->paginate(12);
         
         $vendor = Vendor::with('products')->find($id);
 
@@ -240,44 +242,46 @@ class HomeController extends Controller
             return abort(404);
         }
 
-
-
-
         return view('Frontend.store.pages.vendor.vendor-products',compact('products','vendor'));
     }
 
-    public function showProductModel(string $id):Response
+    public function showProductModel(string $id)   
     {
-       
-        $product = Product::withAvg('reviews','rating')
-            ->withCount('reviews')
-            ->with([
-                'variants' => function ($query) {
-                    $query->with([
-                            'items' => function ($q) {
-                                $q->where('status', 1);
-                            },
-                        ])
-                        ->where('status', 1);
-                },
-                'reviews' => function ($query) {
-                    // get just reviews active
-                    $query->where('status', 1);
-                },
-                'brand'])
-        ->find($id);
+       try{
 
+           $product = Product::withAvg('reviews','rating')
+               ->withCount('reviews')
+               ->with([
+                   'variants' => function ($query) {
+                       $query->with([
+                               'items' => function ($q) {
+                                   $q->where('status', 1);
+                               },
+                           ])
+                           ->where('status', 1);
+                   },
+                   'reviews' => function ($query) {
+                       // get just reviews active
+                       $query->where('status', 1);
+                   },
+                   'brand'])
+           ->find($id);
+   
+            
+           // $product = Product::find($id);
+   
+           if(!$product){
+               return response(['status'=>'error','message'=>'product not found !']);
+           }
+   
+           // radi n3rdo product model file with ajax
+           $content = view('Frontend.store.layouts.includes.model',compact('product'))->render();
+   
+           return Response::make($content, 200,['Content-Type' => 'text/html']);
 
-        // $product = Product::find($id);
-
-        if(!$product){
-            return response(['status'=>'error','message'=>'product not found !']);
-        }
-
-        // radi n3rdo product model file with ajax
-        $content = view('Frontend.store.layouts.includes.model',compact('product'))->render();
-
-        return Response::make($content, 200,['Content-Type' => 'text/html']);
+       }catch(\Exception $ex){
+        return response(['status'=>'error','message'=>$ex->getMessage()]);
+       }
 
     }
 

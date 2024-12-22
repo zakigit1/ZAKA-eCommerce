@@ -20,6 +20,8 @@ class ProductVariantItemDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
                 $user_role='admin';
                 $type='product-variant-item';//name route
@@ -57,9 +59,10 @@ class ProductVariantItemDataTable extends DataTable
             ->addColumn('price',function($query){
                 return currencyIcon().$query->price;
             })
+            /** End Custom Columns : */
+
 
             /** Start Filtring : */
-
             ->filterColumn('status',function($query , $keyword){
                 $query->where('status','like',"%$keyword%");
             })
@@ -78,8 +81,8 @@ class ProductVariantItemDataTable extends DataTable
                 $keyword = str_replace(currencyIcon(), '', $keyword);
                 $query->where('price','like',"%$keyword%");
             })
-
             /** End Filtring : */
+
 
             ->rawColumns(['status','is_default'])
             ->setRowId('id');

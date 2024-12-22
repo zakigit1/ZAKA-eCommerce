@@ -20,6 +20,8 @@ class FlashSaleItemDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
                             
                 $delete_btn='<a class="btn btn-danger delete-item-with-ajax"  href="'.route("admin.flash-sale.destroy",$query->id).'"><i class="fas fa-trash-alt"></i></a>';
@@ -69,6 +71,7 @@ class FlashSaleItemDataTable extends DataTable
             ->addColumn('End Date',function($query){
             return $query->flashSale->end_date;
             })
+            /** End Custom Columns : */
 
             
             /** Start Filtring : */
@@ -92,8 +95,6 @@ class FlashSaleItemDataTable extends DataTable
                 $query->where('status','like',"%$keyword%");
             })
             /** End Filtring : */
-
-
 
 
             ->rawColumns(['status','action','show_at_home','product'])

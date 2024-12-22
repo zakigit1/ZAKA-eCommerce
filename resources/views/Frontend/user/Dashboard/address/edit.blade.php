@@ -1,7 +1,7 @@
 @extends('Frontend.user.Dashboard.layouts.master')
 
 @section('title')
-    {{"$settings->site_name || Edit User Address"}}
+    {{ "$settings->site_name || Edit Address" }}
 @endsection
 
 @section('content')
@@ -11,86 +11,90 @@
 
 
                 <div class="back_button">
-                    <a href="{{route('user.address.index')}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
+                    <a href="{{ route('user.address.index') }}" class="btn btn-primary"> <i
+                            class="fas fa-chevron-circle-left"></i> Back</a>
                 </div>
                 <br>
                 <h3><i class="fal fa-gift-card"></i>create address</h3>
                 <div class="wsus__dashboard_add wsus__add_address">
-                    <form action="{{route('user.address.update',$address->id)}}" method="POST">
-                       
+                    <form action="{{ route('user.address.update', $address->id) }}" method="POST">
+
                         @csrf
                         @method('PUT')
-                        
+
                         <div class="row">
-                                <div class="col-xl-6 col-md-6">
-                                    <div class="wsus__add_address_single">
-                                        <label>name <b>*</b></label>
-                                        <input type="text" placeholder="Name" name="name" value="{{$address->name}}">
+                            <div class="col-xl-6 col-md-6">
+                                <div class="wsus__add_address_single">
+                                    <label>name <b>*</b></label>
+                                    <input type="text" placeholder="Name" name="name" value="{{ $address->name }}">
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6 col-md-6">
+                                <div class="wsus__add_address_single">
+                                    <label>email</label>
+                                    <input type="email" placeholder="Email" name="email" value="{{ $address->email }}">
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6 col-md-6">
+                                <div class="wsus__add_address_single">
+                                    <label>phone <b>*</b></label>
+                                    <input type="text" placeholder="Phone" name="phone" value="{{ $address->phone }}">
+                                </div>
+                            </div>
+
+
+                            <div class="col-xl-6 col-md-6">
+                                <div class="wsus__add_address_single">
+                                    <label>countery <b>*</b></label>
+                                    <div class="wsus__topbar_select">
+                                        <select class="select_2" name="country">
+                                            @foreach (config('settings.country_list') as $country)
+                                                <option {{ $address->country == $country ? 'selected' : '' }}
+                                                    value="{{ $country }}"> {{ $country }} </option>
+                                            @endforeach
+
+                                        </select>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="col-xl-6 col-md-6">
-                                    <div class="wsus__add_address_single">
-                                        <label>email</label>
-                                        <input type="email" placeholder="Email" name="email" value="{{$address->email}}">
-                                    </div>
+
+                            <div class="col-xl-6 col-md-6">
+                                <div class="wsus__add_address_single">
+                                    <label>State <b>*</b></label>
+                                    <input type="text" placeholder="State" name="state" value="{{ $address->state }}">
                                 </div>
-
-                                <div class="col-xl-6 col-md-6">
-                                    <div class="wsus__add_address_single">
-                                        <label>phone <b>*</b></label>
-                                        <input type="text" placeholder="Phone" name="phone" value="{{$address->phone}}">
-                                    </div>
+                            </div>
+                            <div class="col-xl-6 col-md-6">
+                                <div class="wsus__add_address_single">
+                                    <label>City <b>*</b></label>
+                                    <input type="text" placeholder="City" name="city" value="{{ $address->city }}">
                                 </div>
+                            </div>
 
 
-                                <div class="col-xl-6 col-md-6">
-                                    <div class="wsus__add_address_single">
-                                        <label>countery <b>*</b></label>
-                                        <div class="wsus__topbar_select">
-                                            <select class="select_2" name="country">
-                                                @foreach (config('settings.country_list') as $country)
-                                                    <option {{$address->country == $country ? 'selected' : ''}} value="{{$country}}"> {{$country}} </option>
-                                                @endforeach
-
-                                            </select>
-                                        </div>
-                                    </div>
+                            <div class="col-xl-6 col-md-6">
+                                <div class="wsus__add_address_single">
+                                    <label>zip code <b>*</b></label>
+                                    <input type="text" placeholder="Zip Code" name="zip"
+                                        value="{{ $address->zip }}">
                                 </div>
+                            </div>
 
-
-                                <div class="col-xl-6 col-md-6">
-                                    <div class="wsus__add_address_single">
-                                        <label>State <b>*</b></label>
-                                        <input type="text" placeholder="State" name="state" value="{{$address->state}}">
-                                    </div>
+                            <div class="col-xl-6 col-md-6">
+                                <div class="wsus__add_address_single">
+                                    <label>Address <b>*</b></label>
+                                    <input type="text" placeholder="Address" name="address"
+                                        value="{{ $address->address }}">
                                 </div>
-                                <div class="col-xl-6 col-md-6">
-                                    <div class="wsus__add_address_single">
-                                        <label>City <b>*</b></label>
-                                        <input type="text" placeholder="City" name="city" value="{{$address->city}}">
-                                    </div>
-                                </div>
+                            </div>
 
 
-                                <div class="col-xl-6 col-md-6">
-                                    <div class="wsus__add_address_single">
-                                        <label>zip code <b>*</b></label>
-                                        <input type="text" placeholder="Zip Code" name="zip" value="{{$address->zip}}">
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-6 col-md-6">
-                                    <div class="wsus__add_address_single">
-                                        <label>Address <b>*</b></label>
-                                        <input type="text" placeholder="Address" name="address" value="{{$address->address}}">
-                                    </div>
-                                </div>
-
-
-                                <div class="col-xl-6">
-                                    <button type="submit" class="common_btn">Update</button>
-                                </div>
+                            <div class="col-xl-6">
+                                <button type="submit" class="common_btn">Update</button>
+                            </div>
 
                         </div>
                     </form>
@@ -98,5 +102,4 @@
             </div>
         </div>
     </div>
-
 @endsection

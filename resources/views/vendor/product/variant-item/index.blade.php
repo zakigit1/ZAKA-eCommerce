@@ -1,7 +1,7 @@
 @extends('vendor.Dashboard.layouts.master')
 
 @section('title')
-    {{"$settings->site_name || Vendor Product Variant Item  "}}
+    {{"$settings->site_name || Product Variant Items"}}
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-xl-9 col-xxl-10 col-lg-9 ms-auto">
             <div class="dashboard_content mt-2 mt-md-0">
-                <h3><i class="far fa-user"></i> Vendor Products Variant Items</h3>
+                <h3><i class="far fa-user"></i> Products Variant Items</h3>
                 <div class="back_button">
                     <a href="{{route('vendor.product-variant.index',['id'=>request()->productId])}}" class="btn btn-primary" > <i class="fas fa-chevron-circle-left"></i> Back</a>
                 </div>

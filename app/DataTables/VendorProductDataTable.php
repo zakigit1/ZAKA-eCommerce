@@ -22,6 +22,7 @@ class VendorProductDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
 
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
                 $user_role='vendor';
                 
@@ -103,7 +104,9 @@ class VendorProductDataTable extends DataTable
                     return '<i class="badge bg-warning">Pending</i>';
                 }
             })
+            /** End Custom Columns : */
 
+            
             /** Start Filtring : */
             ->filterColumn('status',function($query , $keyword){
                 $query->where('status','like',"%$keyword%");

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\Http\Controllers\Controller;
 use App\DataTables\CouponsDataTable;
 use App\Models\Coupon;
-use App\Models\GeneralSetting;
 use Illuminate\Http\Request;
 
 

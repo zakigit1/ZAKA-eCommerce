@@ -20,6 +20,9 @@ class PendingOrderDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
+            
             ->addColumn('action', function($query){
 
                 $actions="
@@ -91,6 +94,7 @@ class PendingOrderDataTable extends DataTable
             ->addColumn('invoice_id',function($query){
                 return '#'.$query->invoice_id;
             })
+            /** End Custom Columns : */
 
 
             /** Start Filtring : */

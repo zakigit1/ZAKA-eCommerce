@@ -20,6 +20,8 @@ class VendorProductVariantItemDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
                 $user_role='vendor';
                 $type='product-variant-item';//name route
@@ -53,11 +55,29 @@ class VendorProductVariantItemDataTable extends DataTable
             ->addColumn('price',function($query){
                 return currencyIcon().$query->price;
             })
+            /** End Custom Columns : */
 
 
             /** Start Filtring : */
-            /** End Filtring : */
+            ->filterColumn('status',function($query , $keyword){
+                $query->where('status','like',"%$keyword%");
+            })
 
+            ->filterColumn('is_default',function($query , $keyword){
+                if (strtolower($keyword) == 'default') {
+                    $query->where('is_default',1);
+                } elseif (strtolower($keyword) == 'no') {
+                    $query->where('is_default',0);
+                } else {
+                    $query->where('is_default','like',"%$keyword%");
+                }
+            })
+
+            ->filterColumn('price',function($query , $keyword){
+                $keyword = str_replace(currencyIcon(), '', $keyword);
+                $query->where('price','like',"%$keyword%");
+            })
+            /** End Filtring : */
 
 
             ->rawColumns(['status','is_default'])

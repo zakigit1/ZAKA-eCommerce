@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Helpers\MailHelper;
 use App\Http\Controllers\Controller;
-
 use App\Mail\Contact;
-use App\Mail\ContactSupport;
 use App\Models\About;
 use App\Models\EmailConfiguration;
 use App\Models\TermAndCondition;

@@ -21,6 +21,9 @@ class CustomerListDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
+            
             ->addColumn('status', function($query){
                 
                 $checked = ($query->status == 'active') ? 'checked' : '';
@@ -36,6 +39,7 @@ class CustomerListDataTable extends DataTable
 
                 return $Status_button;
             })
+            /** End Custom Columns : */
 
             /** Start Filtring : */
             ->filterColumn('status',function($query , $keyword){

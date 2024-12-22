@@ -20,6 +20,8 @@ class UserProductReviewDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            
+            /** Start Custom Columns : */
             ->addColumn('status',function($query){
 
                 $active='<i class="badge bg-success">Approved</i>';
@@ -75,6 +77,8 @@ class UserProductReviewDataTable extends DataTable
                         break;
                 }
             })
+            /** End Custom Columns : */
+
 
             /** Start Filtring : */
             ->filterColumn('product',function($query , $keyword){
@@ -94,10 +98,9 @@ class UserProductReviewDataTable extends DataTable
                     $query->where('status',0);
                 } 
             })
-
-
             /** End Filtring : */
 
+            
             ->rawColumns(['status','rating','product'])
             ->setRowId('id');
     }

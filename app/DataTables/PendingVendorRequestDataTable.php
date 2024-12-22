@@ -21,6 +21,9 @@ class PendingVendorRequestDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
+            
             ->addColumn('action', function($query){
 
                 $action="
@@ -45,6 +48,7 @@ class PendingVendorRequestDataTable extends DataTable
                     return '<i class="badge badge-warning">Pending</i>';
                 }
             })
+            /** End Custom Columns : */
 
             
             /** Start Filtring : */

@@ -20,6 +20,8 @@ class FooterSocialsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */
             ->addColumn('action', function($query){
                     
                 $user_role='admin';
@@ -53,6 +55,8 @@ class FooterSocialsDataTable extends DataTable
                 return $icon ;
                 
             })
+            /** End Custom Columns : */
+
 
             /** Start Filtring : */
             ->filterColumn('status',function($query , $keyword){
@@ -60,6 +64,7 @@ class FooterSocialsDataTable extends DataTable
             })
             /** End Filtring : */
 
+            
             ->rawColumns(['status','icon'])
             ->setRowId('id');
     }

@@ -5,12 +5,10 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\DataTables\CategoriesDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Childcategory;
 use App\Models\HomePageSetting;
 use App\Models\Product;
 use App\Models\Subcategory;
-// use App\Http\Requests\StoreCategoryRequest;
-// use App\Http\Requests\UpdateCategoryRequest;
+
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;

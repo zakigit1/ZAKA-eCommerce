@@ -5,8 +5,8 @@
 @section('content')
 
     <!--============================
-            BREADCRUMB START
-        ==============================-->
+                BREADCRUMB START
+            ==============================-->
     <section id="wsus__breadcrumb">
         <div class="wsus_breadcrumb_overlay">
             <div class="container">
@@ -14,7 +14,7 @@
                     <div class="col-12">
                         <h4>Terms & Conditions</h4>
                         <ul>
-                            <li><a href="{{ route('home') }}">home</a></li>
+                            <li><a href="{{ route('home') }}">Home</a></li>
                             <li><a href="javascript:;">Terms & Conditions</a></li>
                         </ul>
                     </div>
@@ -23,8 +23,8 @@
         </div>
     </section>
     <!--============================
-            BREADCRUMB END
-        ==============================-->
+                BREADCRUMB END
+            ==============================-->
     <section id="wsus__cart_view">
         <div class="container">
             <div class="wsus__pay_info_area">

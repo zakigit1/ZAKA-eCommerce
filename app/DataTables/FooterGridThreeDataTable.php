@@ -20,6 +20,8 @@ class FooterGridThreeDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Start Custom Columns : */            
             ->addColumn('action', function($query){
                     
                 $user_role='admin';
@@ -45,6 +47,7 @@ class FooterGridThreeDataTable extends DataTable
 
                 
             })
+            /** End Custom Columns : */
 
             /** Start Filtring : */
             ->filterColumn('status',function($query , $keyword){
@@ -52,6 +55,7 @@ class FooterGridThreeDataTable extends DataTable
             })
             /** End Filtring : */
 
+            
             ->rawColumns(['status'])
             ->setRowId('id');
     }
