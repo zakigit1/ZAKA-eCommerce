@@ -1,6 +1,6 @@
 @extends('Frontend.store.layouts.master')
 
-@section('title', "$settings->site_name || Order Tracking ")
+@section('title', @$settings->site_name ." Order Tracking ")
 
 @section('content')
 

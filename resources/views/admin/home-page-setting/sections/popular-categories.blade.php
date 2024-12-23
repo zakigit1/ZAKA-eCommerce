@@ -241,20 +241,25 @@
             @for ($i = 0 ; $i<=3 ; $i++)
                 <h5>Category {{$i+1}} </h5>
                 <div class="row">
+
+                    <!-- Category -->
                     <div class="col-md-4">
                         <div class="form-group">
                             <label >Category</label>
                             <select  name="cat_{{$i+1}}" class="form-control  main-category">
                                 
                                     <option  disabled value="">-- Select --</option>
-                                @foreach ($categories as $category)
-                                    <option {{$category->id == @$popularCategories[$i]->category ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
-                                @endforeach
+                                @if (isset($categories) && count($categories)>0)
+                                    @foreach ($categories as $category)
+                                        <option {{$category->id == @$popularCategories[$i]->category ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
+                                    @endforeach       
+                                @endif
                                 
                             </select>
                         </div>
                     </div>
 
+                    <!-- Sub-Category -->
                     <div class="col-md-4">
                         <div class="form-group">
                             @php 
@@ -266,16 +271,20 @@
                             <select class="form-control sub-category"  name="sub_cat_{{$i+1}}">
                                 
                                     <option {{ is_null(@$popularCategories[$i]->sub_category) ? 'selected' : '' }}  value="">-- Select --</option>
-                                @foreach ($subCategories as $subCategory)
-                                    <option {{$subCategory->id == @$popularCategories[$i]->sub_category ? 'selected' : ''}} value="{{$subCategory->id}}">
-                                        {{$subCategory->name}} 
-                                    </option>
-                                @endforeach
+                                @if (isset($subCategories) && count($subCategories)>0)
+                                    @foreach ($subCategories as $subCategory)
+                                        <option {{$subCategory->id == @$popularCategories[$i]->sub_category ? 'selected' : ''}} value="{{$subCategory->id}}">
+                                            {{$subCategory->name}} 
+                                        </option>
+                                    @endforeach           
+                                @endif
+                               
 
                             </select>
                         </div>
                     </div>
 
+                    <!-- Child-Category -->
                     <div class="col-md-4">
                         <div class="form-group">
                             @php 
@@ -286,11 +295,14 @@
                             <select class="form-control child-category"  name="child_cat_{{$i+1}}">
                             
                                     <option {{ is_null(@$popularCategories[$i]->child_category) ? 'selected' : '' }}  value="">-- Select --</option>
-                                @foreach ($childCategories as $childCategory)
-                                    <option {{$childCategory->id == @$popularCategories[$i]->child_category ? 'selected' : ''}} value="{{$childCategory->id}}">
-                                        {{$childCategory->name}} 
-                                    </option>
-                                @endforeach
+
+                                @if (isset($childCategories) && count($childCategories)>0)
+                                    @foreach ($childCategories as $childCategory)
+                                        <option {{$childCategory->id == @$popularCategories[$i]->child_category ? 'selected' : ''}} value="{{$childCategory->id}}">
+                                            {{$childCategory->name}} 
+                                        </option>
+                                    @endforeach         
+                                @endif
 
                             </select>
                         </div> 

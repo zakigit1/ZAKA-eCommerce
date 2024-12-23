@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ "$settings->site_name || Create Footer Social " }}
+    {{ @$settings->site_name ." || Create Footer Social " }}
 @endsection
 @section('content')
     <section class="section">

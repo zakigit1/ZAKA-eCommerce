@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Create Blog " }}
+    {{ @$settings->site_name . ' || Create Blog ' }}
 @endsection
 @section('content')
     <section class="section">
@@ -56,9 +56,11 @@
 
                                         <option selected disabled>-- Select --</option>
 
-                                        @foreach ($blogCategories as $blogCategory)
-                                            <option value="{{ $blogCategory->id }}">{{ $blogCategory->name }}</option>
-                                        @endforeach
+                                        @if (isset($blogCategories) && count($blogCategories) > 0)
+                                            @foreach ($blogCategories as $blogCategory)
+                                                <option value="{{ $blogCategory->id }}">{{ $blogCategory->name }}</option>
+                                            @endforeach
+                                        @endif
 
                                     </select>
                                 </div>

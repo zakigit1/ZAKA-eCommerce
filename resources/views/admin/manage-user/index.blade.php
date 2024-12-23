@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ "$settings->site_name || Create New User/Vendor/Admin " }}
+    {{ @$settings->site_name ." || Create New User/Vendor/Admin " }}
 @endsection
 @section('content')
     <section class="section">

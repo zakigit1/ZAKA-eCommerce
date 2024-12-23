@@ -57,13 +57,13 @@
                                         <div class="form-group">
                                             <label>Categories</label>
                                             <select class="form-control main-category" name="category">
-
-                                                @foreach ($categories as $category)
-                                                    <option value="{{ $category->id }}"
-                                                        {{ $category->id == $product->category_id ? 'selected' : '' }}>
-                                                        {{ $category->name }}</option>
-                                                @endforeach
-
+                                                @if (isset($categories) && count($categories)>0)
+                                                    @foreach ($categories as $category)
+                                                        <option value="{{ $category->id }}"
+                                                            {{ $category->id == $product->category_id ? 'selected' : '' }}>
+                                                            {{ $category->name }}</option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                         </div>
                                     </div>
@@ -74,12 +74,13 @@
                                             <select class="form-control sub-category" name="subcategory">
 
                                                 <option selected value="">None</option>
-                                                @foreach ($subcategories as $subcategory)
-                                                    <option value="{{ $subcategory->id }}"
-                                                        {{ $subcategory->id == $product->sub_category_id ? 'selected' : '' }}>
-                                                        {{ $subcategory->name }}</option>
-                                                @endforeach
-
+                                                @if (isset($subCategories) && count($subCategories)>0)
+                                                    @foreach ($subcategories as $subcategory)
+                                                        <option value="{{ $subcategory->id }}"
+                                                            {{ $subcategory->id == $product->sub_category_id ? 'selected' : '' }}>
+                                                            {{ $subcategory->name }}</option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                         </div>
                                     </div>
@@ -91,12 +92,13 @@
 
                                                 {{-- <option selected disabled>-- Select --</option> --}}
                                                 <option selected value="">None</option>
-                                                @foreach ($childcategories as $childcategory)
-                                                    <option value="{{ $childcategory->id }}"
-                                                        {{ $childcategory->id == $product->child_category_id ? 'selected' : '' }}>
-                                                        {{ $childcategory->name }}</option>
-                                                @endforeach
-
+                                                @if (isset($childCategories) && count($childCategories)>0)
+                                                    @foreach ($childcategories as $childcategory)
+                                                        <option value="{{ $childcategory->id }}"
+                                                            {{ $childcategory->id == $product->child_category_id ? 'selected' : '' }}>
+                                                            {{ $childcategory->name }}</option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                         </div>
                                     </div>
@@ -107,13 +109,13 @@
                                 <div class="form-group">
                                     <label>Brands</label>
                                     <select class="form-control mt-6" name="brand">
-
-                                        @foreach ($brands as $brand)
-                                            <option value="{{ $brand->id }}"
-                                                {{ $brand->id == $product->brand_id ? 'selected' : '' }}>
-                                                {{ $brand->name }}</option>
-                                        @endforeach
-
+                                        @if (isset($brands) && count($brands)>0)
+                                            @foreach ($brands as $brand)
+                                                <option value="{{ $brand->id }}"
+                                                    {{ $brand->id == $product->brand_id ? 'selected' : '' }}>
+                                                    {{ $brand->name }}</option>
+                                            @endforeach
+                                        
                                     </select>
                                 </div>
 

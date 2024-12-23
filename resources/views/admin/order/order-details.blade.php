@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Order Details" }}
+    {{ @$settings->site_name ." || Order Details" }}
 @endsection
 
 
@@ -100,45 +100,47 @@
                                         <th class="text-center">Quantity</th>
                                         <th class="text-right">Totals</th>
                                     </tr>
+                                    @if (isset($order->orderProducts) && count($order->orderProducts)>0)
+                                        
+                                        @foreach ($order->orderProducts as $product)
+                                            <tr>
+                                                @php
+                                                    $variants = json_decode($product->variants);
+                                                @endphp
 
-                                    @foreach ($order->orderProducts as $product)
-                                        <tr>
-                                            @php
-                                                $variants = json_decode($product->variants);
-                                            @endphp
 
+                                                <td>{{ ++$loop->index }}</td>
 
-                                            <td>{{ ++$loop->index }}</td>
-
-                                            <td>
-                                                @if (isset($product->product->slug))
-                                                    <a target="_blank"
-                                                        href="{{ route('product-details', [$product->product->slug]) }}">
+                                                <td>
+                                                    @if (isset($product->product->slug))
+                                                        <a target="_blank"
+                                                            href="{{ route('product-details', [$product->product->slug]) }}">
+                                                            {{ $product->product_name }}
+                                                        </a>
+                                                    @else
                                                         {{ $product->product_name }}
-                                                    </a>
-                                                @else
-                                                    {{ $product->product_name }}
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if (!empty($variants))
-                                                    @foreach ($variants as $key => $variant)
-                                                        {{ $key }} : {{ $variant->name }}
-                                                        ({{ $settings->currency_icon }}{{ $variant->price }})
-                                                    @endforeach
-                                                @else
-                                                    /
-                                                @endif
-                                            </td>
-                                            <td>{{ $product->vendor->shop_name }}</td>
-                                            <td class="text-center">
-                                                {{ $settings->currency_icon }}{{ $product->unit_price }}</td>
-                                            <td class="text-center">{{ $product->qty }}</td>
-                                            <td class="text-right">
-                                                {{ $settings->currency_icon }}{{ ($product->unit_price + $product->variant_total) * $product->qty }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (!empty($variants))
+                                                        @foreach ($variants as $key => $variant)
+                                                            {{ $key }} : {{ $variant->name }}
+                                                            ({{ $settings->currency_icon }}{{ $variant->price }})
+                                                        @endforeach
+                                                    @else
+                                                        /
+                                                    @endif
+                                                </td>
+                                                <td>{{ $product->vendor->shop_name }}</td>
+                                                <td class="text-center">
+                                                    {{ $settings->currency_icon }}{{ $product->unit_price }}</td>
+                                                <td class="text-center">{{ $product->qty }}</td>
+                                                <td class="text-right">
+                                                    {{ $settings->currency_icon }}{{ ($product->unit_price + $product->variant_total) * $product->qty }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 </table>
                             </div>
 
@@ -194,26 +196,26 @@
                                     <div class="invoice-detail-item">
                                         <div class="invoice-detail-name">Subtotal</div>
                                         <div class="invoice-detail-value">
-                                            {{ $settings->currency_icon }}{{ $order->sub_total }}</div>
+                                            {{ @$settings->currency_icon }}{{ $order->sub_total }}</div>
                                     </div>
                                     <div class="invoice-detail-item">
                                         <div class="invoice-detail-name">Shipping (+)</div>
                                         <div class="invoice-detail-value">
-                                            {{ $settings->currency_icon }}{{ @$shipping_method->cost }}</div>
+                                            {{ @$settings->currency_icon }}{{ @$shipping_method->cost }}</div>
                                     </div>
                                     <div class="invoice-detail-item">
                                         <div class="invoice-detail-name">Coupon
                                             (-{{ @$coupon->discount_percentage ? @$coupon->discount_percentage . '%' : '' }})
                                         </div>
                                         <div class="invoice-detail-value">
-                                            {{ $settings->currency_icon }}{{ @$coupon->discount ? @$coupon->discount : 0 }}
+                                            {{ @$settings->currency_icon }}{{ @$coupon->discount ? @$coupon->discount : 0 }}
                                         </div>
                                     </div>
                                     <hr class="mt-2 mb-2">
                                     <div class="invoice-detail-item">
                                         <div class="invoice-detail-name">Total</div>
                                         <div class="invoice-detail-value invoice-detail-value-lg">
-                                            {{ $settings->currency_icon }}{{ @$order->amount }}</div>
+                                            {{ @$settings->currency_icon }}{{ $order->amount }}</div>
                                     </div>
                                 </div>
                             </div>

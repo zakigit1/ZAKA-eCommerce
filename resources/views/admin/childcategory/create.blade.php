@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Create Child Category " }}
+    {{ @$settings->site_name . ' || Create Child Category ' }}
 @endsection
 @section('content')
     <section class="section">
@@ -37,17 +37,16 @@
                             <form action="{{ route('admin.child-category.store') }}" method="post">
                                 @csrf
 
-
-
                                 <div class="form-group ">
                                     <label>Categories</label>
                                     <select class="form-control  main-category" name="category">
 
                                         <option selected disabled>-- Select --</option>
-
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
+                                        @if (isset($categories) && count($categories) > 0)
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        @endif
 
                                     </select>
                                 </div>

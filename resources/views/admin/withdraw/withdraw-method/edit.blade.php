@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Edit Withdraw Method  " }}
+    {{ @$settings->site_name ." || Edit Withdraw Method  " }}
 @endsection
 
 

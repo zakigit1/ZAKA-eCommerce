@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ "$settings->site_name || Coupons " }}
+    {{ @$settings->site_name ." || Coupons " }}
 @endsection
 @section('content')
     <section class="section">

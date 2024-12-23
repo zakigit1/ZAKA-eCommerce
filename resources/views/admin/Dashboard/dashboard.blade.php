@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Admin Dashboard " }}
+    {{ @$settings->site_name ." || Admin Dashboard " }}
 @endsection
 
 @section('content')
@@ -155,7 +155,7 @@
                                 <h4>Today's Earning</h4>
                             </div>
                             <div class="card-body">
-                                {{ $settings->currency_icon }}{{ $todayEarning }}
+                                {{ @$settings->currency_icon }}{{ $todayEarning }}
                             </div>
                         </div>
                     </div>
@@ -174,7 +174,7 @@
                                 <h4>Monthly Earning</h4>
                             </div>
                             <div class="card-body">
-                                {{ $settings->currency_icon }}{{ $monthEarning }}
+                                {{ @$settings->currency_icon }}{{ $monthEarning }}
                             </div>
                         </div>
                     </div>
@@ -193,7 +193,7 @@
                                 <h4>Yearly Earning</h4>
                             </div>
                             <div class="card-body">
-                                {{ $settings->currency_icon }}{{ $yearEarning }}
+                                {{ @$settings->currency_icon }}{{ $yearEarning }}
                             </div>
                         </div>
                     </div>
@@ -212,7 +212,7 @@
                                 <h4>Total Earning</h4>
                             </div>
                             <div class="card-body">
-                                {{ $settings->currency_icon }}{{ $totalEarning }}
+                                {{ @$settings->currency_icon }}{{ $totalEarning }}
                             </div>
                         </div>
                     </div>

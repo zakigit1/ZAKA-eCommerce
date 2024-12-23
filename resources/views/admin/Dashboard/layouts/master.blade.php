@@ -12,7 +12,7 @@
     @yield('title')
   </title>
 
-  <link rel="icon" type="image/png" href="{{$logoSettings->favicon}}">
+  <link rel="icon" type="image/png" href="{{@$logoSettings->favicon}}">
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="{{asset('backend/assets/modules/bootstrap/css/bootstrap.min.css')}}">
@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="{{asset('backend/assets/css/components.css')}}">
   {{-- this is for RTL  --}}
   
-  @if ($settings->layout == "rtl")
+  @if (@$settings->layout == "rtl")
     <link rel="stylesheet" href="{{asset('backend/assets/css/rtl.css')}}">
   @endif 
   

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProductVariantItem extends Model
 {
-    use HasFactory;
+    
     protected $table ='product_variant_items';
 
     protected $guarded =[
@@ -47,7 +48,8 @@ class ProductVariantItem extends Model
     // public function product(){
     //     return $this->belongsTo(Product::class,'product_id','id');
     // }
-    public function variant(){
+    public function variant(): BelongsTo
+    {
         return $this->belongsTo(ProductVariant::class,'product_variant_id','id');
     }
 

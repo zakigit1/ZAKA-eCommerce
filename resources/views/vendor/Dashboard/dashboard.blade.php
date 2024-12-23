@@ -2,7 +2,7 @@
 
 
 @section('title')
-    {{"$settings->site_name || Vendor Dashboard "}}
+    {{ @$settings->site_name ." || Vendor Dashboard "}}
 @endsection
 
 

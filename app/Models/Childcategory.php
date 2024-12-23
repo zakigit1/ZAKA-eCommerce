@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Childcategory extends Model
 {
-    use HasFactory;
 
     protected $table ='childcategories';
 
@@ -38,7 +37,8 @@ class Childcategory extends Model
 
 /*                                                  Begin Relation                                  */
 
-    public function category(){
+    public function category(): BelongsTo
+    {
 
         //? this is more profissional : 
             
@@ -54,7 +54,8 @@ class Childcategory extends Model
         return $this->belongsTo(Category::class);
         
     }
-    public function subcategory(){
+    public function subcategory(): BelongsTo
+    {
 
         //? this is more profissional : 
             

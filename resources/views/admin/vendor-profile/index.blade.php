@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Admin Vendor Profile  " }}
+    {{ @$settings->site_name ." || Admin Vendor Profile  " }}
 @endsection
 
 @section('content')

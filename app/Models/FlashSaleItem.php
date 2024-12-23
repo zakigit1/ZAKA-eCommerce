@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FlashSaleItem extends Model
 {
-    use HasFactory;
 
 
     protected $table ='flash_sale_items';
@@ -35,10 +35,12 @@ public function scopeActive($query) // to show just the active slide in store
 
 
 /*                                                  Begin Relation                                  */
-    public function product(){
+    public function product(): BelongsTo
+    {
         return $this->belongsTo(Product::class,'product_id','id','id');
     }
-    public function flashSale(){
+    public function flashSale(): BelongsTo
+    {
         return $this->belongsTo(FlashSale::class,'flash_sale_id','id','id');
     }
 /*                                                  End Relation                                  */

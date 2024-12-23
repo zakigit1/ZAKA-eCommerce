@@ -6,7 +6,7 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
   <title> 
  
-    {{"$settings->site_name || Admin Login "}}
+    {{@$settings->site_name ." || Admin Login "}}
 
   </title>
 

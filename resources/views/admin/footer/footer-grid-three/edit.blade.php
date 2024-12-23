@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ "$settings->site_name || Edit Footer Grid Three " }}
+    {{ @$settings->site_name ." || Edit Footer Grid Three " }}
 @endsection
 @section('content')
     <section class="section">

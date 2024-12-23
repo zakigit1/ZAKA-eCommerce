@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProductVariant extends Model
 {
-    use HasFactory;
+    
     protected $table ='product_variants';
 
     protected $guarded =[
@@ -44,11 +46,13 @@ class ProductVariant extends Model
 
 /*                                                  Begin Relation                                  */
 
-    public function product(){
+    public function product(): BelongsTo
+    {
         return $this->belongsTo(Product::class,'product_id','id');
     }
 
-   public function items(){
+   public function items(): HasMany
+   {
        return $this->hasMany(ProductVariantItem::class,'product_variant_id','id');
    }
 

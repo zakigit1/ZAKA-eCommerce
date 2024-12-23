@@ -1,7 +1,7 @@
 @extends('Frontend.user.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || User Dashboard " }}
+    {{ @$settings->site_name ." || User Dashboard " }}
 @endsection
 
 

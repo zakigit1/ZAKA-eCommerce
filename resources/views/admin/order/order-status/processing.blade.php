@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Processing Orders" }}
+    {{ @$settings->site_name ." || Processing Orders" }}
 @endsection
 
 

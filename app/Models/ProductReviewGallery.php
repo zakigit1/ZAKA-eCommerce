@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProductReviewGallery extends Model
 {
-    use HasFactory;
+    
+    protected $table = 'product_review_galleries';
 
     protected $guarded = [
         'id'
@@ -26,7 +29,8 @@ class ProductReviewGallery extends Model
         return ($value !== NULL) ? asset( 'storage/Uploads/images/products/review/'.$value) : " ";
     }
 
-    public function review(){
+    public function review(): BelongsTo
+    {
 
         return $this->belongsTo(ProductReview::class,'product_review_id');
     }

@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ "$settings->site_name || Edit Sub Category " }}
+    {{ @$settings->site_name ." || Edit Sub Category " }}
 @endsection
 @section('content')
     <section class="section">
@@ -42,12 +42,13 @@
                                 <div class="form-group ">
                                     <label for="inputStatus">Categories</label>
                                     <select class="form-control" id="inputStatus" placeholder="Status" name="category">
-
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}"
-                                                {{ $category->id == $subcategory->category_id ? 'selected' : '' }}>
-                                                {{ $category->name }}</option>
-                                        @endforeach
+                                        @if (isset($categories) && count($categories)>0)
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}"
+                                                    {{ $category->id == $subcategory->category_id ? 'selected' : '' }}>
+                                                    {{ $category->name }}</option>
+                                            @endforeach
+                                        @endif
 
                                     </select>
                                 </div>

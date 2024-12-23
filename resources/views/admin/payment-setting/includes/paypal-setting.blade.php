@@ -53,7 +53,7 @@
 
             <div class="form-group">
                 {{-- convert from you currency of site to USD  --}}
-                <label >Currency Rate (Per {{$settings->currency_name}})</label>
+                <label >Currency Rate (Per {{@$settings->currency_name}})</label>
                 <input type="text" name="currency_rate" class="form-control" placeholder="Enter Convert currency" value="{{@$paypalSetting->currency_rate}}">
             </div>
 

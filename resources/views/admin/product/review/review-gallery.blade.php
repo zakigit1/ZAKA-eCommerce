@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Product Review Gallery" }}
+    {{ @$settings->site_name ." || Product Review Gallery" }}
 @endsection
 
 @section('content')
@@ -41,23 +41,25 @@
                                     <th>Action</th>
                                 </tr>
 
-                                @foreach ($productReview->productReviewGalleries as $image)
-                                    <tr>
+                                @if (isset($productReview->productReviewGalleries) && count($productReview->productReviewGalleries) >0)
+                                    @foreach ($productReview->productReviewGalleries as $image)
+                                        <tr>
 
-                                        <td>{{ $image->id }}</td>
+                                            <td>{{ $image->id }}</td>
 
-                                        <td>
-                                            <img width="200px" src="{{ $image->image }}"
-                                                alt="{{ $productReview->product->name }}-img">
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-danger delete-item-with-ajax"
-                                                href="{{ route('admin.product-review-gallery.destroy', $image->id) }}"><i
-                                                    class="fas fa-trash-alt"></i></a>
-                                        </td>
+                                            <td>
+                                                <img width="200px" src="{{ $image->image }}"
+                                                    alt="{{ $productReview->product->name }}-img">
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-danger delete-item-with-ajax"
+                                                    href="{{ route('admin.product-review-gallery.destroy', $image->id) }}"><i
+                                                        class="fas fa-trash-alt"></i></a>
+                                            </td>
 
-                                    </tr>
-                                @endforeach
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </table>
                         </div>
 

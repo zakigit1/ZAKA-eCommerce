@@ -2,21 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Chat extends Model
 {
-    use HasFactory;
-
-
+    protected $table ='chats';
     protected $fillable = [
         'sender_id',
         'receiver_id',
         'message',
         'seen',
     ];
+
+
+    protected $hidden =[
+    //     'created_at',
+    //     'updated_at'
+    ];
+
+    
+    // public $timestamps = false;
+
 
     /**
      *  this relation to get receiver informations

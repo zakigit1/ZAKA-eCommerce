@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Subcategory extends Model
 {
-    use HasFactory;
+    
     protected $table ='subcategories';
 
     protected $guarded =[
@@ -37,7 +39,8 @@ public function scopeActive($query) // to show just the active slide in store
 
 /*                                                  Begin Relation                                  */
 
-public function category(){
+public function category(): BelongsTo
+{
 
     //? this is more profissional : 
         
@@ -54,7 +57,8 @@ public function category(){
     
 }
 
-public function childcategories(){
+public function childcategories(): HasMany
+{
 
     return $this->hasMany(Childcategory::class,'sub_category_id');
 }

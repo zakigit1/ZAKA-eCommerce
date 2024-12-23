@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
-    use HasFactory;
+    
 
     protected $table ='products';
 
@@ -47,7 +49,8 @@ class Product extends Model
 
 /*                                                  Begin Relation                                  */
 
-    public function category(){
+    public function category(): BelongsTo
+    {
 
         //? this is more profissional :
 
@@ -63,7 +66,8 @@ class Product extends Model
         return $this->belongsTo(Category::class,'category_id','id','id');
 
     }
-    public function subcategory(){
+    public function subcategory(): BelongsTo
+    {
 
         //? this is more profissional :
 
@@ -78,7 +82,8 @@ class Product extends Model
 
         // return $this->belongsTo(Subcategory::class);
     }
-    public function childcategory(){
+    public function childcategory(): BelongsTo
+    {
 
         //? this is more profissional :
 
@@ -95,27 +100,29 @@ class Product extends Model
 
     }
 
-    public function gallery(){
-
+    public function gallery(): HasMany
+    {
         return $this->hasMany(ProductImageGallery::class,'product_id','id');
     }
 
 
-    public function variants(){
-
+    public function variants(): HasMany
+    {
         return $this->hasMany(ProductVariant::class,'product_id','id');
     }
 
-    public function vendor(){
+    public function vendor(): BelongsTo
+    {
         return $this->belongsTo(Vendor::class,'vendor_id','id','id');
     }
 
-    public function brand(){
+    public function brand(): BelongsTo
+    {
         return $this->belongsTo(Brand::class,'brand_id','id','id');
     }
 
-    public function reviews(){
-
+    public function reviews(): HasMany
+    {
         return $this->hasMany(ProductReview::class,'product_id','id');
     }
 

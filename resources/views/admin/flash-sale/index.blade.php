@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ "$settings->site_name || Flash Sale " }}
+    {{ @$settings->site_name ." || Flash Sale " }}
 @endsection
 @section('content')
     <section class="section">
@@ -62,9 +62,11 @@
                                             <label>Products </label>
                                             <select class="form-control select2" name="product">
                                                 <option value="" selected disabled> -- Select --</option>
-                                                @foreach ($products as $product)
-                                                    <option value="{{ $product->id }}">{{ $product->name }}</option>
-                                                @endforeach
+                                                @if (isset($products) && count($products)>0)
+                                                    @foreach ($products as $product)
+                                                        <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                                    @endforeach
+                                                @endif
                                             </select>
 
                                         </div>

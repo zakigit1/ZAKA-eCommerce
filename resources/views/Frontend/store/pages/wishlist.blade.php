@@ -1,6 +1,6 @@
 @extends('Frontend.store.layouts.master')
 
-@section('title', "$settings->site_name || Wishlist")
+@section('title', @$settings->site_name ." Wishlist")
 
 @section('content')
 

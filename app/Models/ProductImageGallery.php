@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProductImageGallery extends Model
 {
-    use HasFactory;
+
 
     protected $table ='product_image_galleries';
 
@@ -44,7 +44,8 @@ class ProductImageGallery extends Model
 
 /*                                                  Begin Relation                                  */
 
-    public function product(){
+    public function product(): BelongsTo
+    {
         return $this->belongsTo(Product::class,'product_id','id');
     }
 

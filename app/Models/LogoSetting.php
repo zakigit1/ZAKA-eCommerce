@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Database\Eloquent\Model;
 
 class LogoSetting extends Model
 {
-    use HasFactory;
+    
 
     public $table = 'logo_settings';
 
@@ -15,6 +15,17 @@ class LogoSetting extends Model
         'logo',
         'favicon',
     ];
+
+    protected $hidden =[
+        'created_at',
+        'updated_at'
+    ];
+
+    // protected $casts = [
+    //     'status'=> 'boolean',
+    // ]
+    
+    // public $timestamps = false;
 
     // /*                                                 Begin GET                                          */
     public function getLogoAttribute($value)

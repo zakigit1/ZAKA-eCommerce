@@ -1,7 +1,7 @@
 @extends('Frontend.store.layouts.master')
 
 @section('title')
-    {{"$settings->site_name || Reset Password "}}
+    {{ @$settings->site_name ." || Reset Password "}}
 @endsection
 @section('content')
     <!--============================

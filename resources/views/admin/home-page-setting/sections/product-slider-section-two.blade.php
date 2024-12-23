@@ -7,25 +7,32 @@
             @method('PUT')
 
             <div class="row">
+
+                <!-- Category -->
                 <div class="col-md-4">
                     <div class="form-group">
                         <label >Category</label>
                         <select  name="category" class="form-control  main-category">
-                            @if (is_null(@$productSliderSectionTwo->category))
+                            @if (is_null($productSliderSectionTwo->category))
                                     <option  selected  value="">-- Select --</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{$category->id}}">{{$category->name}}</option>
-                                @endforeach
+                                @if (isset($categories) && count($categories)>0)
+                                    @foreach ($categories as $category)
+                                        <option value="{{$category->id}}">{{$category->name}}</option>
+                                    @endforeach
+                                @endif
                             @else  
-                                @foreach ($categories as $category)
-                                    <option {{$category->id == $productSliderSectionTwo->category ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
-                                @endforeach
+                                @if (isset($categories) && count($categories)>0)
+                                    @foreach ($categories as $category)
+                                        <option {{$category->id == $productSliderSectionTwo->category ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
+                                    @endforeach
+                                @endif
                             @endif
                             
                         </select>
                     </div>
                 </div>
 
+                <!-- Sub-Category -->
                 <div class="col-md-4">
                     <div class="form-group">
                         @php 
@@ -37,27 +44,31 @@
                         <select class="form-control sub-category"  name="sub_category">
                             
 
-                            @if (is_null(@$productSliderSectionTwo->sub_category))
+                            @if (is_null($productSliderSectionTwo->sub_category))
                                     <option  selected  value="">-- Select --</option>
-
-                                    @foreach ($subCategories as $subCategory)
-                                        <option value="{{$subCategory->id}}">
-                                            {{$subCategory->name}} 
-                                        </option>
-                                    @endforeach
+                                    @if (isset($subCategories) && count($subCategories)>0)
+                                        @foreach ($subCategories as $subCategory)
+                                            <option value="{{$subCategory->id}}">
+                                                {{$subCategory->name}} 
+                                            </option>
+                                        @endforeach
+                                    @endif
                             @else  
-                                @foreach ($subCategories as $subCategory)
-                                    <option {{$subCategory->id == $productSliderSectionTwo->sub_category ? 'selected' : ''}} value="{{$subCategory->id}}">
-                                        {{$subCategory->name}} 
-                                    </option>
-                                    @endforeach
-                                <option value="">none</option>
+                                    @if (isset($subCategories) && count($subCategories)>0)   
+                                        @foreach ($subCategories as $subCategory)
+                                            <option {{$subCategory->id == $productSliderSectionTwo->sub_category ? 'selected' : ''}} value="{{$subCategory->id}}">
+                                                {{$subCategory->name}} 
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                    <option value="">none</option>
                             @endif
 
                         </select>
                     </div>
                 </div>
 
+                <!-- Child-Category -->
                 <div class="col-md-4">
                     <div class="form-group">
                         @php 
@@ -68,20 +79,23 @@
                         <select class="form-control child-category"  name="child_category">
                         
 
-                            @if (is_null(@$productSliderSectionTwo->child_category))
+                            @if (is_null($productSliderSectionTwo->child_category))
                                     <option  selected  value="">-- Select --</option>
-
-                                @foreach ($childCategories as $childCategory)
-                                    <option value="{{$childCategory->id}}">
-                                        {{$childCategory->name}} 
-                                    </option>
-                                @endforeach
+                                @if (isset($childCategories) && count($childCategories)>0)
+                                    @foreach ($childCategories as $childCategory)
+                                        <option value="{{$childCategory->id}}">
+                                            {{$childCategory->name}} 
+                                        </option>
+                                    @endforeach
+                                @endif
                             @else  
-                                @foreach ($childCategories as $childCategory)
-                                    <option {{$childCategory->id == $productSliderSectionTwo->child_category ? 'selected' : ''}} value="{{$childCategory->id}}">
-                                        {{$childCategory->name}} 
-                                    </option>
-                                @endforeach
+                                @if (isset($childCategories) && count($childCategories)>0)    
+                                    @foreach ($childCategories as $childCategory)
+                                        <option {{$childCategory->id == $productSliderSectionTwo->child_category ? 'selected' : ''}} value="{{$childCategory->id}}">
+                                            {{$childCategory->name}} 
+                                        </option>
+                                    @endforeach
+                                @endif
                                 <option value="">none</option>
                             @endif
 

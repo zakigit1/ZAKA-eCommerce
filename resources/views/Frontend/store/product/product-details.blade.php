@@ -1,6 +1,6 @@
 @extends('Frontend.store.layouts.master')
 
-@section('title', "$settings->site_name || Product Details")
+@section('title', @$settings->site_name ." Product Details")
 
 @section('metas')
     <meta name="title" content="{{$product->seo_title}}" />

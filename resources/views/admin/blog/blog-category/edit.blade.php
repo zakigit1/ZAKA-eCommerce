@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ "$settings->site_name || Edit Blog Category " }}
+    {{ @$settings->site_name ." || Edit Blog Category " }}
 @endsection
 @section('content')
     <section class="section">
@@ -34,7 +34,7 @@
                         </div>
 
                         <div class="card-body">
-                            <form action="{{ route('admin.blog-category.update', $blogCategory->id) }}" method="post">
+                            <form action="{{ route('admin.blog-category.update', @$blogCategory->id) }}" method="post">
                                 @csrf
                                 @method('PUT')
 
@@ -43,7 +43,7 @@
                                 <div class="form-group">
                                     <label for="type">Category Name</label>
                                     <input type="text" name="name" class="form-control" id=""
-                                        placeholder="Blog Category Name" value="{{ $blogCategory->name }}">
+                                        placeholder="Blog Category Name" value="{{ @$blogCategory->name }}">
                                 </div>
 
                                 <div class="form-group ">

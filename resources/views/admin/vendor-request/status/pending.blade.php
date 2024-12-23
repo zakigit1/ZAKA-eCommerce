@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{"$settings->site_name ||  Vendors Requests Pending "}}
+    {{ @$settings->site_name ." || Vendors Requests Pending "}}
 @endsection
 
 

@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
-    use HasFactory;
     protected $table ='categories';
 
     protected $guarded =[
@@ -39,7 +37,8 @@ class Category extends Model
 
 /*                                                  Begin Relation                                  */
 
-    public function subcategories(){
+    public function subcategories(): HasMany
+    {
         
         // return self::hasMany(Subcategory::class);
 
@@ -49,7 +48,8 @@ class Category extends Model
         // return $this->hasMany(Subcategory::class);
         
     }
-    public function childcategories(){
+    public function childcategories(): HasMany
+    {
         
 
         // this profissional and detailed : 
@@ -58,7 +58,8 @@ class Category extends Model
         
     }
 
-    public function products(){
+    public function products(): HasMany
+    {
         return $this->hasMany(Product::class,'product_id','id');
     }
 

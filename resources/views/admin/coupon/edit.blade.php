@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ "$settings->site_name || Edit Coupon " }}
+    {{ @$settings->site_name ." || Edit Coupon " }}
 @endsection
 @section('content')
     <section class="section">
@@ -90,7 +90,7 @@
                                                 <option {{ $coupon->discount_type == 'percent' ? 'selected' : '' }}
                                                     value="percent">Percentage (%)</option>
                                                 <option {{ $coupon->discount_type == 'amount' ? 'selected' : '' }}
-                                                    value="amount">Amount ({{ $settings->currency_icon }})</option>
+                                                    value="amount">Amount ({{ @$settings->currency_icon }})</option>
                                             </select>
                                         </div>
                                     </div>

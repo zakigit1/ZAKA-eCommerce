@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Blog extends Model
 {
-    use HasFactory;
-
     protected $table ='blogs';
 
     protected $guarded =[
@@ -16,8 +15,8 @@ class Blog extends Model
     ];
 
     protected $hidden =[
-        'created_at',
-        'updated_at'
+    //     'created_at',
+    //     'updated_at'
     ];
 
     // protected $casts = [
@@ -35,25 +34,22 @@ class Blog extends Model
     /*                                                 End GET                                            */
 
 
-
-
-
-
-
-
     /*                                                  Begin Relation                                  */ 
 
     
-        public function user(){
+        public function user(): BelongsTo
+        {
             // return $this->belongsTo(User::class);
             return $this->belongsTo(User::class,'user_id','id','id');
         }
 
-        public function blogcategory(){
+        public function blogcategory(): BelongsTo
+        {
             return $this->belongsTo(BlogCategory::class,'blog_category_id','id');
         }
 
-        public function comments(){
+        public function comments(): HasMany
+        {
             return $this->hasMany(BlogComment::class,'blog_id','id');
         }
 

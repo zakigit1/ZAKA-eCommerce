@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Vendors Requests Approved" }}
+    {{ @$settings->site_name ." || Vendors Requests Approved" }}
 @endsection
 
 

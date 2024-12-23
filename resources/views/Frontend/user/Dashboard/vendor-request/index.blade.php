@@ -1,7 +1,7 @@
 @extends('Frontend.user.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Request To Be A Vendor " }}
+    {{ @$settings->site_name ." || Request To Be A Vendor " }}
 @endsection
 
 

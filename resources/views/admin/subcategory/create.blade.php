@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ "$settings->site_name || Create Sub Category " }}
+    {{ @$settings->site_name ." || Create Sub Category " }}
 @endsection
 @section('content')
     <section class="section">
@@ -40,9 +40,11 @@
                                     <label for="inputStatus">Categories</label>
                                     <select class="form-control" id="inputStatus" placeholder="Status" name="category">
                                         <option selected disabled>-- Select --</option>
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
+                                        @if (isset($categories) && count($categories)>0)
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        @endif
 
                                     </select>
                                 </div>
@@ -66,9 +68,6 @@
 
 
                                 <input type="submit" class="btn btn-primary" name="submit" value="Create">
-
-
-
 
                             </form>
 

@@ -1,0 +1,5 @@
+after running 'composer install' you need to do : 
+
+    for helper file : 
+        - go to composer.json , go to key "autoload" , you see key "files" add inside the array the helper file path ,exp : "app/Helpers/General.php"
+        - after run this command : 'composer dump-autoload' or "composer update"

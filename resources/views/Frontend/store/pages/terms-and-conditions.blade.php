@@ -1,6 +1,6 @@
 @extends('Frontend.store.layouts.master')
 
-@section('title', "$settings->site_name || Terms & Conditions")
+@section('title', @$settings->site_name ." Terms & Conditions")
 
 @section('content')
 

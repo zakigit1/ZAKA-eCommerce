@@ -1,7 +1,7 @@
 @extends('vendor.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Withdraw Requests " }}
+    {{ @$settings->site_name ." || Withdraw Requests " }}
 @endsection
 
 

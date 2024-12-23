@@ -1,12 +1,12 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
       <div class="sidebar-brand">
-        <a href="javascript:;">{{$settings->site_name}}</a>
+        <a href="javascript:;">{{@$settings->site_name}}</a>
         {{-- <a href="{{route('home')}}" class="dash_logo"><img src="{{$logoSettings->logo}}" alt="logo" class="img-fluid"></a> --}}
         
       </div>
       <div class="sidebar-brand sidebar-brand-sm">
-        <a href="{{route('home')}}">{{$settings->site_name}}</a>
+        <a href="{{route('home')}}">{{@$settings->site_name}}</a>
       </div>
       <ul class="sidebar-menu">
   

@@ -2,15 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Database\Eloquent\Model;
 
 class VendorCondition extends Model
 {
-    use HasFactory;
-
-
+    protected $table = "vendor_conditions";
     protected $fillable = [
         'content',
     ];
+
+    protected $hidden =[
+        'created_at',
+        'updated_at'
+    ];
+
+
+    // public $timestamps = false;
 }

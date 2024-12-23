@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Vendor Request Details" }}
+    {{ @$settings->site_name ." || Vendor Request Details" }}
 @endsection
 
 
@@ -48,11 +48,11 @@
 
                                     <tr>
                                         <th>User Name :</th>
-                                        <td>{{ $vendor->user->name }}</td>
+                                        <td>{{ @$vendor->user->name }}</td>
                                     </tr>
                                     <tr>
                                         <th>User Email :</th>
-                                        <td>{{ $vendor->user->email }}</td>
+                                        <td>{{ @$vendor->user->email }}</td>
                                     </tr>
 
                                 </table>

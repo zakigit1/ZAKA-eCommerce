@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ "$settings->site_name || Edit Category " }}
+    {{ @$settings->site_name ." || Edit Category " }}
 @endsection
 @section('content')
     <section class="section">

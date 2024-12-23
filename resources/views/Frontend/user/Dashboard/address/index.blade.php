@@ -2,7 +2,7 @@
 
 
 @section('title')
-    {{ "$settings->site_name || Addresses" }}
+    {{ @$settings->site_name ." || Addresses" }}
 @endsection
 
 

@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Edit Blog " }}
+    {{ @$settings->site_name ." ||  Edit Blog " }}
 @endsection
 @section('content')
     <section class="section">
@@ -64,11 +64,13 @@
                                     <label>Blog Categories</label>
                                     <select class="form-control " name="blog_category">
 
-                                        @foreach ($blogCategories as $blogCategory)
-                                            <option value="{{ $blogCategory->id }}"
-                                                {{ $blogCategory->id == $blog->blog_category_id ? 'selected' : '' }}>
-                                                {{ $blogCategory->name }}</option>
-                                        @endforeach
+                                        @if (isset($blogCategories) && count($blogCategories) > 0)
+                                            @foreach ($blogCategories as $blogCategory)
+                                                <option value="{{ $blogCategory->id }}"
+                                                    {{ $blogCategory->id == $blog->blog_category_id ? 'selected' : '' }}>
+                                                    {{ $blogCategory->name }}</option>
+                                            @endforeach
+                                        @endif
 
                                     </select>
                                 </div>

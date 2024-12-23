@@ -3,7 +3,7 @@
 @extends('Frontend.store.layouts.master')
 
 @section('title')
-    {{"$settings->site_name || Email Verification "}}
+    {{ @$settings->site_name ." || Email Verification "}}
 @endsection
 
 @section('content')

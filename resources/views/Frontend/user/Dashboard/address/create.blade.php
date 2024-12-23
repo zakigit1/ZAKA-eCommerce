@@ -1,7 +1,7 @@
 @extends('Frontend.user.Dashboard.layouts.master')
 
 @section('title')
-    {{ "$settings->site_name || Create Address" }}
+    {{ @$settings->site_name ." || Create Address" }}
 @endsection
 
 
