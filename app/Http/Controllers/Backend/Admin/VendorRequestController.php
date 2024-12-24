@@ -36,7 +36,8 @@ class VendorRequestController extends Controller
     }
 
 
-    public function changeStatus(Request $request ,String $id){
+    public function changeStatus(Request $request ,String $id)
+    {
 
 
         // dd($request->all());
@@ -46,6 +47,12 @@ class VendorRequestController extends Controller
             return response(['status'=>'error','message'=>'This Vendor You Can\"t Change Their Status Because You Approve it last time','warning','Warning!']);
             
         }
+
+        //force delete vendor : 
+
+        // if($vendor->status == 1){ // you need to add a dropdown for status(approve/pending/decline)
+        //     return response(['status'=>'error','message'=>'This Vendor You Can\"t Change Their Status Because You Approve it last time','warning','Warning!']);
+        // }
 
 
         if(!$vendor){

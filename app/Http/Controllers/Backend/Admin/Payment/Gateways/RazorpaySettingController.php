@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Backend\Admin\Payment\Gateways;
 use App\Http\Controllers\Controller;
 use App\Models\RazorpaySetting;
 use Illuminate\Http\Request;
-
+use Illuminate\Validation\ValidationException;
 class RazorpaySettingController extends Controller
 {
-    public function UpdateRazorpaySettings(Request $request){
-
+    public function UpdateRazorpaySettings(Request $request)
+    {
+        try{ 
         // dd($request->all());
         $request->validate([
 
@@ -23,8 +24,8 @@ class RazorpaySettingController extends Controller
         ]);
         // dd($request->all());
 
-        try{   
-            $razorpaySettings = RazorpaySetting::updateOrCreate(
+          
+            RazorpaySetting::updateOrCreate(
                 ['id'=> 1],
                 [
                     'status' => $request->status,
@@ -39,9 +40,11 @@ class RazorpaySettingController extends Controller
             toastr('Razorpay Settings Has Been Updated Successfully !','success','Success');
             return redirect()->back();
 
+        } catch (ValidationException $e) {
+            toastr()->error($e->getMessage(),'Rezorpay Settings Validation Error');
+            return redirect()->back();
         }catch(\Exception $ex){
-
-            toastr($ex->getMessage(),'error');
+            toastr($ex->getMessage(),'error','Rezorpay Settings Error');
             // toastr('Razorpay Settings Has Not Been Updated Successfully !','error','Error');
             return redirect()->back();
         }

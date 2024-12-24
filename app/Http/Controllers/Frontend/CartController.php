@@ -206,7 +206,8 @@ class CartController extends Controller
     }
 
     /** Remove Product From Cart ( Cart Details page) : */
-    public function removeProduct(string $rowId){
+    public function removeProduct(string $rowId)
+    {
         
 
         $cartItem = Cart::get($rowId);

@@ -197,6 +197,11 @@ class ChildcategoryController extends Controller
 
     public function change_status(Request $request)
     {
+        $request->validate([
+            'id' => 'required|integer|exists:childcategories,id',
+            'status' => 'required|in:true,false',
+        ]);
+
         $childcategory =Childcategory::find($request->id);
 
         if(!$childcategory){

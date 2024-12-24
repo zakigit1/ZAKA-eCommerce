@@ -8,7 +8,7 @@ use App\Models\Product;
 use App\Models\ProductImageGallery;
 use App\Traits\imageUploadTrait;
 use Illuminate\Http\Request;
-
+use Illuminate\Validation\ValidationException;
 class ProductImageGalleryController extends Controller
 {
     use imageUploadTrait;
@@ -19,17 +19,17 @@ class ProductImageGalleryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request , ProductsImagesGalleryDataTable $dataTable)
+    public function index(Request $request, ProductsImagesGalleryDataTable $dataTable)
     {
 
         $product = Product::find($request->id);
 
-        if(!$product){
-            toastr()->error( 'Product is not found!');
-            return to_route('admin.product-image-gallery.index',['id'=>$request->product_id]);
+        if (!$product) {
+            toastr()->error('Product is not found!');
+            return to_route('admin.product-image-gallery.index', ['id' => $request->product_id]);
         }
 
-        return $dataTable->render('admin.product.image-gallery.index',compact('product'));
+        return $dataTable->render('admin.product.image-gallery.index', compact('product'));
 
     }
 
@@ -39,14 +39,16 @@ class ProductImageGalleryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'image.*'=>['required','image','max:80640'],
-            'product_id'=>['required','numeric','exists:products,id']
-        ]);
+        try {
+            $request->validate([
+                // 'image' => 'array|min:1',
+                'image.*' => ['required', 'image', 'max:80640'],
+                'product_id' => ['required', 'numeric', 'exists:products,id']
+            ]);
 
-        // dd($request->all());
-        try{
-            $imagesNames=$this->upload_Multi_Image_Trait($request,'image',self::FOLDER_PATH,self::FOLDER_NAME);
+            // dd($request->all());
+
+            $imagesNames = $this->upload_Multi_Image_Trait($request, 'image', self::FOLDER_PATH, self::FOLDER_NAME);
 
 
             //! First Method
@@ -79,21 +81,24 @@ class ProductImageGalleryController extends Controller
                 ];
             }
             //  return print_r($data);
-            $storeImages = ProductImageGallery::insert($data);
+            ProductImageGallery::insert($data);
 
 
-            toastr('Product Images has been added successfully!','success');
-            return to_route('admin.product-image-gallery.index',['id'=>$request->product_id]);
+            toastr('Product Images has been added successfully!', 'success');
+            return to_route('admin.product-image-gallery.index', ['id' => $request->product_id]);
             // return redirect()->back();
 
-        }catch(\Exception $e){
-
-            toastr($e->getMessage(),'error');
+        } catch (ValidationException $e) {
+            toastr($e->getMessage(), 'error', 'Product Gallery Validation Error ');
+            // toastr('Product Images has not been added successfully!','error');
+            // return to_route('admin.product-image-gallery.index',['id'=>$request->product_id]);
+            return redirect()->back();
+        } catch (\Exception $ex) {
+            toastr($ex->getMessage(), 'error', 'Product Gallery Error');
             // toastr('Product Images has not been added successfully!','error');
             // return to_route('admin.product-image-gallery.index',['id'=>$request->product_id]);
             return redirect()->back();
         }
-
 
     }
 
@@ -103,12 +108,12 @@ class ProductImageGalleryController extends Controller
      */
     public function destroy(string $id)
     {
-        try{
+        try {
 
             $product_gallery = ProductImageGallery::find($id);
 
-            if(!$product_gallery){
-                return response(['status'=>'error','message'=>'Product Gallery is not found!']);
+            if (!$product_gallery) {
+                return response(['status' => 'error', 'message' => 'Product Gallery is not found!']);
             }
 
 
@@ -116,22 +121,22 @@ class ProductImageGalleryController extends Controller
             $product_gallery->delete();
 
             // we are using ajax :
-            return response(['status'=>'success','message'=>" Image Has Been Deleted Successfully !"]);
-        }catch(\Exception $e){
-            return response(['status'=>'error','message'=>'حدث خطا ما برجاء المحاوله لاحقا']);
+            return response(['status' => 'success', 'message' => " Image Has Been Deleted Successfully !"]);
+        } catch (\Exception $e) {
+            return response(['status' => 'error', 'message' => $e->getMessage()]);
+            // return response(['status'=>'error','message'=>'حدث خطا ما برجاء المحاوله لاحقا']);
         }
     }
 
     public function destroyAllImages(string $id)
     {
         try {
-
             $product = Product::find($id);
-            if(!$product){
-                return response(['status'=>'error','message'=>'Product is not found!']);
+            if (!$product) {
+                return response(['status' => 'error', 'message' => 'Product is not found!']);
             }
-            if(isset($product->gallery)  && count($product->gallery)>0){
-                foreach($product->gallery as $product_image){
+            if (isset($product->gallery) && count($product->gallery) > 0) {
+                foreach ($product->gallery as $product_image) {
                     $this->deleteImage_Trait($product_image->image);
                     $product_image->delete();
                 }
@@ -141,7 +146,8 @@ class ProductImageGalleryController extends Controller
             return response(['status' => 'success', 'message' => "All Images Have Been Deleted Successfully!"]);
         } catch (\Exception $e) {
             // Return error response
-            return response(['status' => 'error', 'message' => 'An error occurred. Please try again later.']);
+            return response(['status' => 'error', 'message' => $e->getMessage()]);
+            // return response(['status' => 'error', 'message' => 'An error occurred. Please try again later.']);
         }
     }
 }

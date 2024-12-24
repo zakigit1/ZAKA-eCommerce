@@ -88,7 +88,12 @@ class FlashSaleController extends Controller
 
     public function change_status(Request $request)
     {
-        $flash_item =FlashSaleItem::find($request->id);
+        $request->validate([
+            'id' => 'required|integer|exists:flash_sale_items,id',
+            'status' => 'required|in:true,false',
+        ]);
+
+        $flash_item = FlashSaleItem::find($request->id);
 
 
         if(!$flash_item){

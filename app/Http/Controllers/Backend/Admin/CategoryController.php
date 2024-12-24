@@ -205,7 +205,12 @@ class CategoryController extends Controller
 
     public function change_status(Request $request)
     {
-        $category =Category::find($request->id);
+        $request->validate([
+            'id' => 'required|integer|exists:categories,id',
+            'status' => 'required|in:true,false',
+        ]);
+
+        $category = Category::find($request->id);
 
         if(!$category){
             return response(['status'=>'error','message'=>'Category is not found!']);

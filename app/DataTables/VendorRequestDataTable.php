@@ -44,6 +44,8 @@ class VendorRequestDataTable extends DataTable
                     return '<i class="badge badge-warning">Pending</i>';
                 }
             })
+
+
             /** End Custom Columns : */
             
             /** Start Filtring : */
@@ -66,6 +68,7 @@ class VendorRequestDataTable extends DataTable
                     $query->where('status','like',"%$keyword%");
                 }
             })
+
             /** End Filtring : */
 
 

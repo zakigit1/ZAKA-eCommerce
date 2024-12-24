@@ -28,7 +28,7 @@
 
         <div class="section-body">
 
-            <div class="col-12 col-md-12 col-lg-7">
+            <div class="col-12 col-md-12 col-lg-12">
                 <div class="card">
                     <form method="post" action="{{ route('admin.profile.update') }}" class="needs-validation"
                         novalidate="" enctype="multipart/form-data">
@@ -102,7 +102,7 @@
 
         <div class="section-body">
 
-            <div class="col-12 col-md-12 col-lg-7">
+            <div class="col-12 col-md-12 col-lg-12">
                 <div class="card">
 
                     <form method="post" action="{{ route('admin.profile.update.password') }}" class="needs-validation"
@@ -138,10 +138,10 @@
                                         <input type="password" name="password" class="form-control"
                                             autocomplete="new-password">
 
-                                        <div class="input-group-append">
+                                        {{-- <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="button"
                                                 onclick="togglePasswordVisibility(this)">Show</button>
-                                        </div>
+                                        </div> --}}
                                     </div>
 
                                     @if ($errors->has('password'))
@@ -187,7 +187,8 @@
 @endsection
 
 
-<script>
+{{-- <script>
+    // For show /hide password functionality
     function togglePasswordVisibility(element) {
         var passwordInput = element.previousElementSibling;
         if (passwordInput.type === "password") {
@@ -198,4 +199,4 @@
             element.innerText = "Show";
         }
     }
-</script>
+</script> --}}

@@ -108,7 +108,10 @@ Route::group(['middleware' =>['auth', 'verified'], 'prefix' => 'user', 'as' => '
     Route::group(['prefix'=>'wishlist' , 'as'=>'wishlist.'],function(){
         route::get('/',[WishlistController::class,'index'])->name('index');
         route::get('/store',[WishlistController::class,'addToWishlist'])->name('store');
-        route::get('/destroy',[WishlistController::class,'removeProductFromWishlist'])->name('destroy');
+        /** nrml one */
+        // route::get('/destroy',[WishlistController::class,'removeProductFromWishlist'])->name('destroy');
+        /** with AJAX  */
+        route::get('{id}/destroy',[WishlistController::class,'removeProductFromWishlist'])->name('destroy');
     });
 
     ##############################  Wishlist End  ###################################

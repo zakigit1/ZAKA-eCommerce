@@ -53,12 +53,41 @@ class WishlistController extends Controller
         return response(['status'=>'success','message'=>'The Product Has Been Added To The Wishlist' ,'count' => $wishlist_count]);
     }
 
-    public function removeProductFromWishlist(Request $request){
+    // public function removeProductFromWishlist(Request $request)
+    // {
 
-        // dd($request->all());
+    //     // dd($request->all());
 
-        $wishlist = Wishlist::find($request->wishlist_id);
 
+    //     $request->validate([
+    //         'wishlist_id' => 'required|integer|exists:wishlists,id'
+    //     ]);
+
+    //     // Nrml redirect :
+    //     $wishlist = Wishlist::find($request->wishlist_id);
+
+    //     if(!$wishlist){
+    //         toastr('there is something wrong try again later','error','Wishlist Error');
+    //         return redirect()->back();
+    //     }
+
+    //     $productName = $wishlist->product->name;
+
+    //     $wishlist->delete();
+        
+    //     toastr("The $productName Has Been Removed Successfully From The Wishlist",'success','Wishlist Success');
+    //     return redirect()->back();
+    // }
+    
+    
+    
+    public function removeProductFromWishlist(int $id)
+    {
+
+        //AJAX :
+        $wishlist = Wishlist::find($id);
+
+        
 
         if(!$wishlist){
             toastr('there is something wrong try again later','error','Wishlist Error');
@@ -69,9 +98,18 @@ class WishlistController extends Controller
 
         $wishlist->delete();
         
+
+
+        $wishlist_count = Wishlist::where('user_id' , Auth::user()->id)->count();
+
+        return response([
+            'status'=>'success',
+            'message'=>"The $productName Has Been Removed Successfully From The Wishlist",
+            'wishlist_id'=>$id,
+            'count' => $wishlist_count
         
-        toastr("The $productName Has Been Removed Successfully From The Wishlist",'success','Wishlist Success');
-        return redirect()->back();
+        ]);
+        
     }
 
 

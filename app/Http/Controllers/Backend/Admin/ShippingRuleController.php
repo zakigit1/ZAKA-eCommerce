@@ -135,7 +135,10 @@ class ShippingRuleController extends Controller
 
     public function change_status(Request $request)
     {
-
+        $request->validate([
+            'id' => 'required|integer|exists:shipping_rules,id',
+            'status' => 'required|in:true,false',
+        ]);
         $shippingRule = ShippingRule::find($request->id);
 
         if(!$shippingRule){

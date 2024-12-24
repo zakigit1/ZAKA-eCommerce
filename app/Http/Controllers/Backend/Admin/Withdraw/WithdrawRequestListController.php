@@ -33,7 +33,7 @@ class WithdrawRequestListController extends Controller
     public function withdraw_request_change_status(Request $request){
 
         $request->validate([
-            'id' => 'required|exists:withdraw_requests,id',
+            'id' => 'required|integer|exists:withdraw_requests,id',
             'status' =>'required|in:pending,paid,decline',
         ]);
 

@@ -46,7 +46,7 @@ class SubcategoryController extends Controller
 
             /** insert info Part in to DB :  */
 
-            $category =Subcategory::create([
+            Subcategory::create([
                 'category_id'=>$request->category,
                 'name'=> $request->name,
                 'slug'=> Str::slug($request->name),
@@ -104,7 +104,7 @@ class SubcategoryController extends Controller
 
             /** insert info Part in to DB :  */
 
-            $update_subcategory =$subcategory->update([
+            $subcategory->update([
                 'category_id'=>$request->category,
                 'name'=> $request->name,
                 'slug'=> Str::slug($request->name),
@@ -188,6 +188,10 @@ class SubcategoryController extends Controller
 
     public function change_status(Request $request)
     {
+        $request->validate([
+            'id' => 'required|integer|exists:subcategories,id',
+            'status' => 'required|in:true,false',
+        ]);
         $subcategory =Subcategory::find($request->id);
 
         if(!$subcategory){

@@ -197,10 +197,11 @@ class BrandController extends Controller
 
     public function change_status(Request $request)
     {
-        // $request->validate([
-        //     'id' => 'required|integer|exists:brands,id',
-        //     'status' => 'required|in:true,false',
-        // ]);
+        $request->validate([
+            'id' => 'required|integer|exists:brands,id',
+            'status' => 'required|in:true,false',
+        ]);
+        
         $brand =Brand::find($request->id);
 
         if(!$brand){

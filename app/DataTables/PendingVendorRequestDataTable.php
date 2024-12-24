@@ -48,6 +48,10 @@ class PendingVendorRequestDataTable extends DataTable
                     return '<i class="badge badge-warning">Pending</i>';
                 }
             })
+
+            ->addColumn('request_date', function($query){
+                return  date('M d ,Y',strtotime($query->created_at));
+            })
             /** End Custom Columns : */
 
             
@@ -64,6 +68,10 @@ class PendingVendorRequestDataTable extends DataTable
 
             ->filterColumn('status',function($query , $keyword){
                 $query->where('status','like',"%$keyword%");
+            })
+
+            ->filterColumn('request_date', function ($query, $keyword) {
+                $query->whereDate('created_at','like',"%$keyword%");
             })
             /** End Filtring : */
 
@@ -112,6 +120,7 @@ class PendingVendorRequestDataTable extends DataTable
             Column::make('user_name'),
             Column::make('shop_name'),
             Column::make('shop_email'),
+            Column::make('request_date'),
             Column::make('status'),
             Column::computed('action')
                   ->exportable(false)

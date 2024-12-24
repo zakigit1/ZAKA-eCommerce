@@ -20,7 +20,7 @@ class VendorConditionController extends Controller
         ]);
 
 
-        $update = VendorCondition::updateOrCreate(
+        VendorCondition::updateOrCreate(
             ['id' => 1],
             [
                 'content' => $request->condition_content,

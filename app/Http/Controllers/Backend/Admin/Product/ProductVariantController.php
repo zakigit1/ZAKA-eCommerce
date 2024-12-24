@@ -8,23 +8,24 @@ use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\ProductVariantItem;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ProductVariantController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request,ProductsVariantDataTable $dataTable)
+    public function index(Request $request, ProductsVariantDataTable $dataTable)
     {
-        
+
         $product = Product::find($request->id); //* key is -- id --
 
-        if(!$product){
-            toastr()->error( 'Product is not found!');
-            return to_route('admin.product-image-gallery.index',['id'=>$request->product_id]);
+        if (!$product) {
+            toastr()->error('Product is not found!');
+            return to_route('admin.product-image-gallery.index', ['id' => $request->product_id]);
         }
-        return $dataTable->render('admin.product.variant.index',compact('product'));
-       
+        return $dataTable->render('admin.product.variant.index', compact('product'));
+
     }
 
     /**
@@ -41,32 +42,38 @@ class ProductVariantController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'=> 'required|max:200',
-            'product_id'=> 'required|numeric|exists:products,id',
-            'status'=> 'required',
-        ]);
 
-        // dd($request->all());
-        try{
+        try {
+            $request->validate([
+                'name' => 'required|max:200',
+                'product_id' => 'required|numeric|exists:products,id',
+                'status' => 'required',
+            ]);
+
+            // dd($request->all());
+
 
             ProductVariant::create([
-                'name'=> $request->name,
-                'product_id'=> $request->product_id,
-                'status'=> $request->status,
+                'name' => $request->name,
+                'product_id' => $request->product_id,
+                'status' => $request->status,
             ]);
-    
-            toastr('Variant Has Been Created Successfully ','success');
-            return redirect()->route('admin.product-variant.index',['id'=>$request->product_id]);
-    
-        }catch(\Exception $e){
-            // toastr()->error($e->getMessage());
-            toastr('variant Has Not Been Updated Successfully','error');
-            return redirect()->route('admin.product-variant.index',['id'=>$request->product_id]);
+
+            toastr('Variant Has Been Created Successfully ', 'success');
+            return redirect()->route('admin.product-variant.index', ['id' => $request->product_id]);
+
+
+        } catch (ValidationException $e) {
+            toastr()->error($e->getMessage(), 'Product Variant Creation Validation Error');
+            // toastr('variant Has Not Been Created Successfully','error');
+            return redirect()->route('admin.product-variant.index', ['id' => $request->product_id]);
+        } catch (\Exception $ex) {
+            toastr()->error($ex->getMessage(), 'Product Variant Creation Error');
+            // toastr('variant Has Not Been Created Successfully','error','Product Variant Creation Error');
+            return redirect()->route('admin.product-variant.index', ['id' => $request->product_id]);
         }
 
     }
-
 
 
     /**
@@ -76,53 +83,58 @@ class ProductVariantController extends Controller
     {
         $product_variant = ProductVariant::find($id);
 
-        if(!$product_variant){
-            $product_id =$product_variant->product->id;
-            toastr()->error( 'Product is not found!');
-            return to_route('admin.product.index',['id'=> $product_id]);
+        if (!$product_variant) {
+            $product_id = $product_variant->product->id;
+            toastr()->error('Product is not found!');
+            return to_route('admin.product.index', ['id' => $product_id]);
         }
 
-        return view('admin.product.variant.edit',['variant'=>$product_variant]);
+        return view('admin.product.variant.edit', ['variant' => $product_variant]);
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {        
-        $request->validate([
-        'name'=> 'required|max:200',
-        'status'=> 'required',
-        ]);
+    {
+        try {
+            $request->validate([
+                'name' => 'required|max:200',
+                'status' => 'required',
+            ]);
 
-        // dd($request->all());
+            // dd($request->all());
 
-        try{
 
             $product_variant = ProductVariant::find($id);
 
             // $product_id =$product_variant->product->id;//from the relation 
 
-            if(!$product_variant){
-                toastr()->error( 'Product is not found!');
-                return to_route('admin.product.index',['id'=> $product_variant->product_id]);
+            if (!$product_variant) {
+                toastr()->error('Product is not found!');
+                return to_route('admin.product.index', ['id' => $product_variant->product_id]);
             }
 
-            $product_variant->update($request->except(['_token','submit']));
+            $product_variant->update($request->except(['_token', 'submit']));
 
             // $product_variant->update([
             //     'name'=> $request->name,
             //     'status'=> $request->status,
             // ]);
-    
-            toastr('variant Has Been Updated Successfully','success');
-            return redirect()->route('admin.product-variant.index',['id'=>$product_variant->product_id]);
-        }catch(\Exception $e){
-            // toastr()->error($e->getMessage());
-            toastr('variant Has Not Been Updated Successfully','error');
+
+            toastr('variant Has Been Updated Successfully', 'success');
+            return redirect()->route('admin.product-variant.index', ['id' => $product_variant->product_id]);
+
+        } catch (ValidationException $e) {
+            toastr()->error($e->getMessage(), 'Product Variant Update Validation Failed');
+            // toastr('variant Has Not Been Updated Successfully','error');
+            return redirect()->back();
+        } catch (\Exception $ex) {
+            toastr()->error($ex->getMessage(), 'Product Variant Update Error');
+            // toastr('variant Has Not Been Updated Successfully','error');
             return redirect()->back();
         }
-        
+
 
 
     }
@@ -132,22 +144,22 @@ class ProductVariantController extends Controller
      */
     public function destroy(string $id)
     {
-        try{ 
+        try {
 
             $product_variant = ProductVariant::find($id);
 
-            if(!$product_variant){
+            if (!$product_variant) {
                 // $product_id =$product_variant->product->id;
 
-                return response(['status'=>'error','message'=>'Product Variant is not exists!']);
+                return response(['status' => 'error', 'message' => 'Product Variant is not exists!']);
             }
 
 
             ####### M1:
-            $item =ProductVariantItem::where('product_variant_id',$product_variant->id)->count();
+            $item = ProductVariantItem::where('product_variant_id', $product_variant->id)->count();
 
-            if($item>0){
-                return response(['status'=>'error','message'=>" $product_variant->name contain a variant items , for delete this variant you have to delete the variant item first "]);
+            if ($item > 0) {
+                return response(['status' => 'error', 'message' => " $product_variant->name contain a variant items , for delete this variant you have to delete the variant item first "]);
 
             }
 
@@ -163,29 +175,42 @@ class ProductVariantController extends Controller
             $product_variant->delete();
 
             // we are using ajax : 
-            return response(['status'=>'success','message'=>" Variant Has Been Deleted Successfully !"]);
-        }catch(\Exception $e){
-            return response(['status'=>'error','message'=>'حدث خطا ما برجاء المحاوله لاحقا']);
+            return response(['status' => 'success', 'message' => " Variant Has Been Deleted Successfully !"]);
+        } catch (\Exception $e) {
+            return response(['status' => 'error', 'message' => $e->getMessage()]);
+            // return response(['status'=>'error','message'=>'حدث خطا ما برجاء المحاوله لاحقا']);
         }
     }
     public function change_status(Request $request)
     {
-        $product_variant =ProductVariant::find($request->id);
+        try {
+            
+            $request->validate([
+                'id' => 'required|integer|exists:product_variants,id',
+                'status' => 'required|in:true,false',
+            ]);
 
-        if(!$product_variant){
-            return response(['status'=>'error','message'=>'Product variant is not found!']);
+            $product_variant = ProductVariant::find($request->id);
+
+            if (!$product_variant) {
+                return response(['status' => 'error', 'message' => 'Product variant is not found!']);
+            }
+
+
+
+            $product_variant->status = $request->status == 'true' ? 1 : 0;
+
+            $product_variant->save();
+
+            $status = ($product_variant->status == 1) ? 'activated' : 'deactivated';
+
+            return response(['status' => 'success', 'message' => "The Product variant has been $status"]);
+
+        } catch (ValidationException $e) {
+            return response(['status' => 'error', 'message' => $e->getMessage()]);
+        } catch (\Exception $ex) {
+            return response(['status' => 'error', 'message' => $ex->getMessage()]);
         }
 
-
-        
-        $product_variant->status = $request->status == 'true' ? 1 : 0;
-         
-        $product_variant->save();
-
-        $status =($product_variant->status == 1) ? 'activated' : 'deactivated';
-
-        return response(['status'=>'success','message'=>"The Product variant has been $status"]);
-
-       
     }
 }

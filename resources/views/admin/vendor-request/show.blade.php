@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ @$settings->site_name ." || Vendor Request Details" }}
+    {{ @$settings->site_name . ' || Vendor Request Details' }}
 @endsection
 
 
@@ -40,6 +40,14 @@
                         </div>
                     </div>
 
+
+                    <div>
+                        {{-- date + time exp : Dec 24,2024 12:47 PM --}}
+                        {{-- <h3><b>Request Date : </b><code>{{ $vendor->created_at->format('M d, Y h:i A') }}</code></h3> --}}
+                        <h4><b>Request Date : </b><code style="color: rgb(238, 21, 17)">{{ $vendor->created_at->format('M d, Y') }}</code></h4>
+                    </div>
+                    <br>
+
                     <div class="row mt-4">
                         <div class="col-md-12">
                             <h5>User Information :</h5>
@@ -67,7 +75,7 @@
 
 
                                     <tr>
-                                        <th>Shop Name :</th>
+                                        <th width = "13%">Shop Name :</th>
                                         <td>{{ $vendor->shop_name }}</td>
                                     </tr>
                                     <tr>
@@ -84,7 +92,7 @@
                                     </tr>
                                     <tr>
                                         <th>Shop Descreption :</th>
-                                        <td>{{ $vendor->description }}</td>
+                                        <td>{{ strip_tags($vendor->description) }}</td>
                                     </tr>
 
                                 </table>

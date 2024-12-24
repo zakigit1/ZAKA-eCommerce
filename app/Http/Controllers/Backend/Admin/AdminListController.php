@@ -18,6 +18,10 @@ class AdminListController extends Controller
 
     public function change_status(Request $request)
     {
+        $request->validate([
+            'id' => 'required|integer|exists:users,id',
+            'status' => 'required|in:true,false',
+        ]);
 
         $admin = User::find($request->id);
 

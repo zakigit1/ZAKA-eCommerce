@@ -4,24 +4,28 @@
 
 
 /** Easy to handle : */
-// remove all paths you don't need it .['done! for controller , still model ]
-// login /register issue ta3 design redirect
-// seo title seo description ta3 blog dir kima drna fl product detial 
 
 // add in all views @ to avoid any kind of null errors .[done for setting-site_name]
 // zid ga3 fl controller ':response redirect' just example kol wahd 3la hsab return ta3ha
-// try & catch in all the controller for better protection and error handling ...
+
+// try & catch in all the controller for better protection and error handling ...[i finished admin product controller]
 // zid request->validation win kayan ta3 request ta3 ajax fl controlller kima ta2 destroy ,change status example : 
         of change status :
         $request->validate([
             'id'=>'required|exists:tableName,id',
             'status' => 'required|in:true,false',
         ]);
-//profile 3nd field ta3 new password kyna show botton fix it 
+//profile 3nd field ta3 new password kyna show botton fix it [done!]
 
 // check also to add condition if vendor status 0 he cant add products or do anything in vendor dashboard
 
-
+// fix logo of my project zaka 
+// make a size limitation for images in wishlist cart 
+// in the product pop i have design issue about product variants
+// i need to change the table of wishlist is not responsive in mobile view
+// after fix the image size do this style :  width: 90% !important;
+                                                    height: 80px !important;
+                                                    object-fit: cover;"
 
 /** Medium to handle : */
 // in section hot deals kayan zid fih products section lmzl mdrtahch
@@ -55,7 +59,7 @@
 //?? i need to fix product prices depend on currency they the users choose it
 //?? also about send money to vendor depend on his currency (search about it )
 //?? search about automatic runing seeder after creating table or migration
-
+//?? seo title seo description ta3 blog dir kima drna fl product detial 
 
  
 
@@ -92,3 +96,5 @@ Dec 23 ,2024
 //++Manage Order Transactions check the table if it is correct or not .[done!]
 //++ tani ta3 ajax khas ttsagad ki tkon cart details empty tdik ll home bsah problem mt9dch dir add to ccart hata dir refresh ll page [done!]
 //++ i add in helper folder a funtion get the currencyIcon so go in all datatable and add it instead of calling the model each time [done!]
+//++ remove all paths you don't need it .[done! ]
+//++ login /register issue ta3 design redirect [done!]

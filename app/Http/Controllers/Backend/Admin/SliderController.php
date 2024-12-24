@@ -91,7 +91,7 @@ class SliderController extends Controller
 
             /** insert info Part in to DB :  */
 
-            $slider =Slider::create([
+            Slider::create([
                 'banner'=>$imageName,
                 'type'=> $request->type,
                 'title'=> $request->title,

@@ -85,6 +85,11 @@ class AdminProductReviewController extends Controller
 
     public function change_status(Request $request)
     {
+        $request->validate([
+            'id' => 'required|integer|exists:product_reviews,id',
+            'status' => 'required|in:true,false',
+        ]);
+
         $productReview =ProductReview::find($request->id);
 
         if(!$productReview){

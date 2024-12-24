@@ -158,6 +158,11 @@ class CouponController extends Controller
 
     public function change_status(Request $request)
     {
+        $request->validate([
+            'id' => 'required|integer|exists:coupons,id',
+            'status' => 'required|in:true,false',
+        ]);
+        
         $coupon = Coupon::find($request->id);
 
         if(!$coupon){

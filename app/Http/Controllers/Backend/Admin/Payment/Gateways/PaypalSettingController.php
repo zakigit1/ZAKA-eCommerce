@@ -5,27 +5,30 @@ namespace App\Http\Controllers\Backend\Admin\Payment\Gateways;
 use App\Http\Controllers\Controller;
 use App\Models\PaypalSetting;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class PaypalSettingController extends Controller
 {
-    public function updatePaypalSettings(Request $request){
+    public function updatePaypalSettings(Request $request)
+    {
 
-        // dd($request->all());
-        $request->validate([
+        try{ 
+            // dd($request->all());
+            $request->validate([
 
-            'status'=>'required|boolean',
-            'mode'=>['required','in:sandbox,live'],
-            'country_name'=>'required|max:200',
-            'currency_name'=>'required|max:200',
-            'currency_rate'=>'required',
-            'client_id'=>'required',
-            'secret_key'=>'required',
+                'status'=>'required|boolean',
+                'mode'=>['required','in:sandbox,live'],
+                'country_name'=>'required|max:200',
+                'currency_name'=>'required|max:200',
+                'currency_rate'=>'required',
+                'client_id'=>'required',
+                'secret_key'=>'required',
 
-        ]);
-        // dd($request->all());
+            ]);
+            // dd($request->all());
 
-        try{   
-            $paypalSettings = PaypalSetting::updateOrCreate(
+          
+            PaypalSetting::updateOrCreate(
                 ['id'=> 1],
                 [
                     'status'=>$request->status,
@@ -41,9 +44,11 @@ class PaypalSettingController extends Controller
             toastr('Paypal Settings Has Been Updated Successfully !','success','Success');
             return redirect()->back();
 
+        } catch (ValidationException $e) {
+            toastr()->error($e->getMessage(),'Paypal Settings Validation Error');
+            return redirect()->back();
         }catch(\Exception $ex){
-
-            toastr($ex->getMessage(),'error');
+            toastr($ex->getMessage(),'error','Paypal Settings Error');
             // toastr('Paypal Settings Has Not Been Updated Successfully !','error','Error');
             return redirect()->back();
         }
