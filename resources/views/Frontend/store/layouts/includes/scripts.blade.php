@@ -171,6 +171,7 @@
         }
 
 
+
         // Add Products to the  Wishlist: 
 
         // $('.add_to_wishlist').on('click',function(e){
@@ -198,15 +199,15 @@
         //         });
         // })
 
-
+        // add product to wishlist with login user
         $(document).on('click', '.add_to_wishlist', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
 
-                var isAuthenticated = @auth true
-            @else
-                false
-            @endauth ;
+            var isAuthenticated = @auth true
+                    @else
+                        false
+                    @endauth ;
 
             let productId = $(this).data('id');
 
@@ -218,98 +219,170 @@
             }
 
             $.ajax({
-                url: "{{ route('user.wishlist.store') }}",
-                method: 'GET',
-                data: {
-                    productId: productId
+                    url: "{{ route('user.wishlist.store') }}",
+                    method: 'GET',
+                    data: {
+                        productId: productId
+                    },
+                    success: function(data) {
+                        
+                        if (data.status == 'success') {
+                            $('#wishlist_count').text(data.count)
+
+                                // wish list button design (style)
+                                wishlistStylebutton(data)
+                                toastr.success(data.message);
+                            } else if (data.status == 'error') {
+                                toastr.error(data.message);
+                            }
+                        },
+                        error: function(data) {
+                            console.log('error');
+                        }
+                    });
+        });
+
+
+        function wishlistStylebutton(data){
+            
+            // Update the heart icon based on the product's wishlist status
+            const heartIcon = $(`#wishlist-heart-${data.productId}`); 
+            const parentLink = heartIcon.parent(); 
+
+            if (data.style === 'fas') {
+                // Product is not in the wishlist
+                heartIcon.removeClass('fas').addClass('far'); // Change to empty heart
+                // Remove styles from the parent <a> element
+                heartIcon.parent().attr('style', ''); // Clear styles
+            } else if (data.style === 'far') {
+                // Product is in the wishlist
+                heartIcon.removeClass('far').addClass('fas'); // Change to filled heart
+
+                if (parentLink.hasClass('buy_now')) {
+
+                    heartIcon.parent().attr('style', `
+                        text-transform: uppercase;
+                        font-weight: 600;
+                        color: #fff !important;
+                        background: #B01E28;
+                        padding: 9px 15px;
+                        border-radius: 30px;
+                        font-size: 14px;
+                    `);
+                } else {
+                    heartIcon.parent().attr('style', `
+                        text-transform: uppercase;
+                        font-size: 12px;
+                        font-weight: 600;
+                        color: #fff !important;
+                        background: #B01E28;
+                        border-radius: 3px;
+                    `);
+                }
+            }
+        }
+
+        function wishlistStyleButtonPart2(data){
+            // Update the heart icon based on the product's wishlist status
+            const heartIcon = $(`#wishlist-heart2-${data.productId}`); 
+            
+
+            if (data.style === 'fas') {
+                // Product is not in the wishlist
+                heartIcon.removeClass('fas').addClass('far'); // Change to empty heart
+                // Remove styles from the parent <a> element
+                heartIcon.parent().attr('style', ''); // Clear styles
+            } else if (data.style === 'far') {
+                // Product is in the wishlist
+                heartIcon.removeClass('far').addClass('fas'); // Change to filled heart
+
+                heartIcon.parent().attr('style', `
+                    text-transform: uppercase;
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #fff !important;
+                    background: #B01E28;
+                    border-radius: 3px;
+                `);
+                
+            }
+        }
+
+    
+        // Footer Newsletter
+
+        $('#newsletter').on('submit', function(e) {
+            e.preventDefault();
+
+            let data = $(this).serialize();
+
+            $.ajax({
+                method: 'POST',
+                url: "{{ route('newsletter-request') }}",
+                data: data,
+                beforeSend: function() {
+                    $('.subscribe_btn').text('Loading ...');
                 },
                 success: function(data) {
                     if (data.status == 'success') {
-                        $('#wishlist_count').text(data.count)
+
+                        $('.subscribe_btn').text('Subscribe');
+
+                        $('.newsletter_email').val('');
+
                         toastr.success(data.message);
+
                     } else if (data.status == 'error') {
+
+                        $('.subscribe_btn').text('Subscribe');
+
                         toastr.error(data.message);
                     }
                 },
                 error: function(data) {
-                    console.log('error');
+
+                    let errors = data.responseJSON.errors;
+
+                    if (errors) {
+                        $.each(errors, function(key, value) {
+                            toastr.error(value);
+                        })
+
+                    }
+
                 }
             });
-        });
+        })
 
-    // Footer Newsletter
 
-    $('#newsletter').on('submit', function(e) {
-        e.preventDefault();
+        // Show Product Model POP UP 
+        $('.show_product_model').on('click', function() {
 
-        let data = $(this).serialize();
+            let id = $(this).data('id')
 
-        $.ajax({
-            method: 'POST',
-            url: "{{ route('newsletter-request') }}",
-            data: data,
-            beforeSend: function() {
-                $('.subscribe_btn').text('Loading ...');
-            },
-            success: function(data) {
-                if (data.status == 'success') {
+            $.ajax({
+                method: 'GET',
+                url: "{{ route('show-product-model', ':id') }}".replace(':id',
+                    id), //if any error edit double cotation
 
-                    $('.subscribe_btn').text('Subscribe');
-
-                    $('.newsletter_email').val('');
-
-                    toastr.success(data.message);
-
-                } else if (data.status == 'error') {
-
-                    $('.subscribe_btn').text('Subscribe');
-
-                    toastr.error(data.message);
-                }
-            },
-            error: function(data) {
-
-                let errors = data.responseJSON.errors;
-
-                if (errors) {
-                    $.each(errors, function(key, value) {
-                        toastr.error(value);
-                    })
+                beforeSend: function() {
+                    $('.product_model_content').html('<span class="loader"></span>');
+                },
+                success: function(response) {
+                    if (response.status == 'error') {
+                        toastr.error(response.message);
+                    }
+                    $('.product_model_content').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.log('error');
+                },
+                complete: function() {
 
                 }
+            });
+        })
 
-            }
-        });
-    })
-
-
-    // Show Product Model POP UP 
-    $('.show_product_model').on('click', function() {
-
-        let id = $(this).data('id')
-
-        $.ajax({
-            method: 'GET',
-            url: "{{ route('show-product-model', ':id') }}".replace(':id',
-            id), //if any error edit double cotation
-
-            beforeSend: function() {
-                $('.product_model_content').html('<span class="loader"></span>');
-            },
-            success: function(response) {
-                if (response.status == 'error') {
-                    toastr.error(response.message);
-                }
-                $('.product_model_content').html(response);
-            },
-            error: function(xhr, status, error) {
-                console.log('error');
-            },
-            complete: function() {
-
-            }
-        });
-    })
 
 
     })

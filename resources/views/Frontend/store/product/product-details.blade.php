@@ -29,11 +29,11 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h4>products details</h4>
+                        <h4>Product details</h4>
                         <ul>
-                            <li><a href="{{ route('home') }}">home</a></li>
-                            <li><a href="#">product</a></li>
-                            <li><a href="javascript:;">product details</a></li>
+                            <li><a href="{{ route('home') }}">Home</a></li>
+                            <li><a href="{{route('products.index')}}">Product</a></li>
+                            <li><a href="javascript:;">Product Details</a></li>
                         </ul>
                     </div>
                 </div>
@@ -168,17 +168,49 @@
                                     <li><button type="submit" class="add_cart" href="#">add to cart</button></li>
 
                                     {{-- this is for heart icon of wishlist if you want to add it : style="border:1px solid gray; padding:7px 11px;border-radius:100%" --}}
-                                    <li><a href="javascript:;" class="buy_now  add_to_wishlist"
-                                            data-id="{{ $product->id }}">
-                                            <i class="fal fa-heart"></i></a>
+                                    <li>
+                                        @php
+                                            $wishlist_product_exists = App\Models\Wishlist::where('product_id', $product->id)
+                                                ->where('user_id', auth()->user()->id)
+                                                ->exists();
+                                        @endphp
+
+                                        <a href="javascript:;" class="buy_now  add_to_wishlist"
+                                            data-id="{{ $product->id }}" 
+                                            style="{{ $wishlist_product_exists
+                                            ? '
+                                                text-transform: uppercase;
+                                                font-weight: 600;
+                                                color: #fff !important;
+                                                background: #B01E28;
+                                                padding: 9px 15px;
+                                                border-radius: 30px;
+                                                font-size: 14px;
+                                                '
+                                            : '' }}">
+                                            <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart" id="wishlist-heart-{{$product->id}}"></i>
+                                        </a>
+
                                     </li>
                                     @if (auth()->check())
-                                        <li>
+                                        {{-- <li>
                                             <button type="button" class="chat_now" style="margin-left: 10px"
                                                 data-bs-toggle="modal" data-bs-target="#exampleModal">
                                                 <i class="fas fa-comment-medical"></i>
                                             </button>
+                                        </li> --}}
+
+                                        <li>
+                                            <button type="button" class="chat_now" style="margin-left: 10px"
+                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                title="Send message to seller"
+                                                data-bs-placement="bottom"
+                                                data-bs-container="body">
+                                                <i class="fas fa-comment-medical"></i>
+                                            </button>
                                         </li>
+
+
                                     @else
                                         {{-- after remove it make it just just when auth show the icon of messaging --}}
 

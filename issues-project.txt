@@ -15,7 +15,7 @@
             'id'=>'required|exists:tableName,id',
             'status' => 'required|in:true,false',
         ]);
-//profile 3nd field ta3 new password kyna show botton fix it [done!]
+
 
 // check also to add condition if vendor status 0 he cant add products or do anything in vendor dashboard
 
@@ -52,6 +52,18 @@
 //fix the date time make it readable
 // for flash sale khas nkri view table for flash sale products
 // when you remove the product from wishlist after reload i cant add to cart product .
+// i want to add scroll down automatic if i click to the footer or else the li who is down and active 
+
+
+
+
+// in / out add a column in wishlist table to know if the product is in wishlist or not if i click to the wishlist button it will be added or removed from wishlist
+
+
+
+
+
+
 
 
 ############ --Start--  issue search about it 
@@ -98,3 +110,8 @@ Dec 23 ,2024
 //++ i add in helper folder a funtion get the currencyIcon so go in all datatable and add it instead of calling the model each time [done!]
 //++ remove all paths you don't need it .[done! ]
 //++ login /register issue ta3 design redirect [done!]
+
+
+Dec 24 ,2024
+//++ profile 3nd field ta3 new password kyna show botton fix [done!]
+//++ fix wishlist make it remove product from wish list with ajax [done!]

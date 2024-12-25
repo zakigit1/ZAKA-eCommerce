@@ -5,8 +5,8 @@
 @section('content')
 
     <!--============================
-                                            BREADCRUMB START
-                                        ==============================-->
+                                                    BREADCRUMB START
+                                                ==============================-->
     <section id="wsus__breadcrumb">
         <div class="wsus_breadcrumb_overlay">
             <div class="container">
@@ -23,13 +23,13 @@
         </div>
     </section>
     <!--============================
-                                            BREADCRUMB END
-                                        ==============================-->
+                                                    BREADCRUMB END
+                                                ==============================-->
 
 
     <!--============================
-                                            CART VIEW PAGE START
-                                        ==============================-->
+                                                    CART VIEW PAGE START
+                                                ==============================-->
     <section id="wsus__cart_view">
         <div class="container">
             <div class="row">
@@ -71,17 +71,20 @@
                                         @foreach ($cartProducts as $cartProduct)
                                             <tr class="d-flex cart-item" id="cart_details_{{ $cartProduct->rowId }}">
 
-                                                <td class="wsus__pro_img"><img style="width: 90% !important;
+                                                <td class="wsus__pro_img"><img
+                                                        style="width: 90% !important;
                                                     height: 80px !important;
                                                     object-fit: cover;"
-                                                    
                                                         src="{{ asset($cartProduct->options->image) }}" alt="product"
                                                         class="img-fluid w-100">
                                                 </td>
 
                                                 <td class="wsus__pro_name">
 
-                                                    <p>{!! $cartProduct->name !!}</p>
+                                                    <a target="_blank"
+                                                        href="{{ route('product-details', [$cartProduct->options->slug]) }}">
+                                                        {!! $cartProduct->name !!}
+                                                    </a>
 
                                                     @foreach ($cartProduct->options->variants as $key => $variantItem)
                                                         <span>{{ $key }}: {{ $variantItem['name'] }}
@@ -220,8 +223,8 @@
         </div>
     </section>
     <!--============================
-                                              CART VIEW PAGE END
-                                        ==============================-->
+                                                      CART VIEW PAGE END
+                                                ==============================-->
 
 @endsection
 

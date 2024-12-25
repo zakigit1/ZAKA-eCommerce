@@ -267,10 +267,27 @@
           }
         });
       });
+    
+
+
+    // this code is not working i want scroll down automatic for admin dashboard sidebar : 
+      const mainChatInbox = $('.scroll-down');
+
+      function scrollToButton() {
+          mainChatInbox.scrollTop(mainChatInbox.prop("scrollHeight"));
+      }
+
+      $(document).ready(function() {
+          // Click to the conversion bullet button:
+          $('.sidebar-scroll-down').on('click', function() {
+              scrollToButton(); // Call the function to execute it
+          });
+      });
     });
-
-
   </script>
+
+
+
 
   @stack('scripts')
 

@@ -1732,6 +1732,8 @@ PRODUCT MODAL VIEW END
   margin-bottom: 10px;
   border-radius: 2px;
   color: #08C !important;
+  
+  
   font-size: 14px;
   transition: all linear 0.3s;
   -webkit-transition: all linear 0.3s ease;
@@ -1749,7 +1751,36 @@ PRODUCT MODAL VIEW END
 .wsus__single_pro_icon li a:hover {
   color: #fff !important;
   border-color: #08C;
-  background: #08C;
+  /* border-color: #B01E28; */
+  background: #08C;;
+}
+
+.wsus__single_pro_icon .wsus__single_pro_icon_heart a {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  margin-bottom: 10px;
+  border-radius: 2px;
+  color: #B01E28 !important;
+  
+  
+  font-size: 14px;
+  transition: all linear 0.3s;
+  -webkit-transition: all linear 0.3s ease;
+  -moz-transition: all linear 0.3s ease;
+  -ms-transition: all linear 0.3s ease;
+  -o-transition: all linear 0.3s ease;
+  background: #fff;
+  border: 1px solid #B01E28 !important;
+}
+
+
+.wsus__single_pro_icon .wsus__single_pro_icon_heart a:hover {
+  color: #fff !important;
+  border-color: #B01E28;
+  /* border-color: #B01E28; */
+  background: #B01E28;
 }
 
 .wsus__product_details {
@@ -3780,8 +3811,11 @@ PRODUCT DETAILS START
 
 .wsus__button_area li .buy_now:hover,
 .wsus__ofer_det_footer_btn .buy_now:hover {
-  background: #e8062c;
+  /* background: #e8062c; */
+  background: #B01E28;
+  
   color: #fff !important;
+  /* background: #08C; */
 }
 
 .wsus__button_area li:nth-child(3) a,

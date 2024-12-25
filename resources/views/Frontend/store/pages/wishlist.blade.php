@@ -36,32 +36,31 @@
                 <div class="col-12">
                     <div class="wsus__cart_list wishlist">
                         <div class="table-responsive">
-                            <table>
+                            <table class="table">
                                 <tbody>
+                                    
+                                    <tr class="d-flex">
+                                        <th class="wsus__pro_img" style="width: 12.5%">
+                                            product item
+                                        </th>
+
+                                        <th class="wsus__pro_name" style="width: 25%">
+                                            product name
+                                        </th>
+
+                                        <th class="wsus__pro_status" style="width: 25%">
+                                            status
+                                        </th>
+
+                                        <th class="wsus__pro_tk" style="width: 25%">
+                                            price
+                                        </th>
+
+                                        <th class="wsus__pro_icon" style="width: 20%">
+                                            action
+                                        </th>
+                                    </tr>
                                     @if (isset($wishlists) && count($wishlists) > 0)
-
-                                        <tr class="d-flex">
-                                            <th class="wsus__pro_img" style="width: 12.5%">
-                                                product item
-                                            </th>
-
-                                            <th class="wsus__pro_name" style="width: 25%">
-                                                product name
-                                            </th>
-
-                                            <th class="wsus__pro_status" style="width: 25%">
-                                                status
-                                            </th>
-
-                                            <th class="wsus__pro_tk" style="width: 25%">
-                                                price
-                                            </th>
-
-                                            <th class="wsus__pro_icon" style="width: 12.5%">
-                                                action
-                                            </th>
-                                        </tr>
-
 
                                         @foreach ($wishlists as $wishlist)
                                             {{-- @php
@@ -110,7 +109,7 @@
                                                 </td>
 
 
-                                                <td class="wsus__pro_icon" style="width: 12.5%">
+                                                <td class="wsus__pro_icon" style="width: 20%">
                                                     <form class="shopping-cart-form">
 
                                                         <input type="hidden" name="product_id"
