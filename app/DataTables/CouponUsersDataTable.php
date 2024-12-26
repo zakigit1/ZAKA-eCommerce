@@ -3,6 +3,8 @@
 namespace App\DataTables;
 
 use App\Models\Coupon;
+use App\Models\CouponUser;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -21,10 +23,53 @@ class CouponUsersDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             /** Start Custom Columns : */
-            ->addColumn('action', 'couponusers.action')
-            /** End Custom Columns : */
 
+            ->addColumn('user_name', function($query){  
+                return $query->user->name;
+            })
+            
+            ->addColumn('coupon_name', function($query){  
+                return $query->coupon->name;
+            })
+
+            ->addColumn('max_use', function($query){  
+                return $query->coupon->max_use;
+            })
+
+            ->addColumn('used', function($query){ 
+                return ($query->coupon->max_use - $query->available_use);
+            })
+
+            
+            
+            ->addColumn('coupon_code', function($query){  
+                return $query->coupon->code;
+            })
+            
+            
+            /** End Custom Columns : */
+            
             /** Start Filtring : */
+
+            ->filterColumn('coupon_code',function($query , $keyword){
+                $query->whereHas('coupon',function($query) use($keyword){
+                    $query->where('code','like',"%$keyword%");
+                });
+            })
+
+            ->filterColumn('coupon_name',function($query , $keyword){
+                $query->whereHas('coupon',function($query) use($keyword){
+                    $query->where('name','like',"%$keyword%");
+                });
+            })
+
+            ->filterColumn('user_name',function($query , $keyword){
+                $query->whereHas('user',function($query) use($keyword){
+                    $query->where('name','like',"%$keyword%");
+                });
+            })
+
+
             /** End Filtring : */
 
             
@@ -34,9 +79,9 @@ class CouponUsersDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(Coupon $model): QueryBuilder
+    public function query(CouponUser $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->where('coupon_id', $this->id)->newQuery();
     }
 
     /**
@@ -67,15 +112,16 @@ class CouponUsersDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('id')->width(50),
+
+            Column::make('user_name'),
+            Column::make('coupon_name'),
+            Column::make('coupon_code'),
+            Column::make('used'),
+            Column::make('available_use'),
+            Column::make('max_use'),
+
+
         ];
     }
 

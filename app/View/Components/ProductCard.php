@@ -9,16 +9,17 @@ use Illuminate\View\Component;
 class ProductCard extends Component
 {
 
-    public $product ,$className ,$key;
+    public $product ,$className ,$key, $wishlistSection;
 
     /**
      * Create a new component instance.
      */
-    public function __construct($product , $key=null ,$className=null)
+    public function __construct($product , $key=null ,$className=null,$wishlistSection =null)
     {
         $this->product = $product;
         $this->key = $key ;
         $this->className = $className;
+        $this->wishlistSection = $wishlistSection;
     }
 
     /**

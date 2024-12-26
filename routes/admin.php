@@ -229,7 +229,9 @@ Route::group(['middleware'=>['auth:web','role:admin'],],function(){
     ############################## Coupons  Start  ###################################
 
         Route::put('/coupons/change-status/',[CouponController::class,'change_status'])->name('coupons.change-status');
+        Route::get('/coupons/{id}/users',[CouponController::class,'couponUsers'])->name('coupons.users.index');
         Route::resource('coupons',CouponController::class);
+        Route::get('/all-coupons',[CouponController::class,'allCoupons'])->name('all-coupons.index');
 
     ############################## Coupons  End  ###################################
 

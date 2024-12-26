@@ -14,7 +14,11 @@ class FlashSaleController extends Controller
 {
     public function index(FlashSaleItemDataTable $dataTable){
 
-        $products=Product::where('is_approved',1)->active()->orderBy('id','desc')->get(['id','name']);
+        $products = Product::where('is_approved',1)
+                                ->active()
+                                ->orderBy('id','desc')
+                                ->get(['id','name']);
+                                
         $flash_end_date=FlashSale::first();
 
         return $dataTable->render('admin.flash-sale.index',compact('products','flash_end_date'));

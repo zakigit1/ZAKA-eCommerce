@@ -147,14 +147,14 @@
                 </div>
             </div>
             <div class="row grid2">
-                @if (isset($typeBaseProducts) && count($typeBaseProducts)>0)
+                @if (isset($typeBaseProducts) && count($typeBaseProducts) > 0)
                     @foreach ($typeBaseProducts as $key => $products)
-                        @if (isset($products) && count($products)>0)    
+                        @if (isset($products) && count($products) > 0)
                             @foreach ($products as $product)
-                            
-                            <div class="col-xl-3 col-sm-6 col-md-4 col-lg-4 {{ $key }}">
-                                <x-product-card :product="$product" :key="$key" /> {{-- :key="$key" rah ghi zyada t9dar tmhih---}}
-                            </div>
+                                <div class="col-xl-3 col-sm-6 col-md-4 col-lg-4 {{ $key }}">
+                                    <x-product-card :product="$product" :key="$key" wishlistSection="2" />
+                                    {{-- :key="$key" rah ghi zyada t9dar tmhih- --}}
+                                </div>
 
 
                                 {{-- <div class="col-xl-3 col-sm-6 col-md-4 col-lg-4 {{ $key }}">
@@ -302,21 +302,30 @@
         <!-- Display  Products  -->
         <div class="wsus__hot_small_item wsus__hot_small_item_2">
             <div class="row">
-                <div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3">
-                    <a class="wsus__hot_deals__single" href="#">
-                        <div class="wsus__hot_deals__single_img">
-                            <img src="{{ asset('frontend/assets/images/pro4_4.jpg') }}" alt="bag"
-                                class="img-fluid w-100">
+                @php
+                    $hotdealProducts = App\Models\Product::withAvg('reviews','rating')
+                    ->with([
+                        'reviews'=>function($query){
+                            $query->where('status',1);
+                        },
+                    ])
+                    ->where(['is_approved' => 1 , 'status' => 1])
+                    ->orderBy('id','DESC')
+                    ->take(12)
+                    ->get();
+                @endphp
+
+
+
+                @if (isset($hotdealProducts) && count($hotdealProducts) > 0)
+                    @foreach ($hotdealProducts as $hotdealProduct)
+                        <div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3">
+                            <x-product-mini-card :item="$hotdealProduct" />  
                         </div>
-                        <div class="wsus__hot_deals__single_text">
-                            <h5>men's casual watch</h5>
-                            <p class="wsus__rating">
-                            </p>
-                            <p class="wsus__tk">$120.20 <del>130.00</del></p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3">
+                    @endforeach
+                @endif
+
+                {{-- <div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3">
                     <a class="wsus__hot_deals__single" href="#">
                         <div class="wsus__hot_deals__single_img">
                             <img src="{{ asset('frontend/assets/images/pro9.jpg') }}" alt="bag"
@@ -514,7 +523,7 @@
                             <p class="wsus__tk">$120.20 <del>130.00</del></p>
                         </div>
                     </a>
-                </div>
+                </div> --}}
             </div>
         </div>
 
@@ -523,7 +532,7 @@
 
 {{-- product_popup_modal were are now using ajax --}}
 
-    {{-- @foreach ($typeBaseProducts as $key => $products)
+{{-- @foreach ($typeBaseProducts as $key => $products)
         @foreach ($products as $product)
             <section class="product_popup_modal">
                 <div class="modal fade" id="exampleModal-{{ $product->id }}" tabindex="-1" aria-hidden="true">

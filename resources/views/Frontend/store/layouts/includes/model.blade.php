@@ -100,7 +100,10 @@
                                         <h5 class="mb-2">{{ $variant->name }}:</h5>
 
                                         @if (isset($variant->items) && count($variant->items) > 0)
-                                            <select class="select_2" name="variant_items[]">
+                                            <select class="select_2" name="variant_items[]" 
+                                                style="padding: 10px 25px;
+                                                width:auto;
+                                                border-radius: 30px;">
                                                 @foreach ($variant->items as $item)
                                                     <option {{ $item->is_default ? 'selected' : '' }}
                                                         value="{{ $item->id }}">
@@ -129,8 +132,32 @@
                         <li><button type="submit" class="add_cart" href="#">add to
                                 cart</button></li>
 
-                        <li><a href="javascript:;" class="buy_now add_to_wishlist" data-id="{{ $product->id }}"><i
-                                    class="fal fa-heart"></i></a></li>
+                            @php
+                                $wishlist_product_exists = App\Models\Wishlist::where('product_id', $product->id)
+                                    ->where('user_id', auth()->user()->id)
+                                    ->exists();
+                            @endphp
+
+
+
+
+
+                                
+                        <li><a href="javascript:;" class="buy_now add_to_wishlist" data-id="{{ $product->id }}"
+                            style="{{ $wishlist_product_exists
+                            ? '
+                                text-transform: uppercase;
+                                font-weight: 600;
+                                color: #fff !important;
+                                background: #B01E28;
+                                padding: 9px 15px;
+                                border-radius: 30px;
+                                font-size: 14px;
+                                '
+                            : '' }}">
+                            <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart" id="wishlist-heart-0-{{$product->id}}"></i></a></li>
+
+
 
                     </ul>
                 </form>

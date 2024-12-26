@@ -44,7 +44,8 @@ class FrontendProductController extends Controller
                         // get just brand active 
                         $query->where('status',1);
                     }])
-            ->where('slug', $slug)->first();
+                ->where('slug', $slug)
+                ->first();
     
             $data['reviews'] = ProductReview::with(['user','productReviewGalleries'])
                 ->where(['product_id' => $data['product']->id , 'status' => 1])

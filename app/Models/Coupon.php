@@ -23,4 +23,14 @@ class Coupon extends Model
     // ]
     
     // public $timestamps = false;
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class,'vendor_id');
+    }
+
+    // public function users()
+    // {
+        
+    // }
 }

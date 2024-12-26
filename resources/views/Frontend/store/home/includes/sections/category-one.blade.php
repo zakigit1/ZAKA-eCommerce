@@ -33,6 +33,7 @@
                         ])->where('status',1);
                 }])
             ->where('category_id', $cat_type->id)
+            ->where(['is_approved' => 1 , 'status' => 1])
             ->orderBy('id', 'DESC')
             ->get();
 
@@ -53,6 +54,7 @@
                         ])->where('status',1);
                 }])
             ->where('sub_category_id', $cat_type->id)
+            ->where(['is_approved' => 1 , 'status' => 1])
             ->orderBy('id', 'DESC')
             ->get();
 
@@ -73,6 +75,7 @@
                         ])->where('status',1);
                 }])
             ->where('child_category_id', $cat_type->id)
+            ->where(['is_approved' => 1 , 'status' => 1])
             ->orderBy('id', 'DESC')
             ->get();
     }
@@ -98,8 +101,8 @@
         <div class="row flash_sell_slider">
             @if (isset($products) && count($products)>0)
                 @foreach ($products as $product)
-                <div class="col-xl-3 col-sm-6 col-lg-4}">
-                    <x-product-card :product="$product" />
+                <div class="col-xl-3 col-sm-6 col-lg-4">
+                    <x-product-card :product="$product" wishlistSection="3" />
                 </div>
                 @endforeach
             @endif

@@ -18,7 +18,7 @@
                                 <img src="{{$blog->image}}" alt="blog" class="img-fluid w-100">
                             </a>
                             <div class="wsus__blog_text">
-                                <a class="blog_top red" href="#">{{$blog->blogcategory->name}}</a>
+                                <a class="blog_top red" href="#">{{@$blog->blogcategory->name}}</a>
                                 <div class="wsus__blog_text_center">
                                     <a href="{{route('blog-details',$blog->slug)}}">{!! limitText($blog->title,23) !!}</a>
                                     <p class="date">{{date('M d, Y',strtotime($blog->created_at))}}</p>

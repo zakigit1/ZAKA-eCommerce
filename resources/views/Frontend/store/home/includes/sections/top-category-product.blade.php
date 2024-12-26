@@ -68,6 +68,7 @@
                                                         $query->where('status',1);
                                                     }])
                                                 ->where('category_id',$cat_type->id)
+                                                ->where(['is_approved' => 1 , 'status' => 1])
                                                 ->orderBy('id','DESC')
                                                 ->take(12)
                                                 ->get();
@@ -79,6 +80,7 @@
                                                         $query->where('status',1);
                                                     }])
                                                 ->where('sub_category_id',$cat_type->id)
+                                                ->where(['is_approved' => 1 , 'status' => 1])
                                                 ->orderBy('id','DESC')
                                                 ->take(12)
                                                 ->get();
@@ -90,6 +92,7 @@
                                                         $query->where('status',1);
                                                     }])
                                                 ->where('child_category_id',$cat_type->id)
+                                                ->where(['is_approved' => 1 , 'status' => 1])
                                                 ->orderBy('id','DESC')
                                                 ->take(12)
                                                 ->get();

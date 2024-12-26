@@ -38,29 +38,29 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <tbody>
-                                    
-                                    <tr class="d-flex">
-                                        <th class="wsus__pro_img" style="width: 12.5%">
-                                            product item
-                                        </th>
-
-                                        <th class="wsus__pro_name" style="width: 25%">
-                                            product name
-                                        </th>
-
-                                        <th class="wsus__pro_status" style="width: 25%">
-                                            status
-                                        </th>
-
-                                        <th class="wsus__pro_tk" style="width: 25%">
-                                            price
-                                        </th>
-
-                                        <th class="wsus__pro_icon" style="width: 20%">
-                                            action
-                                        </th>
-                                    </tr>
                                     @if (isset($wishlists) && count($wishlists) > 0)
+                                        <tr class="d-flex">
+                                            <th class="wsus__pro_img" style="width: 25%">
+                                                product item
+                                            </th>
+
+                                            <th class="wsus__pro_name" style="width: 30%">
+                                                product name
+                                            </th>
+
+                                            <th class="wsus__pro_status" style="width: 20%">
+                                                status
+                                            </th>
+
+                                            <th class="wsus__pro_tk" style="width: 15%">
+                                                price
+                                            </th>
+
+                                            <th class="wsus__pro_icon" style="width: 20%">
+                                                action
+                                            </th>
+                                        </tr>
+                                    
 
                                         @foreach ($wishlists as $wishlist)
                                             {{-- @php
@@ -68,10 +68,12 @@
 
                                             @endphp --}}
 
-
                                             <tr class="d-flex wishlist-item" id="wishlist_details_{{ $wishlist->id }}">
-                                                <td class="wsus__pro_img" style="width: 12.5% ">
-                                                    <img src="{{ $wishlist->product->thumb_image }}"
+                                                <td class="wsus__pro_img" style="width: 20% ">
+                                                    <img  style="width: 80% !important;
+                                                    height: 100px !important;
+                                                    object-fit: cover;"
+                                                     src="{{ $wishlist->product->thumb_image }}"
                                                         alt="{{ $wishlist->product->name }}" class="img-fluid w-100">
                                                     {{-- <a
                                                         href="{{ route('user.wishlist.destroy', ['wishlist_id' => $wishlist->id]) }}"><i
@@ -81,14 +83,14 @@
                                                         <i class="far fa-times"></i></a>
                                                 </td>
 
-                                                <td class="wsus__pro_name" style="width: 25%">
+                                                <td class="wsus__pro_name" style="width: 30% ; margin-left: 30px">
                                                     <a
                                                         href="{{ route('product-details', $wishlist->product->slug) }}">{{ limitText($wishlist->product->name) }}</a>
                                                 </td>
 
 
 
-                                                <td class="wsus__pro_status" style="width: 25%">
+                                                <td class="wsus__pro_status" style="width: 20%">
                                                     @if ($wishlist->product->qty > 0)
                                                         <p>in stock </p>
                                                     @else
@@ -96,7 +98,7 @@
                                                     @endif
                                                 </td>
 
-                                                <td class="wsus__pro_tk" style="width: 25%">
+                                                <td class="wsus__pro_tk" style="width: 12%">
                                                     <!-- Start check if there is discount or not -->
                                                     @if (check_discount($wishlist->product))
                                                         <h6>{{ $settings->currency_icon }}

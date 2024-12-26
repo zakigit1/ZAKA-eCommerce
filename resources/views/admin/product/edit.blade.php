@@ -115,6 +115,7 @@
                                                     {{ $brand->id == $product->brand_id ? 'selected' : '' }}>
                                                     {{ $brand->name }}</option>
                                             @endforeach
+                                        @endif
                                         
                                     </select>
                                 </div>

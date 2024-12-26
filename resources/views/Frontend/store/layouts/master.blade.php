@@ -274,6 +274,7 @@
     @include('Frontend.store.layouts.includes.scripts')
 
 
+
     @stack('scripts')
 </body>
 

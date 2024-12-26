@@ -144,6 +144,8 @@
                     'admin.vendor-profile.*',
                     'admin.flash-sale.*',
                     'admin.coupons.*',
+                    'admin.coupons.users.index',
+                    'admin.all-coupons.index',
                     'admin.shipping-rules.*',
                     'admin.payment.*',
                 ]) }}">
@@ -153,12 +155,19 @@
 
                     <li class="{{ setActive(['admin.flash-sale.*']) }}"><a class="nav-link"
                             href="{{ route('admin.flash-sale.index') }}">Flash Sale</a></li>
-                    <li class="{{ setActive(['admin.coupons.*']) }}"><a class="nav-link"
-                            href="{{ route('admin.coupons.index') }}">Coupon</a></li>
+
+                    <li class="{{ setActive(['admin.coupons.*', 'admin.coupons.users.index']) }}"><a class="nav-link"
+                           href="{{ route('admin.coupons.index') }}">Admin Coupon</a></li>
+
+                    <li class="{{ setActive(['admin.all-coupons.index', 'admin.coupons.users.index']) }}"><a class="nav-link"
+                            href="{{ route('admin.all-coupons.index') }}">Coupons</a></li>
+
                     <li class="{{ setActive(['admin.shipping-rules.*']) }}"><a class="nav-link"
                             href="{{ route('admin.shipping-rules.index') }}">Shipping Rule</a></li>
+
                     <li class="{{ setActive(['admin.vendor-profile.*']) }}"><a class="nav-link"
                             href="{{ route('admin.vendor-profile.index') }}">Vendor Profile</a></li>
+
                     <li class="{{ setActive(['admin.payment.*']) }}"><a class="nav-link"
                             href="{{ route('admin.payment.index') }}">Payment Settings</a></li>
                 </ul>

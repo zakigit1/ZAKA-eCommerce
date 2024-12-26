@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 
+use App\DataTables\AllCouponDataTable;
 use App\Http\Controllers\Controller;
 use App\DataTables\CouponsDataTable;
+use App\DataTables\CouponUsersDataTable;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class CouponController extends Controller
@@ -15,8 +18,13 @@ class CouponController extends Controller
      */
     public function index(CouponsDataTable $dataTable )
     {
-       
         return $dataTable->render('admin.coupon.index');
+    }
+
+    
+    public function allCoupons(AllCouponDataTable $dataTable )
+    {       
+        return $dataTable->render('admin.coupon.all-coupon.index');
     }
 
     /**
@@ -62,6 +70,8 @@ class CouponController extends Controller
             $coupon->discount  = $request->discount ;
             $coupon->total_used  = 0 ;
             $coupon->status = $request->status ;
+
+            $coupon->vendor_id = Auth::user()->vendor->id ;
             $coupon->save();
 
 
@@ -155,7 +165,6 @@ class CouponController extends Controller
     }
 
 
-
     public function change_status(Request $request)
     {
         $request->validate([
@@ -180,4 +189,13 @@ class CouponController extends Controller
 
        
     }
+
+
+    public function couponUsers(CouponUsersDataTable $dataTable ,int $id)
+    {
+        return $dataTable->with(['id'=>$id])->render('admin.coupon.coupon-user.index');
+    }
+
+
+
 }

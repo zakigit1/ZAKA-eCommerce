@@ -230,7 +230,7 @@
                             $('#wishlist_count').text(data.count)
 
                                 // wish list button design (style)
-                                wishlistStylebutton(data)
+                                wishlistStyleButton(data)
                                 toastr.success(data.message);
                             } else if (data.status == 'error') {
                                 toastr.error(data.message);
@@ -242,25 +242,120 @@
                     });
         });
 
+        // make the wishlist button style (this is the new optimazable function )
+        function wishlistStyleButton(data) {
+            // Constants for styling
+            const STYLE_CLASSES = {
+                FILLED: 'fas',
+                EMPTY: 'far'
+            };
 
+            const BUTTON_STYLES = {
+                buyNow: `
+                    text-transform: uppercase;
+                    font-weight: 600;
+                    color: #fff !important;
+                    background: #B01E28;
+                    padding: 9px 15px;
+                    border-radius: 30px;
+                    font-size: 14px;
+                `,
+                default: `
+                    text-transform: uppercase;
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #fff !important;
+                    background: #B01E28;
+                    border-radius: 3px;
+                `
+            };
+
+            // Get all heart icons for this product using a single selector
+            const $heartIcons = $(`[id^="wishlist-heart-"][id$="-${data.productId}"]`);
+            
+            // Early return if no icons found
+            if (!$heartIcons.length) {
+                console.warn(`No wishlist hearts found for product ${data.productId}`);
+                return;
+            }
+
+            const newClass = data.style === STYLE_CLASSES.FILLED ? STYLE_CLASSES.EMPTY : STYLE_CLASSES.FILLED;
+            const oldClass = data.style === STYLE_CLASSES.FILLED ? STYLE_CLASSES.FILLED : STYLE_CLASSES.EMPTY;
+
+            // Update all icons at once
+            $heartIcons
+                .removeClass(oldClass)
+                .addClass(newClass);
+
+            // Handle parent styling
+            const $parents = $heartIcons.parent();
+            
+            if (newClass === STYLE_CLASSES.FILLED) {
+                // Apply styles based on parent class
+                $parents.each(function() {
+                    const $parent = $(this);
+                    const style = $parent.hasClass('buy_now') ? 
+                        BUTTON_STYLES.buyNow : 
+                        BUTTON_STYLES.default;
+                    
+                    $parent.attr('style', style);
+                });
+            } else {
+                // Clear all parent styles
+                $parents.removeAttr('style');
+            }
+        }
+
+
+        // make the wishlist button style (this is the old function but it is understandable because i created by myself)  )
         function wishlistStylebutton(data){
             
+            
             // Update the heart icon based on the product's wishlist status
-            const heartIcon = $(`#wishlist-heart-${data.productId}`); 
-            const parentLink = heartIcon.parent(); 
+            const heartIcon0 = $(`#wishlist-heart-0-${data.productId}`); 
+            const heartIcon1 = $(`#wishlist-heart-1-${data.productId}`); 
+            const heartIcon2 = $(`#wishlist-heart-2-${data.productId}`); 
+            const heartIcon3 = $(`#wishlist-heart-3-${data.productId}`); 
+            const heartIcon4 = $(`#wishlist-heart-4-${data.productId}`); 
 
+
+            const parentLink = heartIcon0.parent(); 
             if (data.style === 'fas') {
                 // Product is not in the wishlist
-                heartIcon.removeClass('fas').addClass('far'); // Change to empty heart
+
+                heartIcon0.removeClass('fas').addClass('far'); // Change to empty heart
+                heartIcon1.removeClass('fas').addClass('far'); // Change to empty heart
+                heartIcon2.removeClass('fas').addClass('far'); // Change to empty heart
+                heartIcon3.removeClass('fas').addClass('far'); // Change to empty heart
+                heartIcon4.removeClass('fas').addClass('far'); // Change to empty heart
+
+
+
+
+
+
                 // Remove styles from the parent <a> element
-                heartIcon.parent().attr('style', ''); // Clear styles
+                heartIcon0.parent().attr('style', ''); // Clear styles
+                heartIcon1.parent().attr('style', ''); // Clear styles
+                heartIcon2.parent().attr('style', ''); // Clear styles
+                heartIcon3.parent().attr('style', ''); // Clear styles
+                heartIcon4.parent().attr('style', ''); // Clear styles
+
+
+
+
+
             } else if (data.style === 'far') {
                 // Product is in the wishlist
-                heartIcon.removeClass('far').addClass('fas'); // Change to filled heart
+                heartIcon0.removeClass('far').addClass('fas'); // Change to filled heart
+                heartIcon1.removeClass('far').addClass('fas'); // Change to filled heart
+                heartIcon2.removeClass('far').addClass('fas'); // Change to filled heart
+                heartIcon3.removeClass('far').addClass('fas'); // Change to filled heart
+                heartIcon4.removeClass('far').addClass('fas'); // Change to filled heart
+
 
                 if (parentLink.hasClass('buy_now')) {
-
-                    heartIcon.parent().attr('style', `
+                    heartIcon0.parent().attr('style', `
                         text-transform: uppercase;
                         font-weight: 600;
                         color: #fff !important;
@@ -269,8 +364,42 @@
                         border-radius: 30px;
                         font-size: 14px;
                     `);
+
                 } else {
-                    heartIcon.parent().attr('style', `
+                    
+                    heartIcon0.parent().attr('style', `
+                        text-transform: uppercase;
+                        font-size: 12px;
+                        font-weight: 600;
+                        color: #fff !important;
+                        background: #B01E28;
+                        border-radius: 3px;
+                    `);
+                    heartIcon1.parent().attr('style', `
+                        text-transform: uppercase;
+                        font-size: 12px;
+                        font-weight: 600;
+                        color: #fff !important;
+                        background: #B01E28;
+                        border-radius: 3px;
+                    `);
+                    heartIcon2.parent().attr('style', `
+                        text-transform: uppercase;
+                        font-size: 12px;
+                        font-weight: 600;
+                        color: #fff !important;
+                        background: #B01E28;
+                        border-radius: 3px;
+                    `);
+                    heartIcon3.parent().attr('style', `
+                        text-transform: uppercase;
+                        font-size: 12px;
+                        font-weight: 600;
+                        color: #fff !important;
+                        background: #B01E28;
+                        border-radius: 3px;
+                    `);
+                    heartIcon4.parent().attr('style', `
                         text-transform: uppercase;
                         font-size: 12px;
                         font-weight: 600;
@@ -282,35 +411,7 @@
             }
         }
 
-        function wishlistStyleButtonPart2(data){
-            // Update the heart icon based on the product's wishlist status
-            const heartIcon = $(`#wishlist-heart2-${data.productId}`); 
-            
-
-            if (data.style === 'fas') {
-                // Product is not in the wishlist
-                heartIcon.removeClass('fas').addClass('far'); // Change to empty heart
-                // Remove styles from the parent <a> element
-                heartIcon.parent().attr('style', ''); // Clear styles
-            } else if (data.style === 'far') {
-                // Product is in the wishlist
-                heartIcon.removeClass('far').addClass('fas'); // Change to filled heart
-
-                heartIcon.parent().attr('style', `
-                    text-transform: uppercase;
-                    font-size: 12px;
-                    font-weight: 600;
-                    color: #fff !important;
-                    background: #B01E28;
-                    border-radius: 3px;
-                `);
-                
-            }
-        }
-
-    
         // Footer Newsletter
-
         $('#newsletter').on('submit', function(e) {
             e.preventDefault();
 

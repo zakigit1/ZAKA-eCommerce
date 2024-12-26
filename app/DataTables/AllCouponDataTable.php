@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+
 use App\Models\Coupon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -10,7 +11,7 @@ use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class CouponsDataTable extends DataTable
+class AllCouponDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -20,11 +21,10 @@ class CouponsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-
             /** Start Custom Columns : */
-
+    
             ->addColumn('action', function($query){
-        
+            
                 $user_role='admin';
                 $type='coupons';
                 $moreFeature='
@@ -77,6 +77,9 @@ class CouponsDataTable extends DataTable
                 return $query->code;
             })
 
+            ->addColumn('vendor_name',function($query){
+                return $query->vendor->user->name;
+            })
             /** End Custom Columns : */
 
 
@@ -102,11 +105,23 @@ class CouponsDataTable extends DataTable
                 $query->where('code','like',"%$keyword%");
             })
         
+            ->filterColumn('vendor_name',function($query , $keyword){
+                $query->whereHas('vendor',function($query) use($keyword){
+                    $query->whereHas('user',function($query) use($keyword){
+                        $query->where('name','like',"%$keyword%");
+                    });
+                });
+            })
             /** End Filtring : */
 
 
             ->rawColumns(['status','discount_type','action'])//if you add in this file html code you need to insert the column name inside (rawColumns)
             ->setRowId('id');
+        
+        
+        
+        
+
     }
 
     /**
@@ -114,7 +129,7 @@ class CouponsDataTable extends DataTable
      */
     public function query(Coupon $model): QueryBuilder
     {
-        return $model->where('vendor_id',auth()->user()->vendor->id)->newQuery();
+        return $model->where('vendor_id','!=',auth()->user()->vendor->id)->newQuery();
     }
 
     /**
@@ -146,6 +161,7 @@ class CouponsDataTable extends DataTable
     {
         return [
             Column::make('id')->width(50),
+            Column::make('vendor_name'),
             Column::make('name'),
             Column::make('coupon_code'),
             Column::make('discount_type'),
@@ -167,6 +183,6 @@ class CouponsDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Coupons_' . date('YmdHis');
+        return 'AdminCoupon_' . date('YmdHis');
     }
 }

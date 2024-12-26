@@ -91,8 +91,7 @@ class HomeController extends Controller
         $data['homepageBannerFlashSaleEndDate'] = json_decode($data['homepageBannerFlashSaleEndDate']?->value);
 
 
-
-
+        
 
         /** Blogs */
         $data['blogs'] = Blog::with('blogcategory')->where('status',1)->orderBy('id','DESC')->take(8)->get();
@@ -110,8 +109,109 @@ class HomeController extends Controller
     {
         $typeBaseProduct = [];
 
-        $typeBaseProduct['new_arrival'] = Product::
-            with([
+        $typeBaseProduct['new_arrival'] = $this->getproductsByType('new_arrival');
+        $typeBaseProduct['featured_product'] = $this->getproductsByType('featured_product');
+        $typeBaseProduct['top_product'] = $this->getproductsByType('top_product');
+        $typeBaseProduct['best_product'] = $this->getproductsByType('best_product');
+
+
+
+        // $typeBaseProduct['new_arrival'] = Product::
+        //     with([
+        //         'gallery',
+        //         'category',
+        //         'reviews'=>function($query){
+        //             $query->where('status',1);
+        //         },
+        //         'variants'=>function($query){
+        //             $query->with(['items' => function ($q) {
+        //                         $q->where('status', 1);
+        //                         },
+        //                 ])->where('status',1);
+        //         },
+        //         'brand'=>function($query){
+        //             $query->where('status',1);
+        //         }])
+        //     ->where(['product_type' => 'new_arrival' , 'is_approved' => 1 , 'status' => 1])
+        //     ->orderBy('id','DESC')
+        //     ->take(8)
+        //     ->get();
+        
+        
+        // $typeBaseProduct['featured_product'] = Product::
+        //     with([
+        //         'gallery',
+        //         'category',
+        //         'reviews'=>function($query){
+        //             $query->where('status',1);
+        //         },
+        //         'variants'=>function($query){
+        //             $query->with(['items' => function ($q) {
+        //                         $q->where('status', 1);
+        //                         },
+        //                 ])->where('status',1);
+        //         },
+        //         'brand'=>function($query){
+        //             $query->where('status',1);
+        //         }])
+        //     ->where(['product_type' => 'featured_product' , 'is_approved' => 1 , 'status' => 1])
+        //     ->orderBy('id','DESC')
+        //     ->take(8)
+        //     ->get();
+        
+        
+        // $typeBaseProduct['top_product'] = Product::
+        //     with([
+        //         'gallery',
+        //         'category',
+        //         'reviews'=>function($query){
+        //             $query->where('status',1);
+        //         },
+        //         'variants'=>function($query){
+        //             $query->with(['items' => function ($q) {
+        //                         $q->where('status', 1);
+        //                         },
+        //                 ])->where('status',1);
+        //         },
+        //         'brand'=>function($query){
+        //             $query->where('status',1);
+        //         }])
+        //     ->where(['product_type' => 'top_product' , 'is_approved' => 1 , 'status' => 1])
+        //     ->orderBy('id','DESC')
+        //     ->take(8)
+        //     ->get();
+        
+        
+        // $typeBaseProduct['best_product'] = Product::
+        //     with([
+        //         'gallery',
+        //         'category',
+        //         'reviews'=>function($query){
+        //             $query->where('status',1);
+        //         },
+        //         'variants'=>function($query){
+        //             $query->with(['items' => function ($q) {
+        //                         $q->where('status', 1);
+        //                         },
+        //                 ])->where('status',1);
+        //         },
+        //         'brand'=>function($query){
+        //             $query->where('status',1);
+        //         }])
+        //     ->where(['product_type' => 'best_product' , 'is_approved' => 1 , 'status' => 1])
+        //     ->orderBy('id','DESC')
+        //     ->take(8)
+        //     ->get();
+
+        return $typeBaseProduct ;
+    }
+
+    private function getproductsByType($type)
+    {
+
+        $products = Product::withAvg('reviews','rating')
+            ->withCount('reviews')
+            ->with([
                 'gallery',
                 'category',
                 'reviews'=>function($query){
@@ -126,79 +226,15 @@ class HomeController extends Controller
                 'brand'=>function($query){
                     $query->where('status',1);
                 }])
-            ->where(['product_type' => 'new_arrival' , 'is_approved' => 1 , 'status' => 1])
-            ->orderBy('id','DESC')
-            ->take(8)
-            ->get();
-        
-        
-        $typeBaseProduct['featured_product'] = Product::
-            with([
-                'gallery',
-                'category',
-                'reviews'=>function($query){
-                    $query->where('status',1);
-                },
-                'variants'=>function($query){
-                    $query->with(['items' => function ($q) {
-                                $q->where('status', 1);
-                                },
-                        ])->where('status',1);
-                },
-                'brand'=>function($query){
-                    $query->where('status',1);
-                }])
-            ->where(['product_type' => 'featured_product' , 'is_approved' => 1 , 'status' => 1])
-            ->orderBy('id','DESC')
-            ->take(8)
-            ->get();
-        
-        
-        $typeBaseProduct['top_product'] = Product::
-            with([
-                'gallery',
-                'category',
-                'reviews'=>function($query){
-                    $query->where('status',1);
-                },
-                'variants'=>function($query){
-                    $query->with(['items' => function ($q) {
-                                $q->where('status', 1);
-                                },
-                        ])->where('status',1);
-                },
-                'brand'=>function($query){
-                    $query->where('status',1);
-                }])
-            ->where(['product_type' => 'top_product' , 'is_approved' => 1 , 'status' => 1])
-            ->orderBy('id','DESC')
-            ->take(8)
-            ->get();
-        
-        
-        $typeBaseProduct['best_product'] = Product::
-            with([
-                'gallery',
-                'category',
-                'reviews'=>function($query){
-                    $query->where('status',1);
-                },
-                'variants'=>function($query){
-                    $query->with(['items' => function ($q) {
-                                $q->where('status', 1);
-                                },
-                        ])->where('status',1);
-                },
-                'brand'=>function($query){
-                    $query->where('status',1);
-                }])
-            ->where(['product_type' => 'best_product' , 'is_approved' => 1 , 'status' => 1])
+            ->where(['product_type' => "$type" , 'is_approved' => 1 , 'status' => 1])
             ->orderBy('id','DESC')
             ->take(8)
             ->get();
 
-        return $typeBaseProduct ;
+        return $products;
     }
+
+
 
     public function vednorIndex():View
     {

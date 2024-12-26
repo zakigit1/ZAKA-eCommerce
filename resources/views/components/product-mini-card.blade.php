@@ -17,7 +17,8 @@
         <!-- Start check if there is discount we show offer price if not we show price  -->
         @if (check_discount($item))
             <p class="wsus_tk">{{ $settings->currency_icon }} {{ $item->offer_price }}
-            <del>{{ $settings->currency_icon }} {{ $item->price }}</del></p>
+                <del style="color: red">{{ $settings->currency_icon }} {{ $item->price }}</del>
+            </p>
         @else
             <p class="wsus_tk">{{ $settings->currency_icon }} {{ $item->price }}</p>
         @endif

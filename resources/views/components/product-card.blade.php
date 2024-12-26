@@ -42,7 +42,8 @@
                             border-radius: 3px;
                             '
                         : '' }}">
-                    <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart" id="wishlist-heart-{{$product->id}}"></i>
+                    <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart" 
+                    id="wishlist-heart-{{$wishlistSection == null ? '0' : $wishlistSection}}-{{$product->id}}"></i>
                 </a>
             </li>
 
@@ -132,7 +133,7 @@
                             '
                             : '' }}">
                         <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart" 
-                        id="wishlist-heart2-{{$product->id}}"></i>
+                        id="wishlist-heart-1-{{$product->id}}"></i>
                     </a>
                 </li>
             </ul>

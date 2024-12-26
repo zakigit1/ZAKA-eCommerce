@@ -27,26 +27,39 @@
                                                     height: 80px !important;
                                                     object-fit: cover;"
 
+
+
 /** Medium to handle : */
-// in section hot deals kayan zid fih products section lmzl mdrtahch
+// in section hot deals kayan zid fih products section lmzl mdrtahch [done!]
+// color of the heart of wishlisht when he add a product to wishlist let the color be red [done!]
+// you need to fix table transaction.[done!]
+// i have section in home page i need to fix it [done!]
+
+
+
 // i need to fix issue of flash sale if the end date null of doesn't exist they give an error fix it i already do it in fa-shop project take look .
 // fix all the validation for features .
 // in the checkout when example didnt add shipping rule it give me error and after try to checkout it still loading i need to refresh the page and after work 
 
-// you need to modify password forgot logic because the user can reset password sevral time you need to allow him to reset pass just one time still he check email and click to reset pass after can do it again , you can make it more secure ask about his infomation
+// you need to modify password forgot logic because the user can reset password sevral time you need to allow him to reset pass just one time still he check email and click 
+        to reset pass after can do it again , you can make it more secure ask about his infomation [do it for other projects]
 // issue of select the sub & child categy each time to use it in home page settigns ❌❌
-// also for reset password of admin role ask ai how i do it , simple like user or another method
-// color of the heart of wishlisht when he add a product to wishlist let the color be red 
-// you need to fix table transaction.
+// also for reset password of admin role ask ai how i do it , simple like user or another method ❌❌
+
+
 // i need to change this package : Package yoeunes/toastr is abandoned, you should avoid using it. Use php-flasher/flasher-toastr-laravel instead.
-// i have section in home page i need to fix it 
+
 // change the error message and success message of all the features 
 // there is a function create in the blogcontrller it is more secure try it after if it is better do it for all other features then
+
 // coupon modification : 
-        - add column named vendor_id in table coupons 
-        - add a usercoupons table (coupon_id , user_id , max_use) for max use 
-        - add column minimum_purchase_amount in table coupons
-        - add feature to apply coupon in for a specific product of specific vendor
+        - add column named vendor_id in table coupons [done!]
+        - add a usercoupons table (coupon_id , user_id , max_use) for max use [done!]
+        - add column minimum_purchase_amount in table coupons[done!]
+        - add feature to apply coupon in for a specific product of specific vendor[done!]
+        - i need to do frontend logic 
+
+
 // kima drna ta3 messanger when we send a message we add class to circle profile when we click to profile we remove the class from the circle profile 
 // home services section i need to do it or remove it .
 //fix the date time make it readable

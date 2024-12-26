@@ -188,7 +188,7 @@
                                                 font-size: 14px;
                                                 '
                                             : '' }}">
-                                            <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart" id="wishlist-heart-{{$product->id}}"></i>
+                                            <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart" id="wishlist-heart-0-{{$product->id}}"></i>
                                         </a>
 
                                     </li>
