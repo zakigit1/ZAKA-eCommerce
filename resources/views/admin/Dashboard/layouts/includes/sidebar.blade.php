@@ -70,7 +70,8 @@
                             'admin.product-variant.*',
                             'admin.product-variant-item.*',
                         ]) }}">
-                        <a class="nav-link" href="{{ route('admin.product.index') }}">Admin Product</a></li>
+                        <a class="nav-link" href="{{ route('admin.product.index') }}">Admin Product</a>
+                    </li>
 
                     <li class="{{ setActive(['admin.all-product.*']) }}"><a class="nav-link"
                             href="{{ route('admin.all-product.index') }}">Product</a></li>
@@ -81,9 +82,9 @@
                     <li class="{{ setActive(['admin.seller-pending-product.*']) }}"><a class="nav-link"
                             href="{{ route('admin.seller-pending-product.index') }}">Seller Pending Product</a></li>
 
-                    <li
-                        class="{{ setActive(['admin.product-review.*', 'admin.product-review-gallery']) }}">
-                        <a class="nav-link" href="{{ route('admin.product-review.index') }}">Product Reviews</a></li>
+                    <li class="{{ setActive(['admin.product-review.*', 'admin.product-review-gallery']) }}">
+                        <a class="nav-link" href="{{ route('admin.product-review.index') }}">Product Reviews</a>
+                    </li>
 
 
 
@@ -157,10 +158,10 @@
                             href="{{ route('admin.flash-sale.index') }}">Flash Sale</a></li>
 
                     <li class="{{ setActive(['admin.coupons.*', 'admin.coupons.users.index']) }}"><a class="nav-link"
-                           href="{{ route('admin.coupons.index') }}">Admin Coupon</a></li>
+                            href="{{ route('admin.coupons.index') }}">Admin Coupon</a></li>
 
-                    <li class="{{ setActive(['admin.all-coupons.index', 'admin.coupons.users.index']) }}"><a class="nav-link"
-                            href="{{ route('admin.all-coupons.index') }}">Coupons</a></li>
+                    <li class="{{ setActive(['admin.all-coupons.index', 'admin.coupons.users.index']) }}"><a
+                            class="nav-link" href="{{ route('admin.all-coupons.index') }}">Coupons</a></li>
 
                     <li class="{{ setActive(['admin.shipping-rules.*']) }}"><a class="nav-link"
                             href="{{ route('admin.shipping-rules.index') }}">Shipping Rule</a></li>
@@ -174,8 +175,7 @@
             </li>
 
             {{-- Withdraw Payment   --}}
-            <li
-                class="dropdown  {{ setActive(['admin.withdraw-method.*', 'admin.withdraw-request-list.*']) }}">
+            <li class="dropdown  {{ setActive(['admin.withdraw-method.*', 'admin.withdraw-request-list.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                         class="fas fa-wallet"></i><span>Withdraw Payment</span></a>
                 <ul class="dropdown-menu">
@@ -219,8 +219,7 @@
                         class='fas fa-ad'></i><span>Advertisements</span></a></li>
 
             {{-- Manage Blog  --}}
-            <li
-                class="dropdown  {{ setActive(['admin.blog-category.*', 'admin.blog.*', 'admin.blog-comment.*']) }}">
+            <li class="dropdown  {{ setActive(['admin.blog-category.*', 'admin.blog.*', 'admin.blog-comment.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                         class="fab fa-blogger-b"></i> <span>Manage Blog</span></a>
                 <ul class="dropdown-menu">
@@ -268,17 +267,25 @@
                     <span>Users</span></a>
                 <ul class="dropdown-menu">
 
+                    {{-- @if (Auth::user()->role == 'super_admin') --}}{{-- think about this solution --}}
+                    @if (auth()->user()->id == 1 || auth()->user()->id == 21)
+                        <li class="{{ setActive(['admin.admin-list.index']) }}"><a class="nav-link"
+                                href="{{ route('admin.admin-list.index') }}">Admin List</a></li>
+                    @endif
 
-                    <li class="{{ setActive(['admin.customer-list.index']) }}"><a class="nav-link"
-                            href="{{ route('admin.customer-list.index') }}">Customer List</a></li>
                     <li class="{{ setActive(['admin.vendor-list.index']) }}"><a class="nav-link"
                             href="{{ route('admin.vendor-list.index') }}">Vendor List</a></li>
 
+                    <li class="{{ setActive(['admin.customer-list.index']) }}"><a class="nav-link"
+                            href="{{ route('admin.customer-list.index') }}">Customer List</a></li>
+
+                    <li class="{{ setActive(['admin.manage-user.index']) }}"><a class="nav-link"
+                            href="{{ route('admin.manage-user.index') }}">Manage User</a></li>
 
 
-                    <li
-                        class="{{ setActive(['admin.vendor-request.index', 'admin.vendor-request.show']) }}">
-                        <a class="nav-link" href="{{ route('admin.vendor-request.index') }}">Vendor Request</a></li>
+                    <li class="{{ setActive(['admin.vendor-request.index', 'admin.vendor-request.show']) }}">
+                        <a class="nav-link" href="{{ route('admin.vendor-request.index') }}">Vendor Request</a>
+                    </li>
 
                     <li class="{{ setActive(['admin.vendor-request.pending']) }}"><a class="nav-link"
                             href="{{ route('admin.vendor-request.pending') }}">Pending Vendor Request</a></li>
@@ -287,10 +294,7 @@
 
 
 
-                    <li class="{{ setActive(['admin.admin-list.index']) }}"><a class="nav-link"
-                            href="{{ route('admin.admin-list.index') }}">Admin List</a></li>
-                    <li class="{{ setActive(['admin.manage-user.index']) }}"><a class="nav-link"
-                            href="{{ route('admin.manage-user.index') }}">Manage User</a></li>
+
 
                 </ul>
             </li>
@@ -353,5 +357,4 @@
 
       });
     </script> --}}
-
 @endpush

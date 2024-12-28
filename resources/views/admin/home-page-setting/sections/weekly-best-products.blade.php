@@ -304,8 +304,19 @@
                                 `<option value="${item.id}">${item.name}</option>`);
                         });
                     },
-                    error: function(xhr, status, error) {
-                        console.log('error');
+                
+                        error: function(xhr, status, error) {
+                        console.log(xhr);
+
+                        if (xhr.responseJSON.errors) {
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                toastr.error(value);
+                            })
+                        } else if (xhr.responseJSON.message) {
+                            toastr.error(xhr.responseJSON.message);
+                        } else {
+                            toastr.error('An unknown error occurred.');
+                        }
                     }
                 });
             });
@@ -334,8 +345,18 @@
                         });
                     },
                     error: function(xhr, status, error) {
-                        console.log('error');
+                    console.log(xhr);
+
+                    if (xhr.responseJSON.errors) {
+                        $.each(xhr.responseJSON.errors, function(key, value) {
+                            toastr.error(value);
+                        })
+                    } else if (xhr.responseJSON.message) {
+                        toastr.error(xhr.responseJSON.message);
+                    } else {
+                        toastr.error('An unknown error occurred.');
                     }
+                }
                 });
             });
         });

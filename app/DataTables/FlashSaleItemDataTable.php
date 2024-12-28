@@ -68,8 +68,8 @@ class FlashSaleItemDataTable extends DataTable
             return '<a href="'.route('admin.product.edit',$query->product->id).'">'.$query->product->name.'</a>';
             })
 
-            ->addColumn('End Date',function($query){
-            return $query->flashSale->end_date;
+            ->addColumn('end_date',function($query){
+                return $query->flashSale->end_date ?? '/';
             })
             /** End Custom Columns : */
 
@@ -81,7 +81,7 @@ class FlashSaleItemDataTable extends DataTable
                 });
             })
  
-            ->filterColumn('End Date',function($query , $keyword){
+            ->filterColumn('end_date',function($query , $keyword){
                 $query->whereHas('flashSale',function($query) use($keyword){
                     $query->whereDate('end_date','like',"%$keyword%");
                 });
@@ -139,7 +139,7 @@ class FlashSaleItemDataTable extends DataTable
         return [
             Column::make('id')->width(100),
             Column::make('product'),
-            Column::make('End Date'),
+            Column::make('end_date'),
             Column::make('show_at_home'),
             Column::make('status'),
             Column::computed('action')

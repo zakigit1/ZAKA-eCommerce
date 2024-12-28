@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ @$settings->site_name ." || Withdraw Request Details " }}
+    {{ @$settings->site_name . ' || Withdraw Request Details ' }}
 @endsection
 
 
@@ -105,8 +105,8 @@
                             <h5 for="">Change Withdraw Request Status :</h5>
                             <select class='form-control col-md-4 change_withrow_status' data-id={{ $withdrawRequest->id }}>
                                 <!-- <option {{ $withdrawRequest->status == 'pending' ? 'selected' : '' }} value='pending'> Pending </option>
-                                            <option {{ $withdrawRequest->status == 'paid' ? 'selected' : '' }} value='paid'> Paid </option>
-                                            <option {{ $withdrawRequest->status == 'decline' ? 'selected' : '' }} value='decline'> Decline </option> -->
+                                                <option {{ $withdrawRequest->status == 'paid' ? 'selected' : '' }} value='paid'> Paid </option>
+                                                <option {{ $withdrawRequest->status == 'decline' ? 'selected' : '' }} value='decline'> Decline </option> -->
                                 <option @selected($withdrawRequest->status == 'pending' ? 'selected' : '') value='pending'> Pending </option>
                                 <option @selected($withdrawRequest->status == 'paid' ? 'selected' : '') value='paid'> Paid </option>
                                 <option @selected($withdrawRequest->status == 'decline' ? 'selected' : '') value='decline'> Decline </option>
@@ -164,7 +164,17 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.log('error');
+                        console.log(xhr);
+
+                        if (xhr.responseJSON.errors) {
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                toastr.error(value);
+                            })
+                        } else if (xhr.responseJSON.message) {
+                            toastr.error(xhr.responseJSON.message);
+                        } else {
+                            toastr.error('An unknown error occurred.');
+                        }
                     }
                 });
 

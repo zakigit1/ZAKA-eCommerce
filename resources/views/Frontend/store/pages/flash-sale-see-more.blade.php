@@ -71,191 +71,196 @@
                     </div>
                 </div> --}}
 
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="wsus__section_header rounded-0">
-                            <h3>flash sell</h3>
-                            <div class="wsus__offer_countdown">
-                                <span class="end_text">ends time :</span>
-                                <div class="simply-countdown simply-countdown-one"></div>
+
+                @if (isset($flashSaleItemProductId) && count($flashSaleItemProductId) > 0)
+                    
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="wsus__section_header rounded-0">
+                                <h3>flash sell</h3>
+                                <div class="wsus__offer_countdown">
+                                    <span class="end_text">ends time :</span>
+                                    <div class="simply-countdown simply-countdown-one"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                {{-- The previous method not optimized --}}
-                {{-- <div class="row">
+                    {{-- The previous method not optimized --}}
+                    {{-- <div class="row">
 
-                    @if (isset($flashSaleItem) && count($flashSaleItem) > 0)
-                        @foreach ($flashSaleItem as $item)
-                            @php
-                                $product = \App\Models\Product::withAvg('reviews','rating')
-                                    ->withCount('reviews')
-                                    ->with([
-                                            'gallery',
-                                            'category',
-                                            'variants' => function ($query) {
-                                                $query
-                                                    ->with([
-                                                        'items' => function ($q) {
-                                                            $q->where('status', 1);
-                                                        },
-                                                    ])
-                                 
-                                                    ->where('status', 1);
-                                            },
-                                            'reviews' => function ($query) {
-                                          
-                                                $query->where('status', 1);
-                                            },
-                                            'brand' => function ($query) {
-                                          
-                                                $query->where('status', 1);
-                                            },
-                                    ])
-                                ->find($item->product_id);
-                            @endphp
+                        @if (isset($flashSaleItem) && count($flashSaleItem) > 0)
+                            @foreach ($flashSaleItem as $item)
+                                @php
+                                    $product = \App\Models\Product::withAvg('reviews','rating')
+                                        ->withCount('reviews')
+                                        ->with([
+                                                'gallery',
+                                                'category',
+                                                'variants' => function ($query) {
+                                                    $query
+                                                        ->with([
+                                                            'items' => function ($q) {
+                                                                $q->where('status', 1);
+                                                            },
+                                                        ])
+                                    
+                                                        ->where('status', 1);
+                                                },
+                                                'reviews' => function ($query) {
+                                            
+                                                    $query->where('status', 1);
+                                                },
+                                                'brand' => function ($query) {
+                                            
+                                                    $query->where('status', 1);
+                                                },
+                                        ])
+                                    ->find($item->product_id);
+                                @endphp
 
-                            <div class="col-xl-3">
-                                <div class="wsus__offer_det_single">
-                                    <div class="wsus__product_item">
-                                        <span class="wsus__new">{{ productType($product->product_type) }}</span>
-                                        @if (check_discount($product))
-                                            <span
-                                                class="wsus__minus">-{{ calculate_discount_percentage($product->price, $product->offer_price) }}%</span>
-                                        @endif
-                                        <a class="wsus__pro_link" href="{{ route('product-details', $product->slug) }}">
-                                            <img src="{{ $product->thumb_image }}" alt="product"
-                                                class="img-fluid w-100 img_1" />
-
-                                            @if (isset($product->gallery) && count($product->gallery) > 0)
-                                                <img src="{{ $product->gallery[0]->image }}" alt="product"
-                                                    class="img-fluid w-100 img_2" />
-                                            @endif
-
-                                        </a>
-                                        <ul class="wsus__single_pro_icon">
-                                            <li><a href="#" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal-{{ $product->id }}"><i
-                                                        class="far fa-eye"></i></a></li>
-                                            <li><a href="" class="add_to_wishlist" data-id="{{ $product->id }}"><i
-                                                        class="far fa-heart"></i></a></li>
-
-                                        </ul>
-                                        <div class="wsus__product_details">
-                                            <a class="wsus__category" href="#">{{ $product->category->name }} </a>
-                                            <p class="wsus__pro_rating">
-                                                @php
-
-                                                    $avgRating = $product->reviews()->avg('rating'); 
-                                                    $fullRating = round($avgRating); 
-                                                @endphp
-
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    @if ($i <= $fullRating)
-                                                        <i class="fas fa-star"></i>
-                                                    @else
-                                                        <i class="far fa-star"></i>
-                                                    @endif
-                                                @endfor
-
-                                                <span>({{ count($product->reviews) }} review)</span>
-                                            </p>
-                                            <a class="wsus__pro_name"
-                                                href="{{ route('product-details', $product->slug) }}">{{ $product->name }}</a>
+                                <div class="col-xl-3">
+                                    <div class="wsus__offer_det_single">
+                                        <div class="wsus__product_item">
+                                            <span class="wsus__new">{{ productType($product->product_type) }}</span>
                                             @if (check_discount($product))
-                                                <p class="wsus__price">{{ $settings->currency_icon }}
-                                                    {{ $product->offer_price }} <del>{{ $settings->currency_icon }}
-                                                        {{ $product->price }}</del></p>
-                                            @else
-                                                <p class="wsus__price">{{ $settings->currency_icon }}
-                                                    {{ $product->price }}</p>
+                                                <span
+                                                    class="wsus__minus">-{{ calculate_discount_percentage($product->price, $product->offer_price) }}%</span>
                                             @endif
+                                            <a class="wsus__pro_link" href="{{ route('product-details', $product->slug) }}">
+                                                <img src="{{ $product->thumb_image }}" alt="product"
+                                                    class="img-fluid w-100 img_1" />
 
-                                            <form class="shopping-cart-form">
+                                                @if (isset($product->gallery) && count($product->gallery) > 0)
+                                                    <img src="{{ $product->gallery[0]->image }}" alt="product"
+                                                        class="img-fluid w-100 img_2" />
+                                                @endif
 
-                                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                            </a>
+                                            <ul class="wsus__single_pro_icon">
+                                                <li><a href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal-{{ $product->id }}"><i
+                                                            class="far fa-eye"></i></a></li>
+                                                <li><a href="" class="add_to_wishlist" data-id="{{ $product->id }}"><i
+                                                            class="far fa-heart"></i></a></li>
+
+                                            </ul>
+                                            <div class="wsus__product_details">
+                                                <a class="wsus__category" href="#">{{ $product->category->name }} </a>
+                                                <p class="wsus__pro_rating">
+                                                    @php
+
+                                                        $avgRating = $product->reviews()->avg('rating'); 
+                                                        $fullRating = round($avgRating); 
+                                                    @endphp
+
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        @if ($i <= $fullRating)
+                                                            <i class="fas fa-star"></i>
+                                                        @else
+                                                            <i class="far fa-star"></i>
+                                                        @endif
+                                                    @endfor
+
+                                                    <span>({{ count($product->reviews) }} review)</span>
+                                                </p>
+                                                <a class="wsus__pro_name"
+                                                    href="{{ route('product-details', $product->slug) }}">{{ $product->name }}</a>
+                                                @if (check_discount($product))
+                                                    <p class="wsus__price">{{ $settings->currency_icon }}
+                                                        {{ $product->offer_price }} <del>{{ $settings->currency_icon }}
+                                                            {{ $product->price }}</del></p>
+                                                @else
+                                                    <p class="wsus__price">{{ $settings->currency_icon }}
+                                                        {{ $product->price }}</p>
+                                                @endif
+
+                                                <form class="shopping-cart-form">
+
+                                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
 
 
-                                                @foreach ($product->variants as $variant)
-                                                    <select class="d-none" name="variant_items[]">
-                                                        @foreach ($variant->items as $item)
-                                                            <option {{ $item->is_default == 1 ? 'selected' : '' }}
-                                                                value="{{ $item->id }}"> {{ $item->name }}
-                                                                {{ $item->price > 0 ? '(' . $settings->currency_icon . ' ' . $item->price . ')' : '' }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                @endforeach
+                                                    @foreach ($product->variants as $variant)
+                                                        <select class="d-none" name="variant_items[]">
+                                                            @foreach ($variant->items as $item)
+                                                                <option {{ $item->is_default == 1 ? 'selected' : '' }}
+                                                                    value="{{ $item->id }}"> {{ $item->name }}
+                                                                    {{ $item->price > 0 ? '(' . $settings->currency_icon . ' ' . $item->price . ')' : '' }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    @endforeach
 
 
 
-                                                <input type="hidden" min="1" max="100" value="1"
-                                                    name="qty" />
+                                                    <input type="hidden" min="1" max="100" value="1"
+                                                        name="qty" />
 
 
-                                                <button type="submit" class="add_cart" href="#">
-                                                    add to cart
-                                                </button>
+                                                    <button type="submit" class="add_cart" href="#">
+                                                        add to cart
+                                                    </button>
 
-                                            </form>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            @endforeach
+                        @endif
+
+                    </div>
+                    <section id="pagination">
+                        <nav aria-label="Page navigation example">
+                            <div class="mt-5">
+                                @if ($flashSaleItem->hasPages())
+                                    {{ $flashSaleItem->links() }}
+                                @endif
                             </div>
-                        @endforeach
-                    @endif
-
-                </div>
-                <section id="pagination">
-                    <nav aria-label="Page navigation example">
-                        <div class="mt-5">
-                            @if ($flashSaleItem->hasPages())
-                                {{ $flashSaleItem->links() }}
-                            @endif
-                        </div>
-                    </nav>
-                </section> --}}
+                        </nav>
+                    </section> --}}
 
 
-                {{-- The new method optimized --}}
-                <div class="row">
-                    @php
-                        $products = \App\Models\Product::withAvg('reviews','rating')
-                            ->withCount('reviews')
-                            ->with([
-                                    'gallery',
-                                    'category',
-                                    'variants' => function ($query) {
-                                        $query
-                                            ->with([
-                                                'items' => function ($q) {
-                                                    //items = variant items
-                                                    // get just variant items active
-                                                    $q->where('status', 1);
-                                                },
-                                            ])
-                                            // get just variant active
-                                            ->where('status', 1);
-                                    },
-                                    'reviews' => function ($query) {
-                                        // get just reviews active
-                                        $query->where('status', 1);
-                                    },
-                                ])
-                            ->whereIn('id',$flashSaleItemProductId)
-                            ->get();
-                    @endphp
+                    {{-- The new method optimized --}}
+                    <div class="row">
+                        @php
+                            $products = \App\Models\Product::withAvg('reviews','rating')
+                                ->withCount('reviews')
+                                ->with([
+                                        'gallery',
+                                        'category',
+                                        'variants' => function ($query) {
+                                            $query
+                                                ->with([
+                                                    'items' => function ($q) {
+                                                        //items = variant items
+                                                        // get just variant items active
+                                                        $q->where('status', 1);
+                                                    },
+                                                ])
+                                                // get just variant active
+                                                ->where('status', 1);
+                                        },
+                                        'reviews' => function ($query) {
+                                            // get just reviews active
+                                            $query->where('status', 1);
+                                        },
+                                    ])
+                                ->whereIn('id',$flashSaleItemProductId)
+                                ->get();
+                        @endphp
 
-                    @if (isset($products) && count($products) > 0)
-                        @foreach ($products as $product)
-                            <div class="col-xl-3">
-                                <x-product-card :product="$product" />
-                            </div>
-                        @endforeach
-                    @endif
+                        @if (isset($products) && count($products) > 0)
+                            @foreach ($products as $product)
+                                <div class="col-xl-3">
+                                    <x-product-card :product="$product" />
+                                </div>
+                            @endforeach
+                        @endif
 
-                </div>
+                    </div>
+
+                @endif
 
             </div>
         </div>
@@ -492,9 +497,9 @@
     <script>
         // Count Down of Flash Sale
         simplyCountdown('.simply-countdown-one', {
-            year: {{ date('Y', strtotime($flashSale->end_date)) }},
-            month: {{ date('m', strtotime($flashSale->end_date)) }},
-            day: {{ date('d', strtotime($flashSale->end_date)) }},
+            year: {{ date('Y', strtotime(@$flashSale->end_date)) }},
+            month: {{ date('m', strtotime(@$flashSale->end_date)) }},
+            day: {{ date('d', strtotime(@$flashSale->end_date)) }},
 
         });
     </script>

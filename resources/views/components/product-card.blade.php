@@ -1,8 +1,12 @@
 {{-- <div class="col-xl-3 col-sm-6 col-lg-4 {{@$key}}"> --}}
 @php
-    $wishlist_product_exists = App\Models\Wishlist::where('product_id', $product->id)
-        ->where('user_id', auth()->user()->id)
-        ->exists();
+    if (auth()->check()) {
+        $wishlist_product_exists = App\Models\Wishlist::where('product_id', $product->id)
+            ->where('user_id', auth()->user()->id)
+            ->exists();
+    } else {
+        $wishlist_product_exists = false;
+    }
 @endphp
 
 <div class="wsus__product_item {{ @$className }}">
@@ -30,7 +34,8 @@
                     <i class="far fa-eye"></i>
                 </a>
             </li>
-            <li class="wsus__single_pro_icon_heart"><a href="" class="add_to_wishlist" data-id="{{ $product->id }}"
+            <li class="wsus__single_pro_icon_heart"><a href="" class="add_to_wishlist"
+                    data-id="{{ $product->id }}"
                     style="{{ $wishlist_product_exists
                         ? '
                             text-transform: uppercase;
@@ -42,8 +47,8 @@
                             border-radius: 3px;
                             '
                         : '' }}">
-                    <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart" 
-                    id="wishlist-heart-{{$wishlistSection == null ? '0' : $wishlistSection}}-{{$product->id}}"></i>
+                    <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart"
+                        id="wishlist-heart-{{ $wishlistSection == null ? '0' : $wishlistSection }}-{{ $product->id }}"></i>
                 </a>
             </li>
 
@@ -88,59 +93,56 @@
 
                 <li style="margin-right: 10px">
         @endif
-                    <form class="shopping-cart-form">
+        <form class="shopping-cart-form">
 
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
 
-                        @if (isset($product->variants) && count($product->variants) > 0)
-                            @foreach ($product->variants as $variant)
-                                <select class="d-none" name="variant_items[]">
-                                    @if (isset($variant->items) && count($variant->items) > 0)
-                                        @foreach ($variant->items as $item)
-                                            <option {{ $item->is_default == 1 ? 'selected' : '' }} value="{{ $item->id }}">
-                                                {{ $item->name }}
-                                                {{ $item->price > 0 ? '(' . $settings->currency_icon . ' ' . $item->price . ')' : '' }}
-                                            </option>
-                                        @endforeach
-                                    @endif
-                                </select>
+            @if (isset($product->variants) && count($product->variants) > 0)
+                @foreach ($product->variants as $variant)
+                    <select class="d-none" name="variant_items[]">
+                        @if (isset($variant->items) && count($variant->items) > 0)
+                            @foreach ($variant->items as $item)
+                                <option {{ $item->is_default == 1 ? 'selected' : '' }} value="{{ $item->id }}">
+                                    {{ $item->name }}
+                                    {{ $item->price > 0 ? '(' . $settings->currency_icon . ' ' . $item->price . ')' : '' }}
+                                </option>
                             @endforeach
                         @endif
+                    </select>
+                @endforeach
+            @endif
 
 
 
-                        <input type="hidden" min="1" max="100" value="1" name="qty" />
+            <input type="hidden" min="1" max="100" value="1" name="qty" />
 
 
-                        <button type="submit" class="add_cart" href="#">
-                            add to cart
-                        </button>
+            <button type="submit" class="add_cart" href="#">
+                add to cart
+            </button>
 
-                    </form>
+        </form>
         @if (@$className)
-                </li>
+            </li>
 
-                <li class="wsus__single_pro_icon_heart">
-                    <a href="" class="add_to_wishlist" data-id="{{ $product->id }}"
-                        style="{{ $wishlist_product_exists
-                            ? '
-                            text-transform: uppercase;
-                            font-size: 12px;
-                            font-weight: 600;
-                            color: #fff !important;
-                            background: #B01E28;
-                            border-radius: 3px;
-                            '
-                            : '' }}">
-                        <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart" 
-                        id="wishlist-heart-1-{{$product->id}}"></i>
-                    </a>
-                </li>
+            <li class="wsus__single_pro_icon_heart">
+                <a href="" class="add_to_wishlist" data-id="{{ $product->id }}"
+                    style="{{ $wishlist_product_exists
+                        ? '
+                                                text-transform: uppercase;
+                                                font-size: 12px;
+                                                font-weight: 600;
+                                                color: #fff !important;
+                                                background: #B01E28;
+                                                border-radius: 3px;
+                                                '
+                        : '' }}">
+                    <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart"
+                        id="wishlist-heart-1-{{ $product->id }}"></i>
+                </a>
+            </li>
             </ul>
         @endif
     </div>
 </div>
 {{-- </div> --}}
-
-
- 

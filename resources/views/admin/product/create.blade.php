@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ @$settings->site_name ." || Create Admin Product" }}
+    {{ @$settings->site_name . ' || Create Admin Product' }}
 @endsection
 @section('content')
     <section class="section">
@@ -55,12 +55,12 @@
                                             <select class="form-control  main-category" name="category">
 
                                                 <option selected disabled>-- Select --</option>
-                                                @if (isset($categories) && count($categories)>0)
+                                                @if (isset($categories) && count($categories) > 0)
                                                     @foreach ($categories as $category)
                                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                                                     @endforeach
                                                 @endif
-                                                
+
 
                                             </select>
                                         </div>
@@ -96,7 +96,7 @@
                                     <select class="form-control mt-6" name="brand">
 
                                         <option selected disabled>-- Select --</option>
-                                        @if (isset($brands) && count($brands)>0)
+                                        @if (isset($brands) && count($brands) > 0)
                                             @foreach ($brands as $brand)
                                                 <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                                             @endforeach
@@ -253,7 +253,17 @@
                         });
                     },
                     error: function(xhr, status, error) {
-                        console.log('error');
+                        console.log(xhr);
+
+                        if (xhr.responseJSON.errors) {
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                toastr.error(value);
+                            })
+                        } else if (xhr.responseJSON.message) {
+                            toastr.error(xhr.responseJSON.message);
+                        } else {
+                            toastr.error('An unknown error occurred.');
+                        }
                     }
                 });
             });
@@ -280,7 +290,17 @@
                         });
                     },
                     error: function(xhr, status, error) {
-                        console.log('error');
+                        console.log(xhr);
+
+                        if (xhr.responseJSON.errors) {
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                toastr.error(value);
+                            })
+                        } else if (xhr.responseJSON.message) {
+                            toastr.error(xhr.responseJSON.message);
+                        } else {
+                            toastr.error('An unknown error occurred.');
+                        }
                     }
                 });
             });

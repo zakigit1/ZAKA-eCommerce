@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ @$settings->site_name ." || Flash Sale " }}
+    {{ @$settings->site_name . ' || Flash Sale ' }}
 @endsection
 @section('content')
     <section class="section">
@@ -30,6 +30,7 @@
                                 @csrf
                                 <div class="form-group">
                                     <label>End Date</label>
+
                                     <input type="text" name="end_date" class="form-control datepicker"
                                         value="{{ @$flash_end_date->end_date }}">
                                 </div>
@@ -62,9 +63,10 @@
                                             <label>Products </label>
                                             <select class="form-control select2" name="product">
                                                 <option value="" selected disabled> -- Select --</option>
-                                                @if (isset($products) && count($products)>0)
+                                                @if (isset($products) && count($products) > 0)
                                                     @foreach ($products as $product)
-                                                        <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                                        {{-- <option value="{{ $product->id }}">{{ $product->name }}</option> --}}
+                                                        <option value="{{ $product->product_id }}">{{ $product->product_name }}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
@@ -156,7 +158,7 @@
                     },
                     data: {
                         _token: $('meta[name="csrf-token"]').attr(
-                        'content'), // Include the CSRF token in the data
+                            'content'), // Include the CSRF token in the data
                         status: isChecked,
                         id: id
                     },
@@ -173,7 +175,17 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.log('error');
+                        console.log(xhr);
+
+                        if (xhr.responseJSON.errors) {
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                toastr.error(value);
+                            })
+                        } else if (xhr.responseJSON.message) {
+                            toastr.error(xhr.responseJSON.message);
+                        } else {
+                            toastr.error('An unknown error occurred.');
+                        }
                     }
                 });
             });
@@ -191,7 +203,7 @@
                     },
                     data: {
                         _token: $('meta[name="csrf-token"]').attr(
-                        'content'), // Include the CSRF token in the data
+                            'content'), // Include the CSRF token in the data
                         show_at_home_status: isChecked,
                         id: id
                     },
@@ -208,10 +220,21 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.log('error');
+                        console.log(xhr);
+
+                        if (xhr.responseJSON.errors) {
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                toastr.error(value);
+                            })
+                        } else if (xhr.responseJSON.message) {
+                            toastr.error(xhr.responseJSON.message);
+                        } else {
+                            toastr.error('An unknown error occurred.');
+                        }
                     }
                 });
             });
+
         });
     </script>
 @endpush

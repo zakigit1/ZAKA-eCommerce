@@ -362,6 +362,11 @@ class ProductController extends Controller
 
             $product->save();
 
+            //remove product form flash sale if it's deactivated
+            $product->flashSaleItems()->update(['status' => $product->status]);
+
+
+
             $status = ($product->status == 1) ? 'activated' : 'deactivated';
 
             return response(['status' => 'success', 'message' => "The Product has been $status"]);

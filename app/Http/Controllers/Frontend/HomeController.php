@@ -44,9 +44,15 @@ class HomeController extends Controller
 
         // $data['flashSaleItem'] = FlashSaleItem::where('show_at_home',1)->active()->take(12)->get();
         /** the new update of optimization 521 */
-        $data['flashSaleItemProductId'] = FlashSaleItem::where('show_at_home',1)->active()->pluck('product_id')->toArray();
+        $data['flashSaleItemProductId'] = FlashSaleItem::whereHas('flashSale', function($query) {
+                $query->whereNotNull('end_date');
+            })
+            ->where('show_at_home',1)
+            ->active()
+            ->pluck('product_id')
+            ->toArray();
 
-        
+
         $data['flashSale'] = FlashSale::first();
 
 

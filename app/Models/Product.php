@@ -66,6 +66,7 @@ class Product extends Model
         return $this->belongsTo(Category::class,'category_id','id','id');
 
     }
+
     public function subcategory(): BelongsTo
     {
 
@@ -82,6 +83,7 @@ class Product extends Model
 
         // return $this->belongsTo(Subcategory::class);
     }
+
     public function childcategory(): BelongsTo
     {
 
@@ -105,7 +107,6 @@ class Product extends Model
         return $this->hasMany(ProductImageGallery::class,'product_id','id');
     }
 
-
     public function variants(): HasMany
     {
         return $this->hasMany(ProductVariant::class,'product_id','id');
@@ -124,6 +125,11 @@ class Product extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(ProductReview::class,'product_id','id');
+    }
+
+    public function flashSaleItems(): HasMany
+    {
+        return $this->hasMany(FlashSaleItem::class,'product_id','id');
     }
 
 /*                                                  End Relation                                  */

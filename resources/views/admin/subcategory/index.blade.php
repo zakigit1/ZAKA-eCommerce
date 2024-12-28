@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ @$settings->site_name ." || Sub Categories " }}
+    {{ @$settings->site_name . ' || Sub Categories ' }}
 @endsection
 @section('content')
     <section class="section">
@@ -19,7 +19,7 @@
         <div class="section-body">
             <div class="row">
                 <div class="col-12 ">
-                    
+
                     <div class="card">
                         <div class="card-header">
                             <h4>All Sub Categories</h4>
@@ -66,7 +66,7 @@
                     },
                     data: {
                         _token: $('meta[name="csrf-token"]').attr(
-                        'content'), // Include the CSRF token in the data
+                            'content'), // Include the CSRF token in the data
                         status: isChecked,
                         id: id
                     },
@@ -83,7 +83,17 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.log('error');
+                        console.log(xhr);
+
+                        if (xhr.responseJSON.errors) {
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                toastr.error(value);
+                            })
+                        } else if (xhr.responseJSON.message) {
+                            toastr.error(xhr.responseJSON.message);
+                        } else {
+                            toastr.error('An unknown error occurred.');
+                        }
                     }
                 });
             });

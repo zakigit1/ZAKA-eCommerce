@@ -77,7 +77,10 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
-
+    public function coupons()
+    {
+        return $this->hasMany(Coupon::class);
+    }
 
 
 

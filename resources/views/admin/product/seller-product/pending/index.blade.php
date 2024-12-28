@@ -1,6 +1,6 @@
 @extends('Admin.Dashboard.layouts.master')
 @section('title')
-    {{ @$settings->site_name ." || Seller Products Pending " }}
+    {{ @$settings->site_name . ' || Seller Products Pending ' }}
 @endsection
 @section('content')
     <section class="section">
@@ -13,7 +13,8 @@
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
                 <div class="breadcrumb-item active"><a href="{{ route('admin.product.index') }}">Products</a></div>
-                <div class="breadcrumb-item active"><a href="{{ route('admin.seller-product.index') }}">Seller Products</a></div>
+                <div class="breadcrumb-item active"><a href="{{ route('admin.seller-product.index') }}">Seller Products</a>
+                </div>
                 <div class="breadcrumb-item">Seller Pending Products</div>
             </div>
         </div>
@@ -62,7 +63,7 @@
                     },
                     data: {
                         _token: $('meta[name="csrf-token"]').attr(
-                        'content'), // Include the CSRF token in the data
+                            'content'), // Include the CSRF token in the data
                         status: isChecked,
                         id: id
                     },
@@ -79,7 +80,17 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.log('error');
+                        console.log(xhr);
+
+                        if (xhr.responseJSON.errors) {
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                toastr.error(value);
+                            })
+                        } else if (xhr.responseJSON.message) {
+                            toastr.error(xhr.responseJSON.message);
+                        } else {
+                            toastr.error('An unknown error occurred.');
+                        }
                     }
                 });
             });
@@ -98,7 +109,7 @@
 
                     data: {
                         _token: $('meta[name="csrf-token"]').attr(
-                        'content'), // Include the CSRF token in the data
+                            'content'), // Include the CSRF token in the data
                         value: value,
                         id: id
                     },
@@ -117,7 +128,17 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.log('error');
+                        console.log(xhr);
+
+                        if (xhr.responseJSON.errors) {
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                toastr.error(value);
+                            })
+                        } else if (xhr.responseJSON.message) {
+                            toastr.error(xhr.responseJSON.message);
+                        } else {
+                            toastr.error('An unknown error occurred.');
+                        }
                     }
                 });
 

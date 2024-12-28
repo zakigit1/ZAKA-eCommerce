@@ -47,6 +47,7 @@ class AdminListDataTable extends DataTable
                     </label>';
                 return $Status_button;
             })
+          
             /** End Custom Columns : */
 
             /** Start Filtring : */

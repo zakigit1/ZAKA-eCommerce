@@ -96,33 +96,37 @@
                         <div class="row">
                             @if (isset($product->variants) && count($product->variants) > 0)
                                 @foreach ($product->variants as $variant)
-                                    <div class="col-xl-6 col-sm-6">
-                                        <h5 class="mb-2">{{ $variant->name }}:</h5>
+                                    @if ($variant->status != 0)                                        
+                                        <div class="col-xl-6 col-sm-6">
+                                            <h5 class="mb-2">{{ $variant->name }}:</h5>
 
-                                        @if (isset($variant->items) && count($variant->items) > 0)
-                                            <select class="select_2" name="variant_items[]" 
-                                                style="padding: 10px 25px;
-                                                width:auto;
-                                                border-radius: 30px;">
-                                                @foreach ($variant->items as $item)
-                                                    <option {{ $item->is_default ? 'selected' : '' }}
-                                                        value="{{ $item->id }}">
-                                                        {{ $item->name }}
-                                                        {{ $item->price > 0 ? '(' . $settings->currency_icon . ' ' . $item->price . ')' : '' }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        @endif
-                                    </div>
+                                            @if (isset($variant->items) && count($variant->items) > 0)
+                                                <select class="select_2" name="variant_items[]"
+                                                    style="padding: 10px 25px;
+                                                    width:auto;
+                                                    border-radius: 30px;">
+                                                    @foreach ($variant->items as $item)
+                                                        @if ($item->status != 0)  
+                                                            <option {{ $item->is_default ? 'selected' : '' }}
+                                                                value="{{ $item->id }}">
+                                                                {{ $item->name }}
+                                                                {{ $item->price > 0 ? '(' . $settings->currency_icon . ' ' . $item->price . ')' : '' }}
+                                                            </option>
+                                                        @endif
+                                                    @endforeach
+                                                </select>
+                                            @endif
+                                        </div>
+                                    @endif
                                 @endforeach
                             @endif
                         </div>
                     </div>
 
                     <div class="wsus__quentity">
-                        <h5>quentity :</h5>
+                        {{-- <h5>quentity :</h5> --}}
                         <div class="select_number">
-                            <input class="number_area" type="text" min="1" max="100" value="1"
+                            <input class="number_area" type="hidden" min="1" max="100" value="1"
                                 name="qty" />
                         </div>
 
@@ -132,30 +136,31 @@
                         <li><button type="submit" class="add_cart" href="#">add to
                                 cart</button></li>
 
-                            @php
+                        @php
+                            if (auth()->check()) {
                                 $wishlist_product_exists = App\Models\Wishlist::where('product_id', $product->id)
                                     ->where('user_id', auth()->user()->id)
                                     ->exists();
-                            @endphp
+                            } else {
+                                $wishlist_product_exists = false;
+                            }
+                        @endphp
 
 
-
-
-
-                                
                         <li><a href="javascript:;" class="buy_now add_to_wishlist" data-id="{{ $product->id }}"
-                            style="{{ $wishlist_product_exists
-                            ? '
-                                text-transform: uppercase;
-                                font-weight: 600;
-                                color: #fff !important;
-                                background: #B01E28;
-                                padding: 9px 15px;
-                                border-radius: 30px;
-                                font-size: 14px;
-                                '
-                            : '' }}">
-                            <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart" id="wishlist-heart-0-{{$product->id}}"></i></a></li>
+                                style="{{ $wishlist_product_exists
+                                    ? '
+                                                                text-transform: uppercase;
+                                                                font-weight: 600;
+                                                                color: #fff !important;
+                                                                background: #B01E28;
+                                                                padding: 9px 15px;
+                                                                border-radius: 30px;
+                                                                font-size: 14px;
+                                                                '
+                                    : '' }}">
+                                <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart"
+                                    id="wishlist-heart-0-{{ $product->id }}"></i></a></li>
 
 
 

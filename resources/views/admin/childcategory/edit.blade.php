@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ @$settings->site_name ." || Edit Child Category " }}
+    {{ @$settings->site_name . ' || Edit Child Category ' }}
 @endsection
 
 @section('content')
@@ -44,7 +44,7 @@
                                 <div class="form-group ">
                                     <label>Categories</label>
                                     <select class="form-control main-category" id="inputStatus" name="category">
-                                        @if (isset($categories) && count($categories)>0)
+                                        @if (isset($categories) && count($categories) > 0)
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}"
                                                     {{ $category->id == $childcategory->category_id ? 'selected' : '' }}>
@@ -58,7 +58,7 @@
                                     <select class="form-control sub-category" name="subcategory">
                                         <option selected disabled>--select--</option>
 
-                                        @if (isset($subcategories) && count($subcategories)>0)
+                                        @if (isset($subcategories) && count($subcategories) > 0)
                                             @foreach ($subcategories as $subcategory)
                                                 <option value="{{ $subcategory->id }}"
                                                     {{ $subcategory->id == $childcategory->sub_category_id ? 'selected' : '' }}>
@@ -127,7 +127,17 @@
                         });
                     },
                     error: function(xhr, status, error) {
-                        console.log('error');
+                        console.log(xhr);
+
+                        if (xhr.responseJSON.errors) {
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                toastr.error(value);
+                            })
+                        } else if (xhr.responseJSON.message) {
+                            toastr.error(xhr.responseJSON.message);
+                        } else {
+                            toastr.error('An unknown error occurred.');
+                        }
                     }
                 });
             });

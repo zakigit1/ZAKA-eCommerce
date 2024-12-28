@@ -1,5 +1,5 @@
 // chang mail function to queue in subscriber controller .[i need to fix some issue but the logic is done!]
-// increment & decrement from the stock [need just to check]
+
 // fix forgot password button in admin/login[check?]
 
 
@@ -17,27 +17,25 @@
         ]);
 
 
-// check also to add condition if vendor status 0 he cant add products or do anything in vendor dashboard
+// check also to add condition if vendor status 0 he cant add products or do anything in vendor dashboard [you don't need it]
 
 // fix logo of my project zaka 
-// make a size limitation for images in wishlist cart 
-// in the product pop i have design issue about product variants
-// i need to change the table of wishlist is not responsive in mobile view
-// after fix the image size do this style :  width: 90% !important;
-                                                    height: 80px !important;
-                                                    object-fit: cover;"
+
+// in the product pop i have design issue about product variants 
+
+
+// after fix the image size do this style :     width: 90% !important;
+                                                height: 80px !important;
+                                                object-fit: cover;"
 
 
 
 /** Medium to handle : */
-// in section hot deals kayan zid fih products section lmzl mdrtahch [done!]
-// color of the heart of wishlisht when he add a product to wishlist let the color be red [done!]
-// you need to fix table transaction.[done!]
-// i have section in home page i need to fix it [done!]
 
 
 
-// i need to fix issue of flash sale if the end date null of doesn't exist they give an error fix it i already do it in fa-shop project take look .
+
+// i need to fix issue of flash sale if the end date null of doesn't exist they give an error fix it i already do it in fa-shop project take look . [done!]
 // fix all the validation for features .
 // in the checkout when example didnt add shipping rule it give me error and after try to checkout it still loading i need to refresh the page and after work 
 
@@ -62,16 +60,9 @@
 
 // kima drna ta3 messanger when we send a message we add class to circle profile when we click to profile we remove the class from the circle profile 
 // home services section i need to do it or remove it .
-//fix the date time make it readable
-// for flash sale khas nkri view table for flash sale products
-// when you remove the product from wishlist after reload i cant add to cart product .
+// for flash sale khas nkri view table for flash sale products [done!]
+
 // i want to add scroll down automatic if i click to the footer or else the li who is down and active 
-
-
-
-
-// in / out add a column in wishlist table to know if the product is in wishlist or not if i click to the wishlist button it will be added or removed from wishlist
-
 
 
 
@@ -128,3 +119,13 @@ Dec 23 ,2024
 Dec 24 ,2024
 //++ profile 3nd field ta3 new password kyna show botton fix [done!]
 //++ fix wishlist make it remove product from wish list with ajax [done!]
+
+Dec 26 ,2024
+//++ in section hot deals kayan zid fih products section lmzl mdrtahch [done!]
+//++ color of the heart of wishlisht when he add a product to wishlist let the color be red [done!]
+//++ you need to fix table transaction.[done!]
+//++ i have section in home page i need to fix it [done!]
+//++ when you remove the product from wishlist after reload i cant add to cart product .[done!]
+//++ make a size limitation for images in wishlist cart [done!]
+//++ i need to change the table of wishlist is not responsive in mobile view [done!]
+//++ increment & decrement from the stock [done!]

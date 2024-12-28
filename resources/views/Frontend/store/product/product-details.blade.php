@@ -1,15 +1,15 @@
 @extends('Frontend.store.layouts.master')
 
-@section('title', @$settings->site_name ." Product Details")
+@section('title', @$settings->site_name . ' Product Details')
 
 @section('metas')
-    <meta name="title" content="{{$product->seo_title}}" />
-    <meta name="description" content="{{$product->seo_description}}" />
+    <meta name="title" content="{{ $product->seo_title }}" />
+    <meta name="description" content="{{ $product->seo_description }}" />
 
-    <meta property="og:title" content="{{$product->seo_title}}"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:url" content="{{url()->current()}}"/>
-    <meta property="og:image" content="{{$product->thumb_image}}"/>
+    <meta property="og:title" content="{{ $product->seo_title }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:image" content="{{ $product->thumb_image }}" />
 @endsection
 
 
@@ -20,8 +20,8 @@
 
 
     <!--============================
-                                    BREADCRUMB START
-                                ==============================-->
+                                            BREADCRUMB START
+                                        ==============================-->
 
 
     <section id="wsus__breadcrumb">
@@ -32,7 +32,7 @@
                         <h4>Product details</h4>
                         <ul>
                             <li><a href="{{ route('home') }}">Home</a></li>
-                            <li><a href="{{route('products.index')}}">Product</a></li>
+                            <li><a href="{{ route('products.index') }}">Product</a></li>
                             <li><a href="javascript:;">Product Details</a></li>
                         </ul>
                     </div>
@@ -43,13 +43,13 @@
 
 
     <!--============================
-                                    BREADCRUMB END
-                                ==============================-->
+                                            BREADCRUMB END
+                                        ==============================-->
 
 
     <!--============================
-                                    PRODUCT DETAILS START
-                                ==============================-->
+                                            PRODUCT DETAILS START
+                                        ==============================-->
 
 
     <section id="wsus__product_details">
@@ -136,20 +136,24 @@
                                     <div class="row">
                                         @if (isset($product->variants) && count($product->variants) > 0)
                                             @foreach ($product->variants as $variant)
-                                                <div class="col-xl-6 col-sm-6">
-                                                    <h5 class="mb-2">{{ $variant->name }}:</h5>
+                                                @if ($variant->status != 0)  
+                                                    <div class="col-xl-6 col-sm-6">
+                                                        <h5 class="mb-2">{{ $variant->name }}:</h5>
 
-                                                    @if (isset($variant->items) && count($variant->items) > 0)
-                                                        <select class="select_2" name="variant_items[]">
-                                                            @foreach ($variant->items as $item)
-                                                                <option {{ $item->is_default ? 'selected' : '' }}
-                                                                    value="{{ $item->id }}"> {{ $item->name }}
-                                                                    {{ $item->price > 0 ? '(' . $settings->currency_icon . ' ' . $item->price . ')' : '' }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    @endif
-                                                </div>
+                                                        @if (isset($variant->items) && count($variant->items) > 0)
+                                                            <select class="select_2" name="variant_items[]">
+                                                                @foreach ($variant->items as $item)
+                                                                    @if ($item->status != 0)  
+                                                                        <option {{ $item->is_default ? 'selected' : '' }}
+                                                                            value="{{ $item->id }}"> {{ $item->name }}
+                                                                            {{ $item->price > 0 ? '(' . $settings->currency_icon . ' ' . $item->price . ')' : '' }}
+                                                                        </option>
+                                                                    @endif
+                                                                @endforeach
+                                                            </select>
+                                                        @endif
+                                                    </div>
+                                                @endif
                                             @endforeach
                                         @endif
                                     </div>
@@ -170,25 +174,33 @@
                                     {{-- this is for heart icon of wishlist if you want to add it : style="border:1px solid gray; padding:7px 11px;border-radius:100%" --}}
                                     <li>
                                         @php
-                                            $wishlist_product_exists = App\Models\Wishlist::where('product_id', $product->id)
-                                                ->where('user_id', auth()->user()->id)
-                                                ->exists();
+
+                                            if (auth()->check()) {
+                                                
+                                                $wishlist_product_exists = App\Models\Wishlist::where('product_id', $product->id)
+                                                    ->where('user_id', auth()->user()->id)
+                                                    ->exists();
+                                            } else {
+                                                $wishlist_product_exists = false;
+                                            }
+
                                         @endphp
 
                                         <a href="javascript:;" class="buy_now  add_to_wishlist"
-                                            data-id="{{ $product->id }}" 
+                                            data-id="{{ $product->id }}"
                                             style="{{ $wishlist_product_exists
-                                            ? '
-                                                text-transform: uppercase;
-                                                font-weight: 600;
-                                                color: #fff !important;
-                                                background: #B01E28;
-                                                padding: 9px 15px;
-                                                border-radius: 30px;
-                                                font-size: 14px;
-                                                '
-                                            : '' }}">
-                                            <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart" id="wishlist-heart-0-{{$product->id}}"></i>
+                                                ? '
+                                                    text-transform: uppercase;
+                                                    font-weight: 600;
+                                                    color: #fff !important;
+                                                    background: #B01E28;
+                                                    padding: 9px 15px;
+                                                    border-radius: 30px;
+                                                    font-size: 14px;
+                                                    '
+                                                : '' }}">
+                                            <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart"
+                                                id="wishlist-heart-0-{{ $product->id }}"></i>
                                         </a>
 
                                     </li>
@@ -203,14 +215,11 @@
                                         <li>
                                             <button type="button" class="chat_now" style="margin-left: 10px"
                                                 data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                title="Send message to seller"
-                                                data-bs-placement="bottom"
+                                                title="Send message to seller" data-bs-placement="bottom"
                                                 data-bs-container="body">
                                                 <i class="fas fa-comment-medical"></i>
                                             </button>
                                         </li>
-
-
                                     @else
                                         {{-- after remove it make it just just when auth show the icon of messaging --}}
 
@@ -595,7 +604,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form  method="post" class="message_model">
+                    <form method="post" class="message_model">
                         @csrf
                         <input type="hidden" name="receiver_id" value="{{ $product->vendor->user_id }}">
 
@@ -619,13 +628,13 @@
 
 
     <!--============================
-                                    PRODUCT DETAILS END
-                                ==============================-->
+                                            PRODUCT DETAILS END
+                                        ==============================-->
 
 
     <!--============================
-                                    RELATED PRODUCT START
-                                ==============================-->
+                                            RELATED PRODUCT START
+                                        ==============================-->
 
     {{-- <section id="wsus__flash_sell">
         <div class="container">
@@ -791,8 +800,8 @@
     </section> --}}
 
     <!--============================
-                                    RELATED PRODUCT END
-                                ==============================-->
+                                            RELATED PRODUCT END
+                                        ==============================-->
 @endsection
 
 @push('scripts')
@@ -802,7 +811,7 @@
             $('.message_model').on('submit', function(e) {
                 e.preventDefault();
 
-                
+
                 let data = $(this).serialize();
 
                 $.ajax({
@@ -810,10 +819,10 @@
                     url: "{{ route('user.send-message-to-vendor') }}",
                     data: data,
                     beforeSend: function() {
-                      let  html = `<span class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true">
+                        let html = `<span class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true">
                             </span> Sending...`
-                       $('.send-message-button').html(html);
-                       $('.send-message-button').prop('disabled', true);
+                        $('.send-message-button').html(html);
+                        $('.send-message-button').prop('disabled', true);
                     },
                     success: function(response) {
 
@@ -822,7 +831,7 @@
 
                             $('.modal-body').append(`
                                 <div class="alert alert-success mt-2">
-                                    <a href="{{route('user.messager.index')}}" class="text-primary">
+                                    <a href="{{ route('user.messager.index') }}" class="text-primary">
                                         Click here
                                     </a> 
                                     fo go to messanger
@@ -830,21 +839,21 @@
 
                             toastr.success(response.message);
                             // $('#exampleModal').modal('hide');// if you want to hide the model after sending the message ...
-                        }else if (response.status == 'error') {
+                        } else if (response.status == 'error') {
                             toastr.error(response.message);
                         }
 
                     },
                     error: function(xhr, status, error) {
                         console.log(xhr);
-                        toastr.error(xhr.responseJSON.message);  
+                        toastr.error(xhr.responseJSON.message);
                         $('.send-message-button').html('send message');
-                        $('.send-message-button').prop('disabled', false);  
+                        $('.send-message-button').prop('disabled', false);
                     },
                     complete: function() {
                         $('.send-message-button').html('send message');
                         $('.send-message-button').prop('disabled', false);
-                        
+
                     }
                 });
             })

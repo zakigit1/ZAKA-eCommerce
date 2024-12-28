@@ -18,7 +18,14 @@ class FlashSaleController extends Controller
         // $flashSaleItem = FlashSaleItem::active()->orderBy('id','asc')->paginate(20);// this is the previous method
 
         //? this is the optimize method
-        $flashSaleItemProductId = FlashSaleItem::active()->orderBy('id','asc')->pluck('product_id')->toArray();
+
+        $flashSaleItemProductId = FlashSaleItem::whereHas('flashSale', function($query) {
+            $query->whereNotNull('end_date');
+        })
+        ->active()
+        ->orderBy('id', 'asc')
+        ->pluck('product_id')
+        ->toArray();
 
         $flashsaleseemoreBanner = Advertisement::where('key','flash_sale_see_more_banner')->first();
         $flashsaleseemoreBanner = json_decode($flashsaleseemoreBanner?->value);

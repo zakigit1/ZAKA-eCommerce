@@ -56,15 +56,17 @@ class CartController extends Controller
 
         $cartData=[];
 
-        $cartData['id'] = $product -> id ;  
-        $cartData['name'] = $product -> name ;  
-        $cartData['qty'] = $request -> qty ;  
+        $cartData['id'] = $product->id ;  
+        $cartData['name'] = $product->name ;  
+        $cartData['qty'] = $request->qty ;  
         $cartData['price'] =  $productPrice  ;  
         $cartData['weight'] = 10 ;  
         $cartData['options']['variants'] = $variants  ;  
         $cartData['options']['variants_total_amount'] = $variantTotalAmount ;  
-        $cartData['options']['image'] = $product -> thumb_image ;  // if you will storage in to db change the path image to just image name
-        $cartData['options']['slug'] = $product -> slug ;  
+        $cartData['options']['image'] = $product->thumb_image ;  // if you will storage in to db change the path image to just image name
+        $cartData['options']['slug'] = $product->slug ;  
+        $cartData['options']['vendor_id'] = $product->vendor_id ;  
+
 
 
         // dd($cartData);
@@ -290,13 +292,16 @@ class CartController extends Controller
                 'coupon_code.exists'=> 'This coupon code is not valid !',
             ]);
             // dd($request->all());
-    
+            
+
+
             if($request->coupon_code === null){
                 return response(["status"=> "error","message"=> "Coupon field is required !"]);
             }
     
             $coupon = Coupon::where(['code' => $request->coupon_code ,'status' => 1])->first();
-    
+
+        
             if(!$coupon){
                 return response(["status"=> "error","message"=> "Coupon is not exist !"]);
             }elseif($coupon->start_date  > date('Y-m-d') ){ //" < " ->mean befor
@@ -307,14 +312,32 @@ class CartController extends Controller
             }elseif($coupon->total_used >= $coupon->quantity){
                 return response(["status"=> "error","message"=> "You can't apply this coupon !"]);
             }
+
+
+            /* coupon use for just vendor product (each coupon has specific vendor) [v1 need more modification need to use 
+                it just for the specific product not all product if the cart has multi products this coupon 
+                apply just for the specific vendor product] */
+
+            $cartItems = Cart::content();
+
+            $validProducts = $cartItems->filter(function ($item) use ($coupon) {
+                // Assuming your Product model has a vendor_id
+                return $item->options->vendor_id == $coupon->vendor_id;
+            });
     
+            if ($validProducts->isEmpty()) {
+                return response(["status"=> "error","message"=> "This coupon is only valid for specific vendor products."]);
+            }
+
+
+
     
             if($coupon->discount_type == 'amount'){
                 Session::put('coupon',[
-                    'coupon_name'=>$coupon->name,
-                    'coupon_code'=>$coupon->code,
-                    'discount_type'=>$coupon->discount_type,
-                    'discount'=>$coupon->discount
+                    'coupon_name' => $coupon->name,
+                    'coupon_code' => $coupon->code,
+                    'discount_type' => $coupon->discount_type,
+                    'discount' => $coupon->discount
                 ]);
             }elseif($coupon->discount_type == 'percent'){
     

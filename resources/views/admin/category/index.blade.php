@@ -1,7 +1,7 @@
 @extends('Admin.Dashboard.layouts.master')
 
 @section('title')
-    {{ @$settings->site_name ." || Categories " }}
+    {{ @$settings->site_name . ' || Categories ' }}
 @endsection
 
 @section('content')
@@ -162,7 +162,7 @@
                     },
                     data: {
                         _token: $('meta[name="csrf-token"]').attr(
-                        'content'), // Include the CSRF token in the data
+                            'content'), // Include the CSRF token in the data
                         status: isChecked,
                         id: id
                     },
@@ -179,7 +179,17 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.log('error');
+                        console.log(xhr);
+
+                        if (xhr.responseJSON.errors) {
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                toastr.error(value);
+                            })
+                        } else if (xhr.responseJSON.message) {
+                            toastr.error(xhr.responseJSON.message);
+                        } else {
+                            toastr.error('An unknown error occurred.');
+                        }
                     }
                 });
             });
