@@ -157,6 +157,7 @@
                                                                 padding: 9px 15px;
                                                                 border-radius: 30px;
                                                                 font-size: 14px;
+                                                                border: 2px solid #B01E28;
                                                                 '
                                     : '' }}">
                                 <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart"

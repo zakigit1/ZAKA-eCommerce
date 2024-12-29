@@ -10,7 +10,9 @@
 @endphp
 
 <div class="wsus__product_item {{ @$className }}">
-    <span class="wsus__new">{{ productType($product->product_type) }}</span>
+    @if ($product->product_type != null)
+        <span class="wsus__new">{{ productType($product->product_type) }}</span>
+    @endif
 
     @if (check_discount($product))
         <span class="wsus__minus">
@@ -87,7 +89,7 @@
 
 
         @if (@$className)
-            <p class="list_description">{{ $product->short_description }}</p>
+            <p class="list_description">{!! limitText($product->short_description,135) !!}</p>
 
             <ul class="wsus__single_pro_icon">
 
@@ -129,13 +131,13 @@
                 <a href="" class="add_to_wishlist" data-id="{{ $product->id }}"
                     style="{{ $wishlist_product_exists
                         ? '
-                                                text-transform: uppercase;
-                                                font-size: 12px;
-                                                font-weight: 600;
-                                                color: #fff !important;
-                                                background: #B01E28;
-                                                border-radius: 3px;
-                                                '
+                            text-transform: uppercase;
+                            font-size: 12px;
+                            font-weight: 600;
+                            color: #fff !important;
+                            background: #B01E28;
+                            border-radius: 3px;
+                            '
                         : '' }}">
                     <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart"
                         id="wishlist-heart-1-{{ $product->id }}"></i>

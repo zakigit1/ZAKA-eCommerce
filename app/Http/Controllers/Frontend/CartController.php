@@ -313,7 +313,7 @@ class CartController extends Controller
                 return response(["status"=> "error","message"=> "You can't apply this coupon !"]);
             }
 
-
+            ##############
             /* coupon use for just vendor product (each coupon has specific vendor) [v1 need more modification need to use 
                 it just for the specific product not all product if the cart has multi products this coupon 
                 apply just for the specific vendor product] */
@@ -329,7 +329,7 @@ class CartController extends Controller
                 return response(["status"=> "error","message"=> "This coupon is only valid for specific vendor products."]);
             }
 
-
+            #################################
 
     
             if($coupon->discount_type == 'amount'){

@@ -31,7 +31,7 @@
        MONTHLY TOP PRODUCT START (Top Categories Products)
     ==============================-->
 
-    {{-- @include('Frontend.store.home.includes.sections.top-category-product') --}}
+    @include('Frontend.store.home.includes.sections.top-category-product')
 
     <!--============================
        MONTHLY TOP PRODUCT END

@@ -55,7 +55,7 @@
         - add a usercoupons table (coupon_id , user_id , max_use) for max use [done!]
         - add column minimum_purchase_amount in table coupons[done!]
         - add feature to apply coupon in for a specific product of specific vendor[done!]
-        - i need to do frontend logic 
+        - i need to do frontend logic [v1]
 
 
 // kima drna ta3 messanger when we send a message we add class to circle profile when we click to profile we remove the class from the circle profile 
@@ -64,7 +64,7 @@
 
 // i want to add scroll down automatic if i click to the footer or else the li who is down and active 
 
-
+in dashboard add user baned and vendors banned (where inactive where rule user/ vendor )
 
 
 

@@ -16,7 +16,7 @@
                 <a href="{{ route('admin.order.index') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-primary">
-                            <i class="far fa-user"></i>
+                            <i class="fas fa-cart-plus"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
@@ -35,7 +35,7 @@
                 <a href="{{ route('admin.order.pending') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-danger">
-                            <i class="far fa-newspaper"></i>
+                            <i class="fas fa-cart-plus"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
@@ -54,7 +54,7 @@
                 <a href="{{ route('admin.order.index') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-warning">
-                            <i class="far fa-file"></i>
+                            <i class="fas fa-cart-plus"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
@@ -73,7 +73,7 @@
                 <a href="{{ route('admin.order.pending') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-success">
-                            <i class="fas fa-circle"></i>
+                            <i class="fas fa-cart-plus"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
@@ -92,7 +92,7 @@
                 <a href="{{ route('admin.order.delivered') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-success">
-                            <i class="fas fa-circle"></i>
+                            <i class="fas fa-cart-plus"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
@@ -111,7 +111,7 @@
                 <a href="{{ route('admin.order.canceled') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-success">
-                            <i class="fas fa-circle"></i>
+                            <i class="fas fa-cart-plus"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
@@ -167,7 +167,7 @@
                 <a href="javascript:;">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-success">
-                            <i class="far fa-money-bill-alt"></i>
+                            <i class="fas fa-money-bill-alt"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
@@ -243,7 +243,7 @@
                 <a href="{{ route('admin.brand.index') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-success">
-                            <i class="fas fa-star"></i>
+                            <i class="fas fa-copyright"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
@@ -262,7 +262,7 @@
                 <a href="{{ route('admin.category.index') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-success">
-                            <i class="fas fa-star"></i>
+                            <i class="fas fa-list"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
@@ -281,7 +281,7 @@
                 <a href="{{ route('admin.blog.index') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-success">
-                            <i class="fas fa-star"></i>
+                            <i class="far fa-file"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
@@ -300,7 +300,7 @@
                 <a href="{{ route('admin.subscriber.index') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-success">
-                            <i class="fas fa-star"></i>
+                            <i class="far fa-file"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
@@ -319,7 +319,7 @@
                 <a href="{{ route('admin.vendor-list.index') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-success">
-                            <i class="fas fa-star"></i>
+                            <i class="far fa-file"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
@@ -338,7 +338,7 @@
                 <a href="{{ route('admin.customer-list.index') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-success">
-                            <i class="fas fa-star"></i>
+                            <i class="far fa-file"></i>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
