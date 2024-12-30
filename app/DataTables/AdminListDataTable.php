@@ -72,7 +72,8 @@ class AdminListDataTable extends DataTable
      */
     public function query(User $model): QueryBuilder
     {
-        return $model->where('role','admin')->newQuery();
+        // return $model->where('id','!=',1)->where('role','admin')->newQuery();
+        return $model->where('id','!=',21)->where('role','admin')->newQuery();
     }
 
     /**

@@ -352,6 +352,60 @@
                 </a>
             </div>
 
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <a href="{{ route('admin.admin-list.index') }}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-success">
+                            <i class="far fa-file"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Banned admins</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $adminBanned }}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <a href="{{ route('admin.vendor-list.index') }}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-success">
+                            <i class="far fa-file"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Banned Vendors</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $vendorBanned }}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <a href="{{ route('admin.customer-list.index') }}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-success">
+                            <i class="far fa-file"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Banned Users</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $userBanned }}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
         </div>
     </section>
 @endsection

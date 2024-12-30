@@ -5,9 +5,10 @@ use App\Models\GeneralSetting;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-
+use Mtownsend\RemoveBg\RemoveBg;
 
 // function uploadImage($image , $folder){
     //    // saving the image in owr project folder
@@ -32,6 +33,40 @@ use Illuminate\Support\Str;
         
         return $imageName;
     }
+
+    function uploadImageWithoutBg($image , $folderPath, $folderName ){
+        
+        $folder = $folderPath . $folderName; 
+        // Save the uploaded image temporarily 
+        $tempPath = $image->store('Uploads/temp'); 
+        $tempFilePath = storage_path('app/public/' . $tempPath); 
+
+        // Remove the background 
+        $removeBg = new RemoveBg(config('removebg.api_key')); 
+        $removeBg->file($tempFilePath)->save($tempFilePath); 
+
+        // Move the image to the desired folder 
+        $imageStore = Storage::move($tempPath, $folder . '/' . basename($tempFilePath)); 
+        $imageName = basename($imageStore); 
+        return $imageName;
+        
+        // $folder = $folderPath . $folderName; 
+        
+
+        // $tempPath = $image->store('temp'); 
+        // $tempFilePath = storage_path('app/' . $tempPath); 
+
+        // $removeBg = new RemoveBg(config(env('REMOVE_BG_API_KEY'))); 
+        
+        
+        
+        // $tempPath = $image->store($folder); 
+        // $imageName = basename($imageStore); 
+        // return $imageName;
+
+    }
+
+
 
     function updateImage($image, $folderPath, $folderName,$old_image){
 

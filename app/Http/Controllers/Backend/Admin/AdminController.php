@@ -96,6 +96,9 @@ class AdminController extends Controller
         $data['totalUser'] =  User::where('role','user')->count();
  
 
+        $data['adminBanned'] = User::where('status','inactive')->where('role','admin')->count();
+        $data['vendorBanned'] = User::where('status','inactive')->where('role','vendor')->count();
+        $data['userBanned'] = User::where('status','inactive')->where('role','user')->count();
 
 
         return view('admin.Dashboard.dashboard',$data);

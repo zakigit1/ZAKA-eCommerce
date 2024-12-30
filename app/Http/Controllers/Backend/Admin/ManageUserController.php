@@ -59,7 +59,6 @@ class ManageUserController extends Controller
             //Set Mail Configuration
             MailHelper::setMailConfig();
 
-
             Mail::to($user->email)->send(new AccountCreatedMail($user->name,$user->email,$user->password));
 
             toastr("The New $request->role Has Been Created Successfully",'success','Success');

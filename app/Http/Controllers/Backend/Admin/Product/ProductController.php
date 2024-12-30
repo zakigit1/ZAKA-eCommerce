@@ -153,9 +153,10 @@ class ProductController extends Controller
         $data['subcategories'] = Subcategory::where('category_id', $data['product']->category_id)->get(['id', 'name']);
         $data['childcategories'] = Childcategory::where('sub_category_id', $data['product']->sub_category_id)->get(['id', 'name']);
 
-        $data['brands'] = Brand::where('id', $data['product']->brand_id)->get(['id', 'name']);
+        $data['brands'] = Brand::get(['id', 'name']);
+        // $data['brands'] = Brand::where('id', $data['product']->brand_id)->get(['id', 'name']);
 
-
+        // dd($data['brands']);
 
         return view('admin.product.edit', $data);
     }

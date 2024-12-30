@@ -74,7 +74,7 @@
                                             <select class="form-control sub-category" name="subcategory">
 
                                                 <option selected value="">None</option>
-                                                @if (isset($subCategories) && count($subCategories) > 0)
+                                                @if (isset($subcategories) && count($subcategories) > 0)
                                                     @foreach ($subcategories as $subcategory)
                                                         <option value="{{ $subcategory->id }}"
                                                             {{ $subcategory->id == $product->sub_category_id ? 'selected' : '' }}>
@@ -92,7 +92,7 @@
 
                                                 {{-- <option selected disabled>-- Select --</option> --}}
                                                 <option selected value="">None</option>
-                                                @if (isset($childCategories) && count($childCategories) > 0)
+                                                @if (isset($childcategories) && count($childcategories) > 0)
                                                     @foreach ($childcategories as $childcategory)
                                                         <option value="{{ $childcategory->id }}"
                                                             {{ $childcategory->id == $product->child_category_id ? 'selected' : '' }}>
