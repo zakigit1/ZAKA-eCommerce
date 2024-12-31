@@ -10,6 +10,7 @@ use App\Traits\imageUploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class BrandController extends Controller
 {
@@ -55,16 +56,16 @@ class BrandController extends Controller
             /** Image Part START   */
 
             // ?this two raw are the same for using a const :
-            $imageName= $this->uploadImage_Trait($request,'logo',BrandController::FOLDER_PATH,BrandController::FOLDER_NAME);
+            // $imageName= $this->uploadImage_Trait($request,'logo',BrandController::FOLDER_PATH,BrandController::FOLDER_NAME);
             // $imageName= $this->uploadImage_Trait($request,'logo',self::FOLDER_PATH,self::FOLDER_NAME);
             /** Image Part END   */
 
 
-            // $imageName = uploadImageWithoutBg($request->logo, self::FOLDER_PATH, self::FOLDER_NAME);
+            $imageName = uploadImageResizeWithoutBg2($request->logo, self::FOLDER_PATH, self::FOLDER_NAME,false,false);
 
 
 
-            $brand=Brand::create([
+            Brand::create([
                 'logo'=>$imageName,
                 'name'=>$request->name,
                 'slug'=>Str::slug($request->name),
@@ -74,9 +75,14 @@ class BrandController extends Controller
 
             toastr()->success("The Brand $request->name Is Created Successfully !");
             return redirect()->route('admin.brand.index');
+
+        } catch (ValidationException $e) {
+            toastr($e->getMessage(),'error','Error');
+            return redirect()->back();
+
         }catch(\Exception $ex){
             toastr()->error( $ex->getMessage());
-            return redirect()->route('admin.brand.index');
+            return redirect()->back();;
         }
 
 
@@ -105,16 +111,16 @@ class BrandController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
-        $request->validate([
-            'logo'=>'nullable|image',
-            'name'=> 'required|string|max:200|unique:brands,name,'.$id,
-            'is_featured'=>'required|boolean',
-            'status'=>'required|boolean'
-        ]);
-        // dd($request->all());
-
+        
         try{
+            $request->validate([
+                'logo'=>'nullable|image',
+                'name'=> 'required|string|max:200|unique:brands,name,'.$id,
+                'is_featured'=>'required|boolean',
+                'status'=>'required|boolean'
+            ]);
+            // dd($request->all());
+
             DB::beginTransaction();
 
             $brand=Brand::find($id);
@@ -129,17 +135,20 @@ class BrandController extends Controller
 
                 $old_logo =$brand->logo;
 
-                $updateImage=$this->updateImage_Trait($request,'logo',BrandController::FOLDER_PATH,BrandController::FOLDER_NAME,$old_logo);
+                
+                // $updateImage = $this->updateImage_Trait($request,'logo',BrandController::FOLDER_PATH,BrandController::FOLDER_NAME,$old_logo);
+                
                 // $updateImage=$this->updateImage_Trait($request,'logo',self::FOLDER_PATH,self::FOLDER_NAME,$old_logo);
 
-                $update_logo =$brand->update([
+                $updateImage= updateImageResizeWithoutBg($request->logo, self::FOLDER_PATH, self::FOLDER_NAME, $old_logo,true,true);
+
+
+                $brand->update([
                     'logo'=>$updateImage
                 ]);
             }
 
-
-
-            $update_brand = $brand->update([
+            $brand->update([
                 'name'=>$request->name,
                 'slug'=>Str::slug($request->name),
                 'is_featured'=>$request->is_featured,
@@ -150,10 +159,17 @@ class BrandController extends Controller
             toastr()->success("The Brand $request->name Is Updated Successfully !");
             return redirect()->route('admin.brand.index');
 
-        }catch(\Exception $ex){
+        } catch (ValidationException $e) {
+
             DB::rollback();
-            toastr()->error( 'حدث خطا ما برجاء المحاوله لاحقا');
-            return redirect()->route('admin.brand.index');
+            toastr($e->getMessage(),'error','Error');
+            return redirect()->back();
+            
+        }catch(\Exception $ex){
+
+            DB::rollback();
+            toastr()->error( $ex->getMessage());
+            return redirect()->back();;
         }
 
     }
@@ -161,8 +177,8 @@ class BrandController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id){
-
+    public function destroy(string $id)
+    {
         try{
 
             $brand = Brand::find($id);
@@ -176,10 +192,20 @@ class BrandController extends Controller
 
 
             # Check if the brand have product(s): [without using relation]
-            if(Product::where('brand_id',$brand->id)->count() > 0){
+            // if(Product::where('brand_id',$brand->id)->count() > 0){
 
-                return response(['status'=>'error','message'=>"$brand_name Can't Deleted Because they have products communicated with it !"]);
+            //     return response(['status'=>'error','message'=>"$brand_name Can't Deleted Because they have products communicated with it !"]);
+            // }
+            $products = Product::where('brand_id',$brand->id)->get() ;
+            if(isset($products) && count($products) > 0){
+                
+                foreach($products as $product){
+                    $product->brand_id = null;
+                    $product->save();
+                }
             }
+
+
             # Check if the brand have product(s): [using relation]
             // if(isset($brand->products)  && count($brand->products) > 0){
 
@@ -192,7 +218,8 @@ class BrandController extends Controller
             // we are using ajax :
             return response(['status'=>'success','message'=>"$brand_name Brand Deleted Successfully !"]);
         }catch(\Exception $e){
-            return response(['status'=>'error','message'=>'حدث خطا ما برجاء المحاوله لاحقا']);
+            return response(['status'=>'error','message'=>$e->getMessage()]);
+            // return response(['status'=>'error','message'=>'حدث خطا ما برجاء المحاوله لاحقا']);
         }
 
     }
