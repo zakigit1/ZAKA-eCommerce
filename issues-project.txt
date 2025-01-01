@@ -35,7 +35,7 @@
 
 
 
-// i need to fix issue of flash sale if the end date null of doesn't exist they give an error fix it i already do it in fa-shop project take look . [done!]
+
 // fix all the validation for features .
 // in the checkout when example didnt add shipping rule it give me error and after try to checkout it still loading i need to refresh the page and after work 
 
@@ -55,7 +55,7 @@
         - add a usercoupons table (coupon_id , user_id , max_use) for max use [done!]
         - add column minimum_purchase_amount in table coupons[done!]
         - add feature to apply coupon in for a specific product of specific vendor[done!]
-        - i need to do frontend logic [v1]
+        - i need to do frontend logic [v1] [this need big modification in the code logic]
 
 
 // kima drna ta3 messanger when we send a message we add class to circle profile when we click to profile we remove the class from the circle profile 
@@ -63,8 +63,16 @@
 // for flash sale khas nkri view table for flash sale products [done!]
 
 // i want to add scroll down automatic if i click to the footer or else the li who is down and active 
+// issue responsive design in product details images.
 
-in dashboard add user baned and vendors banned (where inactive where rule user/ vendor )
+
+
+
+
+
+
+
+
 
 
 
@@ -129,3 +137,7 @@ Dec 26 ,2024
 //++ make a size limitation for images in wishlist cart [done!]
 //++ i need to change the table of wishlist is not responsive in mobile view [done!]
 //++ increment & decrement from the stock [done!]
+
+
+//++ i need to fix issue of flash sale if the end date null of doesn't exist they give an error fix it i already do it in fa-shop project take look . [done!]
+//++in dashboard add user baned and vendors banned (where inactive where rule user/ vendor )

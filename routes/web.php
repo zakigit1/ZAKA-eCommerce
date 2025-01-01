@@ -206,6 +206,7 @@ Route::group(['middleware' =>['auth', 'verified'], 'prefix' => 'user', 'as' => '
     
         Route::get('apply-coupon',[CartController::class , 'apply_coupon'])->name('apply-coupon');
         Route::get('calculate-coupon-discount',[CartController::class , 'couponCalculation'])->name('calculate-coupon-discount');
+        Route::get('remove-coupon',[CartController::class , 'removeCoupon'])->name('remove-coupon');
     });
 
 

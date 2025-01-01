@@ -20,8 +20,8 @@
 
 
     <!--============================
-                                            BREADCRUMB START
-                                        ==============================-->
+                                                BREADCRUMB START
+                                            ==============================-->
 
 
     <section id="wsus__breadcrumb">
@@ -43,19 +43,21 @@
 
 
     <!--============================
-                                            BREADCRUMB END
-                                        ==============================-->
+                                                BREADCRUMB END
+                                            ==============================-->
 
 
     <!--============================
-                                            PRODUCT DETAILS START
-                                        ==============================-->
+                                                PRODUCT DETAILS START
+                                            ==============================-->
 
 
     <section id="wsus__product_details">
         <div class="container">
             <div class="wsus__details_bg">
                 <div class="row">
+
+
                     <div class="col-xl-4 col-md-5 col-lg-5" style="z-index:999">
                         <div id="sticky_pro_zoom">
                             <div class="exzoom hidden" id="exzoom">
@@ -136,16 +138,17 @@
                                     <div class="row">
                                         @if (isset($product->variants) && count($product->variants) > 0)
                                             @foreach ($product->variants as $variant)
-                                                @if ($variant->status != 0)  
+                                                @if ($variant->status != 0)
                                                     <div class="col-xl-6 col-sm-6">
                                                         <h5 class="mb-2">{{ $variant->name }}:</h5>
 
                                                         @if (isset($variant->items) && count($variant->items) > 0)
                                                             <select class="select_2" name="variant_items[]">
                                                                 @foreach ($variant->items as $item)
-                                                                    @if ($item->status != 0)  
+                                                                    @if ($item->status != 0)
                                                                         <option {{ $item->is_default ? 'selected' : '' }}
-                                                                            value="{{ $item->id }}"> {{ $item->name }}
+                                                                            value="{{ $item->id }}">
+                                                                            {{ $item->name }}
                                                                             {{ $item->price > 0 ? '(' . $settings->currency_icon . ' ' . $item->price . ')' : '' }}
                                                                         </option>
                                                                     @endif
@@ -176,8 +179,10 @@
                                         @php
 
                                             if (auth()->check()) {
-                                                
-                                                $wishlist_product_exists = App\Models\Wishlist::where('product_id', $product->id)
+                                                $wishlist_product_exists = App\Models\Wishlist::where(
+                                                    'product_id',
+                                                    $product->id,
+                                                )
                                                     ->where('user_id', auth()->user()->id)
                                                     ->exists();
                                             } else {
@@ -212,24 +217,17 @@
                                                 <i class="fas fa-comment-medical"></i>
                                             </button>
                                         </li> --}}
-
-                                        <li>
-                                            <button type="button" class="chat_now" style="margin-left: 10px"
-                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                title="Send message to seller" data-bs-placement="bottom"
-                                                data-bs-container="body">
-                                                <i class="fas fa-comment-medical"></i>
-                                            </button>
-                                        </li>
-                                    @else
-                                        {{-- after remove it make it just just when auth show the icon of messaging --}}
-
-                                        <li>
-                                            <button type="button" class="chat_now" style="margin-left: 10px"
-                                                data-bs-toggle="modal" data-bs-target="false">
-                                                <i class="fas fa-comment-slash"></i>
-                                            </button>
-                                        </li>
+                                        
+                                        @if ($product->vendor->user_id != auth()->user()->id)
+                                            <li>
+                                                <button type="button" class="chat_now" style="margin-left: 10px"
+                                                    data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                    title="Send message to seller" data-bs-placement="bottom"
+                                                    data-bs-container="body">
+                                                    <i class="fas fa-comment-medical"></i>
+                                                </button>
+                                            </li>
+                                        @endif
                                     @endif
 
                                 </ul>
@@ -237,7 +235,9 @@
 
 
                             <p class="brand_model"><span>model :</span> {{ $product->sku }}</p>
-                            <p class="brand_model"><span>brand :</span> {{ $product->brand->name }}</p>
+                            @if (isset($product->brand->name))
+                                <p class="brand_model"><span>brand :</span> {{ $product->brand->name }}</p>
+                            @endif
 
                             <div class="wsus__pro_det_share">
                                 <h5>share :</h5>
@@ -248,10 +248,13 @@
                                     <li><a class="instagram" href="#"><i class="fab fa-instagram"></i></a></li>
                                 </ul>
                             </div>
-
-                            <a class="wsus__pro_report" href="#" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"><i class="fal fa-comment-alt-smile"></i> Report incorrect
-                                product information.</a>
+                            @if(auth()->check())
+                                @if ($product->vendor->user_id != auth()->user()->id)
+                                    <a class="wsus__pro_report" href="#" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal"><i class="fal fa-comment-alt-smile"></i> Report incorrect
+                                        product information.</a>
+                                @endif
+                            @endif
                         </div>
                     </div>
 
@@ -391,7 +394,7 @@
                                                     <p><span>Address:</span> {{ $product->vendor->address }}</p>
                                                     <p><span>Phone:</span> {{ $product->vendor->phone }}</p>
                                                     <p><span>mail:</span> {{ $product->vendor->email }}</p>
-                                                    <a href="javascript:;" class="see_btn">visit store</a>
+                                                    <a href="{{route('vendor.products',$product->vendor->id)}}" class="see_btn">visit store</a>
                                                 </div>
                                             </div>
                                             <div class="col-xl-12">
@@ -629,13 +632,13 @@
 
 
     <!--============================
-                                            PRODUCT DETAILS END
-                                        ==============================-->
+                                                PRODUCT DETAILS END
+                                            ==============================-->
 
 
     <!--============================
-                                            RELATED PRODUCT START
-                                        ==============================-->
+                                                RELATED PRODUCT START
+                                            ==============================-->
 
     {{-- <section id="wsus__flash_sell">
         <div class="container">
@@ -801,8 +804,8 @@
     </section> --}}
 
     <!--============================
-                                            RELATED PRODUCT END
-                                        ==============================-->
+                                                RELATED PRODUCT END
+                                            ==============================-->
 @endsection
 
 @push('scripts')

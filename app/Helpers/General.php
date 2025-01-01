@@ -283,7 +283,8 @@ use Illuminate\Support\Facades\Storage;
                 $resizedPath = storage_path('app/temp/') . uniqid() . '.png';
                 $imageManager = new ImageManager(new Driver());
                 $img = $imageManager->read($tempPath);
-                $img->resize(1200, 630);
+                // $img->resize(1200, 630);
+                $img->resize(249, 87);
                 $img->save($resizedPath);
         
                 

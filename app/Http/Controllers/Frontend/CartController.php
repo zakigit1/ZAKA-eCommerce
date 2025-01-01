@@ -293,6 +293,11 @@ class CartController extends Controller
             ]);
             // dd($request->all());
             
+            if(Session::has('coupon')){
+                if(session()->get('coupon')['coupon_code'] == $request->coupon_code){
+                    return response(["status"=> "info","message"=> "You have already used this coupon !"]);
+                }
+            }
 
 
             if($request->coupon_code === null){
@@ -353,7 +358,11 @@ class CartController extends Controller
     
             }
     
-            return response(["status"=> "success","message"=> "Coupon Applied Successfully !"]);
+            return response([
+                "status"=> "success",
+                "message"=> "Coupon Applied Successfully !",
+                "coupon_code"=> $coupon->code,
+            ]);
 
         } catch (ValidationException $e) {
             return response()->json(['status'=>'error','message'=>$e->getMessage()]);
@@ -405,4 +414,11 @@ class CartController extends Controller
         }
     }
 
+
+    /** Remove Coupon : */
+    public function removeCoupon()
+    {
+        Session::forget('coupon');
+        return response()->json(['status'=>'success','message'=>'Coupon Removed Successfully !']);
+    }
 }

@@ -1,12 +1,12 @@
 @extends('Frontend.store.layouts.master')
 
-@section('title', @$settings->site_name ." Vendor Products")
+@section('title', @$settings->site_name . ' Vendor Products')
 
 @section('content')
 
     <!--============================
-                BREADCRUMB START
-                ==============================-->
+                    BREADCRUMB START
+                    ==============================-->
     <section id="wsus__breadcrumb">
         <div class="wsus_breadcrumb_overlay">
             <div class="container">
@@ -15,7 +15,7 @@
                         <h4>Products</h4>
                         <ul>
                             <li><a href="{{ route('home') }}">Home</a></li>
-                            <li><a href="{{route('vendor.index')}}">Vendors</a></li>
+                            <li><a href="{{ route('vendor.index') }}">Vendors</a></li>
                             <li><a href="javascript:;">Vendor Product</a></li>
                         </ul>
                     </div>
@@ -24,13 +24,13 @@
         </div>
     </section>
     <!--============================
-                    BREADCRUMB END
-                ==============================-->
+                        BREADCRUMB END
+                    ==============================-->
 
 
     <!--============================
-                    PRODUCT PAGE START
-                ==============================-->
+                        PRODUCT PAGE START
+                    ==============================-->
     <section id="wsus__product_page">
         <div class="container">
             <div class="row">
@@ -38,46 +38,49 @@
                 {{-- banner --}}
                 <div class="col-xl-12">
                     <div class="wsus__pro_page_bammer vendor_det_banner">
-                        <img src="{{$vendor->banner}}" alt="banner"
-                            class="img-fluid w-100" style="height: 350px" >
+                        <img src="{{ $vendor->banner }}" alt="banner" class="img-fluid w-100" style="height: 350px">
                         <div class="wsus__pro_page_bammer_text wsus__vendor_det_banner_text">
                             <div class="wsus__vendor_text_center">
-                                <h4>{{$vendor->shop_name}}</h4>
-                                        {{-- i not sure about it codeium give it to me  --}}
-                                        <p class="wsus__vendor_rating">
-                                            @php
-                                                $totalRating = 0;
-                                                $totalReviews = 0;
-                                                if(isset($vendor->products) && count($vendor->products)>0){
-                                                    foreach ($vendor->products as $product) {
-                                                        if(isset($product->reviews) && count( $product->reviews)>0){
-                                                            $avgProductRating = $product->reviews()->avg('rating');
-                                                            $totalRating += $avgProductRating * $product->reviews()->count();
-                                                            $totalReviews += $product->reviews()->count();
-                                                        }
-                                                    }
+                                <h4>{{ $vendor->shop_name }}</h4>
+                                {{-- i not sure about it codeium give it to me  --}}
+                                <p class="wsus__vendor_rating">
+                                    @php
+                                        $totalRating = 0;
+                                        $totalReviews = 0;
+                                        if (isset($vendor->products) && count($vendor->products) > 0) {
+                                            foreach ($vendor->products as $product) {
+                                                if (isset($product->reviews) && count($product->reviews) > 0) {
+                                                    $avgProductRating = $product->reviews()->avg('rating');
+                                                    $totalRating += $avgProductRating * $product->reviews()->count();
+                                                    $totalReviews += $product->reviews()->count();
                                                 }
-                                                $avgVendorRating = $totalReviews > 0 ? $totalRating / $totalReviews : 0;
-                                                $fullRating = round($avgVendorRating); // we convert to integer num
-                                            @endphp
+                                            }
+                                        }
+                                        $avgVendorRating = $totalReviews > 0 ? $totalRating / $totalReviews : 0;
+                                        $fullRating = round($avgVendorRating); // we convert to integer num
+                                    @endphp
 
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                @if ($i <= $fullRating)
-                                                    <i class="fas fa-star"></i>
-                                                @else
-                                                    <i class="far fa-star"></i>
-                                                @endif
-                                            @endfor
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($i <= $fullRating)
+                                            <i class="fas fa-star"></i>
+                                        @else
+                                            <i class="far fa-star"></i>
+                                        @endif
+                                    @endfor
 
-                                        </p>
-                                <a href="javascript:;"><i class="far fa-phone-alt"></i> {{$vendor->phone}}</a>
-                                <a href="javascript:;"><i class="far fa-envelope"></i> {{$vendor->email}}</a>
-                                <p class="wsus__vendor_location"><i class="fal fa-map-marker-alt"></i>{{$vendor->address}}</p>
+                                </p>
+                                <a href="javascript:;"><i class="far fa-phone-alt"></i> {{ $vendor->phone }}</a>
+                                <a href="javascript:;"><i class="far fa-envelope"></i> {{ $vendor->email }}</a>
+                                <p class="wsus__vendor_location"><i class="fal fa-map-marker-alt"></i>{{ $vendor->address }}
+                                </p>
                                 <p class="wsus__open_store"><i class="fab fa-shopify"></i> store open</p>
                                 <ul class="d-flex">
-                                    <li><a class="facebook" href="{{$vendor->fb_link}}"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a class="instagram" href="{{$vendor->insta_link}}"><i class="fab fa-instagram"></i></a></li>
-                                    <li><a class="twitter" href="{{$vendor->tw_link}}"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a class="facebook" href="{{ $vendor->fb_link }}"><i
+                                                class="fab fa-facebook-f"></i></a></li>
+                                    <li><a class="instagram" href="{{ $vendor->insta_link }}"><i
+                                                class="fab fa-instagram"></i></a></li>
+                                    <li><a class="twitter" href="{{ $vendor->tw_link }}"><i class="fab fa-twitter"></i></a>
+                                    </li>
                                     {{-- <li><a class="whatsapp" href="#"><i class="fab fa-whatsapp"></i></a></li> --}}
                                 </ul>
                                 {{-- <a class="common_btn" href="#" data-bs-toggle="modal"
@@ -129,11 +132,12 @@
                                 <div class="row">
 
                                     {{-- show 12 products --}}
-                                    @if(isset($products) && count($products)>0)
+                                    @if (isset($products) && count($products) > 0)
                                         @foreach ($products as $product)
                                             <div class="col-xl-3  col-sm-6">
                                                 <div class="wsus__product_item">
-                                                    <span class="wsus__new">{{ productType($product->product_type) }}</span>
+                                                    <span
+                                                        class="wsus__new">{{ productType($product->product_type) }}</span>
 
                                                     @if (check_discount($product))
                                                         <span
@@ -158,7 +162,7 @@
                                                         <li><a href="" class="add_to_wishlist"
                                                                 data-id="{{ $product->id }}"><i
                                                                     class="far fa-heart"></i></a></li>
-                                                        
+
                                                     </ul>
                                                     <div class="wsus__product_details">
                                                         <a class="wsus__category"
@@ -202,12 +206,14 @@
                                                             <input type="hidden" name="product_id"
                                                                 value="{{ $product->id }}">
 
-                                                            @if(isset($product->variants) && count($product->variants)>0)
+                                                            @if (isset($product->variants) && count($product->variants) > 0)
                                                                 @foreach ($product->variants as $variant)
                                                                     <select class="d-none" name="variant_items[]">
                                                                         @foreach ($variant->items as $item)
-                                                                            <option {{ $item->is_default == 1 ? 'selected' : '' }}
-                                                                                value="{{ $item->id }}"> {{ $item->name }}
+                                                                            <option
+                                                                                {{ $item->is_default == 1 ? 'selected' : '' }}
+                                                                                value="{{ $item->id }}">
+                                                                                {{ $item->name }}
                                                                                 {{ $item->price > 0 ? '(' . $settings->currency_icon . ' ' . $item->price . ')' : '' }}
                                                                             </option>
                                                                         @endforeach
@@ -240,12 +246,13 @@
                                 <div class="row">
 
                                     {{-- show 6 products --}}
-                                    @if(isset($products) && count($products) > 0)
+                                    @if (isset($products) && count($products) > 0)
                                         @foreach ($products as $product)
                                             <div class="col-xl-12">
                                                 <div class="wsus__product_item wsus__list_view">
 
-                                                    <span class="wsus__new">{{ productType($product->product_type) }}</span>
+                                                    <span
+                                                        class="wsus__new">{{ productType($product->product_type) }}</span>
 
                                                     @if (check_discount($product))
                                                         <span
@@ -336,7 +343,8 @@
                                                                         value="1" name="qty" />
 
 
-                                                                    <button type="submit" class="add_cart" href="#">
+                                                                    <button type="submit" class="add_cart"
+                                                                        href="#">
                                                                         add to cart
                                                                     </button>
 
@@ -347,7 +355,7 @@
                                                             <li><a href="" class="add_to_wishlist"
                                                                     data-id="{{ $product->id }}"><i
                                                                         class="far fa-heart"></i></a></li>
-                                                            
+
                                                         </ul>
 
 
@@ -400,15 +408,15 @@
         </div>
     </section>
     <!--============================
-                    PRODUCT PAGE END
-                ==============================-->
+                        PRODUCT PAGE END
+                    ==============================-->
 
     <!--============================
-                    PRODUCT Popup Model Start
-                ==============================-->
+                        PRODUCT Popup Model Start
+                    ==============================-->
 
 
-    @if(isset($products) && count($products) > 0)   
+    @if (isset($products) && count($products) > 0)
         @foreach ($products as $product)
             <section class="product_popup_modal">
                 <div class="modal fade" id="exampleModal-{{ $product->id }}" tabindex="-1" aria-hidden="true">
@@ -435,8 +443,8 @@
 
                                                 <div class="col-xl-12">
                                                     <div class="modal_slider_img">
-                                                        <img src="{{ $product->thumb_image }}" alt="{{ $product->name }}"
-                                                            class="img-fluid w-100">
+                                                        <img src="{{ $product->thumb_image }}"
+                                                            alt="{{ $product->name }}" class="img-fluid w-100">
                                                     </div>
                                                 </div>
 
@@ -474,7 +482,8 @@
 
                                             @if ($product->qty > 0)
                                                 <p class="wsus__stock_area"><span class="in_stock">in stock</span>
-                                                    ({{ $product->qty }} item)</p>
+                                                    ({{ $product->qty }} item)
+                                                </p>
                                             @else
                                                 <p class="wsus__stock_area"><span class="in_stock">out of stock</span>
                                                     ({{ $product->qty }} item)</p>
@@ -551,23 +560,29 @@
                                                 <ul class="wsus__button_area">
                                                     <li><button type="submit" class="add_cart" href="#">add to
                                                             cart</button></li>
-                                                    
+
                                                     <li><a href="" class="buy_now add_to_wishlist"
-                                                            data-id="{{ $product->id }}"><i class="fal fa-heart"></i></a>
+                                                            data-id="{{ $product->id }}"><i
+                                                                class="fal fa-heart"></i></a>
                                                     </li>
-                                                    
+
                                                 </ul>
                                             </form>
 
                                             <p class="brand_model"><span>model :</span> {{ $product->sku }}</p>
-                                            <p class="brand_model"><span>brand :</span> {{ $product->brand->name }}</p>
+                                            @if (isset($product->brand->name))
+                                                <p class="brand_model"><span>brand :</span> 
+                                                    {{ $product->brand->name }}
+                                                </p>
+                                            @endif
 
                                             <div class="wsus__pro_det_share">
                                                 <h5>share :</h5>
                                                 <ul class="d-flex">
                                                     <li><a class="facebook" href="#"><i
                                                                 class="fab fa-facebook-f"></i></a></li>
-                                                    <li><a class="twitter" href="#"><i class="fab fa-twitter"></i></a>
+                                                    <li><a class="twitter" href="#"><i
+                                                                class="fab fa-twitter"></i></a>
                                                     </li>
                                                     <li><a class="whatsapp" href="#"><i
                                                                 class="fab fa-whatsapp"></i></a></li>
@@ -587,8 +602,8 @@
     @endif
 
     <!--============================
-                    PRODUCT Popup Model End
-                ==============================-->
+                        PRODUCT Popup Model End
+                    ==============================-->
 
 @endsection
 

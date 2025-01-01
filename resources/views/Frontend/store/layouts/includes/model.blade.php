@@ -1,5 +1,5 @@
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="far fa-times"></i></button>
 <div class="modal-body">
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="far fa-times"></i></button>
     <div class="row">
 
         <div class="col-xl-6 col-12 col-sm-10 col-md-8 col-lg-6 m-auto display">
@@ -49,9 +49,9 @@
 
         <div class="col-xl-6 col-12 col-sm-12 col-md-12 col-lg-6">
 
-            <div class="wsus__pro_details_text">
+            <div class="wsus__pro_details_text" style="margin-top: 20px;">
                 <a class="title"
-                    href="{{ route('product-details', $product->slug) }}">{{ limitText($product->name, 200) }}</a>
+                    href="{{ route('product-details', $product->slug) }}">{{ limitText($product->name, 60) }}</a>
 
                 <!-- in stock / out of stock :     -->
 
@@ -150,15 +150,15 @@
                         <li><a href="javascript:;" class="buy_now add_to_wishlist" data-id="{{ $product->id }}"
                                 style="{{ $wishlist_product_exists
                                     ? '
-                                                                text-transform: uppercase;
-                                                                font-weight: 600;
-                                                                color: #fff !important;
-                                                                background: #B01E28;
-                                                                padding: 9px 15px;
-                                                                border-radius: 30px;
-                                                                font-size: 14px;
-                                                                border: 2px solid #B01E28;
-                                                                '
+                                        text-transform: uppercase;
+                                        font-weight: 600;
+                                        color: #fff !important;
+                                        background: #B01E28;
+                                        padding: 9px 15px;
+                                        border-radius: 30px;
+                                        font-size: 14px;
+                                        border: 2px solid #B01E28;
+                                        '
                                     : '' }}">
                                 <i class="{{ $wishlist_product_exists ? 'fas' : 'far' }} fa-heart"
                                     id="wishlist-heart-0-{{ $product->id }}"></i></a></li>
@@ -169,7 +169,10 @@
                 </form>
 
                 <p class="brand_model"><span>model :</span> {{ $product->sku }}</p>
-                <p class="brand_model"><span>brand :</span> {{ $product->brand->name }}</p>
+
+                @if (isset($product->brand->name))
+                    <p class="brand_model"><span>brand :</span> {{ $product->brand->name }}</p>
+                @endif
 
                 {{-- <div class="wsus__pro_det_share">
                     <h5>share :</h5>

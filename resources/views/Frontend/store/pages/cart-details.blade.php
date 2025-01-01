@@ -5,8 +5,8 @@
 @section('content')
 
     <!--============================
-                                                    BREADCRUMB START
-                                                ==============================-->
+                                                                        BREADCRUMB START
+                                                                    ==============================-->
     <section id="wsus__breadcrumb">
         <div class="wsus_breadcrumb_overlay">
             <div class="container">
@@ -23,13 +23,13 @@
         </div>
     </section>
     <!--============================
-                                                    BREADCRUMB END
-                                                ==============================-->
+                                                                        BREADCRUMB END
+                                                                    ==============================-->
 
 
     <!--============================
-                                                    CART VIEW PAGE START
-                                                ==============================-->
+                                                                        CART VIEW PAGE START
+                                                                    ==============================-->
     <section id="wsus__cart_view">
         <div class="container">
             <div class="row">
@@ -83,7 +83,7 @@
 
                                                     <a target="_blank"
                                                         href="{{ route('product-details', [$cartProduct->options->slug]) }}">
-                                                        {!! $cartProduct->name !!}
+                                                        {!! limitText($cartProduct->name, 20) !!}
                                                     </a>
 
                                                     @foreach ($cartProduct->options->variants as $key => $variantItem)
@@ -147,6 +147,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-xl-3">
                     <div class="wsus__cart_list_footer_button" id="sticky_sidebar">
                         <h6>total cart</h6>
@@ -162,21 +163,55 @@
                         </p>
 
 
-
                         {{-- <p>
                                 <span id="discount_type_cart">Coupon (-):</span>
                                 <span id="cart_discount">{{$settings->currency_icon}} {{cartDiscount()}}</span>
                             </p> --}}
 
-
                         <p class="total"><span>total:</span> <span id="cart_total">{{ $settings->currency_icon }}
                                 {{ cartTotal() }}</span></p>
 
-                        <form id="coupon_form">
+
+
+
+                        <!-- Coupon Section -->
+                        
+                        <div class="coupon-section">
+                            @if (session()->has('coupon'))
+                                {{-- @foreach (session()->get('coupon') as $coupon)
+                                    
+                                    <div class="coupon-applied">
+                                        <span>{{session()->get('coupon')['coupon_code']}} is applied</span>
+                                        <button type="button" class="close-btn" onclick="removeCoupon()">&times;</button>
+                                    </div>
+                                @endforeach --}}
+                                <div id="coupon-container">
+                                    <div class="coupon-applied">
+                                        <span>{{ session()->get('coupon')['coupon_code'] }} is applied</span>
+                                        <button type="button" class="close-btn remove-coupon"
+                                            data-url-coupon="{{ route('remove-coupon') }}">&times;</button> {{--this for single coupon after modify code and implement multipale coupon go to next line --}}
+
+                                            {{-- data-url-couopn="{{ route('remove-coupon', ['coupon_code' => session()->get('coupon')['coupon_code']]) }}">&times;</button> --}}
+                                        {{-- <button type="button" class="close-btn" onclick="removeCoupon()">&times;</button> --}}
+                                    </div>
+                                </div>
+                            @endif
+
+                            <form id="coupon_form">
+                                <input type="text" placeholder="Coupon Code" name="coupon_code" id="coupon_box"
+                                    value="">
+                                {{-- value="{{ session()->has('coupon') ? session()->get('coupon')['coupon_code'] : '' }}"> --}}
+                                <button type="submit" class="common_btn">Apply</button>
+                            </form>
+                        </div>
+
+
+                        {{-- <form id="coupon_form">
                             <input type="text" placeholder="Coupon Code" name="coupon_code"
                                 value="{{ session()->has('coupon') ? session()->get('coupon')['coupon_code'] : '' }}">
+
                             <button type="submit" class="common_btn">apply</button>
-                        </form>
+                        </form> --}}
 
                         <a class="common_btn mt-4 w-100 text-center" href="{{ route('user.checkout') }}">checkout</a>
                         <a class="common_btn mt-1 w-100 text-center" href="{{ route('home') }}"><i
@@ -223,8 +258,8 @@
         </div>
     </section>
     <!--============================
-                                                      CART VIEW PAGE END
-                                                ==============================-->
+                                                                          CART VIEW PAGE END
+                                                                    ==============================-->
 
 @endsection
 
@@ -449,16 +484,71 @@
 
                     success: function(data) {
                         if (data.status == 'error') {
-                            toastr.error(data.message);
-                        } else if (data.status == 'success') {
-                            calculateCouponDiscount()
-                            toastr.success(data.message);
 
+                            toastr.error(data.message);
+                            $('#coupon_box').val('');
+
+                        } else if (data.status == 'success') {
+
+                            calculateCouponDiscount()
+
+                            // Assuming data.coupon_code contains the applied coupon code
+                            if (data.coupon_code) {
+                                const couponHtml = `
+                                    <div class="coupon-applied">
+                                        <span>${data.coupon_code} is applied</span>
+                                        <button type="button" class="close-btn remove-coupon" data-url-coupon="{{ route('remove-coupon') }}">&times;</button>
+                                    </div>
+                                `;
+                                // Append the coupon HTML to an existing container, for example, #coupon-container
+                                $('#coupon-container').append(couponHtml);
+                            }
+
+
+                            toastr.success(data.message);
+                            $('#coupon_box').val('');
+
+                        } else if (data.status == 'info') {
+
+                            toastr.info(data.message);
+                            $('#coupon_box').val('');
+                            
                         }
                     },
                     error: function(data) {}
                 });
             });
+
+            /** Remove Coupon :  */
+
+            $('body').on('click', '.remove-coupon', function() {
+
+                
+                $.ajax({
+                    url: $(this).attr('data-url-coupon'),
+                    type: 'get',
+
+
+                    success: function(data) {
+
+                        if (data.status == 'success') {
+                            // alert('remove coupon');
+                            $('.coupon-applied').remove()
+                            calculateCouponDiscount()
+                            toastr.success(data.message);
+
+                        } else if (data.status == 'error') {
+                            toastr.warning(data.message);
+
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 3000);
+                        }
+                    },
+
+                });
+            });
+
 
 
             //Function Ajax :

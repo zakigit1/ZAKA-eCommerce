@@ -61,7 +61,7 @@ class BrandController extends Controller
             /** Image Part END   */
 
 
-            $imageName = uploadImageResizeWithoutBg2($request->logo, self::FOLDER_PATH, self::FOLDER_NAME,false,false);
+            $imageName = uploadImageResizeWithoutBg2($request->logo, self::FOLDER_PATH, self::FOLDER_NAME,true,true);
 
 
 

@@ -9794,3 +9794,123 @@ input.razorpay-payment-button{
 .msg-notification {
   border: 5px solid #08c !important;
 }
+
+
+
+
+/* Coupon Styling */
+
+/* Cart List Footer Styles */
+.wsus__cart_list_footer_button {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.wsus__cart_list_footer_button h6 {
+  text-transform: capitalize;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.wsus__cart_list_footer_button p {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  color: #555;
+  font-size: 14px;
+}
+
+.wsus__cart_list_footer_button p.total {
+  font-weight: 600;
+  color: #000;
+  font-size: 16px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+/* Coupon Form Styles */
+.coupon-section {
+  margin: 20px 0;
+  position: relative;
+}
+
+.coupon-section .coupon-applied {
+  background: #f8f8f8;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.coupon-section .coupon-applied span {
+  color: #666;
+  font-size: 13px;
+}
+
+.coupon-section .coupon-applied .close-btn {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0 5px;
+}
+
+#coupon_form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#coupon_form input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+#coupon_form .common_btn {
+  padding: 8px 20px;
+  white-space: nowrap;
+}
+
+/* Common Button Styles */
+.common_btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 25px;
+  text-decoration: none;
+  text-align: center;
+  font-size: 14px;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+
+.common_btn:hover {
+  background: #0056b3;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.mt-1 {
+  margin-top: 0.375rem;
+}
+
+
+
+
