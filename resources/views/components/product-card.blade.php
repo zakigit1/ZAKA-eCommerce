@@ -76,7 +76,7 @@
             <span>({{ $product->reviews_count }} review)</span>
         </p>
         <a class="wsus__pro_name"
-            href="{{ route('product-details', $product->slug) }}" title="{{ $product->name }}">{{ limitText($product->name, 30) }}
+            href="{{ route('product-details', $product->slug) }}" title="{{ $product->name }}">{{ limitText($product->name, 28) }}
         </a>
         <!-- Start check if there is discount or not -->
         @if (check_discount($product))

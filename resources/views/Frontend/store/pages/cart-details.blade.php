@@ -81,7 +81,7 @@
 
                                                 <td class="wsus__pro_name">
 
-                                                    <a target="_blank"
+                                                    <a target="_blank" title="{{ $cartProduct->name }}"
                                                         href="{{ route('product-details', [$cartProduct->options->slug]) }}">
                                                         {!! limitText($cartProduct->name, 20) !!}
                                                     </a>
@@ -148,6 +148,7 @@
                     </div>
                 </div>
 
+                {{-- sidebar cart view  --}}
                 <div class="col-xl-3">
                     <div class="wsus__cart_list_footer_button" id="sticky_sidebar">
                         <h6>total cart</h6>

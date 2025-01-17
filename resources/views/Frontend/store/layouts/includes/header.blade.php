@@ -67,7 +67,7 @@
 
                         </div>
                         <div class="wsus__cart_text">
-                            <a class="wsus__cart_title" href="{{route('product-details',$cartProduct->options->slug)}}">{{$cartProduct->name}}</a>
+                            <a class="wsus__cart_title" href="{{route('product-details',$cartProduct->options->slug)}}" title="{{$cartProduct->name}}">{{limitText($cartProduct->name)}}</a>
                             <p>{{$settings->currency_icon . $cartProduct->price}}</p>
                             <small>Variant Total : {{$settings->currency_icon }} {{$cartProduct->options->variants_total_amount}}</small>
                             <br>

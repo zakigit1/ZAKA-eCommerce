@@ -85,7 +85,7 @@
 
                                                 <td class="wsus__pro_name" style="width: 30% ; margin-left: 30px">
                                                     <a
-                                                        href="{{ route('product-details', $wishlist->product->slug) }}">{{ limitText($wishlist->product->name) }}</a>
+                                                        href="{{ route('product-details', $wishlist->product->slug) }}" title="{{$wishlist->product->name}}">{{ limitText($wishlist->product->name) }}</a>
                                                 </td>
 
 

@@ -3,7 +3,7 @@
         <img src="{{$item->thumb_image}}" alt="bag" class="img-fluid w-100">
     </div>
     <div class="wsus__hot_deals__single_text mt-2">
-        <h5>{{limitText($item->name,53)}}</h5>
+        <h5 title="{{$item->name}}">{{limitText($item->name,53)}}</h5>
         <p class="wsus__rating">
                 @for($i = 1 ; $i <= 5 ;$i++)
                     @if( $i <= $item->reviews_avg_rating)

@@ -168,106 +168,106 @@
         });
 
 
-        // Footer Newsletter Subscription (اشتراك النشرة الإخبارية)
-        $('#newsletter').on('submit', function(e) {
-            e.preventDefault();
+    // Footer Newsletter Subscription (اشتراك النشرة الإخبارية)
+    $('#newsletter').on('submit', function(e) {
+        e.preventDefault();
 
-            let data = $(this).serialize();
+        let data = $(this).serialize();
 
-            $.ajax({
-                method: 'POST',
-                url: "{{ route('newsletter-request') }}",
-                data: data,
-                beforeSend: function() {
-                    $('.subscribe_btn').text('Loading ...');
-                },
-                success: function(data) {
-                    if (data.status == 'success') {
+        $.ajax({
+            method: 'POST',
+            url: "{{ route('newsletter-request') }}",
+            data: data,
+            beforeSend: function() {
+                $('.subscribe_btn').text('Loading ...');
+            },
+            success: function(data) {
+                if (data.status == 'success') {
 
-                        $('.subscribe_btn').text('Subscribe');
+                    $('.subscribe_btn').text('Subscribe');
 
-                        $('.newsletter_email').val('');
+                    $('.newsletter_email').val('');
 
-                        toastr.success(data.message);
+                    toastr.success(data.message);
 
-                    } else if (data.status == 'error') {
+                } else if (data.status == 'error') {
 
-                        $('.subscribe_btn').text('Subscribe');
+                    $('.subscribe_btn').text('Subscribe');
 
-                        toastr.error(data.message);
-                    }
-                },
-                error: function(data) {
-
-                    let errors = data.responseJSON.errors;
-
-                    if (errors) {
-                        $.each(errors, function(key, value) {
-                            toastr.error(value);
-                        })
-                    }
-
+                    toastr.error(data.message);
                 }
-            });
-        })
+            },
+            error: function(data) {
 
+                let errors = data.responseJSON.errors;
 
-        // Show Product Model POP UP  (عرض نموذج المنتج)
-        $('.show_product_model').on('click', function() {
-
-            let id = $(this).data('id')
-
-            $.ajax({
-                method: 'GET',
-                url: "{{ route('show-product-model', ':id') }}".replace(':id',
-                    id), //if any error edit double cotation
-
-                beforeSend: function() {
-                    $('.product_model_content').html('<span class="loader"></span>');
-                },
-                success: function(response) {
-                    if (response.status == 'error') {
-                        toastr.error(response.message);
-                    }
-                    $('.product_model_content').html(response);
-                },
-                error: function(xhr, status, error) {
-                    console.log(xhr);
-
-                    if (xhr.responseJSON.errors) {
-                        $.each(xhr.responseJSON.errors, function(key, value) {
-                            toastr.error(value);
-                        })
-                    } else if (xhr.responseJSON.message) {
-                        toastr.error(xhr.responseJSON.message);
-                    } else {
-                        toastr.error('An unknown error occurred.');
-                    }
-                },
-                complete: function() {
-
+                if (errors) {
+                    $.each(errors, function(key, value) {
+                        toastr.error(value);
+                    })
                 }
-            });
-        })
+
+            }
+        });
+    })
+
+
+    // Show Product Model POP UP  (عرض نموذج المنتج)
+    $('.show_product_model').on('click', function() {
+
+        let id = $(this).data('id')
+
+        $.ajax({
+            method: 'GET',
+            url: "{{ route('show-product-model', ':id') }}".replace(':id',
+                id), //if any error edit double cotation
+
+            beforeSend: function() {
+                $('.product_model_content').html('<span class="loader"></span>');
+            },
+            success: function(response) {
+                if (response.status == 'error') {
+                    toastr.error(response.message);
+                }
+                $('.product_model_content').html(response);
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr);
+
+                if (xhr.responseJSON.errors) {
+                    $.each(xhr.responseJSON.errors, function(key, value) {
+                        toastr.error(value);
+                    })
+                } else if (xhr.responseJSON.message) {
+                    toastr.error(xhr.responseJSON.message);
+                } else {
+                    toastr.error('An unknown error occurred.');
+                }
+            },
+            complete: function() {
+
+            }
+        });
+    })
 
 
 
-        // AJAX Functions : 
+    // AJAX Functions : 
 
-        // fetch all product from the cart add display it in the sidebar : (جلب جميع المنتجات من السلة وعرضها في الشريط الجانبي)
-        function fetchSidebarCartProducts() {
-            $.ajax({
-                method: 'GET',
-                url: "{{ route('cart-get-products') }}",
+    // fetch all product from the cart add display it in the sidebar : (جلب جميع المنتجات من السلة وعرضها في الشريط الجانبي)
+    function fetchSidebarCartProducts() {
+        $.ajax({
+            method: 'GET',
+            url: "{{ route('cart-get-products') }}",
 
-                success: function(data) {
-                    // console.log(data);
-                    $('.mini-cart-wrapper').html("");
-                    var html = '';
+            success: function(data) {
+                // console.log(data);
+                $('.mini-cart-wrapper').html("");
+                var html = '';
 
-                    for (let item in data) {
-                        let product = data[item];
-                        html += `    
+                for (let item in data) {
+                    let product = data[item];
+                    html += `    
                                 <li id="mini_cart_${product.rowId}">
                                     <div class="wsus__cart_img">
                                         <a href="url('product-details')}}/${product.options.slug}">
@@ -280,8 +280,8 @@
                                     </div>
 
                                     <div class="wsus__cart_text">
-                                        <a class="wsus__cart_title" href="{{ url('product-details') }}/${product.options.slug}">
-                                            ${product.name} 
+                                        <a class="wsus__cart_title" href="{{ url('product-details') }}/${product.options.slug}" title="${product.name}">
+                                            ${limitText(product.name, 20)}
                                         </a>
                                         <p>{{ $settings->currency_icon }}${product.price}</p>
                                         <small>Variant Total : {{ $settings->currency_icon }}${product.options.variants_total_amount}</small>
@@ -289,89 +289,89 @@
                                         <small>Qty : ${product.qty}</small>
                                     </div>
                                 </li>`
-                    }
-
-                    // console.log(html);
-                    $('.mini-cart-wrapper').html(html);
-
-                    getSidebarCartSubtotal()
-                },
-                error: function(xhr, status, error) {
-                    console.log(xhr);
-
-                    if (xhr.responseJSON.errors) {
-                        $.each(xhr.responseJSON.errors, function(key, value) {
-                            toastr.error(value);
-                        })
-                    } else if (xhr.responseJSON.message) {
-                        toastr.error(xhr.responseJSON.message);
-                    } else {
-                        toastr.error('An unknown error occurred.');
-                    }
                 }
-            });
-        }
 
-        // get sidebar cart subtotal :  (جلب الإجمالي الفرعي للسلة)
-        function getSidebarCartSubtotal() {
-            $.ajax({
-                url: "{{ route('cart-get-total-products-sidebar') }}",
-                method: 'GET',
+                // console.log(html);
+                $('.mini-cart-wrapper').html(html);
 
+                getSidebarCartSubtotal()
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr);
 
-                success: function(data) {
-                    $('#mini_cart_subtotal').text("{{ $settings->currency_icon }}" + data);
-                },
-                error: function(xhr, status, error) {
-                    console.log(xhr);
-
-                    if (xhr.responseJSON.errors) {
-                        $.each(xhr.responseJSON.errors, function(key, value) {
-                            toastr.error(value);
-                        })
-                    } else if (xhr.responseJSON.message) {
-                        toastr.error(xhr.responseJSON.message);
-                    } else {
-                        toastr.error('An unknown error occurred.');
-                    }
+                if (xhr.responseJSON.errors) {
+                    $.each(xhr.responseJSON.errors, function(key, value) {
+                        toastr.error(value);
+                    })
+                } else if (xhr.responseJSON.message) {
+                    toastr.error(xhr.responseJSON.message);
+                } else {
+                    toastr.error('An unknown error occurred.');
                 }
-            });
-        }
+            }
+        });
+    }
 
-        //  dispaly cart counter : (عرض عدد المنتجات في السلة)
-        function getCartCount() {
-            $.ajax({
-                method: 'GET',
-                url: "{{ route('cart-counter') }}",
-                success: function(data) {
-                    $('#cart-count').text(data);
-                },
-                error: function(xhr, status, error) {
-                    console.log(xhr);
+    // get sidebar cart subtotal :  (جلب الإجمالي الفرعي للسلة)
+    function getSidebarCartSubtotal() {
+        $.ajax({
+            url: "{{ route('cart-get-total-products-sidebar') }}",
+            method: 'GET',
 
-                    if (xhr.responseJSON.errors) {
-                        $.each(xhr.responseJSON.errors, function(key, value) {
-                            toastr.error(value);
-                        })
-                    } else if (xhr.responseJSON.message) {
-                        toastr.error(xhr.responseJSON.message);
-                    } else {
-                        toastr.error('An unknown error occurred.');
-                    }
+
+            success: function(data) {
+                $('#mini_cart_subtotal').text("{{ $settings->currency_icon }}" + data);
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr);
+
+                if (xhr.responseJSON.errors) {
+                    $.each(xhr.responseJSON.errors, function(key, value) {
+                        toastr.error(value);
+                    })
+                } else if (xhr.responseJSON.message) {
+                    toastr.error(xhr.responseJSON.message);
+                } else {
+                    toastr.error('An unknown error occurred.');
                 }
-            });
-        }
+            }
+        });
+    }
 
-        // make the wishlist button style (this is the new optimazable function ) : (تحديث أيقونة القلب بناءً على حالة قائمة الرغبات للمنتج)
-        function wishlistStyleButton(data) {
-            // Constants for styling
-            const STYLE_CLASSES = {
-                FILLED: 'fas',
-                EMPTY: 'far'
-            };
+    //  dispaly cart counter : (عرض عدد المنتجات في السلة)
+    function getCartCount() {
+        $.ajax({
+            method: 'GET',
+            url: "{{ route('cart-counter') }}",
+            success: function(data) {
+                $('#cart-count').text(data);
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr);
 
-            const BUTTON_STYLES = {
-                buyNow: `
+                if (xhr.responseJSON.errors) {
+                    $.each(xhr.responseJSON.errors, function(key, value) {
+                        toastr.error(value);
+                    })
+                } else if (xhr.responseJSON.message) {
+                    toastr.error(xhr.responseJSON.message);
+                } else {
+                    toastr.error('An unknown error occurred.');
+                }
+            }
+        });
+    }
+
+    // make the wishlist button style (this is the new optimazable function ) : (تحديث أيقونة القلب بناءً على حالة قائمة الرغبات للمنتج)
+    function wishlistStyleButton(data) {
+        // Constants for styling
+        const STYLE_CLASSES = {
+            FILLED: 'fas',
+            EMPTY: 'far'
+        };
+
+        const BUTTON_STYLES = {
+            buyNow: `
                         text-transform: uppercase;
                         font-weight: 600;
                         color: #fff !important;
@@ -381,7 +381,7 @@
                         font-size: 14px;
                         border: 2px solid #B01E28;
                     `,
-                default: `
+            default: `
                         text-transform: uppercase;
                         font-size: 12px;
                         font-weight: 600;
@@ -389,148 +389,157 @@
                         background: #B01E28;
                         border-radius: 3px;
                     `
-            };
+        };
 
-            // Get all heart icons for this product using a single selector
-            const $heartIcons = $(`[id^="wishlist-heart-"][id$="-${data.productId}"]`);
+        // Get all heart icons for this product using a single selector
+        const $heartIcons = $(`[id^="wishlist-heart-"][id$="-${data.productId}"]`);
 
-            // Early return if no icons found
-            if (!$heartIcons.length) {
-                console.warn(`No wishlist hearts found for product ${data.productId}`);
-                return;
-            }
-
-            const newClass = data.style === STYLE_CLASSES.FILLED ? STYLE_CLASSES.EMPTY : STYLE_CLASSES.FILLED;
-            const oldClass = data.style === STYLE_CLASSES.FILLED ? STYLE_CLASSES.FILLED : STYLE_CLASSES.EMPTY;
-
-            // Update all icons at once
-            $heartIcons
-                .removeClass(oldClass)
-                .addClass(newClass);
-
-            // Handle parent styling
-            const $parents = $heartIcons.parent();
-
-            if (newClass === STYLE_CLASSES.FILLED) {
-                // Apply styles based on parent class
-                $parents.each(function() {
-                    const $parent = $(this);
-                    const style = $parent.hasClass('buy_now') ?
-                        BUTTON_STYLES.buyNow :
-                        BUTTON_STYLES.default;
-
-                    $parent.attr('style', style);
-                });
-            } else {
-                // Clear all parent styles
-                $parents.removeAttr('style');
-            }
+        // Early return if no icons found
+        if (!$heartIcons.length) {
+            console.warn(`No wishlist hearts found for product ${data.productId}`);
+            return;
         }
 
+        const newClass = data.style === STYLE_CLASSES.FILLED ? STYLE_CLASSES.EMPTY : STYLE_CLASSES.FILLED;
+        const oldClass = data.style === STYLE_CLASSES.FILLED ? STYLE_CLASSES.FILLED : STYLE_CLASSES.EMPTY;
 
-        // make the wishlist button style (this is the old function but it is understandable because i created by myself)  ): (تحديث أيقونة القلب بناءً على حالة قائمة الرغبات للمنتج)
-        // function wishlistStylebutton(data) {
+        // Update all icons at once
+        $heartIcons
+            .removeClass(oldClass)
+            .addClass(newClass);
 
+        // Handle parent styling
+        const $parents = $heartIcons.parent();
 
-        //     // Update the heart icon based on the product's wishlist status
-        //     const heartIcon0 = $(`#wishlist-heart-0-${data.productId}`);
-        //     const heartIcon1 = $(`#wishlist-heart-1-${data.productId}`);
-        //     const heartIcon2 = $(`#wishlist-heart-2-${data.productId}`);
-        //     const heartIcon3 = $(`#wishlist-heart-3-${data.productId}`);
-        //     const heartIcon4 = $(`#wishlist-heart-4-${data.productId}`);
+        if (newClass === STYLE_CLASSES.FILLED) {
+            // Apply styles based on parent class
+            $parents.each(function() {
+                const $parent = $(this);
+                const style = $parent.hasClass('buy_now') ?
+                    BUTTON_STYLES.buyNow :
+                    BUTTON_STYLES.default;
 
-
-        //     const parentLink = heartIcon0.parent();
-        //     if (data.style === 'fas') {
-        //         // Product is not in the wishlist
-
-        //         heartIcon0.removeClass('fas').addClass('far'); // Change to empty heart
-        //         heartIcon1.removeClass('fas').addClass('far'); // Change to empty heart
-        //         heartIcon2.removeClass('fas').addClass('far'); // Change to empty heart
-        //         heartIcon3.removeClass('fas').addClass('far'); // Change to empty heart
-        //         heartIcon4.removeClass('fas').addClass('far'); // Change to empty heart
-
-
-
-
-
-
-        //         // Remove styles from the parent <a> element
-        //         heartIcon0.parent().attr('style', ''); // Clear styles
-        //         heartIcon1.parent().attr('style', ''); // Clear styles
-        //         heartIcon2.parent().attr('style', ''); // Clear styles
-        //         heartIcon3.parent().attr('style', ''); // Clear styles
-        //         heartIcon4.parent().attr('style', ''); // Clear styles
+                $parent.attr('style', style);
+            });
+        } else {
+            // Clear all parent styles
+            $parents.removeAttr('style');
+        }
+    }
 
 
+    // make the wishlist button style (this is the old function but it is understandable because i created by myself)  ): (تحديث أيقونة القلب بناءً على حالة قائمة الرغبات للمنتج)
+    // function wishlistStylebutton(data) {
+
+
+    //     // Update the heart icon based on the product's wishlist status
+    //     const heartIcon0 = $(`#wishlist-heart-0-${data.productId}`);
+    //     const heartIcon1 = $(`#wishlist-heart-1-${data.productId}`);
+    //     const heartIcon2 = $(`#wishlist-heart-2-${data.productId}`);
+    //     const heartIcon3 = $(`#wishlist-heart-3-${data.productId}`);
+    //     const heartIcon4 = $(`#wishlist-heart-4-${data.productId}`);
+
+
+    //     const parentLink = heartIcon0.parent();
+    //     if (data.style === 'fas') {
+    //         // Product is not in the wishlist
+
+    //         heartIcon0.removeClass('fas').addClass('far'); // Change to empty heart
+    //         heartIcon1.removeClass('fas').addClass('far'); // Change to empty heart
+    //         heartIcon2.removeClass('fas').addClass('far'); // Change to empty heart
+    //         heartIcon3.removeClass('fas').addClass('far'); // Change to empty heart
+    //         heartIcon4.removeClass('fas').addClass('far'); // Change to empty heart
 
 
 
-        //     } else if (data.style === 'far') {
-        //         // Product is in the wishlist
-        //         heartIcon0.removeClass('far').addClass('fas'); // Change to filled heart
-        //         heartIcon1.removeClass('far').addClass('fas'); // Change to filled heart
-        //         heartIcon2.removeClass('far').addClass('fas'); // Change to filled heart
-        //         heartIcon3.removeClass('far').addClass('fas'); // Change to filled heart
-        //         heartIcon4.removeClass('far').addClass('fas'); // Change to filled heart
 
 
-        //         if (parentLink.hasClass('buy_now')) {
-        //             heartIcon0.parent().attr('style', `
-        //                     text-transform: uppercase;
-        //                     font-weight: 600;
-        //                     color: #fff !important;
-        //                     background: #B01E28;
-        //                     padding: 9px 15px;
-        //                     border-radius: 30px;
-        //                     font-size: 14px;
-        //                 `);
 
-        //         } else {
+    //         // Remove styles from the parent <a> element
+    //         heartIcon0.parent().attr('style', ''); // Clear styles
+    //         heartIcon1.parent().attr('style', ''); // Clear styles
+    //         heartIcon2.parent().attr('style', ''); // Clear styles
+    //         heartIcon3.parent().attr('style', ''); // Clear styles
+    //         heartIcon4.parent().attr('style', ''); // Clear styles
 
-        //             heartIcon0.parent().attr('style', `
-        //                     text-transform: uppercase;
-        //                     font-size: 12px;
-        //                     font-weight: 600;
-        //                     color: #fff !important;
-        //                     background: #B01E28;
-        //                     border-radius: 3px;
-        //                 `);
-        //             heartIcon1.parent().attr('style', `
-        //                     text-transform: uppercase;
-        //                     font-size: 12px;
-        //                     font-weight: 600;
-        //                     color: #fff !important;
-        //                     background: #B01E28;
-        //                     border-radius: 3px;
-        //                 `);
-        //             heartIcon2.parent().attr('style', `
-        //                     text-transform: uppercase;
-        //                     font-size: 12px;
-        //                     font-weight: 600;
-        //                     color: #fff !important;
-        //                     background: #B01E28;
-        //                     border-radius: 3px;
-        //                 `);
-        //             heartIcon3.parent().attr('style', `
-        //                     text-transform: uppercase;
-        //                     font-size: 12px;
-        //                     font-weight: 600;
-        //                     color: #fff !important;
-        //                     background: #B01E28;
-        //                     border-radius: 3px;
-        //                 `);
-        //             heartIcon4.parent().attr('style', `
-        //                     text-transform: uppercase;
-        //                     font-size: 12px;
-        //                     font-weight: 600;
-        //                     color: #fff !important;
-        //                     background: #B01E28;
-        //                     border-radius: 3px;
-        //                 `);
-        //         }
-        //     }
-        // }
+
+
+
+
+    //     } else if (data.style === 'far') {
+    //         // Product is in the wishlist
+    //         heartIcon0.removeClass('far').addClass('fas'); // Change to filled heart
+    //         heartIcon1.removeClass('far').addClass('fas'); // Change to filled heart
+    //         heartIcon2.removeClass('far').addClass('fas'); // Change to filled heart
+    //         heartIcon3.removeClass('far').addClass('fas'); // Change to filled heart
+    //         heartIcon4.removeClass('far').addClass('fas'); // Change to filled heart
+
+
+    //         if (parentLink.hasClass('buy_now')) {
+    //             heartIcon0.parent().attr('style', `
+    //                     text-transform: uppercase;
+    //                     font-weight: 600;
+    //                     color: #fff !important;
+    //                     background: #B01E28;
+    //                     padding: 9px 15px;
+    //                     border-radius: 30px;
+    //                     font-size: 14px;
+    //                 `);
+
+    //         } else {
+
+    //             heartIcon0.parent().attr('style', `
+    //                     text-transform: uppercase;
+    //                     font-size: 12px;
+    //                     font-weight: 600;
+    //                     color: #fff !important;
+    //                     background: #B01E28;
+    //                     border-radius: 3px;
+    //                 `);
+    //             heartIcon1.parent().attr('style', `
+    //                     text-transform: uppercase;
+    //                     font-size: 12px;
+    //                     font-weight: 600;
+    //                     color: #fff !important;
+    //                     background: #B01E28;
+    //                     border-radius: 3px;
+    //                 `);
+    //             heartIcon2.parent().attr('style', `
+    //                     text-transform: uppercase;
+    //                     font-size: 12px;
+    //                     font-weight: 600;
+    //                     color: #fff !important;
+    //                     background: #B01E28;
+    //                     border-radius: 3px;
+    //                 `);
+    //             heartIcon3.parent().attr('style', `
+    //                     text-transform: uppercase;
+    //                     font-size: 12px;
+    //                     font-weight: 600;
+    //                     color: #fff !important;
+    //                     background: #B01E28;
+    //                     border-radius: 3px;
+    //                 `);
+    //             heartIcon4.parent().attr('style', `
+    //                     text-transform: uppercase;
+    //                     font-size: 12px;
+    //                     font-weight: 600;
+    //                     color: #fff !important;
+    //                     background: #B01E28;
+    //                     border-radius: 3px;
+    //                 `);
+    //         }
+    //     }
+    // }
+
+    function limitText(text, limit = 20) {
+        if (text.length > limit) {
+            return text.substring(0, limit) + '...';
+        } else {
+            return text;
+        }
+    }
+
 
     })
 </script>

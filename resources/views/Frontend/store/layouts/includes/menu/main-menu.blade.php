@@ -9,7 +9,8 @@ $categories = App\Models\Category::active()
             ]);
         },
     ])
-    ->get(['id', 'name', 'slug']);
+    ->take(11)
+    ->get(['id', 'name', 'slug', 'icon']);
 ?>
 
 
@@ -65,7 +66,7 @@ $categories = App\Models\Category::active()
                                     {{-- End Sub Category --}}
                                 </li>
                             @endforeach
-                            <li><a href="#"><i class="fal fa-gem"></i> View All Categories</a></li>
+                            {{-- <li><a href="#"><i class="fal fa-gem"></i> View All Categories</a></li> --}}
                         </ul>
                     @endif
                     {{-- End Main Category --}}
