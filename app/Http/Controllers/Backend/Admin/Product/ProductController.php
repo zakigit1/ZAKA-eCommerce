@@ -78,7 +78,7 @@ class ProductController extends Controller
 
             // dd($request->all());
 
-
+        
 
             $imageName = $this->uploadImage_Trait($request, 'thumb_image', self::FOLDER_PATH, ProductController::FOLDER_NAME);
 
