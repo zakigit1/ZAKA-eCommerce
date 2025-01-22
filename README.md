@@ -1,170 +1,244 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
+  <img src="https://github.com/zakigit1/ZAKA-eCommerce/blob/main/public/static_images/Screenshot_2025-01-21_210140-removebg-preview.png" alt="ZAKA-eCommerce Logo" width="200"/>
 
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://github.com/zakigit1/ZAKA-eCommerce/blob/main/public/static_images/Screenshot_2025-01-21_210140-removebg-preview.png" width="400" alt="Laravel Logo"></a></p>
+  # ZAKA-eCommerce
 
+  [![Laravel Version](https://img.shields.io/badge/Laravel-9.x-red.svg)](https://laravel.com)
+  [![PHP Version](https://img.shields.io/badge/PHP-8.1+-blue.svg)](https://php.net)
+  [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+  [![Contributors](https://img.shields.io/github/contributors/zakigit1/ZAKA-eCommerce)](https://github.com/zakigit1/ZAKA-eCommerce/graphs/contributors)
 
+  A robust multi-vendor e-commerce platform built with Laravel
+</div>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 🚀 Quick Start
 
-# ZAKA-eCommerce
+```bash
+git clone https://github.com/zakigit1/ZAKA-eCommerce.git
+cd ZAKA-eCommerce
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
+```
 
-ZAKA-eCommerce is a robust multi-vendor e-commerce platform built with Laravel, designed to facilitate seamless online transactions between vendors and customers. This platform empowers multiple vendors to manage their products and sales within a unified system, providing a comprehensive solution for online marketplaces.
+## 🌟 Demo
 
-## Table of Contents
+Experience ZAKA-eCommerce in action at our [live demo](https://demo.zaka-ecommerce.com).
 
-- [Project Overview](#project-overview)
-- [Features](#features)
-- [Screenshots](#screenshots)
-- [Prerequisites and Installation](#prerequisites-and-installation)
-- [Development Setup](#development-setup)
-- [Directory Structure](#directory-structure)
-- [Contributing Guidelines](#contributing-guidelines)
-- [Troubleshooting](#troubleshooting)
-- [License Information](#license-information)
-- [Contact and Support](#contact-and-support)
+Demo credentials:
+- **Admin:** admin@demo.com / password
+- **Vendor:** vendor@demo.com / password
+- **Customer:** customer@demo.com / password
 
-## Project Overview
+## 📋 Table of Contents
 
-ZAKA-eCommerce is developed using the Laravel framework, adhering to the Model-View-Controller (MVC) architecture. The frontend is crafted with Laravel's Blade templating system, ensuring a clean separation of concerns and facilitating maintainable code.
+- [System Requirements](#-system-requirements)
+- [Features](#-features)
+- [Installation](#-installation)
+- [Configuration](#-configuration)
+- [Development Setup](#-development-setup)
+- [Security](#-security)
+- [Testing](#-testing)
+- [Deployment](#-deployment)
+- [Contributing](#-contributing)
+- [Support](#-support)
+- [License](#-license)
 
-**Tech Stack:**
+## 💻 System Requirements
 
-- **Backend Framework:** Laravel 9.x
-- **PHP Version:** 8.1 or higher
-- **Database:** MySQL 5.7 or higher
-- **Frontend:** Blade templating engine
-- **Package Management:** Composer for PHP dependencies, NPM for frontend assets
+| Requirement | Version |
+|------------|---------|
+| PHP        | ≥ 8.1   |
+| MySQL      | ≥ 5.7   |
+| Node.js    | ≥ 14.x  |
+| NPM        | ≥ 6.x   |
+| Composer   | ≥ 2.0   |
 
-## Features
+## ✨ Features
 
-- **Vendor Management:** Allows multiple vendors to register, manage their profiles, and oversee their product listings.
-- **Product Management:** Vendors can perform CRUD (Create, Read, Update, Delete) operations on their products, including setting prices, descriptions, and stock levels.
-- **User Roles and Permissions:** Differentiated access levels for administrators, vendors, and customers, ensuring secure and appropriate access to platform features.
-- **Shopping Cart Functionality:** Customers can add products to a cart, modify quantities, and proceed to checkout seamlessly.
-- **Order Management System:** Comprehensive order tracking for both vendors and customers, including order status updates and history.
-- **Payment Gateway Integration:** Supports multiple payment gateways, including PayPal and Stripe, for secure transactions.
-- **Responsive Design:** Optimized for desktops, tablets, and mobile devices to ensure a consistent user experience across all platforms.
+- **Vendor Management**
+  - Multi-vendor support
+  - Individual vendor dashboards
+  - Commission management
+  - Performance analytics
 
-## Screenshots
+- **Product Management**
+  - CRUD operations
+  - Bulk import/export
+  - Category management
+  - Inventory tracking
 
-![Dashboard](screenshots/dashboard.png)
-*Admin Dashboard Overview*
+- **User Experience**
+  - Responsive design
+  - Advanced search
+  - Shopping cart
+  - Wishlist functionality
 
-![Product Listings](screenshots/product_listings.png)
-*Vendor Product Listings*
+- **Payment & Orders**
+  - Multiple payment gateways
+  - Order tracking
+  - Invoice generation
+  - Refund management
 
-![Vendor Portal](screenshots/vendor_portal.png)
-*Vendor Management Interface*
-
-![User Journey](screenshots/user_journey.png)
-*Customer Shopping Experience*
-
-## Prerequisites and Installation
-
-**Prerequisites:**
-
-- **PHP:** Ensure PHP 8.1 or higher is installed.
-- **Composer:** PHP dependency manager.
-- **Node.js and NPM:** For managing frontend assets.
-- **Database:** MySQL 5.7 or higher.
-
-**Installation Steps:**
+## 📥 Installation
 
 1. **Clone the Repository:**
-
    ```bash
    git clone https://github.com/zakigit1/ZAKA-eCommerce.git
    ```
 
-2. **Navigate to the Project Directory:**
-
-   ```bash
-   cd ZAKA-eCommerce
-   ```
-
-3. **Install PHP Dependencies:**
-
+2. **Install Dependencies:**
    ```bash
    composer install
-   ```
-
-4. **Install Frontend Dependencies:**
-
-   ```bash
    npm install
    ```
 
-5. **Copy and Configure Environment Variables:**
-
+3. **Environment Setup:**
    ```bash
    cp .env.example .env
-   ```
-
-   Update the `.env` file with your database credentials and other necessary configurations.
-
-6. **Generate Application Key:**
-
-   ```bash
    php artisan key:generate
    ```
 
-7. **Run Database Migrations and Seeders:**
-
+4. **Database Setup:**
    ```bash
    php artisan migrate --seed
    ```
 
-## Development Setup
+5. **Storage Link:**
+   ```bash
+   php artisan storage:link
+   ```
+
+## ⚙️ Configuration
+
+Key environment variables to configure in `.env`:
+
+```env
+APP_URL=http://localhost
+DB_DATABASE=zaka_ecommerce
+DB_USERNAME=root
+DB_PASSWORD=
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+
+QUEUE_CONNECTION=redis
+CACHE_DRIVER=redis
+
+STRIPE_KEY=your_stripe_key
+STRIPE_SECRET=your_stripe_secret
+```
+
+## 🛠 Development Setup
 
 1. **Compile Assets:**
-
    ```bash
    npm run dev
    ```
 
-2. **Start Development Server:**
-
+2. **Start Server:**
    ```bash
    php artisan serve
    ```
 
-3. **Access the Application:**
+3. **Watch for Changes:**
+   ```bash
+   npm run watch
+   ```
 
-   Open your browser and navigate to `http://localhost:8000`.
+## 🔒 Security
 
-## Directory Structure
+- XSS Protection
+  - HTML Purifier integration
+  - Strict CSP policies
+- CSRF Protection
+  - Auto CSRF token verification
+- SQL Injection Prevention
+  - Parameterized queries
+  - Query builder usage
+- Rate Limiting
+  - API throttling
+  - Login attempt limits
+- Regular Security Updates
+  - Dependency scanning
+  - Automated security patches
 
-- **`app/`**: Contains the core application code, including models, controllers, and services.
-- **`resources/views/`**: Blade templates for the frontend.
-- **`routes/`**: Application route definitions.
-- **`public/`**: Publicly accessible files, including assets.
-- **`database/`**: Migrations and seeders for database setup.
+## 🧪 Testing
 
-## Contributing Guidelines
+```bash
+# Run all tests
+php artisan test
 
-We welcome contributions to enhance ZAKA-eCommerce. Please adhere to the following guidelines:
+# Run specific test suite
+php artisan test --testsuite=Feature
 
-- **Coding Standards:** Follow PSR-12 coding standards.
-- **Best Practices:** Adhere to Laravel's best practices for development.
-- **Pull Requests:** Ensure your PRs are descriptive and reference any relevant issues.
-- **Development Workflow:** Use feature branches and ensure all tests pass before submitting a PR.
+# Generate code coverage report
+php artisan test --coverage-html reports/
+```
 
-## Troubleshooting
+## 🚀 Deployment
 
-- **Common Issues:**
-  - Ensure all dependencies are correctly installed.
-  - Verify environment variables are properly configured.
-  - Check file permissions, especially for the `storage/` and `bootstrap/cache/` directories.
+**Production Server Requirements:**
+- PHP-FPM
+- Nginx/Apache
+- Redis (recommended)
+- SSL Certificate
 
-- **Debugging Tips:**
-  - Enable debugging in the `.env` file by setting `APP_DEBUG=true`.
-  - Review the Laravel logs located in `storage/logs/laravel.log` for error details.
+**Deployment Steps:**
+1. Set up production environment
+2. Configure web server
+3. Set up SSL
+4. Configure caching
+5. Set up queue workers
 
-## License Information
+Detailed deployment guide available in our [documentation](docs/deployment.md).
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details. 
+## 👥 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+**Contribution Steps:**
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+## 🤝 Support
+
+### Community Support
+- GitHub Issues
+- [Discord Community](https://discord.gg/zaka-ecommerce)
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/zaka-ecommerce)
+
+### Commercial Support
+For enterprise support and customization, contact us at:
+- Email: support@zaka-ecommerce.com
+- Website: https://zaka-ecommerce.com/enterprise
+
+## 👨‍💻 Contributors
+
+<div align="center">
+  <a href="https://github.com/zakigit1/ZAKA-eCommerce/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=zakigit1/ZAKA-eCommerce" />
+  </a>
+</div>
+
+Special thanks to all our contributors who help make this project better!
+
+## 📄 License
+
+ZAKA-eCommerce is open-sourced software licensed under the [MIT license](LICENSE).
+
+---
+
+<div align="center">
+  <p>Built with ❤️ by the ZAKA-eCommerce Team</p>
+  <p>
+    <a href="https://zaka-ecommerce.com">Website</a> •
+    <a href="https://docs.zaka-ecommerce.com">Documentation</a> •
+    <a href="https://twitter.com/ZAKAeCommerce">Twitter</a>
+  </p>
+</div>
