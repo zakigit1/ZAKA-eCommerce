@@ -58,29 +58,37 @@ Demo credentials:
 
 ## ✨ Features
 
-- **Vendor Management**
-  - Multi-vendor support
-  - Individual vendor dashboards
-  - Commission management
-  - Performance analytics
+### **🔹 Multi-Vendor System**  
+- Full **multi-vendor support** with individual **vendor dashboards**  
+- **Commission-based earnings** with flexible rate management  
+- **Vendor performance analytics** for sales insights  
 
-- **Product Management**
-  - CRUD operations
-  - Bulk import/export
-  - Category management
-  - Inventory tracking
+### **🔹 Product & Inventory Management**  
+- **CRUD operations** for products, categories, and attributes  
+- **Bulk product import/export** for easy data migration  
+- **Inventory tracking** with stock alerts and management tools  
 
-- **User Experience**
-  - Responsive design
-  - Advanced search
-  - Shopping cart
-  - Wishlist functionality
+### **🔹 Seamless User Experience**  
+- **Responsive design** for an optimal experience across all devices  
+- **Advanced search & filtering** for effortless product discovery  
+- **Wishlist & shopping cart functionality** with real-time updates  
 
-- **Payment & Orders**
-  - Multiple payment gateways
-  - Order tracking
-  - Invoice generation
-  - Refund management
+### **🔹 Order & Payment Processing**  
+- **Multiple payment gateways** integration for secure transactions  
+- **Real-time order tracking** for customers and vendors  
+- **Automated invoice generation** and multi-currency support  
+- **Refund & withdrawal management** with secure processing  
+
+### **🔹 Real-Time Features & Automation**  
+- **Live chat system** powered by **Pusher** for instant communication  
+- **AJAX-powered interactions** to enhance performance and avoid page reloads  
+- **Automated notifications** for orders, payments, and updates  
+
+### **🔹 Admin Dashboard & Control**  
+- **Centralized admin panel** for managing vendors, products, and transactions  
+- **Detailed reporting & analytics** to monitor sales and platform performance  
+- **Blog management system** to enhance SEO and customer engagement  
+
 
 ## 📥 Installation
 
@@ -178,7 +186,7 @@ php artisan test --testsuite=Feature
 php artisan test --coverage-html reports/
 ```
 
-## 🚀 Deployment
+<!-- ## 🚀 Deployment
 
 **Production Server Requirements:**
 - PHP-FPM
@@ -194,7 +202,7 @@ php artisan test --coverage-html reports/
 5. Set up queue workers
 
 Detailed deployment guide available in our [documentation](docs/deployment.md).
-
+-->
 ## 👥 Contributing
 
 We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
@@ -210,13 +218,12 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ### Community Support
 - GitHub Issues
-- [Discord Community](https://discord.gg/zaka-ecommerce)
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/zaka-ecommerce)
 
 ### Commercial Support
 For enterprise support and customization, contact us at:
 - Email: support@zaka-ecommerce.com
-- Website: https://zaka-ecommerce.com/enterprise
+
 
 ## 👨‍💻 Contributors
 
@@ -235,10 +242,8 @@ ZAKA-eCommerce is open-sourced software licensed under the [MIT license](LICENSE
 ---
 
 <div align="center">
-  <p>Built with ❤️ by the ZAKA-eCommerce Team</p>
+  <p>Built with ❤️ by Mohammed Ilyes Zakaria BOUSBAA</p>
   <p>
     <a href="https://zaka-ecommerce.com">Website</a> •
-    <a href="https://docs.zaka-ecommerce.com">Documentation</a> •
-    <a href="https://twitter.com/ZAKAeCommerce">Twitter</a>
   </p>
 </div>
