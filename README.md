@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/zakigit1/ZAKA-eCommerce/blob/main/public/static_images/Screenshot_2025-01-21_210140-removebg-preview.png" alt="ZAKA-eCommerce Logo" width="200"/>
+  <img src="https://github.com/zakigit1/ZAKA-eCommerce/blob/main/public/static_images/zaka_eco_logo.png" alt="ZAKA-eCommerce Logo" width="200"/>
 
   # ZAKA-eCommerce
 
