@@ -3,7 +3,7 @@
 
   # ZAKA-eCommerce
 
-  [![Laravel Version](https://img.shields.io/badge/Laravel-9.x-red.svg)](https://laravel.com)
+  [![Laravel Version](https://img.shields.io/badge/Laravel-10.x-red.svg)](https://laravel.com)
   [![PHP Version](https://img.shields.io/badge/PHP-8.1+-blue.svg)](https://php.net)
   [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
   [![Contributors](https://img.shields.io/github/contributors/zakigit1/ZAKA-eCommerce)](https://github.com/zakigit1/ZAKA-eCommerce/graphs/contributors)
