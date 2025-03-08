@@ -78,7 +78,7 @@ class ProductController extends Controller
 
             // dd($request->all());
 
-        
+
 
             $imageName = $this->uploadImage_Trait($request, 'thumb_image', self::FOLDER_PATH, ProductController::FOLDER_NAME);
 
@@ -103,7 +103,7 @@ class ProductController extends Controller
                 'seo_title' => $request->seo_title,
                 'seo_description' => $request->seo_description,
                 'product_type' => $request->product_type,
-                'is_approved' => 1,//because this product is of admin vendor he dont need to approve it
+                'is_approved' => 1, //because this product is of admin vendor he dont need to approve it
                 'status' => $request->status,
             ]);
 
@@ -111,17 +111,14 @@ class ProductController extends Controller
             toastr('Product has been created successfully', 'success');
 
             return to_route('admin.product.index');
-
         } catch (ValidationException $e) {
             toastr()->error($e->getMessage(), 'Product Creation Validation Error');
             return to_route('admin.product.index');
-
         } catch (\Exception $ex) {
             toastr($ex->getMessage(), 'error', 'Product Creation Error');
             // toastr('Product has not been created successfully','error');
             return to_route('admin.product.index');
         }
-
     }
 
 
@@ -349,7 +346,7 @@ class ProductController extends Controller
             $request->validate([
                 'id' => 'required|integer|exists:products,id',
                 'status' => 'required|in:true,false',
-            ],[
+            ], [
                 'id.exists' => 'product id not found',
             ]);
 
@@ -392,7 +389,6 @@ class ProductController extends Controller
         // $subcategories = Subcategory::where('category_id',$request->id)->active()->get();
 
         return $subcategories;
-
     }
 
 
@@ -408,7 +404,5 @@ class ProductController extends Controller
             ->get(['id', 'name']);
 
         return $childcategories;
-
-
     }
 }

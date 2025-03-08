@@ -29,7 +29,7 @@
                         </div>
                         <div class="wsus__call_text">
                             <p>{{$settings->contact_email}}</p>
-                            <p>+213 {{$settings->contact_phone}}</p>{{-- make a config file about +213 3la hasab country of admin--}}
+                            <p>{{$settings->contact_phone}}</p>{{-- make a config file about +213 3la hasab country of admin--}}
                         </div>
                     </div>
                     <ul class="wsus__icon_area">

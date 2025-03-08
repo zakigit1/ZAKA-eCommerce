@@ -134,9 +134,9 @@
                             </ul>
                         </div>
                         
-                        <div class="col-xl-12">
+                        {{-- <div class="col-xl-12">
                             <a href="{{route('home')}}" class="common_btn"><i class="fas fa-chevron-left"></i> back to home</a>
-                        </div>
+                        </div> --}}
                     </div>
                 @endif
             </div>

@@ -47,9 +47,9 @@
                                     data-bs-target="#v-pills-stripe" type="button" role="tab"
                                     aria-controls="v-pills-stripe" aria-selected="false">Stripe </button>
 
-                                <button class="nav-link common_btn" id="v-pills-razorpay-tab" data-bs-toggle="pill"
+                                {{-- <button class="nav-link common_btn" id="v-pills-razorpay-tab" data-bs-toggle="pill"
                                     data-bs-target="#v-pills-razorpay" type="button" role="tab"
-                                    aria-controls="v-pills-razorpay" aria-selected="false">Razorpay </button>
+                                    aria-controls="v-pills-razorpay" aria-selected="false">Razorpay </button> --}}
 
                                 <button class="nav-link common_btn" id="v-pills-cod-tab" data-bs-toggle="pill"
                                     data-bs-target="#v-pills-cod" type="button" role="tab" aria-controls="v-pills-cod"
