@@ -64,6 +64,9 @@ Route::post('login',[AdminController::class,'loginCheck'])->name('login.check');
 
 Route::group(['middleware'=>['auth:web','role:admin'],],function(){
 
+
+        Route::get('dashboard-anlysis',[AdminController::class,'dashboardAnalysis'])->name('dashboard.analysis');
+
         Route::get('dashboard',[AdminController::class,'index'])->name('dashboard');
         Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 

@@ -9,7 +9,15 @@
   [![Contributors](https://img.shields.io/github/contributors/zakigit1/ZAKA-eCommerce)](https://github.com/zakigit1/ZAKA-eCommerce/graphs/contributors)
 
   A robust multi-vendor e-commerce platform built with Laravel
+  <img src="https://github.com/zakigit1/ZAKA-eCommerce/blob/main/public/zaka_images/thumbnail/ZAKA-nail.png" alt="ZAKA-eCommerce nail"/>
+  <img src="https://github.com/zakigit1/ZAKA-eCommerce/blob/main/public/zaka_images/thumbnail/ZAKA-nail1.png" alt="ZAKA-eCommerce nail1"/>
+  <img src="https://github.com/zakigit1/ZAKA-eCommerce/blob/main/public/zaka_images/thumbnail/ZAKA-nail2.png" alt="ZAKA-eCommerce nail2"/>
+
 </div>
+
+
+
+
 
 ## 🚀 Quick Start
 
@@ -17,20 +25,13 @@
 git clone https://github.com/zakigit1/ZAKA-eCommerce.git
 cd ZAKA-eCommerce
 composer install
+npm install
 cp .env.example .env
 php artisan key:generate
 php artisan migrate --seed
 php artisan serve
 ```
 
-## 🌟 Demo
-
-Experience ZAKA-eCommerce in action at our [live demo](https://demo.zaka-ecommerce.com).
-
-Demo credentials:
-- **Admin:** admin@demo.com / password
-- **Vendor:** vendor@demo.com / password
-- **Customer:** customer@demo.com / password
 
 ## 📋 Table of Contents
 
@@ -38,10 +39,10 @@ Demo credentials:
 - [Features](#-features)
 - [Installation](#-installation)
 - [Configuration](#-configuration)
-- [Development Setup](#-development-setup)
+<!-- - [Development Setup](#-development-setup)
 - [Security](#-security)
 - [Testing](#-testing)
-- [Deployment](#-deployment)
+- [Deployment](#-deployment) -->
 - [Contributing](#-contributing)
 - [Support](#-support)
 - [License](#-license)
@@ -118,6 +119,11 @@ Demo credentials:
    ```bash
    php artisan storage:link
    ```
+   
+6. **Start the Development Server:**
+   ```bash
+   php artisan serve
+   ```
 
 ## ⚙️ Configuration
 
@@ -139,6 +145,7 @@ STRIPE_KEY=your_stripe_key
 STRIPE_SECRET=your_stripe_secret
 ```
 
+<!-- 
 ## 🛠 Development Setup
 
 1. **Compile Assets:**
@@ -186,7 +193,7 @@ php artisan test --testsuite=Feature
 php artisan test --coverage-html reports/
 ```
 
-<!-- ## 🚀 Deployment
+ ## 🚀 Deployment
 
 **Production Server Requirements:**
 - PHP-FPM
@@ -203,6 +210,7 @@ php artisan test --coverage-html reports/
 
 Detailed deployment guide available in our [documentation](docs/deployment.md).
 -->
+
 ## 👥 Contributing
 
 We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
@@ -220,10 +228,11 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 - GitHub Issues
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/zaka-ecommerce)
 
+<!--
 ### Commercial Support
 For enterprise support and customization, contact us at:
 - Email: support@zaka-ecommerce.com
-
+-->
 
 ## 👨‍💻 Contributors
 
@@ -233,7 +242,7 @@ For enterprise support and customization, contact us at:
   </a>
 </div>
 
-Special thanks to all our contributors who help make this project better!
+Special thanks to all our contributors who helped make this project better!
 
 ## 📄 License
 
@@ -243,7 +252,9 @@ ZAKA-eCommerce is open-sourced software licensed under the [MIT license](LICENSE
 
 <div align="center">
   <p>Built with ❤️ by Mohammed Ilyes Zakaria BOUSBAA</p>
+    <!--
   <p>
     <a href="https://zaka-ecommerce.com">Website</a> •
   </p>
+    -->
 </div>

@@ -318,10 +318,7 @@ p {
 ========================*/
 header {
   width: 100%;
-  /* background: #08C; */
-  background: #211ac4d1;
-  /* background: #4d95dbd1; */
-
+  background: #08C;
   padding: 19px 0px;
   height: 90px;
   border-bottom: 1px solid #fff;

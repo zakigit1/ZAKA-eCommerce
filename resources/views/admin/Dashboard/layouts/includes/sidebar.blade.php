@@ -2,22 +2,17 @@
     <aside id="sidebar-wrapper scroll-down">
         <div class="sidebar-brand">
             {{-- <a href="javascript:;">{{ @$settings->site_name }}</a> --}}
-            <a href="javascript:;"><img src="{{ asset('static_images/Zaka_logo_dash.png') }}" alt="Logo" class="img-fluid" style="height: 50px"></a>
+            <a href="javascript:;"><img src="{{ asset('static_images/Zaka_logo_dash.png') }}" alt="Logo"
+                    class="img-fluid" style="height: 50px"></a>
             {{-- <a href="{{route('home')}}" class="dash_logo"><img src="{{$logoSettings->logo}}" alt="logo" class="img-fluid"></a> --}}
 
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
             {{-- <a href="{{ route('home') }}">{{ @$settings->site_name }}</a> --}}
-            <a href="javascript:;"><img src="{{ asset('static_images/Zaka_logo_dash.png') }}" alt="Logo" class="img-fluid" style="height: 50px"></a>
+            <a href="javascript:;"><img src="{{ asset('static_images/Zaka_logo_dash.png') }}" alt="Logo"
+                    class="img-fluid" style="height: 50px"></a>
         </div>
         <ul class="sidebar-menu">
-
-            <li class="menu-header">Dashboard</li>
-
-            <li class="dropdown bg-success">
-                <a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i>
-                    <span><b>Dashboard</b></span></a>
-            </li>
 
             <li class="menu-header">Store</li>
 
@@ -25,6 +20,23 @@
                 <a class="nav-link " href="{{ route('home') }}"><i class="fas fa-arrow-left"></i> <span><b>Go To
                             Store</b></span></a>
             </li>
+
+
+
+            <li class="menu-header">Dashboard</li>
+
+            {{-- <li class="dropdown bg-success"> --}}
+            <li class="dropdown {{ setActive(['admin.dashboard']) }}">
+                <a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i>
+                    <span><b>Dashboard</b></span></a>
+            </li>
+            {{-- <li class="dropdown bg-info"> --}}
+            <li class="dropdown {{ setActive(['admin.dashboard.analysis']) }}">
+                <a class="nav-link" href="{{ route('admin.dashboard.analysis') }}"><i class="fas fa-chart-line"></i>
+                    <span><b>Dashboard Analysis</b></span></a>
+            </li>
+
+
 
             <li class="menu-header">Ecommerce</li>
 

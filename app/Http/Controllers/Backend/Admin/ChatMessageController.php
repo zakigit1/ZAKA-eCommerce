@@ -53,7 +53,8 @@ class ChatMessageController extends Controller
        
        
         $request->validate([
-            'receiver_id' => 'required|exists:users,id|gt:0',//is the user id how created the product
+            // 'receiver_id' => 'required|exists:users,id|gt:0',//is the user id how created the product
+            'receiver_id' => 'required',//is the user id how created the product
             'message' => 'required',
         ]);
         

@@ -20,13 +20,82 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
 
-    private const FOLDER_PATH ='/Uploads/images/';
-    private const FOLDER_NAME ='profiles';
+    private const FOLDER_PATH = '/Uploads/images/';
+    private const FOLDER_NAME = 'profiles';
 
+
+
+    public function dashboardAnalysis()
+    {
+        $data['totalPendingOrders'] = Order::where('order_status', 'pending')
+            ->count();
+
+        $data['totalCompleteOrders'] = Order::where('order_status', 'delivered')
+            ->count();
+
+        $data['totalCanceledOrders'] = Order::where('order_status', 'canceled')
+            ->count();
+
+        $data['totalOrders'] = Order::count();
+
+        $data['balance'] = Order::where('order_status', 'delivered')
+            ->where('payment_status', 1)
+            ->sum('amount');
+
+        $data['sales'] = Order::where('order_status', 'delivered')
+            ->where('payment_status', 1)
+            ->count();
+
+
+
+        // Get monthly sales data for the current year (this for chart)
+        $data['monthlySales'] = Order::where('order_status', 'delivered')
+            ->where('payment_status', 1)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->selectRaw('MONTH(created_at) as month, SUM(amount) as total')
+            ->groupBy('month')
+            ->get()
+            ->pluck('total', 'month')
+            ->toArray();
+
+        // Fill in missing months with zero
+        for ($i = 1; $i <= 12; $i++) {
+            if (!isset($data['monthlySales'][$i])) {
+                $data['monthlySales'][$i] = 0;
+            }
+        }
+        ksort($data['monthlySales']);
+
+
+        // Get top 5 products by sales
+        $data['topProducts'] = DB::table('orders')
+            ->join('order_products', 'orders.id', '=', 'order_products.order_id')
+            ->join('products', 'order_products.product_id', '=', 'products.id')
+            ->where('orders.order_status', 'delivered')
+            ->where('orders.payment_status', 1)
+            ->select(
+                'products.id',
+                'products.thumb_image',
+                'products.name',
+                DB::raw('COUNT(order_products.product_id) as total_sales'),
+                DB::raw('SUM(order_products.unit_price * order_products.qty) as total_amount'),
+                DB::raw('AVG(products.price) as avg_price')
+            )
+            ->groupBy('products.id', 'products.thumb_image', 'products.name')
+            ->orderBy('total_sales', 'desc')
+            ->limit(5)
+            ->get();
+
+
+
+
+        return view('admin.Dashboard.dashboard-analysis', $data);
+    }
 
 
     /**
@@ -35,139 +104,144 @@ class AdminController extends Controller
     public function index()
     {
 
-        $data['todaysOrders'] = Order::whereDate('created_at',Carbon::today())
+        $data['todaysOrders'] = Order::whereDate('created_at', Carbon::today())
             ->count();
 
-        $data['todaysPendingOrders'] = Order::whereDate('created_at',Carbon::today())
-            ->where('order_status' ,'pending')
+        $data['todaysPendingOrders'] = Order::whereDate('created_at', Carbon::today())
+            ->where('order_status', 'pending')
             ->count();
 
         $data['totalOrders'] = Order::count();
-    
-        $data['totalPendingOrders'] = Order::where('order_status' , 'pending')
+
+        $data['totalPendingOrders'] = Order::where('order_status', 'pending')
             ->count();
-    
-        $data['totalCompleteOrders'] = Order::where('order_status' , 'delivered')
+
+        $data['totalCompleteOrders'] = Order::where('order_status', 'delivered')
             ->count();
-        
-        $data['totalCanceledOrders'] = Order::where('order_status' , 'canceled')
+
+        $data['totalCanceledOrders'] = Order::where('order_status', 'canceled')
             ->count();
-            
+
         $data['totalProducts'] = Product::count();
-            
+
 
         //  in the course we do created_at instead of update_at  also sub_total instead of amount 
-        $data['todayEarning'] = Order::where('order_status' , '!=','canceled')
-            ->where('payment_status',1)
-            ->whereDate('updated_at',Carbon::today())
+        $data['todayEarning'] = Order::where('order_status', '!=', 'canceled')
+            ->where('payment_status', 1)
+            ->whereDate('updated_at', Carbon::today())
             // ->sum('sub_total');
             ->sum('amount');
 
-        $data['monthEarning'] = Order::where('order_status' , '!=','canceled')
-            ->where('payment_status',1)
-            ->whereMonth('updated_at',Carbon::now()->month)
+        $data['monthEarning'] = Order::where('order_status', '!=', 'canceled')
+            ->where('payment_status', 1)
+            ->whereMonth('updated_at', Carbon::now()->month)
             // ->sum('sub_total');
             ->sum('amount');
 
-        $data['yearEarning'] = Order::where('order_status' , '!=','canceled')
-            ->where('payment_status',1)    
-            ->whereYear('updated_at',Carbon::now()->year)
+        $data['yearEarning'] = Order::where('order_status', '!=', 'canceled')
+            ->where('payment_status', 1)
+            ->whereYear('updated_at', Carbon::now()->year)
             // ->sum('sub_total');
             ->sum('amount');
 
-        $data['totalEarning'] = Order::where('order_status' , '!=','canceled')
-            ->where('payment_status',1)
+        $data['totalEarning'] = Order::where('order_status', '!=', 'canceled')
+            ->where('payment_status', 1)
             // ->sum('sub_total');
             ->sum('amount');
 
 
         $data['totalReview'] =  ProductReview::count();
-        
+
         $data['totalBrand'] =  Brand::count();
-        
-        $data['totalCategory'] =  Category::count() + Subcategory::count() + Childcategory::count()  ;
-        
+
+        $data['totalCategory'] =  Category::count() + Subcategory::count() + Childcategory::count();
+
         $data['totalBlog'] =  Blog::count();
-        
+
         $data['totalSubscriber'] =  NewsletterSubscriber::count();
-        
-        $data['totalVendor'] =  User::where('role','vendor')->count();
 
-        $data['totalUser'] =  User::where('role','user')->count();
- 
+        $data['totalVendor'] =  User::where('role', 'vendor')->count();
 
-        $data['adminBanned'] = User::where('status','inactive')->where('role','admin')->count();
-        $data['vendorBanned'] = User::where('status','inactive')->where('role','vendor')->count();
-        $data['userBanned'] = User::where('status','inactive')->where('role','user')->count();
+        $data['totalUser'] =  User::where('role', 'user')->count();
 
 
-        return view('admin.Dashboard.dashboard',$data);
+        $data['adminBanned'] = User::where('status', 'inactive')->where('role', 'admin')->count();
+        $data['vendorBanned'] = User::where('status', 'inactive')->where('role', 'vendor')->count();
+        $data['userBanned'] = User::where('status', 'inactive')->where('role', 'user')->count();
+
+
+        return view('admin.Dashboard.dashboard', $data);
     }
 
 
-    public function login(){
+    public function login()
+    {
         return view('admin.auth.login');
     }
 
 
-    public function loginCheck(LoginRequest $request){
+    public function loginCheck(LoginRequest $request)
+    {
 
         $request->authenticate();
 
         $request->session()->regenerate();
 
         // if the user or vendor has been banned form the website (status is inactive)
-        if($request->user()->status == 'inactive'){
+        if ($request->user()->status == 'inactive') {
 
             Auth::guard('web')->logout();
             $request->session()->regenerateToken();
 
-            toastr('Account Has Been Banned From Website. Please Contact The Support !','error','Account Banned!');
+            toastr('Account Has Been Banned From Website. Please Contact The Support !', 'error', 'Account Banned!');
             return redirect('/');
         }
 
-        if($request->user()->role ==='admin'){
+        if ($request->user()->role === 'admin') {
             ## The same methods
             return redirect()->route('admin.dashboard');
         }
-        
+
         Auth::guard('web')->logout();
         $request->session()->regenerateToken();
-        toastr('You are not authorized to access this page','error');
+        toastr('You are not authorized to access this page', 'error');
         return redirect('/');
     }
 
 
-    public function profile(){
+    public function profile()
+    {
 
 
         return view('admin.Dashboard.profile.index');
     }
 
+
     // public function update_profile(UpdateAdminProfileRequest $request){
-    public function update_profile(Request $request){
+    public function update_profile(Request $request)
+    {
         // return $request;
 
         $request->validate([
-            'name'=>'required|max:100',
-            'email'=>['required','email','unique:users,email,'.Auth::user()->id],
-            'image'=>['image',/*'max:2048'*/]
+            'name' => 'required|max:100',
+            'email' => ['required', 'email', 'unique:users,email,' . Auth::user()->id],
+            'image' => ['image',/*'max:2048'*/]
         ]);
 
         $user = Auth::user();
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
 
             $role = $user->role;
             $old_image = $user->image;
 
             // delete the old image
             deleteImage($old_image);
-            
+
             // store the new image in storage folder
-            
+
             // $imageName= uploadImageNew($request->image,'/Uploads/images/profiles/',$role);
-            $imageName= uploadImageNew($request->image,self::FOLDER_PATH,self::FOLDER_NAME);
+            $imageName = uploadImageNew($request->image, self::FOLDER_PATH, self::FOLDER_NAME);
 
             ## Save Image In To DataBase : 
             $user->image = $imageName;
@@ -175,24 +249,24 @@ class AdminController extends Controller
 
         $user->name = $request->name;
         $user->email = $request->email;
-       
+
         $user->save();
 
         toastr()->success('update profile successfully !');
-        
-        return redirect()->back();
 
+        return redirect()->back();
     }
+
+
     // public function update_profile_password(UpdateAdminProfilePasswordRequest $request){
-    public function update_profile_password(Request $request){
-    
-        
+    public function update_profile_password(Request $request)
+    {
         $request->validate([
-            'current_password' => ['required','current_password'],
-            'password' => ['required','min:8','confirmed']
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'min:8', 'confirmed']
         ]);
 
-      
+
         $user = Auth::user();
         $user->password = Hash::make($request->password);
         // $user->password = bcrypt($request->password);
@@ -202,14 +276,8 @@ class AdminController extends Controller
         // $request->user()->update([
         //     'password'=>Hash::make($request->password),
         // ]);
-        
+
         toastr()->success('Profile Password Updated Successfully !');
         return redirect('/admin/dashboard');
-
     }
-
-
-
-
-
 }
