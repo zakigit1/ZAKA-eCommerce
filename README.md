@@ -10,7 +10,7 @@
 
   A robust multi-vendor e-commerce platform built with Laravel
   <img src="https://github.com/zakigit1/ZAKA-eCommerce/blob/main/public/zaka_images/thumbnail/ZAKA-nail.png" alt="ZAKA-eCommerce nail"/>
-  <img src="https://github.com/zakigit1/ZAKA-eCommerce/blob/main/public/zaka_images/thumbnail/ZAKA-nail1.png" alt="ZAKA-eCommerce nail1"/>
+  <img src="https://github.com/zakigit1/ZAKA-eCommerce/blob/main/public/zaka_images/thumbnail/ZAKA-nail-1.png" alt="ZAKA-eCommerce nail1"/>
   <img src="https://github.com/zakigit1/ZAKA-eCommerce/blob/main/public/zaka_images/thumbnail/ZAKA-nail2.png" alt="ZAKA-eCommerce nail2"/>
 
 </div>
